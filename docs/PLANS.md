@@ -21,6 +21,18 @@ Además del ExecPlan inicial, crea un ExecPlan cuando el trabajo no esté ya cub
 
 El número de archivos o líneas modificadas no determina por sí solo la necesidad de un plan. Una tarea puede gestionarse sin ExecPlan cuando sea localizada, reversible, verificable en un ciclo corto y esté completamente cubierta por el alcance y las decisiones aprobadas. En caso de duda, utiliza el riesgo, la coordinación y el coste de reversión como criterios de desempate.
 
+## Iteraciones de MiMiniApp
+
+**Vigencia:** adaptación documental H-002 aprobada expresamente por el propietario de MiMiniApp el 2026-11-04 para esta instancia. Se conservan H-001, la autoridad humana y las reglas y transiciones heredadas del resto de este documento. Su adopción no tiene efectos retroactivos.
+
+Esta instancia organiza el trabajo en iteraciones pequeñas y secuenciales, con un resultado observable coherente por ExecPlan. El [roadmap](roadmap.md) orienta; no autoriza ejecución ni sustituye el estado de cada plan. La adaptación documental se registra en [H-002](harness-decisions.md#h-002--adaptación-documental-de-la-instancia-miminiapp).
+
+Cada iteración explicita dependencias, alcance y exclusiones, criterios de aceptación, verificaciones y evidencia. Si el resultado no puede abordarse en una sesión o secuencia corta razonable, debe dividirse antes de autorizarlo. Añade riesgos y rollback cuando afecte a datos, despliegues u operaciones con efectos persistentes.
+
+Las iteraciones de producto incluyen las pruebas automatizadas que deban crearse o actualizarse; una iteración exclusivamente documental puede verificarse mediante revisión de coherencia y enlaces, sin inventar pruebas de aplicación. Los comandos que todavía no existen se identifican como objetivos futuros.
+
+Se recomienda mantener una sola iteración de implementación autorizada o en curso a la vez. Pueden prepararse borradores futuros sin ejecutarlos. Al terminar, registra `Verificado` solo si se cumplen las condiciones canónicas y entrega la evidencia para aceptación humana. No comiences la siguiente iteración hasta que la anterior haya sido aceptada por el responsable; además, la siguiente requiere su propia aprobación y autorización. Si la anterior se cancela, el responsable debe revisar expresamente las dependencias y el alcance antes de autorizar cualquier continuación. Las correcciones locales dentro de la iteración siguen los criterios existentes y no necesitan planes redundantes.
+
 ## Contenido de un plan
 
 Un plan no trivial debe indicar:
@@ -49,12 +61,12 @@ Todo ExecPlan debe mostrar un único estado actual entre los siguientes:
 1. `Borrador`: propuesta editable; no autoriza implementación.
 2. `Aprobado`: el responsable acepta el plan; todavía no autoriza implementación.
 3. `Autorizado`: el responsable permite comenzar su ejecución.
-4. `En curso`: Codex ha comenzado a ejecutar el plan autorizado.
+4. `En curso`: el agente ha comenzado a ejecutar el plan autorizado.
 5. `Verificado`: el resultado se ha contrastado con los criterios de aceptación y se ha registrado la evidencia.
 6. `Aceptado`: el responsable acepta el resultado verificado.
 7. `Cancelado`: el responsable decide cerrar el plan sin aceptar su resultado; debe registrarse el motivo.
 
-Codex puede crear y modificar borradores, registrar el avance a `En curso` o `Verificado` cuando exista evidencia y reflejar los retornos de estado definidos más adelante. Solo el responsable identificado en el ExecPlan puede aprobarlo, autorizar su ejecución, aceptar el resultado o cancelarlo; Codex puede reflejar esos cambios de estado después de recibir una indicación explícita.
+El agente puede crear y modificar borradores, registrar el avance a `En curso` o `Verificado` cuando exista evidencia y reflejar los retornos de estado definidos más adelante. Solo el responsable identificado en el ExecPlan puede aprobarlo, autorizar su ejecución, aceptar el resultado o cancelarlo; el agente puede reflejar esos cambios de estado después de recibir una indicación explícita.
 
 La indicación humana puede originarse en una conversación, issue u otro canal, pero debe reflejarse en el ExecPlan con fecha y actor. El campo de estado actual del ExecPlan es la fuente canónica. No es necesario copiar la conversación ni crear un commit específico para que la transición sea válida.
 
@@ -68,11 +80,11 @@ Las siguientes condiciones son invariantes del estado declarado. No sustituyen e
 | --- | --- |
 | `Borrador` → `Aprobado` | El responsable, objetivo, resultado, alcance, decisiones aplicables, criterios de aceptación y verificaciones están definidos con precisión suficiente; las cuestiones que impedirían ejecutar el plan están resueltas o identificadas como bloqueo. El responsable aprueba expresamente el contenido del plan, aunque un bloqueo declarado todavía pueda impedir autorizarlo. |
 | `Aprobado` → `Autorizado` | El plan y sus decisiones aplicables siguen vigentes, no existe un bloqueo que impida comenzar y el responsable autoriza expresamente la ejecución. |
-| `Autorizado` → `En curso` | Codex o el equipo ha comenzado trabajo incluido en el plan y registra la fecha o evidencia inicial en el historial. |
+| `Autorizado` → `En curso` | El agente o el equipo ha comenzado trabajo incluido en el plan y registra la fecha o evidencia inicial en el historial. |
 | `En curso` → `Verificado` | El trabajo previsto está terminado dentro del alcance, los criterios de aceptación aplicables se han comprobado y el plan registra evidencia, limitaciones y verificaciones no realizadas. Una comprobación material fallida impide declarar este estado. |
 | `Verificado` → `En curso` | Se detecta, o el responsable determina, que el resultado necesita correcciones dentro del alcance ya autorizado o evidencia adicional antes de aceptarse. Se registra el motivo y se repiten las verificaciones afectadas; no requiere nueva autorización mientras no cambien materialmente el plan ni sus decisiones. |
 | `Verificado` → `Aceptado` | El responsable revisa el resultado y la evidencia, acepta expresamente la entrega y las limitaciones o deudas pendientes quedan registradas cuando corresponda. |
-| Cualquier estado no terminal previamente aprobado → `Borrador` | El responsable aprueba un cambio material del objetivo, alcance, criterios de aceptación o decisiones aplicables. Codex registra el retorno y el plan requiere nueva aprobación y autorización antes de ejecutar el alcance modificado. |
+| Cualquier estado no terminal previamente aprobado → `Borrador` | El responsable aprueba un cambio material del objetivo, alcance, criterios de aceptación o decisiones aplicables. El agente registra el retorno y el plan requiere nueva aprobación y autorización antes de ejecutar el alcance modificado. |
 | Cualquier estado no terminal → `Cancelado` | El responsable cancela expresamente el plan y se registra el motivo, el trabajo incompleto y cualquier efecto que deba conservarse. |
 
 Cada transición debe actualizar el estado actual, la fecha de última actualización y el historial de estado. Una corrección editorial o un detalle mecánico cubierto por el plan no invalida su estado.

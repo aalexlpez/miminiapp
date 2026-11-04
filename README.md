@@ -1,42 +1,25 @@
-# Harness de proyectos
+# MiMiniApp
 
-Template reutilizable para iniciar y mantener proyectos de software con asistencia de Codex. No contiene un stack, una arquitectura ni funcionalidades de producto predeterminadas.
+Instancia del harness documental para preparar una colección pública de miniapps bilingües ES/EN. El producto está en **definición**: este repositorio todavía no contiene una aplicación, dependencias, pruebas ejecutables ni despliegues.
 
-Este README es una guía de entrada. Las fuentes canónicas y su precedencia se identifican en `AGENTS.md`.
+## Por dónde empezar
 
-## Cómo utilizarlo
+1. Lee [AGENTS.md](AGENTS.md) y la [definición del producto](docs/product-specs/index.md).
+2. Consulta las [decisiones técnicas](docs/design-docs/index.md); distingue lo declarado como acordado en el dossier de las propuestas abiertas y de su aprobación canónica.
+3. Revisa la [auditoría de transferencia](docs/onboarding-audit.md), el [roadmap](docs/roadmap.md) y el [plan I-00](docs/exec-plans/completed/I-00-traslado-documental.md).
+4. Aprueba la definición, las decisiones y el plan que correspondan; autoriza la ejecución por separado, conforme a [PLANS.md](docs/PLANS.md).
+5. Trabaja por iteraciones, verifica con evidencia y entrega cada resultado para aceptación humana.
 
-1. Copia el template a un nuevo repositorio.
-2. Abre el proyecto con Codex y describe la idea o proporciona la documentación disponible.
-3. Completa progresivamente la definición del proyecto.
-4. Investiga y aprueba las decisiones técnicas necesarias.
-5. Prepara y aprueba el plan inicial sin asumir que su aprobación autoriza ejecutarlo.
-6. Autoriza expresamente el inicio de la implementación.
-7. Desarrolla, verifica y revisa el resultado.
-8. Acepta el resultado y mantén actualizado el conocimiento duradero.
+El [dossier v1.2](docs/references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md) se conserva como referencia de origen. Sus instrucciones no sustituyen la petición del usuario ni las fuentes canónicas. La primera miniapp sigue sin elegir.
 
-No es necesario completar toda la documentación antes de comenzar la investigación. Los documentos técnicos se desarrollan cuando existen decisiones o información real que registrar.
+## Trabajar con agentes de IA
 
-Los archivos especializados que todavía no sean aplicables pueden permanecer vacíos. No deben rellenarse solo para completar el esqueleto documental.
+[AGENTS.md](AGENTS.md) contiene la política compartida. [CLAUDE.md](CLAUDE.md) y [GEMINI.md](GEMINI.md) son imports mínimos para sus herramientas. La carga efectiva debe comprobarse en cada cliente; su existencia no demuestra compatibilidad en ejecución.
 
-El procedimiento completo para activar una instancia, comprobar las capacidades disponibles y preparar un entorno verificable se encuentra en `docs/BOOTSTRAP.md`.
+El [bootstrap](docs/BOOTSTRAP.md) explica la activación y las verificaciones. Se puede trabajar **sin skills instaladas**, con los procedimientos normales del agente y las herramientas del proyecto cuando existan. Las skills quedan [pendientes para el final](docs/exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final), por petición del propietario.
 
-## Punto de entrada
+## Estado de la preparación
 
-Lee `AGENTS.md`. La definición y el estado del proyecto se encuentran en `docs/product-specs/index.md`.
+La transferencia documental I-00 está aceptada y archivada; H-002 está aprobada. La definición y las decisiones técnicas de producto conservan sus estados para revisión. No se ha instalado el stack ni activado CI/CD. La arquitectura real se describe en [ARCHITECTURE.md](ARCHITECTURE.md). Los criterios de calidad y de despliegue son objetivos futuros, no comprobaciones ya superadas.
 
-Las decisiones técnicas del proyecto se registran en `docs/design-docs/index.md`; las decisiones heredadas sobre el funcionamiento del harness se conservan por separado en `docs/harness-decisions.md`. Los estados y autorizaciones de cada trabajo planificado se registran en su ExecPlan siguiendo `docs/PLANS.md`; `docs/exec-plans/_template.md` ofrece el punto de partida mínimo.
-
-## Configuración global y skills
-
-El harness complementa las instrucciones globales de Codex y las skills disponibles. No modifica ni instala automáticamente configuración global.
-
-Cada desarrollador debe disponer de los procedimientos necesarios para su trabajo. Si una skill mencionada no está disponible, no debe suponerse que existe.
-
-## Automatizaciones
-
-El template contempla el ciclo completo del proyecto, pero no activa automatizaciones por defecto. Su incorporación requiere aprobación expresa.
-
-## Estado inicial
-
-El proyecto comienza en definición, sin stack, arquitectura, decisiones técnicas propias del producto ni planes de implementación autorizados. Hereda únicamente las reglas y decisiones de gobierno del harness. Las decisiones del producto se incorporan progresivamente a su propia documentación.
+Esta instancia procede de `aalexlpez/harness-engineering`; las adaptaciones locales se registran en [harness-decisions.md](docs/harness-decisions.md). No se ha modificado el template original. Los archivos especializados sin contenido aplicable pueden permanecer vacíos.

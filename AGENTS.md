@@ -2,7 +2,9 @@
 
 ## Contexto
 
-Este repositorio utiliza un harness de desarrollo controlado. Las instrucciones globales de Codex y las skills disponibles siguen aplicándose. Este archivo añade las reglas específicas de gobierno del proyecto.
+Este repositorio utiliza un harness de desarrollo controlado. Las instrucciones globales del agente de IA utilizado y las skills disponibles siguen aplicándose. AGENTS.md es la fuente compartida para Codex, Claude Code y Gemini CLI; CLAUDE.md y GEMINI.md solo la importan, sin duplicar normas. Este archivo añade las reglas específicas de gobierno del proyecto.
+
+La adaptación documental H-002 está `Aprobada` para esta instancia por indicación expresa del propietario el 2026-11-04, registrada en `docs/harness-decisions.md`. Se conserva H-001 y la autoridad original del harness. La aprobación no tiene efectos retroactivos ni aprueba decisiones técnicas del producto o activa automatizaciones.
 
 ## Fuentes canónicas
 
@@ -45,7 +47,7 @@ Registra las decisiones que deban permanecer como conocimiento del proyecto. No 
 
 Cada artefacto identifica por nombre o rol a la persona con autoridad para aprobarlo: la definición identifica a su responsable, cada decisión técnica al suyo y cada ExecPlan a quien puede aprobarlo, autorizarlo, aceptar su resultado o cancelarlo. La misma persona puede asumir varios de estos papeles.
 
-Cuando intervengan responsables distintos, el campo del artefacto afectado determina quién decide. Si ese responsable todavía no está identificado, el artefacto no puede superar un estado que requiera aprobación humana. Codex puede preparar propuestas, ejecutar trabajo autorizado y registrar evidencia, pero no sustituye esa aprobación.
+Cuando intervengan responsables distintos, el campo del artefacto afectado determina quién decide. Si ese responsable todavía no está identificado, el artefacto no puede superar un estado que requiera aprobación humana. El agente puede preparar propuestas, ejecutar trabajo autorizado y registrar evidencia, pero no sustituye esa aprobación.
 
 ## Estado y autorización
 
