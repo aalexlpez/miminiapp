@@ -1,14 +1,15 @@
 # MiMiniApp — definición del producto
 
 **Nombre:** MiMiniApp (provisional).
-**Fase:** Definición.
-**Estado de la definición:** Borrador.
-**Responsable de aprobación:** Propietario de MiMiniApp (rol; identidad personal pendiente de registrar).
+**Fase:** Implementación local I-01 en curso; validación obligatoria de navegador pendiente.
+**Estado de la definición:** Aprobada.
+**Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
+**Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
 **Última actualización:** 2026-11-04.
 
 ## Procedencia y alcance de esta definición
 
-Traslado documental del [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), secciones 4 y 6. El dossier reporta requisitos ya acordados y propuestas abiertas; se conserva esa distinción como evidencia aportada. Esta definición continúa en `Borrador`: incorporar el archivo no constituye aprobación del producto, de las decisiones técnicas ni autorización de implementación. La [auditoría de preparación](../onboarding-audit.md) distingue lo comprobado de lo pendiente.
+Traslado documental del [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), secciones 4 y 6. El dossier reporta requisitos ya acordados y propuestas abiertas; se conserva esa distinción como evidencia aportada. La definición se preparó en Borrador y pasa ahora a `Aprobada` por la indicación humana expresa del Bloque A del 2026-11-04, no por incorporar el dossier. Esta aprobación no autoriza implementación. La [auditoría de preparación](../onboarding-audit.md) distingue lo comprobado de lo pendiente.
 
 ## Propósito
 
@@ -28,7 +29,7 @@ Durante desarrollo el catálogo puede estar vacío, sin anunciar herramientas in
 
 ## Alcance inicial
 
-Requisitos que el dossier presenta como decididos, pendientes de aprobación canónica de esta definición:
+Requisitos trasladados del dossier y aprobados canónicamente por el propietario dentro del Bloque A el 2026-11-04:
 
 | ID | Requisito trasladado |
 | --- | --- |
@@ -47,7 +48,7 @@ Requisitos que el dossier presenta como decididos, pendientes de aprobación can
 | PROD-13 | Lanzamiento condicionado por calidad; cantidad inicial sin cerrar. |
 | PROD-14 | Primera miniapp aplazada expresamente. |
 
-El MVP propuesto comprende portada, catálogo, páginas por miniapp, contenido y metadatos ES/EN, selector de idioma, interfaz responsive, ejemplos de demostración y enlaces reales a redes/GitHub. Prefijos `/es/` y `/en/`, rutas canónicas y `hreflang` son la propuesta técnica por concretar en el [registro de decisiones](../design-docs/index.md).
+El MVP aprobado comprende portada, catálogo, páginas por miniapp, contenido y metadatos ES/EN, selector de idioma, interfaz responsive, ejemplos de demostración y enlaces reales a redes/GitHub. Prefijos `/es/` y `/en/`, rutas canónicas y `hreflang` son la propuesta técnica por concretar en el [registro de decisiones](../design-docs/index.md).
 
 Quedan fuera perfiles, login, pagos, administración, votaciones, formularios internos de ideas, backend, bases de datos, notificaciones, IA como servicio, sincronización, recomendaciones, APIs con claves privadas, seguimiento individual y comentarios propios.
 
@@ -72,17 +73,17 @@ Añadir o corregir una miniapp no debe romper las existentes ni exigir alterar s
 
 No se adoptan tecnologías, servicios o automatizaciones por trasladar estos requisitos. Las excepciones al procesamiento local y los cambios de alcance requieren la decisión y autorización correspondientes. Marca y dominio son provisionales; `miminiapp.com` no implica propiedad ni disponibilidad.
 
-La política de pruebas y los controles de seguridad propuestos se detallan en [calidad](../QUALITY_SCORE.md), [frontend](../FRONTEND.md), [seguridad](../SECURITY.md) y [fiabilidad](../RELIABILITY.md). Son criterios de trabajo futuros, no capacidades ya implementadas ni certificaciones.
+La política de pruebas local y los límites de seguridad aprobados, junto con los diseños remotos todavía propuestos, se detallan en [calidad](../QUALITY_SCORE.md), [frontend](../FRONTEND.md), [seguridad](../SECURITY.md) y [fiabilidad](../RELIABILITY.md). El informe de ejecución distingue la parte local ya implementada de los objetivos de producto/remotos todavía futuros; las comprobaciones actuales no son certificaciones de todo el producto.
 
 ## Cuestiones pendientes
 
-* Aprobar esta definición e identificar nominalmente al propietario cuando corresponda.
-* Formalizar las decisiones técnicas y aprobar/autorizar cada iteración por separado.
+* La definición ya está aprobada por su responsable identificado por rol; cualquier cambio material posterior requiere nueva aprobación canónica.
+* Para I-01 los ADR y el plan están aprobados y la ejecución está autorizada; queda completar la validación requerida del navegador bloqueado. Los restantes ADR/iteraciones conservan sus propios estados.
 * Elegir más adelante la primera miniapp y la cantidad de lanzamiento; no bloquea la preparación documental.
 * Resolver licencia y titularidad antes de presentar el producto como software con licencia abierta.
 * Confirmar marca, redes y dominio; compra y DNS requieren instrucción expresa.
 * Decidir si habrá analítica, qué datos trataría y sus implicaciones de privacidad; no activar trackers por defecto.
-* Concretar versiones, pruebas, navegadores, política de dependencias y CI/CD mediante decisiones y planes propios.
+* Verificar en ejecución autorizada las versiones, pruebas, Chromium y política de dependencias aprobadas para I-01. CI/CD y ampliación a otros motores pertenecen a sus iteraciones posteriores.
 * Provisionar accesos Cloudflare/GitHub con mínimo privilegio cuando se autorice infraestructura.
 * Skills aplazadas al final, como [tarea pendiente](../exec-plans/tech-debt-tracker.md); no son requisito para esta preparación documental.
 
@@ -99,6 +100,12 @@ La definición está preparada para aprobación cuando:
 
 No es necesario decidir durante la definición el stack, la arquitectura ni los detalles locales de implementación. Como regla de desempate, existe información suficiente cuando dos equipos razonables podrían proponer soluciones distintas en sus detalles, pero coincidirían en el resultado esperado, sus límites y la forma de aceptarlo.
 
+## Aprobación canónica para I-01
+
+El propietario aprueba expresamente los bloques A/B/C del [paquete consolidado](../design-docs/i01-approval-proposal.md) el 2026-11-04. El Bloque A aprueba el contenido completo de esta definición; los bloques B/C se reflejan en el registro técnico y el plan I-01. La aprobación no autorizaba por sí misma ejecución; el propietario la autoriza después expresamente y su progreso se registra en el plan.
+
+Se ha contrastado el contenido actual con las decisiones de MiMiniApp trasladadas del dossier: se mantienen propósito, usuarios, ES/EN, client-first, móvil/escritorio, demo, ritmo flexible, alcance y exclusiones. No se elige una miniapp ni se incorpora una función nueva. Licencia, dominio, primera miniapp, analítica e infraestructura siguen diferidos expresamente; no bloquean la preparación de la base local. Aprobar la definición no autoriza por sí mismo su implementación.
+
 ## Estado de las decisiones
 
 Consulta el [registro técnico](../design-docs/index.md). Ninguna entrada se declara aprobada por la sola recepción del dossier.
@@ -110,3 +117,10 @@ Consulta [PLANS.md](../PLANS.md), el [roadmap informativo](../roadmap.md) y los 
 La definición se completará a partir de la información proporcionada y de la investigación autorizada. No se elegirán tecnologías ni se iniciará implementación por el mero hecho de crear esta instancia.
 
 La definición solo se considera aprobada tras una indicación expresa del responsable, que se refleja cambiando `Estado de la definición` a `Aprobada`. Su aprobación no aprueba decisiones técnicas, planes ni autoriza implementación.
+
+
+## Historial de aprobación
+
+| Fecha | Estado | Actor | Evidencia |
+| --- | --- | --- | --- |
+| 2026-11-04 | Aprobada | Propietario de MiMiniApp | Aprobación expresa del Bloque A de la propuesta consolidada. Se conservan PROD-01–14, CAT-01–08, alcance y exclusiones; implementación todavía no autorizada. |

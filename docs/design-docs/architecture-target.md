@@ -1,14 +1,14 @@
-# Arquitectura objetivo propuesta
+# Arquitectura objetivo y decisiones aprobadas
 
-**Estado:** propuesta documental, no implementada ni aprobada por la recepción del dossier.
+**Estado:** base local aprobada por ADR-001/002/003/005/006/008/015 el 2026-11-04; hosting, catálogo y rutas completas conservan su estado de propuesta. La base local está implementada y autorizada; la validación obligatoria del navegador sigue bloqueada. Hosting, catálogo y rutas completas no están implementados.
 **Responsable:** propietario de MiMiniApp.
 **Actualizado:** 2026-11-04.
 
-El [registro de decisiones](index.md) conserva el estado de cada elección. La [arquitectura actual](../../ARCHITECTURE.md) describe lo que existe. Esta propuesta sintetiza las secciones 5 y 6 del [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md); no afirma que existan archivos, servicios o despliegues.
+El [registro de decisiones](index.md) conserva el estado de cada elección. La [arquitectura actual](../../ARCHITECTURE.md) describe lo que existe. Este documento sintetiza las secciones 5 y 6 del [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md); distingue el objetivo futuro de los archivos locales ya implementados en I-01. La arquitectura actual y el informe registran la evidencia; no se afirman servicios remotos o despliegues.
 
 ## Componentes y límites
 
-Se propone generar catálogo y páginas con **Astro**, prerenderizadas por defecto. **React + TypeScript** aportaría la interacción de las miniapps en navegador, con funciones de dominio independientes de los textos y de la UI. **Tailwind CSS** es la opción trasladada para estilos. Cloudflare Workers Static Assets serviría el resultado estático del build.
+La base aprobada es **Astro** estático, **React + TypeScript estricto** para interacción en navegador y **Tailwind CSS**, con las versiones y configuración del paquete I-01. Catálogo y miniapps son objetivos posteriores, no archivos actuales ni entregables de I-01. Cloudflare Workers Static Assets sigue como propuesta de alojamiento pendiente del ADR-004; no está aprobado ni provisionado por este paquete.
 
 No se propone instalar `@astrojs/cloudflare` para una salida puramente prerenderizada. SSR, sesiones, KV/D1, autenticación y procesos dinámicos quedan fuera; una necesidad real exigiría nueva evaluación y decisión. Versiones, compatibilidad, configuración y límites actuales de Cloudflare se comprobarán al preparar la iteración autorizada; el dossier no acredita disponibilidad o capacidad ilimitada.
 
@@ -22,7 +22,7 @@ WebAssembly y Web Workers siguen siendo procesamiento cliente; si se proponen, d
 
 ## Organización orientativa
 
-La separación propuesta es páginas y layouts, componentes comunes, miniapps con dominio/UI/demo/pruebas propios, i18n, estilos y registro de catálogo. La siguiente estructura es orientativa; no existe en el checkout:
+La separación propuesta es páginas y layouts, componentes comunes, miniapps con dominio/UI/demo/pruebas propios, i18n, estilos y registro de catálogo. La siguiente estructura completa sigue siendo orientativa y no existe como tal: I-01 solo crea pages/index.astro, components/EnvironmentFixture.tsx, lib/validation.ts y estilos/pruebas locales, sin miniapps, registro o rutas bilingües:
 
 ```text
 src/
@@ -51,4 +51,4 @@ La propuesta de dos destinos estáticos separados, `feature/* → staging → ma
 
 ## Pendientes antes de implementar
 
-Formalizar las decisiones, fijar versiones compatibles, concretar contratos y pruebas en una iteración pequeña, aprobar el plan y autorizar su ejecución. La [ficha de miniapp](../product-specs/miniapp-template.md) se utilizará cuando el propietario seleccione una; esta propuesta no elige la primera.
+La definición, los siete ADR aplicables y el plan I-01 ya están aprobados. La ejecución de I-01 fue autorizada posteriormente y ya se comprobaron instalación, tipos, lint, unitarias/componentes y build. Falta completar la parte de navegador fijado por un bloqueo de red; no se confunde ese pendiente con falta de autorización ni con una validación completa. Hosting, registro y rutas completas requieren sus decisiones y planes correspondientes. Ante una incompatibilidad se documenta y propone el ajuste mínimo; ajustes mecánicos cubiertos por ADR aprobados se aplican solo en ejecución autorizada, y cambios materiales requieren aprobación nueva. La [ficha de miniapp](../product-specs/miniapp-template.md) se utilizará cuando el propietario seleccione una; esta propuesta no elige la primera.

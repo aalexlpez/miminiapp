@@ -2,12 +2,12 @@
 
 **Fecha:** 2026-11-04. **Responsable:** propietario de MiMiniApp. **Estado:** propuesta trasladada del [dossier v1.2](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), no autorización de ejecución.
 
-Cada iteración tendrá su propio ExecPlan cuando corresponda prepararla. I-00 tiene un [ExecPlan aceptado y archivado](exec-plans/completed/I-00-traslado-documental.md) por indicación expresa del propietario el 2026-11-04. La nueva autorización permite preparar I-01 como borrador independiente, sin aprobarlo ni autorizar su ejecución; los estados se consultan en cada plan. Esta tabla no aprueba ni autoriza otras iteraciones, instalaciones, integraciones o despliegues. Consulta los estados reales en cada plan conforme a [PLANS.md](PLANS.md).
+Cada iteración tendrá su propio ExecPlan cuando corresponda prepararla. I-00 tiene un [ExecPlan aceptado y archivado](exec-plans/completed/I-00-traslado-documental.md) por indicación expresa del propietario el 2026-11-04. El propietario aprobó la definición, los siete ADR y el plan I-01 y posteriormente autorizó su ejecución. I-01 está En curso, con la base local implementada y validación del navegador bloqueada; los estados canónicos se consultan en cada plan. Esta tabla no aprueba ni autoriza otras iteraciones, instalaciones, integraciones o despliegues. Consulta los estados reales en cada plan conforme a [PLANS.md](PLANS.md).
 
 | Iteración | Resultado previsto | Verificación para el cierre | Dependencias principales |
 | --- | --- | --- | --- |
 | I-00 | Transferencia documental, fuentes canónicas, puentes de instrucciones y contrato de iteraciones | Coherencia y enlaces; verificación por herramienta o limitación explícita; revisión humana | I-00 aceptada expresamente y archivada; H-002 aprobada; limitación Claude/Gemini aceptada para su alcance y diferida en PEND-002 |
-| I-01 | Base del proyecto y testing reproducible | Instalación desde lockfile; check, lint, pruebas, build y un E2E local real | Definición y stack aprobados; plan propio aprobado y autorizado |
+| I-01 | Base del proyecto y testing reproducible | Instalación desde lockfile; check, lint, pruebas, build y un E2E local real | Definición y ADR-001/002/003/005/006/008/015 aprobados; I-01 autorizado y En curso; navegador Chromium fijado pendiente por bloqueo de red |
 | I-02 | Catálogo, registro de miniapps e i18n | ES/EN, rutas, 404, teclado y móvil/escritorio; sin anunciar miniapps inexistentes | I-01 aceptada y diseño del registro/rutas aprobado |
 | I-03 | Staging permanente separado | Deploy real, suite contra URL pública e identificación del código servido | I-02 aceptada, acceso Cloudflare seguro, decisiones y plan de infraestructura autorizados |
 | I-04 | Producción y gate de promoción | PR protegido; árbol/artefacto validado y aceptado en staging; deploy automático y smoke/rollback | I-03 aceptada, permisos reales y plan propio autorizado |

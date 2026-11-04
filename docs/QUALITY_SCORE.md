@@ -1,22 +1,22 @@
 # Calidad y estrategia de verificación
 
-**Estado:** diseño de pruebas trasladado, no suite implementada.
+**Estado:** suite local implementada y ejecución autorizada. Tipos/lint/formato, 14 unitarias, 9 componentes y build pasan. La suite obligatoria Chromium 156 está bloqueada por descarga; los 8 casos en Chromium 155 se registran solo como diagnóstico complementario.
 **Responsable:** propietario de MiMiniApp.
 **Actualizado:** 2026-11-04.
 
-El [dossier v1.2](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), sección 6, reporta pruebas automatizadas recurrentes como requisito acordado. [ADR-MMA-008](design-docs/index.md) conserva `Propuesta` hasta formalización canónica; herramientas, versiones, comandos y umbrales todavía deben concretarse. No hay puntuación de calidad ni resultados de aplicación medidos en esta instancia.
+El [dossier v1.2](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), sección 6, reporta pruebas automatizadas recurrentes como requisito acordado. [ADR-MMA-008](design-docs/index.md) está Aprobada por el propietario el 2026-11-04, con herramientas, versiones, comandos y política local del [paquete I-01](design-docs/i01-approval-proposal.md). Los gates remotos y otros motores se concretarán en sus iteraciones posteriores. Instalación real, npm ci, tipos/lint/pruebas de lógica/componentes y build ya se han comprobado. La parte de navegador requerida sigue pendiente. Resultados, controles negativos y límites en el [informe de ejecución](i01-execution-report.md). No hay puntuación global ni certificación de calidad; los resultados locales medidos están separados de la validación de navegador todavía pendiente.
 
-## Capas de verificación propuestas
+## Capas de verificación — local aprobado, remoto por implementar
 
-| Capa | Herramienta candidata | Resultado que debe demostrar |
+| Capa | Herramienta / estado | Resultado que debe demostrar |
 | --- | --- | --- |
 | Tipos y Astro | TypeScript estricto y `astro check` | Contratos y páginas coherentes. |
-| Estándares | ESLint y Prettier o alternativa aprobada | Reglas acordadas verificables en local y CI. |
+| Estándares | ESLint y Prettier del paquete I-01 aprobado | Reglas acordadas verificables en local y CI. |
 | Dominio | Vitest | Resultados normales, límites, inválidos y regresiones con expectativas independientes. |
 | Componentes | React Testing Library | Formularios, eventos y estados observables. |
 | Navegador | Playwright | ES/EN, rutas, miniapps, demo/reset, móvil/escritorio y errores. |
 | Accesibilidad | axe con Playwright y revisión manual | Hallazgos automáticos y teclado, foco, contraste, etiquetas y anuncios de resultados. |
-| Dependencias | Auditoría del gestor y revisión de licencias | Riesgos y excepciones documentados, con severidades por decidir. |
+| Dependencias | Auditoría del gestor y revisión de licencias | Riesgos y excepciones documentados; altas/críticas sin resolver bloquean la entrega local salvo excepción humana justificada, conforme al paquete aprobado. |
 | Build | Build estático y comprobaciones de rutas/enlaces/metadatos | Salida reproducible, 404 correcto y borradores excluidos. |
 | Staging | E2E y smoke HTTP contra URL remota explícita | Comportamiento del sitio desplegado y su identidad de versión. |
 | Producción | Smoke HTTP/navegador tras deploy | Disponibilidad, versión y recorridos críticos. |
@@ -31,7 +31,7 @@ El [dossier v1.2](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), secc
 
 ## Contrato de los futuros comandos
 
-Estos nombres son **objetivos**, no scripts existentes ni comandos ya verificados:
+Los scripts locales de I-01 ya están implementados y documentados en README. Los siguientes nombres conservan también los objetivos remotos futuros: test:smoke:staging y test:smoke:production no se han creado ni verificado, porque no existen esos entornos:
 
 ```text
 npm run check
@@ -54,4 +54,4 @@ Cubrir los criterios de aceptación automatizables de cada iteración y límites
 
 Una miniapp debe demostrar corrección de lógica, recorrido crítico por idioma cuando difieran textos/rutas, demo reproducible y reset, teclado y tamaños representativos, ausencia de solicitudes privadas inesperadas y revisión manual móvil. Aplicar las metas de [frontend](FRONTEND.md) distinguiendo objetivos de mediciones; las pruebas automáticas no certifican WCAG ni datos de campo.
 
-En el ExecPlan correspondiente registrar ejecución real, resultado, versión/herramientas, target y artefactos vigentes. Separar aprobado, fallido, omitido y no ejecutado. Hoy no hay scripts de aplicación, tests, CI ni entornos de despliegue verificados; la revisión documental no sustituye esas comprobaciones.
+En el ExecPlan correspondiente registrar ejecución real, resultado, versión/herramientas, target y artefactos vigentes. Separar aprobado, fallido, omitido y no ejecutado. Hay scripts locales y pruebas reales ejecutadas, con su evidencia en el informe. La ausencia del navegador fijado impide declarar la validación completa; no hay CI remota ni despliegues verificados y no se sustituyen por el diagnóstico del navegador del sistema.

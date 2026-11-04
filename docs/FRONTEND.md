@@ -1,11 +1,11 @@
-# Frontend — criterios propuestos
+# Frontend — criterios y estado de aprobación
 
-**Estado:** requisitos trasladados del [dossier v1.2](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), secciones 4 y 6; pendientes de aprobación de la [definición](product-specs/index.md) y las [decisiones técnicas](design-docs/index.md). No hay interfaz implementada.
+**Estado:** requisitos trasladados del [dossier v1.2](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), secciones 4 y 6. La [definición](product-specs/index.md) y ADR-001/002/003/008 del [registro técnico](design-docs/index.md) están aprobados para el alcance de I-01 desde el 2026-11-04. La fixture técnica local está implementada y la ejecución está autorizada. Tipos, lint, formato y build pasan; diagnóstico visual/teclado/axe con Chromium 155 correcto, pero el Chromium 156 requerido sigue bloqueado por descarga. No se declara la interfaz de producto ni I-01 Verificado.
 **Responsable:** propietario de MiMiniApp.
 
 ## Experiencia y contenido
 
-La propuesta es mobile-first con escritorio cuidado. Catálogo, miniapps, navegación, controles y resultados deben ser utilizables sin recortes ni scroll horizontal accidental, con estados de carga, vacío, error y éxito cuando proceda. No anunciar funciones o herramientas inexistentes.
+La definición aprobada exige mobile-first con escritorio cuidado. Catálogo, miniapps, navegación, controles y resultados deben ser utilizables sin recortes ni scroll horizontal accidental, con estados de carga, vacío, error y éxito cuando proceda. No anunciar funciones o herramientas inexistentes.
 
 La UI debe explicar brevemente para qué sirve cada herramienta y cómo usarla. Ejemplos reales y restablecimiento rápido permiten probar y grabar su funcionamiento; no se simula una capacidad para el vídeo. La legibilidad vertical 9:16 es un criterio de demostración y no limita la experiencia de escritorio.
 
@@ -25,4 +25,4 @@ Metas de referencia para datos de campo cuando exista audiencia suficiente: **LC
 
 ## Verificación futura
 
-Casos E2E ES/EN, navegación, teclado, demo/reset, errores y móvil/escritorio según [calidad](QUALITY_SCORE.md). Registrar navegadores realmente ejecutados: Chromium móvil/escritorio y otro motor cuando la fase lo justifique. La matriz exacta, diseño visual y versiones siguen pendientes. Tailwind y React constan como propuestas técnicas, no dependencias instaladas.
+Casos E2E ES/EN, navegación, teclado, demo/reset, errores y móvil/escritorio según [calidad](QUALITY_SCORE.md). Registrar navegadores realmente ejecutados: Chromium móvil/escritorio y otro motor cuando la fase lo justifique. La matriz inicial aprobada de I-01 es únicamente Chromium móvil emulado y escritorio; los otros motores y el diseño visual final se difieren. Tailwind y React están instalados en las versiones aprobadas. Se comprobaron estilos calculados y reflujo a 1280px/393px, con capturas revisadas y teclado asistido en el navegador complementario; la repetición sobre el navegador fijado sigue pendiente. Ver el informe de ejecución.
