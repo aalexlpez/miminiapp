@@ -16,19 +16,19 @@ Este registro conserva tareas pendientes; no equivale a un ExecPlan aprobado ni 
 | ID | Pendiente | Condición para retomarlo / fuente |
 | --- | --- | --- |
 | PEND-002 | Comprobar la carga y los escenarios de gobierno en Claude Code y Gemini CLI; limitación conocida aceptada expresamente por el propietario para I-00 el 2026-11-04, comprobación todavía no realizada | En una iteración posterior aprobada y autorizada, cuando estén disponibles los clientes; [auditoría](../onboarding-audit.md) y [bootstrap](../BOOTSTRAP.md#comprobar-instrucciones-por-herramienta) |
-| PEND-003 | Parcialmente resuelto el 2026-11-04: definición y ADR-001/002/003/005/006/008/015 aprobados; las demás decisiones permanecen pendientes para sus iteraciones | Aprobaciones en [producto](../product-specs/index.md) y [registro técnico](../design-docs/index.md); I-01 está autorizado y En curso; conserva el bloqueo de navegador en PEND-006 |
+| PEND-003 | Parcialmente resuelto el 2026-11-04: definición y ADR-001/002/003/005/006/008/015 aprobados; las demás decisiones permanecen pendientes para sus iteraciones | Aprobaciones en [producto](../product-specs/index.md) y [registro técnico](../design-docs/index.md); I-01 Aceptado y archivado el 2026-11-05; bloqueo PEND-006 resuelto |
 | PEND-004 | Contribución pública: licencia, guía y plantillas de PR/issues | Resolver licencia/titular y autorizar el alcance correspondiente; [roadmap](../roadmap.md) |
 | PEND-005 | Accesos e infraestructura de staging/producción | Preparar en las iteraciones correspondientes con permisos mínimos y valores seguros; [registro técnico](../design-docs/index.md) |
 
-La base local ya está implementada. Los pendientes siguientes distinguen preparación futura, bloqueo externo de navegador y seguimiento de riesgos de desarrollo; no se declara un defecto funcional sin evidencia.
+La base local está implementada y verificada. Los registros siguientes conservan el bloqueo de navegador ya resuelto y el seguimiento vigente de riesgos de desarrollo; no se declara un defecto funcional sin evidencia.
 
 
 ## PEND-006 — Navegador fijado de I-01 bloqueado por red
 
-* **Estado:** Bloqueo externo de I-01 en curso; no es un nuevo estado del ExecPlan.
-* **Evidencia:** descarga de Chromium 156.0.8078.4 / revisión Playwright 1248 rechazada con HTTP 403 Domain forbidden en cdn.playwright.dev. Ocho casos requeridos no llegan a ejecutar el navegador.
-* **Acción:** dominio exacto añadido al borrador de configuración del entorno, guardado confirmado y requires_publish=true; el propietario debe aplicar/guardar y publicar la configuración para activar la red. Después, reintentar el instalador oficial y los E2E dentro de la autorización de I-01 ya vigente.
-* **Cierre:** Chromium fijado instalado y verificación requerida pasada. Los 8 diagnósticos con Chromium 155 no cierran este pendiente.
+* **Estado:** Resuelto el 2026-11-04, con instalación y ejecución del navegador fijado acreditadas; I-01 fue Aceptado expresamente el 2026-11-05, sin eliminar sus otras deudas o limitaciones.
+* **Evidencia histórica:** descarga de Chromium 156.0.8078.4 / revisión Playwright 1248 rechazada con HTTP 403 Domain forbidden al solicitar cdn.playwright.dev en la instancia anterior. Los diagnósticos Chromium 155 no sustituyen el navegador fijado.
+* **Reanudación previa a publicación:** cdn.playwright.dev redirigía a storage.googleapis.com y ese destino recibía CONNECT 403. Instalador y verify exit 1, con ocho lanzamientos sin binario; evidencia conservada en .local/verification/resume-0cf778f/. Se guardó solo la adición exacta en el borrador, tras respuesta «si», sin publicación por el agente.
+* **Cierre comprobado:** el propietario publicó el entorno y solicitó probar Playwright; permiso efectivo observed/enforced. Instalador oficial exit 0, Chromium y Headless Shell 156.0.8078.4/r1248; verify exit 0 con 14+9+8 casos sin omisiones, más revisión asistida visual/teclado correcta. Evidencia final en .local/verification/chromium-156/ y [el informe](../i01-execution-report.md#verificación-final-con-chromium-fijado). Los diagnósticos Chromium 155 no se usan para cerrar este pendiente. Sin nuevos commits/pushes, I-02 o publicación por el agente.
 
 ## PEND-007 — Seguimiento de incidencias moderadas de lint
 

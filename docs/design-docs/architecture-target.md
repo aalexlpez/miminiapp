@@ -1,6 +1,6 @@
 # Arquitectura objetivo y decisiones aprobadas
 
-**Estado:** base local aprobada por ADR-001/002/003/005/006/008/015 el 2026-11-04; hosting, catálogo y rutas completas conservan su estado de propuesta. La base local está implementada y autorizada; la validación obligatoria del navegador sigue bloqueada. Hosting, catálogo y rutas completas no están implementados.
+**Estado:** base local aprobada por ADR-001/002/003/005/006/008/015 el 2026-11-04; hosting, catálogo y rutas completas conservan su estado de propuesta. La base local está implementada y Verificada con Chromium fijado; la aceptación expresa del propietario y el archivo de I-01 se registran el 2026-11-05. Hosting, catálogo y rutas completas no están implementados.
 **Responsable:** propietario de MiMiniApp.
 **Actualizado:** 2026-11-04.
 
@@ -51,4 +51,4 @@ La propuesta de dos destinos estáticos separados, `feature/* → staging → ma
 
 ## Pendientes antes de implementar
 
-La definición, los siete ADR aplicables y el plan I-01 ya están aprobados. La ejecución de I-01 fue autorizada posteriormente y ya se comprobaron instalación, tipos, lint, unitarias/componentes y build. Falta completar la parte de navegador fijado por un bloqueo de red; no se confunde ese pendiente con falta de autorización ni con una validación completa. Hosting, registro y rutas completas requieren sus decisiones y planes correspondientes. Ante una incompatibilidad se documenta y propone el ajuste mínimo; ajustes mecánicos cubiertos por ADR aprobados se aplican solo en ejecución autorizada, y cambios materiales requieren aprobación nueva. La [ficha de miniapp](../product-specs/miniapp-template.md) se utilizará cuando el propietario seleccione una; esta propuesta no elige la primera.
+La definición, los siete ADR aplicables y el plan I-01 ya están aprobados. La ejecución de I-01 fue autorizada posteriormente y ya se comprobaron instalación, tipos, lint, unitarias/componentes y build. La parte de navegador fijado está completada con Chromium 156.0.8078.4 / revisión 1248, verify exit 0 y revisión asistida visual/teclado; I-01 Aceptado por el propietario el 2026-11-05. Hosting, registro y rutas completas requieren sus decisiones y planes correspondientes. Ante una incompatibilidad se documenta y propone el ajuste mínimo; ajustes mecánicos cubiertos por ADR aprobados se aplican solo en ejecución autorizada, y cambios materiales requieren aprobación nueva. La [ficha de miniapp](../product-specs/miniapp-template.md) se utilizará cuando el propietario seleccione una; esta propuesta no elige la primera.

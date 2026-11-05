@@ -1,6 +1,6 @@
 # Paquete consolidado aprobado — I-01
 
-**Estado:** Aprobado en sus bloques A/B/C; ejecución de I-01 autorizada posteriormente y En curso, con bloqueo externo de validación del navegador. **Fecha de aprobación:** 2026-11-04. **Actor:** propietario de MiMiniApp.
+**Estado:** Aprobado en sus bloques A/B/C; ejecución de I-01 autorizada posteriormente y resultado verificado por Codex y Aceptado expresamente por el propietario el 2026-11-05. **Fecha de aprobación:** 2026-11-04. **Actor:** propietario de MiMiniApp.
 
 **Evidencia:** «Apruebo los tres bloques»; Bloque A, definición canónica; Bloque B, ADR-001/002/003/005/006/008 y ADR-015 con tecnologías y versiones; Bloque C, alcance y criterios de I-01. La aprobación se registra en las fuentes canónicas y no equivale a autorización de implementación.
 
@@ -45,7 +45,7 @@ No se someten a aprobación en este paquete ADR-MMA-004/007/009/010/011/012/014:
 
 ## C — Plan aprobado y autorización posterior
 
-El [ExecPlan I-01](../exec-plans/active/I-01-base-local-y-testing.md) fue aprobado por el propietario el 2026-11-04 y autorizado posteriormente de forma expresa; su estado actual es En curso por el bloqueo de red del navegador fijado. Su alcance se limita a la base funcional local y pruebas: instalación reproducible futura, página/fixture técnica, React hidratado, CSS compilado, comprobaciones de tipos/lint/formato, unitarias/componentes, E2E Chromium y axe/manual.
+El [ExecPlan I-01](../exec-plans/completed/I-01-base-local-y-testing.md) fue aprobado por el propietario el 2026-11-04 y autorizado posteriormente de forma expresa; su estado actual es Aceptado tras la verificación completa con Chromium fijado y la aceptación expresa del propietario el 2026-11-05; plan archivado en completed/. Su alcance se limita a la base funcional local y pruebas: instalación reproducible, página/fixture técnica, React hidratado, CSS compilado, comprobaciones de tipos/lint/formato, unitarias/componentes, E2E Chromium y axe/manual.
 
 Los criterios y comandos exactos están en el plan. Catálogo, miniapps reales, i18n completo, CI remoto y despliegues quedan fuera. La aprobación de este paquete se refleja en las fuentes canónicas y en el estado Aprobado del plan; no daba por recibida la autorización separada para implementarlo. Esa autorización se recibe posteriormente y se registra en el ExecPlan, sin efectos retroactivos sobre la etapa de aprobación.
 
@@ -108,4 +108,4 @@ La tabla conserva las versiones aprobadas por el propietario. Durante la ejecuci
 
 La autorización posterior para implementar se ha recibido y se registra en I-01; no modifica las versiones o restricciones aprobadas. Se verifica compatibilidad real mediante instalación, tipos, lint, pruebas automatizadas y build. Si una versión presenta incompatibilidades, documentar el problema y proponer el ajuste mínimo compatible: los ajustes mecánicos cubiertos por los ADR podrán aplicarse dentro del alcance autorizado, dejando evidencia y repitiendo comprobaciones; un cambio material de tecnología, arquitectura o alcance requiere nueva aprobación. No se instala ni se ejecuta I-01 para registrar estas aprobaciones.
 
-La evidencia de ejecución y los ajustes mecánicos de CLI/tipos están en el [informe I-01](../i01-execution-report.md). El estado En curso conserva el bloqueo de descarga del navegador obligatorio; la evidencia complementaria no modifica el criterio aprobado.
+La evidencia de ejecución y los ajustes mecánicos de CLI/tipos están en el [informe I-01](../i01-execution-report.md). La verificación final usa Chromium 156.0.8078.4 / revisión 1248: verify exit 0, 14+9+8 pruebas sin omisiones y revisión asistida visual/teclado correcta. I-01 Aceptado por el propietario el 2026-11-05. El bloqueo y la evidencia complementaria anterior se conservan como historia, sin cambiar el criterio aprobado.

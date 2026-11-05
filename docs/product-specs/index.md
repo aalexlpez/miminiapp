@@ -1,11 +1,11 @@
 # MiMiniApp — definición del producto
 
 **Nombre:** MiMiniApp (provisional).
-**Fase:** Implementación local I-01 en curso; validación obligatoria de navegador pendiente.
+**Fase:** Base local I-01 Aceptada y archivada el 2026-11-05; solo preparación del borrador de I-02, sin implementación autorizada.
 **Estado de la definición:** Aprobada.
 **Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
 **Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
-**Última actualización:** 2026-11-04.
+**Última actualización:** 2026-11-05.
 
 ## Procedencia y alcance de esta definición
 
@@ -78,12 +78,12 @@ La política de pruebas local y los límites de seguridad aprobados, junto con l
 ## Cuestiones pendientes
 
 * La definición ya está aprobada por su responsable identificado por rol; cualquier cambio material posterior requiere nueva aprobación canónica.
-* Para I-01 los ADR y el plan están aprobados y la ejecución está autorizada; queda completar la validación requerida del navegador bloqueado. Los restantes ADR/iteraciones conservan sus propios estados.
+* Para I-01 los ADR y el plan están aprobados y la ejecución está autorizada; la validación requerida con Chromium 156 fijado está completada y el resultado fue Aceptado expresamente por el propietario el 2026-11-05 y el plan está archivado. Los restantes ADR/iteraciones conservan sus propios estados.
 * Elegir más adelante la primera miniapp y la cantidad de lanzamiento; no bloquea la preparación documental.
 * Resolver licencia y titularidad antes de presentar el producto como software con licencia abierta.
 * Confirmar marca, redes y dominio; compra y DNS requieren instrucción expresa.
 * Decidir si habrá analítica, qué datos trataría y sus implicaciones de privacidad; no activar trackers por defecto.
-* Verificar en ejecución autorizada las versiones, pruebas, Chromium y política de dependencias aprobadas para I-01. CI/CD y ampliación a otros motores pertenecen a sus iteraciones posteriores.
+* Verificación local de versiones, pruebas y Chromium completada para I-01; aceptada expresamente por el propietario el 2026-11-05. Se mantiene el seguimiento de once incidencias moderadas de desarrollo en PEND-007. CI/CD y ampliación a otros motores pertenecen a sus iteraciones posteriores.
 * Provisionar accesos Cloudflare/GitHub con mínimo privilegio cuando se autorice infraestructura.
 * Skills aplazadas al final, como [tarea pendiente](../exec-plans/tech-debt-tracker.md); no son requisito para esta preparación documental.
 

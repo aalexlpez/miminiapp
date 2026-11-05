@@ -1,6 +1,6 @@
 # MiMiniApp
 
-Instancia del harness documental para preparar una colección pública de miniapps bilingües ES/EN. La base local de I-01 está implementada y en verificación: Astro estático, una fixture React/TypeScript, estilos Tailwind y pruebas automatizadas. La descarga del Chromium fijado está bloqueada por la red del entorno; I-01 sigue En curso. No hay catálogo, miniapp real o despliegue.
+Instancia del harness documental para preparar una colección pública de miniapps bilingües ES/EN. La base local de I-01 está implementada y aceptada por el propietario: Astro estático, una fixture React/TypeScript, estilos Tailwind y pruebas automatizadas con Chromium fijado. I-01 fue Aceptado expresamente el 2026-11-05 y está archivado en completed/. No hay catálogo, miniapp real o despliegue.
 
 ## Por dónde empezar
 
@@ -20,7 +20,7 @@ El [bootstrap](docs/BOOTSTRAP.md) explica la activación y las verificaciones. S
 
 ## Estado de la preparación
 
-La transferencia documental I-00 está aceptada y archivada; H-002 está aprobada. La definición y los siete ADR aplicables a I-01 están aprobados; el resto conserva sus propuestas. I-01 está autorizado y En curso. El stack está instalado y pasan tipos, lint, formato, 14 unitarias, 9 componentes y build; la verificación con Chromium obligatorio sigue bloqueada. No se ha activado CI/CD. La arquitectura real se describe en [ARCHITECTURE.md](ARCHITECTURE.md). Los criterios del producto completo y de despliegue siguen siendo objetivos futuros; las comprobaciones locales ya ejecutadas se detallan en el informe.
+La transferencia documental I-00 está aceptada y archivada; H-002 está aprobada. La definición y los siete ADR aplicables a I-01 están aprobados; el resto conserva sus propuestas. I-01 está Aceptado y archivado tras la aceptación expresa del propietario el 2026-11-05. Pasan tipos, lint, formato, 14 unitarias, 9 componentes, build y 8 E2E/axe con Chromium 156 fijado, además de revisión asistida visual/teclado. No se ha activado CI/CD. La arquitectura real se describe en [ARCHITECTURE.md](ARCHITECTURE.md). Los criterios del producto completo y de despliegue siguen siendo objetivos futuros; las comprobaciones locales ya ejecutadas se detallan en el informe.
 
 Esta instancia procede de `aalexlpez/harness-engineering`; las adaptaciones locales se registran en [harness-decisions.md](docs/harness-decisions.md). No se ha modificado el template original. Los archivos especializados sin contenido aplicable pueden permanecer vacíos.
 
@@ -38,7 +38,7 @@ npx --no-install playwright install chromium
 npm run verify
 ```
 
-La instalación del navegador necesita acceso permitido a cdn.playwright.dev; actualmente el entorno lo rechaza. La adición del dominio está guardada como borrador y necesita aplicación por el propietario en la configuración del entorno. No se omiten tests ni se cambia el navegador requerido para dar el resultado por válido. Consulta el [informe de ejecución](docs/i01-execution-report.md).
+La instalación oficial necesita cdn.playwright.dev y su destino de redirección storage.googleapis.com; también se conserva permitido playwright.download.prss.microsoft.com. Tras publicar el permiso el propietario, se comprobó la política efectiva y se instalaron Chromium y Headless Shell 156.0.8078.4 / revisión 1248, asociados a Playwright 1.64.1. npm run verify termina con exit 0 y 14+9+8 pruebas pasadas, sin omisiones; el lockfile permanece intacto. Evidencia final en .local/verification/chromium-156/ y [el informe de ejecución](docs/i01-execution-report.md). No hace falta modificar o publicar el nuevo borrador.
 
 Para trabajar: npm run dev. Para servir el build: npm run build y npm run preview. Ambos servidores usan 127.0.0.1:4321 y --ignore-lock para mantenerse en primer plano también bajo un agente; Ctrl+C detiene el proceso propio. Playwright gestiona su preview, rechaza reutilizar otro servidor y lo cierra al terminar.
 
@@ -58,6 +58,6 @@ La fixture solo comprueba el entorno: etiqueta local de 3–32 puntos de código
 
 Logs de comandos: .local/verification/; fallos E2E: test-results/ y playwright-report/. Son salidas ignoradas por Git. Para restablecer la fixture usa Restablecer; para el entorno, detén solo tus procesos y vuelve a npm ci desde el lockfile. No borres cambios ajenos ni uses un reset de Git para limpiar.
 
-La ejecución complementaria con Chromium del sistema está registrada por separado en el informe y no forma parte del procedimiento requerido. Quedan pendientes el navegador fijado, E2E/axe en él y la aceptación del resultado; tampoco se han probado Firefox/WebKit o dispositivos físicos.
+La ejecución complementaria histórica con Chromium del sistema está registrada por separado en el informe. El resultado final usa el navegador fijado: E2E/axe y revisión asistida de teclado/foco y capturas a 1280×900/393×851 correctos. El propietario aceptó I-01 el 2026-11-05; se conservan las limitaciones: no se han probado Firefox/WebKit o dispositivos físicos ni se certifica WCAG completo.
 
-Para retomar desde otro chat o máquina, selecciona la rama feature/i01-base-local-testing y sigue la [guía de continuación de I-01](docs/i01-handoff.md). El runtime instalado en /workspace/.tools, las dependencias y los logs locales no se transportan por Git; deben prepararse o regenerarse en el entorno de destino. El propietario ha autorizado este commit y push específico; I-01 permanece En curso.
+Para retomar desde otro chat o máquina, selecciona la rama feature/i01-base-local-testing y comprueba el checkpoint 0cf778f siguiendo la [guía de continuación de I-01](docs/i01-handoff.md). El runtime instalado en /workspace/.tools, las dependencias y los logs locales no se transportan por Git; deben prepararse o regenerarse en el entorno de destino. El checkpoint 0cf778f conserva la implementación; el cierre aceptado y las evidencias documentales posteriores se guardan en el commit local de I-01 autorizado el 2026-11-05. El [plan aceptado](docs/exec-plans/completed/I-01-base-local-y-testing.md) conserva el historial y los límites. La autorización actual permite preparar solo el borrador de I-02, sin implementación, pushes o despliegues.

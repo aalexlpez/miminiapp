@@ -2,23 +2,27 @@
 
 ## Control
 
-* **Estado:** `En curso`
+* **Estado:** `Aceptado`
 * **Responsable de aprobación, autorización y aceptación:** Propietario de MiMiniApp, por rol.
 * **Creado:** 2026-11-04.
-* **Última actualización:** 2026-11-04.
+* **Última actualización:** 2026-11-05.
 * **Origen:** Plan independiente preparado tras aceptar I-00; aquella fase de preparación no autorizaba ejecución. Las autorizaciones posteriores de ejecución y de traslado mediante Git se registran abajo; no amplían a CI/Cloudflare/despliegues.
 * **Dependencia satisfecha:** [I-00 aceptada](../completed/I-00-traslado-documental.md), archivada en completed/; commit local `38574b75c13d7056f38d8c589223041614952239`.
 * **Aprobación:** 2026-11-04, propietario de MiMiniApp, mediante «Bloque C: alcance y criterios de aceptación del ExecPlan I-01», junto con los bloques A/B.
 * **Autorización de ejecución:** 2026-11-04, propietario de MiMiniApp: «Autorizo expresamente la ejecución del ExecPlan I-01 — Base local y testing, conforme al alcance y las decisiones técnicas aprobadas». Se conserva la aprobación previa sin autorización como hecho histórico; la autorización vigente empieza con esta indicación.
 * **Autorización de traslado:** 2026-11-04, propietario de MiMiniApp: «vale, haz lo que dices, lo autorizo», en respuesta a la propuesta de crear feature/i01-base-local-testing, realizar un commit del trabajo de I-01 y subir exclusivamente esa rama a GitHub para retomarlo en otro chat. Es un permiso específico para este punto de continuación, no aceptación de I-01 ni autorización general de futuros commits/pushes, merges o cambios en master.
-* **Situación de ejecución:** Base local implementada; pasan instalación, npm ci, tipos, lint, formato, 14 unitarias, 9 componentes y build. Se mantienen las restricciones de I-02, CI remoto, Cloudflare y despliegues. Solo el commit y push del traslado anterior están autorizados.
-* **Bloqueo externo:** Chromium 156.0.8078.4 / Playwright revisión 1248 no se descarga por HTTP 403 Domain forbidden en cdn.playwright.dev. El dominio figura en el borrador de configuración, pero los intentos de publicación comunicados por el propietario no han cambiado la política observada de esta instancia. Ocho diagnósticos pasan con Chromium 155, pero no sustituyen los criterios sobre el navegador fijado. Se mantiene En curso y se prepara la continuación en otro chat.
+* **Reanudación:** 2026-11-04, propietario de MiMiniApp: solicita retomar desde `0cf778f`, preparar dependencias/Chromium y completar las verificaciones con evidencias. Prohíbe iniciar I-02 y realizar nuevos commits o pushes sin autorización. Se recupera y abre el SHA exacto `0cf778f988068e9ac7f7c7a519e1ec36486cc8aa`, sin cambios locales previos y sin crear otro commit. El permiso de traslado anterior no se reutiliza.
+* **Situación de ejecución:** El propietario publica el entorno y solicita «puedes probar playwright». La política efectiva incluye storage.googleapis.com. Instalación oficial de Chromium y Headless Shell 156.0.8078.4 / revisión 1248 exit 0; npm run verify exit 0: tipos/lint/formato, 14 unitarias, 9 componentes, build y 8 E2E/axe, sin fallos u omisiones. Revisión asistida de teclado/foco y visual a 1280×900/393×851 correcta; HTTP 200 para los cinco archivos del mismo build. Evidencia final en `.local/verification/chromium-156/`; evidencia anterior en `.local/verification/resume-0cf778f/`.
+* **Bloqueo externo:** Resuelto PEND-006 tras comprobar acceso y ejecución reales. Los 403 y diagnósticos Chromium 155 se conservan como historia. Ninguna versión, código, configuración, prueba o aserción cambiada respecto a 0cf778f. Lockfile intacto.
+* **Aceptación:** 2026-11-05, propietario de MiMiniApp: «Acepto expresamente I-01 como propietario de MiMiniApp», tras declarar los resultados verificados y satisfactorios. Se registra Verificado → Aceptado y se archiva en completed/. Se conservan las limitaciones y deudas documentadas; la aceptación no implementa ni autoriza I-02, CI remoto, Cloudflare o despliegues.
+* **Autorización de cierre local:** La misma indicación del propietario autoriza un commit local con los cambios de I-01, excluyendo temporales, y preparar únicamente el borrador de I-02. No autoriza pushes, despliegues ni implementación de I-02. No se repiten las pruebas ya satisfactorias; el cierre solo modifica documentación y su ubicación.
+* **Revalidación del 2026-11-05:** A petición del propietario, descarga oficial repetida en una caché nueva, exit 0; verify exit 0 con 14+9+8 pruebas, más test:a11y aislado exit 0 con los mismos dos casos axe. DEBUG=pw:browser registra seis lanzamientos del Headless Shell 156.0.8078.4/r1248 desde /workspace/.cache/ms-playwright-i01-recheck-20261105, sin Chromium del sistema; versiones de ambos binarios contrastadas y revisión independiente de configuración/logs correcta. Evidencia adicional en .local/verification/recheck-2026-11-05/ y en el informe. Hashes de lockfile/configuración intactos. El permiso ya estaba activo; no se modifica la configuración del entorno. Se confirma Verificado sin otra transición ni aceptación; sin I-02, commits o pushes.
 
 ## Objetivo y resultado esperado
 
 Inicializar una base de desarrollo **local**, estática y reproducible con Astro, React, TypeScript y Tailwind CSS, y demostrar que su batería inicial de verificación funciona sobre una página construida y una interacción real.
 
-El alcance exige un checkout instalable desde lockfile y comandos documentados de desarrollo, tipos, lint, formato, unitarias/componentes, E2E, accesibilidad y build. La base ya está implementada y comprobada salvo la validación obligatoria del navegador bloqueado; el [informe de ejecución](../../i01-execution-report.md) distingue resultados, errores y pendientes. No se declara el resultado totalmente verificado.
+El alcance exige un checkout instalable desde lockfile y comandos documentados de desarrollo, tipos, lint, formato, unitarias/componentes, E2E, accesibilidad y build. La base está implementada, verificada y aceptada por el propietario dentro del alcance local aprobado, incluido el navegador fijado; el [informe de ejecución](../../i01-execution-report.md) distingue resultados finales, errores históricos y límites.
 
 ## Alcance
 
@@ -111,7 +115,7 @@ No se inventan funciones de negocio ni una primera miniapp para alimentar las pr
 
 ## Verificaciones y evidencia
 
-Los siguientes son **scripts y comandos aprobados e implementados**. Directorio de trabajo: /workspace/miminiapp. Los resultados reales constan en el informe: las comprobaciones locales pasan y la parte de navegador fijado permanece bloqueada. Los flags --ignore-lock son un ajuste mecánico documentado de Astro 7 para controlar el proceso en primer plano bajo agentes.
+Los siguientes son **scripts y comandos aprobados e implementados**. Directorio de trabajo: /workspace/miminiapp. Los resultados finales constan en el informe: verify pasa completo con Chromium 156 fijado tras la publicación del permiso por el propietario. Los flags --ignore-lock son un ajuste mecánico documentado de Astro 7 para controlar el proceso en primer plano bajo agentes.
 
 | Comando | Implementación aprobada / comprobación |
 | --- | --- |
@@ -127,7 +131,7 @@ Los siguientes son **scripts y comandos aprobados e implementados**. Directorio 
 | npm run test:a11y | npm run build && playwright test tests/e2e/a11y.spec.ts; los mismos dos proyectos. |
 | npm run verify | npm run check && npm run lint && npm run format:check && npm run test:unit && npm run test:components && npm run test:e2e |
 
-Instalación realizada: package.json y lockfile con las versiones exactas aprobadas; npm install y npm ci correctos, sin modificación del lockfile al reproducir. El runtime y las variables de caché se activan como indica README. El instalador de Chromium siguiente requiere aplicar el permiso de red pendiente; no se cambia a otro navegador para declarar el criterio cumplido:
+Instalación realizada: package.json y lockfile con las versiones exactas aprobadas; npm install y npm ci correctos, sin modificación del lockfile al reproducir. El runtime y las variables de caché se activan como indica README. La instalación oficial de Chromium siguiente pasa con los destinos efectivos permitidos; no se cambia a otro navegador para declarar el criterio cumplido:
 
 ```text
 node --version
@@ -160,9 +164,7 @@ La comprobación documental de aquella etapa posterior al registro de aprobació
 
 ## Punto de parada
 
-**Ahora:** ejecución autorizada y en curso por indicación posterior del propietario. Registrar evidencias y límites; detener solo el trabajo afectado ante una decisión material nueva. Se permite únicamente el commit y push del traslado expresamente autorizado, siguiendo la [guía de continuación](../../i01-handoff.md). No iniciar I-02 o servicios remotos; futuros commits/pushes requieren autorización específica.
-
-**Tras una futura ejecución:** registrar Verificado únicamente con criterios y evidencias suficientes, solicitar aceptación y mantener el plan activo hasta entonces. No iniciar I-02 ni publicar. Este plan no recibe autorización por herencia de I-00 ni por su propia aprobación.
+**Cierre:** resultado Aceptado expresamente por el propietario el 2026-11-05 y plan archivado en completed/. El propietario autoriza ahora un commit local de cierre de I-01 y preparar solo el borrador de I-02, sin repetir las pruebas satisfactorias. No iniciar implementación de I-02, servicios remotos, pushes o despliegues. La publicación anterior del permiso de red y la aceptación actual se conservan como actos distintos.
 
 ## Progreso
 
@@ -183,15 +185,23 @@ Se cumplieron las condiciones de Borrador → Aprobado en la aprobación inicial
 
 El propietario autoriza posteriormente de forma expresa la ejecución. Se registran Aprobado → Autorizado → En curso con fecha y actor actuales, sin modificar el alcance ni las restricciones de publicación. La nota anterior conserva la etapa de aprobación sin ejecución.
 
-## Resultado actual y criterios pendientes
+## Resultado actual y criterios verificados
 
-El [informe de ejecución](../../i01-execution-report.md) conserva comandos, recuentos, hashes, revisión visual/teclado, errores y el inventario de cambios. AC01/02/05/06/09/10 están comprobados; AC03/04/07/08 tienen evidencia complementaria en Chromium 155 pero requieren repetir la parte de navegador con Chromium 156 fijado. El runner requerido intentó ocho casos y falló antes de lanzar el navegador: no son pruebas pasadas ni fallos funcionales demostrados.
+El [informe de ejecución](../../i01-execution-report.md) conserva comandos, recuentos, hashes, revisión visual/teclado, errores históricos y el inventario de cambios. AC01–10 están comprobados: los pendientes AC03/04/07/08 se cierran con Chromium 156.0.8078.4 / revisión 1248, verify exit 0 (14 unitarias, 9 componentes y 8 E2E/axe, sin omisiones) y revisión asistida de teclado/foco y seis capturas inspeccionadas. No se atribuye revisión humana, dispositivo físico, otros motores o certificación WCAG completa.
 
 Ajustes mecánicos aplicados y verificados: FormEvent → SubmitEvent, dev/preview --ignore-lock para evitar el background inferido por Astro y favicon data:, para retirar el 404 automático, manteniendo todas las aserciones. Ninguna versión aprobada se cambió. npm audit: 0 altas/críticas y 11 moderadas de herramientas de desarrollo, evaluadas con seguimiento PEND-007 conforme a la política aprobada.
 
-El dominio cdn.playwright.dev se añadió al borrador del entorno con guardado confirmado y requires_publish=true; la política observada continúa restricted/enforced, custom vacía y spec_revision 1 incluso tras los intentos de publicación comunicados por el propietario. El nombre temporal de diagnóstico del entorno se restauró a miminiapp. La configuración deseada no acredita acceso efectivo. Se ha autorizado trasladar el trabajo mediante una rama a otro chat; allí habrá que observar su política real e instalar el navegador antes de repetir las comprobaciones pendientes. No se eluden las restricciones de red ni se solicita un nuevo permiso de código para el mismo alcance.
+**Historia del bloqueo anterior al traslado:** cdn.playwright.dev se añadió al borrador, pero la política de aquella instancia continuaba con lista custom vacía. El traslado autorizado produjo el checkpoint 0cf778f. No se reescribe aquella observación como si describiera esta máquina.
 
-Se mantiene **En curso** por ese bloqueo externo (PEND-006); no se inventa un estado adicional ni se pasa a Verificado/Aceptado. No se continúa a I-02. Los procesos propios se han detenido y los artefactos están ignorados. La aceptación de I-00 y su desviación de trazabilidad quedan intactas. Al terminar la verificación local no había commits o pushes posteriores a I-00; el propietario autoriza después el traslado específico registrado en Control y en el historial. La guía de continuación permite regenerar dependencias y evidencias que no se transportan por Git.
+**Primer intento de reanudación desde 0cf778f, antes de la publicación del permiso:** la política restricted/enforced observaba ambos dominios de Playwright, pero faltaba storage.googleapis.com. Instalador exit 1 y curl documentó 307 y CONNECT 403; ocho lanzamientos fallaron por binario ausente. Se solicitó el permiso exacto, el propietario respondió «si» y se guardó solo esa adición en el borrador, sin publicar ni cambiar scripts/repositorios. Evidencia conservada en resume-0cf778f/, incluidos los reportes fallidos archivados antes de ejecutar la suite final.
+
+**Comprobación tras la publicación por el propietario:** observaciones actuales, política enforced con storage.googleapis.com, descarga oficial exit 0 de Chromium y Headless Shell 156.0.8078.4 / r1248 y FFmpeg auxiliar r1013. verify exit 0; ambos perfiles prueban hidratación, validación/reset, teclado, CSS calculado y axe en estados inicial/error/éxito. La revisión asistida separada confirma foco visible, orden Tab/Shift+Tab, Enter y retorno al input tras reset, texto/controles legibles y ausencia de overflow a 1280×900/393×851; sin errores de consola/red ni peticiones externas. HTML y cuatro recursos del mismo build devuelven 200 y coinciden por contenido/hashes. No fue necesario instalar librerías del sistema adicionales. El agente no modifica ni publica el nuevo borrador.
+
+En esta instancia se han regenerado instalación congelada, grafo, auditoría (0 altas/críticas, 11 moderadas), suite hasta build, controles negativos/positivos y HTTP 200 con igualdad binaria entre lo servido y los cinco archivos de dist/. El lockfile conserva SHA-256 185343c461af4ffe6ec65bc27aa2d74790d6476a232888f7a9d341f40d2c3193. Revisión independiente estática sin defectos materiales. No se instala un navegador alternativo ni se cambian versiones, código, configuración o aserciones.
+
+**Verificación anterior al cierre:** se registró En curso → Verificado por Codex el 2026-11-04 con evidencia suficiente de AC01–10; PEND-006 resuelto. En esa etapa la aceptación correspondía al propietario y todavía no se atribuía. Los procesos propios quedaron detenidos y los artefactos ignorados. I-00 y su desviación de trazabilidad se conservaron. El traslado histórico produjo 0cf778f y la reanudación no creó commits/pushes ni inició I-02. PEND-007 sigue abierto por las once moderadas ya evaluadas, sin incumplir el umbral aprobado de altas/críticas.
+
+**Cierre aceptado el 2026-11-05:** tras la revalidación satisfactoria, el propietario acepta expresamente el resultado. Se registra Verificado → Aceptado y se archiva el plan. Se conservan PEND-001–005/PEND-007, las siete decisiones todavía propuestas, la licencia/dominio pendientes, la ausencia de CI/despliegues y los límites de Chromium móvil emulado/escritorio, revisión asistida y accesibilidad automática sin certificación completa. Las evidencias previas no se reescriben ni se repiten; solo se comprueba el delta documental de cierre. El commit local autorizado no incluye logs, capturas, binarios, dependencias o copias auxiliares ignoradas. La aceptación histórica de I-00 permanece intacta.
 
 
 ## Historial de estado
@@ -205,3 +215,7 @@ Se mantiene **En curso** por ese bloqueo externo (PEND-006); no se inventa un es
 | 2026-11-04 | `En curso` | Codex | Inicio de preparación del runtime, implementación de la fixture y configuración de pruebas con verificación de compatibilidad real y preservación de cambios existentes. |
 | 2026-11-04 | `En curso` | Codex | Base local implementada con versiones aprobadas; instalación/ci, tipos/lint/formato, 14 unitarias, 9 componentes y build correctos; controles negativos válidos. Ocho E2E/axe complementarios en Chromium 155 pasan, pero el navegador fijado 156 no se descarga por 403 de política. Bloqueo PEND-006 y 11 riesgos moderados PEND-007 registrados; sin transición a Verificado. |
 | 2026-11-04 | `En curso` | Propietario de MiMiniApp | «vale, haz lo que dices, lo autorizo»: autoriza la propuesta de rama feature/i01-base-local-testing, commit del trabajo de I-01 y push exclusivo de esa rama para retomar en otro chat. Sin aceptación de I-01, merge, cambios en master, CI, despliegues o inicio de I-02. Conserva el bloqueo y las evidencias; no concede permiso general para futuros commits/pushes. |
+| 2026-11-04 | `En curso` | Propietario de MiMiniApp / Codex | Reanudación solicitada desde 0cf778f, sin nuevos commits/pushes ni I-02. Node/npm exactos, npm ci, grafo, controles positivos/negativos, 14+9 pruebas, build y HTTP correctos. verify exit 1: ocho lanzamientos impedidos por binario ausente; descarga oficial redirige a storage.googleapis.com y recibe 403. Adición exacta guardada solo en borrador tras respuesta «si», sin publicación. AC03/04/07/08 y revisión asistida requerida pendientes; no pasa a Verificado ni Aceptado. |
+| 2026-11-04 | `Verificado` | Codex | El propietario publica el entorno y pide probar Playwright. Permiso efectivo observado; Chromium/Headless Shell 156.0.8078.4 r1248 instalados, verify exit 0 (14+9+8, sin omisiones), revisión asistida visual/teclado y HTTP del mismo build correctos, lockfile intacto. AC01–10 acreditados; PEND-006 resuelto y PEND-007 conservado. Evidencia final en .local/verification/chromium-156/ e informe. Pendiente aceptación humana; permanece active/, sin I-02, nuevos commits/pushes o publicación por el agente. |
+| 2026-11-05 | `Verificado` | Codex | Revalidación solicitada por el propietario, sin cambio de estado: descarga oficial en caché nueva exit 0, verify exit 0 (14+9+8) y test:a11y aislado exit 0 (dos casos ya incluidos en E2E). Seis lanzamientos reales del Headless Shell fijado 156.0.8078.4/r1248 desde caché nueva, comprobados por DEBUG, versiones y revisión independiente. Lockfile/configuración intactos, sin modificaciones del entorno ni navegador alternativo. Evidencia en recheck-2026-11-05/ e informe. Aceptación humana pendiente; sin I-02, commits/pushes o publicación. |
+| 2026-11-05 | `Aceptado` | Propietario de MiMiniApp | «Acepto expresamente I-01 como propietario de MiMiniApp», tras considerar satisfactorios los resultados verificados. Autoriza archivar el plan y un commit local de cierre sin temporales; conservar deudas/limitaciones y preparar solo el borrador de I-02. No se repiten pruebas de aplicación, no se implementa I-02 y no se hacen pushes o despliegues. |
