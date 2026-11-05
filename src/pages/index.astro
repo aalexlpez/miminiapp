@@ -1,6 +1,8 @@
 ---
-import EnvironmentFixture from '../components/EnvironmentFixture';
 import '../styles/global.css';
+import { getCommon } from '../i18n/common';
+
+const copy = getCommon('es');
 ---
 
 <!doctype html>
@@ -8,28 +10,27 @@ import '../styles/global.css';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0;url=/es/" />
+    <meta name="description" content={copy.meta.description} />
     <link rel="icon" href="data:," />
-    <title>Comprobación de entorno · MiMiniApp</title>
+    <title>MiMiniApp</title>
   </head>
   <body>
-    <main class="mx-auto w-full max-w-5xl px-5 py-12 sm:px-8 sm:py-20">
-      <header class="mb-9 max-w-2xl">
-        <p class="text-sm font-semibold tracking-wide text-teal-800">
-          MiMiniApp
-        </p>
-        <h1 class="mt-3 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-          Comprobación de entorno
-        </h1>
-        <p class="mt-4 text-lg leading-8 text-slate-700">
-          Base local de desarrollo y pruebas. El producto está en preparación.
-        </p>
-      </header>
-      <EnvironmentFixture client:load />
-      <footer class="mt-7 text-sm leading-6 text-slate-600">
-        Página provisional para validar la integración de Astro, React y
-        Tailwind CSS.
-      </footer>
+    <main class="redirect-page">
+      <h1>MiMiniApp</h1>
+      <p>
+        <a class="primary-action" href="/es/">
+          {copy.navigation.spanish}
+        </a>
+      </p>
     </main>
   </body>
 </html>
+
+<style>
+  .redirect-page {
+    max-width: 40rem;
+    margin: 5rem auto;
+    padding: 1.25rem;
+  }
+</style>

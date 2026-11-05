@@ -1,6 +1,6 @@
 # Frontend — criterios y estado de aprobación
 
-**Estado:** requisitos trasladados del [dossier v1.2](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), secciones 4 y 6. La [definición](product-specs/index.md) y ADR-001/002/003/008 del [registro técnico](design-docs/index.md) están aprobados para el alcance de I-01 desde el 2026-11-04. La fixture técnica local está implementada y la ejecución está autorizada. Tipos, lint, formato y build pasan; los 8 E2E/axe con Chromium 156 fijado y revisión asistida visual/teclado pasan. I-01 Aceptado por el propietario el 2026-11-05 y archivado; no se declara implementada la interfaz completa de producto.
+**Estado:** I-01 Aceptado y archivado el 2026-11-05. I-02 aprobado y autorizado expresamente el mismo día, Aceptado expresamente por el propietario el 2026-11-05 y archivado, conforme a ADR-MMA-011/016/017: catálogo, rutas ES/EN y segunda composición visual aprobada. La evidencia de I-01 es histórica; las verificaciones y capturas de la interfaz nueva se registran por separado.
 **Responsable:** propietario de MiMiniApp.
 
 ## Experiencia y contenido
@@ -11,11 +11,17 @@ La UI debe explicar brevemente para qué sirve cada herramienta y cómo usarla. 
 
 ## Idiomas y rutas
 
-Español e inglés completos desde lanzamiento: contenido visible, formularios, errores, etiquetas accesibles y metadatos. El selector mantiene la miniapp equivalente. `/es/` y `/en/`, canónicas y `hreflang` son la propuesta de [arquitectura](design-docs/architecture-target.md) por concretar.
+Español e inglés completos desde lanzamiento: contenido visible, formularios, errores, etiquetas accesibles y metadatos. El selector mantiene la miniapp equivalente. `/es/` y `/en/`, español predeterminado, slugs estables y separación/validación de traducciones están aprobados en ADR-MMA-016. Canónicas/hreflang absolutos y la comprobación del alojamiento siguen diferidos; Cloudflare se verificará en I-03.
 
-Separar traducciones y formatos de la lógica de dominio. Formatear fechas, números e importes según locale cuando corresponda, manteniendo valores computacionales consistentes. Comprobar enlaces directos, idioma y 404 real en la implementación futura.
+Separar traducciones y formatos de la lógica de dominio. Formatear fechas, números e importes según locale cuando corresponda, manteniendo valores computacionales consistentes. La ejecución de I-02 comprueba enlaces directos, idioma y 404 real local; no acredita el futuro comportamiento del alojamiento.
 
 El mecanismo propuesto por el dossier es `Intl` cuando proceda, sin mezclar el formato visual con los valores usados en cálculos; su configuración se comprobará con el stack de la iteración correspondiente.
+
+## Dirección artística elegida para I-02
+
+El 2026-11-05 el propietario elige expresamente **Laboratorio creativo moderno**: diseño limpio, profesional y minimalista, con elementos creativos, distintivos y atractivos, cuidado en móvil y escritorio y reconocible en TikTok, Instagram Reels y YouTube Shorts. Paleta inicial elegida: fondo `#F7F5F0`, texto `#242136`, violeta `#7950F2`, lima `#B9F65A` y coral `#FF9368`. Se permiten tonos funcionales derivados para contraste/accesibilidad.
+
+El propietario aprueba expresamente el 2026-11-05 la segunda composición, con etiqueta «Laboratorio creativo», titular «Ideas que se vuelven herramientas» y navegación móvil visible, manteniendo la paleta y Space Grotesk/DM Sans bajo accesibilidad/licencias. ADR-MMA-017 registra esa aprobación, Tailwind mobile-first sin nuevas dependencias visuales, componentes que evolucionan de catálogo vacío a poblado sin rediseño, recursos locales y revisión mediante capturas móvil/escritorio accesibles en Codex Cloud. La [especificación visual](design-docs/i02-visual-proposal.md) documenta los detalles de referencia, las futuras miniapps en encuadres 9:16 legibles y la verificación de licencias antes de incorporar recursos finales. Los ajustes mecánicos de tokens/archivos se comprobaron en la ejecución autorizada de I-02, Verificado el 2026-11-05. Se reutilizan Space Grotesk y DM Sans locales en TTF, con avisos SIL OFL 1.1 conservados; no se instala una dependencia para convertir a WOFF2. El formato TTF mantiene la familia, pesos y dirección aprobados. Se implementa la composición elegida sin generar alternativas.
 
 ## Accesibilidad y rendimiento
 
@@ -23,6 +29,14 @@ Objetivo de diseño: **WCAG 2.2 AA**, con teclado, foco visible, contraste, etiq
 
 Metas de referencia para datos de campo cuando exista audiencia suficiente: **LCP ≤ 2,5 s**, **INP ≤ 200 ms**, **CLS ≤ 0,1**. Una medición local o Lighthouse no demuestra el percentil 75 real. Se propone hidratar solo la interacción necesaria y comprobar presupuestos de descarga/memoria en dispositivos representativos; no se inventa un umbral de bundle sin evaluación.
 
-## Verificación futura
+## Verificación de I-02
 
-Casos E2E ES/EN, navegación, teclado, demo/reset, errores y móvil/escritorio según [calidad](QUALITY_SCORE.md). Registrar navegadores realmente ejecutados: Chromium móvil/escritorio y otro motor cuando la fase lo justifique. La matriz inicial aprobada de I-01 es únicamente Chromium móvil emulado y escritorio; los otros motores y el diseño visual final se difieren. Tailwind y React están instalados en las versiones aprobadas. Se comprobaron estilos calculados y reflujo a 1280×900/393×851, con seis capturas inspeccionadas y teclado/foco asistidos en Chromium 156.0.8078.4 / revisión 1248. Sin overflow horizontal ni recortes; no se atribuye revisión humana o dispositivo físico. Ver el informe de ejecución.
+La matriz de I-02 conserva Chromium de escritorio y móvil emulado, fijado a 156.0.8078.4 / revisión 1248 por Playwright 1.64.1. Incluye acceso directo ES/EN, navegación, idioma equivalente, 404, teclado/foco, axe y reflujo a 320/393/768/1280/1440 px, además de capturas reales móvil/escritorio y 1080×1920. Las comprobaciones de demo/reset de I-01 se conservan en sus pruebas técnicas aisladas, sin publicar una herramienta ficticia.
+
+El catálogo pasa de cero a una o varias entradas mediante los mismos componentes; los estados poblados se ensayan solo con fixtures aisladas. Las fuentes y gráficos se sirven localmente. El registro y las rutas genéricas evitan cargar interfaces para mostrar los metadatos del catálogo. La portada no necesita hidratación React; una miniapp futura solo hidratará su interacción cuando proceda.
+
+El [ExecPlan](exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) y el [informe](i02-execution-report.md) registran resultados: 26 E2E, incluidos 6 axe, más capturas reales ES/EN en móvil (393 px), tablet (768 px), escritorio (1440 px), encuadres 1080×1920 y zoom real al 200 %. La revisión responsive automatizada cubre 320/393/768/1280/1440 px. Se corrigió el idioma de los nombres accesibles ES/EN detectado por axe y pasaron las comprobaciones afectadas. La comparación asistida con las maquetas y las capturas de tarjetas pobladas se documentan por separado; el propietario revisó personalmente las capturas reales de escritorio/móvil y aceptó I-02 el 2026-11-05. Las capturas no certifican WCAG completo ni reemplazan la aceptación del propietario. La revisión asistida de I-01 a 1280×900/393×851 se conserva en su [informe](i01-execution-report.md), sin presentarla como evidencia de I-02. Otros motores, dispositivos físicos y datos de rendimiento en campo permanecen fuera de esta iteración.
+
+## Mejora futura de movimiento
+
+Por indicación del propietario el 2026-11-05 se registra [PEND-008](exec-plans/tech-debt-tracker.md#pend-008--movimiento-suave-y-microinteracciones-futuras): flotación suave de la ilustración principal y posibles microinteracciones/transiciones adicionales. Se conserva el diseño aceptado; no se implementa ahora. Deben respetar `prefers-reduced-motion`, mantener legibilidad y evitar desplazar contenido o interferir con controles. El registro no cambia la política actual de movimiento de ADR-MMA-017 ni autoriza animación continua.

@@ -1,22 +1,41 @@
 # Arquitectura actual
 
-**Actualizado:** 2026-11-05. **Estado de I-01:** Aceptado expresamente por el propietario el 2026-11-05; plan archivado en completed/.
+**Actualizado:** 2026-11-05. **I-01:** Aceptado y archivado por el propietario. **I-02:** Aceptado expresamente por el propietario el 2026-11-05 y archivado, tras aprobación del plan/ADR-MMA-011/016/017 y autorización expresa de ejecución.
 
-El checkout contiene el harness documental y una base funcional local con Astro 7.4.5, React/DOM 19.3.1, TypeScript 6.0.3 strict y Tailwind 4.3.4. Runtime Node 24.22.2 con npm 11.19.1; dependencias directas exactas y package-lock.json. La definición y siete ADR están aprobados y la ejecución de I-01 está autorizada.
+La base se mantiene en Astro 7.4.5 estático, React/DOM 19.3.1 cuando procede interacción, TypeScript 6.0.3 strict y Tailwind 4.3.4. Node 24.22.2, npm 11.19.1 y dependencias directas exactas con un único lockfile. I-02 no incorpora dependencias visuales o servicios externos.
 
 ## Componentes implementados
 
-* src/pages/index.astro: página provisional ES, noindex, salida prerenderizada e isla React client:load.
-* src/components/EnvironmentFixture.tsx: formulario local con validación, resultado, error anunciado y reset con foco. No persiste ni transmite el dato.
-* src/lib/validation.ts: lógica pura compartida por la interfaz y las pruebas; normaliza espacios y comprueba 3–32 puntos de código.
-* src/styles/global.css: Tailwind mediante @tailwindcss/vite; responsive de una/dos columnas.
-* Configuración de tipos, lint, formato, Vitest (Node/jsdom) y Playwright (solo Chromium móvil emulado/escritorio).
-* tests/: 14 unitarias y 9 de componentes pasadas; ocho E2E/axe pasados sobre el build con Chromium 156.0.8078.4 / revisión 1248, en escritorio y móvil emulado. El diagnóstico anterior con Chromium 155 se conserva como historia.
+* `src/layouts/SiteLayout.astro`: documento HTML por idioma, título/descripción, salto al contenido, cabecera y pie comunes. No necesita hidratación React para navegar.
+* `src/components/Home.astro`: hero y catálogo, con el mismo shell para cero o varias entradas. `EmptyCatalogue.astro` resuelve cero; `CatalogueCard.astro` presenta los metadatos recibidos cuando existen entradas publicadas.
+* `SiteHeader.astro`, `SiteFooter.astro`, `BrandMark.astro` y `LaboratoryArt.astro`: navegación visible, selector ES/EN y gráficos locales de la segunda composición aprobada.
+* `src/i18n/common/{es,en}.ts`: textos de plataforma separados de futuras traducciones de miniapps. `src/i18n/validation.ts` valida claves y texto obligatorio al importar los diccionarios durante prerender.
+* `src/styles/global.css`: Tailwind mediante `@tailwindcss/vite`, tokens de Laboratorio creativo moderno, reflujo mobile-first, foco y estados comunes.
+* `public/fonts/`: Space Grotesk y DM Sans variables autoalojadas en TTF, con sus avisos SIL OFL 1.1. No hay CDN de fuentes; no se añade una dependencia para convertirlas a WOFF2.
+* `src/components/EnvironmentFixture.tsx` y `src/lib/validation.ts`: fixture técnica de I-01 y lógica pura conservadas para regresiones. No constituyen una miniapp pública.
+* `src/lib/miniapp-registry.ts`: contrato discriminado, validación en runtime, proyección de metadatos publicados, tabla de rutas y resolución por id. `src/miniapps/registry.ts` contiene el registro público explícito vacío.
+* `src/lib/locales.ts`: locales admitidos, español predeterminado y constructores de enlaces equivalentes. `src/pages/[locale]/index.astro`, `src/pages/[locale]/apps/[slug].astro`, `src/pages/index.astro` y `src/pages/404.astro` conectan esos contratos con la generación estática.
 
-El build genera una página y cuatro recursos estáticos en dist/. El preview local responde HTTP 200, la interacción está hidratada y se ha revisado el aspecto a 1280×900/393×851 con Chromium 156 fijado, mediante revisión asistida de teclado/foco y seis capturas inspeccionadas. El [informe de ejecución](docs/i01-execution-report.md) separa resultados obligatorios, diagnósticos, errores y pendientes. I-01 está Aceptado expresamente por el propietario desde el 2026-11-05.
+El [informe I-02](docs/i02-execution-report.md) registra pruebas y capturas reales. El build público contiene once archivos: cuatro HTML (`/`, ES, EN y 404), un CSS, un recurso genérico de integración React y cinco archivos de fuentes/avisos/documentación. Las portadas no solicitan ese JavaScript ni hidratan una isla; no hay miniapps públicas.
 
-## Límites
+## Contrato modular y rutas de I-02
 
-No hay catálogo, registro de miniapps, miniapp real, rutas/i18n completos, backend, base de datos, APIs externas, analítica, CI remoto, Cloudflare ni despliegue. El [objetivo de arquitectura](docs/design-docs/architecture-target.md) conserva esos componentes futuros como propuestas, no realidad. Los [ADR](docs/design-docs/index.md) mantienen sus estados y el [plan archivado](docs/exec-plans/completed/I-01-base-local-y-testing.md) conserva la aceptación humana y las limitaciones de I-01.
+El contrato implementado separa descriptor puro (`id`, `slug`, estado y metadatos ES/EN) de la inscripción publicada con `loadEntry`, importación perezosa literal de `entry.astro`. Un borrador no admite loader. El catálogo consume únicamente la proyección de metadatos publicados. El registro público permanece vacío porque no se ha aprobado una miniapp real.
 
-I-00 permanece aceptada y archivada, con su trazabilidad original. El propietario autoriza posteriormente un commit de I-01 y su push exclusivo a feature/i01-base-local-testing para retomarla en otro chat, manteniendo entonces En curso. La [guía de continuación](docs/i01-handoff.md) describe los requisitos de la máquina nueva; el traslado produjo el checkpoint 0cf778f; la verificación y aceptación se completaron después. El propietario autoriza el 2026-11-05 un commit local de cierre de I-01 y preparar solo el borrador de I-02. No se implementa I-02 ni se realizan pushes, merges o despliegues.
+La portada genérica genera `/es/` y `/en/`. La ruta `pages/[locale]/apps/[slug].astro` genera únicamente publicadas × idiomas y transmite un identificador simple a la fase de render; resuelve el adaptador Astro durante prerender. Cada futura miniapp podrá separar metadatos, adaptador, UI React si procede, dominio puro, traducciones y pruebas dentro de su carpeta, sin editar rutas comunes, layouts u otras herramientas.
+
+`/` usa HTML estático con meta refresh inmediato y enlace a `/es/`; su respuesta local es HTTP 200, no un 301 del servidor. Las rutas/locales/slugs desconocidos devuelven un 404 real en el preview comprobado y recuperación bilingüe mediante `404.html`. La política HTTP y normalización definitivas del alojamiento se comprobarán en I-03, sin configuración de Cloudflare en I-02. No se inventan canónicas ni `hreflang` absolutos sin un origen público aprobado.
+
+Las fixtures sintéticas viven en `tests/integration/fixtures/`, con extensión de fuente de prueba `.fixture`, y el harness las materializa en un proyecto temporal que reutiliza los mismos contratos, rutas y layouts. El ensayo A+D → A+B+D pasó: dos y después cuatro rutas ES/EN; registro y carpeta B son el único delta de alta. Fuentes comunes, diccionarios y A conservan hashes; el HTML de A permanece idéntico salvo el `uid` interno de Astro derivado de la raíz temporal, normalizado solo en la comparación y conservando los hashes originales. Los once archivos del build público excluyen ids, marcas, rutas, HTML, assets y chunks sintéticos o de borrador. No hay una bandera para habilitarlas en el catálogo público.
+
+## Verificación y límites
+
+Vitest conserva la cobertura técnica de I-01 y añade contratos de catálogo/idiomas; Playwright cubre la interfaz ES/EN, rutas, navegación, responsive y axe con Chromium 156.0.8078.4 / revisión 1248, fijado por Playwright 1.64.1. La validación incremental final pasa con 59 unitarias (14 de I-01, 32 del registro, 13 de i18n), 9 componentes y 26 E2E, incluidos 6 casos axe, además de check/lint/formato/build e integración aislada. El harness descubre 2→4 pruebas propias de los módulos, rechaza un build con traducción obligatoria vacía y ejecuta regresiones de navegador de I-01 en ambos perfiles y tres estados axe. No se atribuye exit 0 a una repetición completa de `verify`; se conserva el fallo inicial de accesibilidad y la repetición de comprobaciones afectadas.
+
+`tests/visual/capture.ts` y `tests/visual/zoom.ts` generan las capturas reales y comprueban el zoom del navegador al 200 %. Se revisaron ES/EN en móvil, tablet y escritorio y ensayos 1080×1920 de la portada y scroll al catálogo. Los estados de una y dos tarjetas tienen doce capturas sintéticas separadas. El propietario revisó personalmente las capturas de escritorio/móvil y aceptó I-02 el 2026-11-05. Las superposiciones concretas de futuras grabaciones se conservan como comprobación editorial posterior, sin reabrir la aceptación.
+
+La base I-01 aceptada tiene evidencia histórica de 14 unitarias, 9 componentes y 8 E2E/axe, más revisión asistida de teclado/foco y seis capturas. El [informe I-01](docs/i01-execution-report.md), el [plan archivado](docs/exec-plans/completed/I-01-base-local-y-testing.md) y su [guía de continuación](docs/i01-handoff.md) conservan checkpoints, autorización de traslado, cierre y limitaciones.
+
+No hay miniapp real, backend, base de datos, API externa, persistencia de usuario, analítica, CI remoto, Cloudflare ni despliegue. La primera miniapp, licencia general del proyecto, infraestructura, otros motores/dispositivos físicos y decisiones aún propuestas conservan sus pendientes. Se mantiene PEND-007 y el resto de la deuda documentada. El [objetivo de arquitectura](docs/design-docs/architecture-target.md) y los [ADR](docs/design-docs/index.md) conservan la distinción entre implementación local, contrato aprobado y propuestas futuras.
+
+El propietario autoriza expresamente un commit local de cierre de I-02, sin pushes o despliegues. Solo se prepara el borrador de I-03; no se ejecuta. Su [ExecPlan aceptado y archivado](docs/exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) es la fuente canónica del estado.

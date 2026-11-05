@@ -1,6 +1,6 @@
 # MiMiniApp
 
-Instancia del harness documental para preparar una colección pública de miniapps bilingües ES/EN. La base local de I-01 está implementada y aceptada por el propietario: Astro estático, una fixture React/TypeScript, estilos Tailwind y pruebas automatizadas con Chromium fijado. I-01 fue Aceptado expresamente el 2026-11-05 y está archivado en completed/. No hay catálogo, miniapp real o despliegue.
+MiMiniApp prepara una colección de herramientas bilingües ES/EN sobre Astro estático, TypeScript y Tailwind. La base I-01 está Aceptada y archivada; el propietario autorizó expresamente ejecutar I-02 el 2026-11-05. El [ExecPlan I-02](docs/exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) está Aceptado expresamente por el propietario el 2026-11-05 y archivado: catálogo modular, portada responsive e internacionalización, sin miniapps reales ni despliegue.
 
 ## Por dónde empezar
 
@@ -20,7 +20,7 @@ El [bootstrap](docs/BOOTSTRAP.md) explica la activación y las verificaciones. S
 
 ## Estado de la preparación
 
-La transferencia documental I-00 está aceptada y archivada; H-002 está aprobada. La definición y los siete ADR aplicables a I-01 están aprobados; el resto conserva sus propuestas. I-01 está Aceptado y archivado tras la aceptación expresa del propietario el 2026-11-05. Pasan tipos, lint, formato, 14 unitarias, 9 componentes, build y 8 E2E/axe con Chromium 156 fijado, además de revisión asistida visual/teclado. No se ha activado CI/CD. La arquitectura real se describe en [ARCHITECTURE.md](ARCHITECTURE.md). Los criterios del producto completo y de despliegue siguen siendo objetivos futuros; las comprobaciones locales ya ejecutadas se detallan en el informe.
+La transferencia documental I-00 está aceptada y archivada; H-002 está aprobada. La definición y los siete ADR aplicables a I-01 están aprobados; posteriormente el propietario aprueba ADR-MMA-011/016/017 para I-02. Las decisiones restantes conservan sus propuestas. I-01 está Aceptado y archivado tras la aceptación expresa del propietario el 2026-11-05; conserva su evidencia histórica. I-02 está Aceptado por el propietario el 2026-11-05, tras verificar tipos, lint, formato, 59 unitarias, 9 componentes, 26 E2E (incluidos 6 casos axe), integración modular aislada y capturas reales, incluidos móvil, escritorio y 9:16. Los resultados efectivos y las correcciones intermedias se documentan en el [informe I-02](docs/i02-execution-report.md); la aceptación expresa del propietario y su revisión personal de capturas de escritorio/móvil quedan registradas el 2026-11-05. No se ha activado CI/CD. La arquitectura real se describe en [ARCHITECTURE.md](ARCHITECTURE.md). Los criterios del producto completo y de despliegue siguen siendo objetivos futuros; las comprobaciones locales ya ejecutadas se detallan en el informe.
 
 Esta instancia procede de `aalexlpez/harness-engineering`; las adaptaciones locales se registran en [harness-decisions.md](docs/harness-decisions.md). No se ha modificado el template original. Los archivos especializados sin contenido aplicable pueden permanecer vacíos.
 
@@ -38,7 +38,7 @@ npx --no-install playwright install chromium
 npm run verify
 ```
 
-La instalación oficial necesita cdn.playwright.dev y su destino de redirección storage.googleapis.com; también se conserva permitido playwright.download.prss.microsoft.com. Tras publicar el permiso el propietario, se comprobó la política efectiva y se instalaron Chromium y Headless Shell 156.0.8078.4 / revisión 1248, asociados a Playwright 1.64.1. npm run verify termina con exit 0 y 14+9+8 pruebas pasadas, sin omisiones; el lockfile permanece intacto. Evidencia final en .local/verification/chromium-156/ y [el informe de ejecución](docs/i01-execution-report.md). No hace falta modificar o publicar el nuevo borrador.
+La instalación oficial necesita cdn.playwright.dev y su destino de redirección storage.googleapis.com; también se conserva permitido playwright.download.prss.microsoft.com. Tras publicar el permiso el propietario, se comprobó la política efectiva y se instalaron Chromium y Headless Shell 156.0.8078.4 / revisión 1248, asociados a Playwright 1.64.1. La verificación histórica de I-01 terminó con exit 0 y 14+9+8 pruebas pasadas, sin omisiones; el lockfile permanece intacto. Evidencia final en .local/verification/chromium-156/ y [el informe de ejecución](docs/i01-execution-report.md). No es necesario modificar o publicar el entorno para reproducir las comprobaciones ya disponibles.
 
 Para trabajar: npm run dev. Para servir el build: npm run build y npm run preview. Ambos servidores usan 127.0.0.1:4321 y --ignore-lock para mantenerse en primer plano también bajo un agente; Ctrl+C detiene el proceso propio. Playwright gestiona su preview, rechaza reutilizar otro servidor y lo cierra al terminar.
 
@@ -47,17 +47,25 @@ Para trabajar: npm run dev. Para servir el build: npm run build y npm run previe
 | npm run check | Astro y TypeScript strict. |
 | npm run lint | ESLint JS/TS/Astro/React Hooks, cero warnings permitidos. |
 | npm run format:check | Prettier de código/configuración, sin reformatear el harness. |
-| npm run test:unit | 14 casos de validación/normalización en Node. |
+| npm run test:unit | 59 casos: validación de I-01, registro/rutas y traducciones comunes. |
 | npm run test:components | 9 casos React en jsdom. |
-| npm run build | Una página provisional estática en dist/. |
-| npm run test:e2e | Build y 8 casos en Chromium escritorio/móvil emulado, incluida accesibilidad. |
+| npm run build | Generación estática en dist/. |
+| npm run test:e2e | Build y 26 casos en Chromium escritorio/móvil emulado, incluidos 6 axe. |
 | npm run test:a11y | Build y selección de axe en los mismos dos perfiles. |
-| npm run verify | Tipos, lint, formato, unitarias, componentes, build y E2E; propaga fallos. |
+| npm run test:integration | Builds sintéticos aislados, extensión A→A/B, exclusiones, traducciones obligatorias y regresiones técnicas de I-01. Requiere build público previo. |
+| npm run capture:review | Build y capturas reales ES/EN móvil, tablet, escritorio y 9:16, foco y zoom real al 200 %. |
+| npm run verify | Tipos, lint, formato, unitarias, componentes, build, E2E e integración; propaga fallos. |
 
-La fixture solo comprueba el entorno: etiqueta local de 3–32 puntos de código, normalización, error, confirmación y reset. No guarda ni envía datos. No constituye la primera miniapp ni una implementación del catálogo. La interfaz provisional está en español; el producto bilingüe pertenece a su alcance posterior.
+La fixture de I-01 comprueba una etiqueta local de 3–32 puntos de código, normalización, error, confirmación y reset. Su lógica y pruebas técnicas se conservan sin presentarla como miniapp del catálogo. No guarda ni envía datos. I-02 sustituye su portada provisional por la interfaz de producto ES/EN.
 
-Logs de comandos: .local/verification/; fallos E2E: test-results/ y playwright-report/. Son salidas ignoradas por Git. Para restablecer la fixture usa Restablecer; para el entorno, detén solo tus procesos y vuelve a npm ci desde el lockfile. No borres cambios ajenos ni uses un reset de Git para limpiar.
+Logs de comandos: .local/verification/; fallos E2E: test-results/ y playwright-report/. Son salidas ignoradas por Git. Para restablecer el entorno, detén solo tus procesos y vuelve a npm ci desde el lockfile. No borres cambios ajenos ni uses un reset de Git para limpiar.
 
 La ejecución complementaria histórica con Chromium del sistema está registrada por separado en el informe. El resultado final usa el navegador fijado: E2E/axe y revisión asistida de teclado/foco y capturas a 1280×900/393×851 correctos. El propietario aceptó I-01 el 2026-11-05; se conservan las limitaciones: no se han probado Firefox/WebKit o dispositivos físicos ni se certifica WCAG completo.
 
-Para retomar desde otro chat o máquina, selecciona la rama feature/i01-base-local-testing y comprueba el checkpoint 0cf778f siguiendo la [guía de continuación de I-01](docs/i01-handoff.md). El runtime instalado en /workspace/.tools, las dependencias y los logs locales no se transportan por Git; deben prepararse o regenerarse en el entorno de destino. El checkpoint 0cf778f conserva la implementación; el cierre aceptado y las evidencias documentales posteriores se guardan en el commit local de I-01 autorizado el 2026-11-05. El [plan aceptado](docs/exec-plans/completed/I-01-base-local-y-testing.md) conserva el historial y los límites. La autorización actual permite preparar solo el borrador de I-02, sin implementación, pushes o despliegues.
+Para retomar desde otro chat o máquina, selecciona la rama feature/i01-base-local-testing y comprueba el checkpoint 0cf778f siguiendo la [guía de continuación de I-01](docs/i01-handoff.md). El runtime instalado en /workspace/.tools, las dependencias y los logs locales no se transportan por Git; deben prepararse o regenerarse en el entorno de destino. El checkpoint 0cf778f conserva la implementación; el cierre aceptado y las evidencias documentales posteriores se guardan en el commit local de I-01 autorizado el 2026-11-05. El [plan aceptado](docs/exec-plans/completed/I-01-base-local-y-testing.md) conserva el historial y los límites. La autorización de cierre de I-01 permitió preparar el borrador de I-02. La autorización posterior de ejecución de I-02 está registrada por separado; no permite commits, pushes o despliegues.
+
+El [ExecPlan I-02](docs/exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) prepara catálogo, diseño responsive y ES/EN sobre el cierre local de I-01 `0288de5`. Fue Aprobado formalmente el 2026-11-05, con sus 14 criterios y ADR-MMA-011/016/017 ratificados; posteriormente el propietario autorizó su ejecución. Está Aceptado y archivado en completed/, con commit local de cierre autorizado el 2026-11-05, separado del cierre de I-01.
+
+La revisión de I-02 incluye [contrato modular/rutas](docs/design-docs/i02-catalogue-routing-proposal.md) y [propuesta visual con mockups](docs/design-docs/i02-visual-proposal.md). Registro/rutas/i18n y dirección visual con la segunda composición, paleta y familias tipográficas están aprobados. La implementación autorizada reutiliza esas referencias: rutas `/es/` y `/en/`, catálogo público vacío, fuentes locales con licencia SIL OFL y pruebas sintéticas aisladas. La raíz estática usa meta refresh y enlace a `/es/` (HTTP 200 local); los desconocidos devuelven 404 bilingüe en el preview comprobado. El [informe de ejecución](docs/i02-execution-report.md) enlaza capturas reales y traza AC1–AC14. Las maquetas siguen siendo referencias visuales; los PNG de la aplicación son la evidencia de implementación.
+
+La validación final de I-02 es incremental: la primera ejecución de `verify` detectó un problema de idioma en nombres accesibles; tras corregirlo pasaron las comprobaciones afectadas y la integración final. No se declara una segunda ejecución completa de `npm run verify` con exit 0. La integración conserva los hashes de fuentes comunes y del build público; solo normaliza el `uid` interno de Astro al comparar el HTML de A entre raíces temporales distintas, conservando también los hashes originales. Reproducción y detalles en [tests/integration/README.md](tests/integration/README.md).

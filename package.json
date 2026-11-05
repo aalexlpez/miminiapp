@@ -20,7 +20,9 @@
     "build": "astro build",
     "test:e2e": "npm run build && playwright test",
     "test:a11y": "npm run build && playwright test tests/e2e/a11y.spec.ts",
-    "verify": "npm run check && npm run lint && npm run format:check && npm run test:unit && npm run test:components && npm run test:e2e"
+    "verify": "npm run check && npm run lint && npm run format:check && npm run test:unit && npm run test:components && npm run test:e2e && npm run test:integration",
+    "capture:review": "npm run build && node tests/visual/capture.ts",
+    "test:integration": "node tests/integration/modular-build.ts"
   },
   "dependencies": {
     "react": "19.3.1",

@@ -1,36 +1,34 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures';
 
-test('has no detected WCAG 2.2 AA violations in initial, error and success states', async ({
-  page,
-}) => {
-  await page.goto('/');
-  await expect(page.getByTestId('environment-fixture')).toHaveAttribute(
-    'data-hydrated',
-    'true',
-  );
-
-  async function checkAccessibility(state: string) {
+for (const locale of ['es', 'en']) {
+  test(`has no detected WCAG 2.2 AA violations on the ${locale} home and catalogue`, async ({
+    page,
+  }) => {
+    await page.goto(`/${locale}/`);
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
       .analyze();
     expect(
       results.violations,
-      `Accessibility violations in ${state} state`,
+      `Accessibility violations on /${locale}/`,
     ).toEqual([]);
-  }
+  });
+}
 
-  await checkAccessibility('initial');
-  await page.getByRole('button', { name: 'Comprobar' }).click();
-  await expect(page.getByRole('alert')).toHaveText('Escribe una etiqueta.');
-  await checkAccessibility('error');
+test.describe('404 accessibility', () => {
+  test.use({ expected404Paths: ['/es/missing-a11y-page/'] });
 
-  await page
-    .getByRole('textbox', { name: 'Etiqueta de prueba' })
-    .fill('Base accesible');
-  await page.getByRole('button', { name: 'Comprobar' }).click();
-  await expect(page.getByRole('status')).toHaveText(
-    'Etiqueta confirmada: Base accesible',
-  );
-  await checkAccessibility('success');
+  test('has no detected WCAG 2.2 AA violations on the bilingual 404', async ({
+    page,
+  }) => {
+    const response = await page.goto('/es/missing-a11y-page/');
+    expect(response?.status()).toBe(404);
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    expect(results.violations, 'Accessibility violations on the 404').toEqual(
+      [],
+    );
+  });
 });

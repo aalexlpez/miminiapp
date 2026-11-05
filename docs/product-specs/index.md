@@ -1,7 +1,7 @@
 # MiMiniApp — definición del producto
 
 **Nombre:** MiMiniApp (provisional).
-**Fase:** Base local I-01 Aceptada y archivada el 2026-11-05; solo preparación del borrador de I-02, sin implementación autorizada.
+**Fase:** Base local I-01 Aceptada y archivada el 2026-11-05; ExecPlan I-02 aprobado y posteriormente autorizado expresamente el 2026-11-05, Aceptado por el propietario el 2026-11-05, con sus 14 criterios conservados.
 **Estado de la definición:** Aprobada.
 **Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
 **Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
@@ -48,7 +48,7 @@ Requisitos trasladados del dossier y aprobados canónicamente por el propietario
 | PROD-13 | Lanzamiento condicionado por calidad; cantidad inicial sin cerrar. |
 | PROD-14 | Primera miniapp aplazada expresamente. |
 
-El MVP aprobado comprende portada, catálogo, páginas por miniapp, contenido y metadatos ES/EN, selector de idioma, interfaz responsive, ejemplos de demostración y enlaces reales a redes/GitHub. Prefijos `/es/` y `/en/`, rutas canónicas y `hreflang` son la propuesta técnica por concretar en el [registro de decisiones](../design-docs/index.md).
+El MVP aprobado comprende portada, catálogo, páginas por miniapp, contenido y metadatos ES/EN, selector de idioma, interfaz responsive, ejemplos de demostración y enlaces reales a redes/GitHub. Prefijos `/es/` y `/en/`, español predeterminado y slugs estables están aprobados en ADR-MMA-016 del [registro de decisiones](../design-docs/index.md), junto con la separación/validación de traducciones. Las canónicas/hreflang absolutas quedan diferidas hasta disponer de origen público aprobado; Cloudflare se verificará en I-03.
 
 Quedan fuera perfiles, login, pagos, administración, votaciones, formularios internos de ideas, backend, bases de datos, notificaciones, IA como servicio, sincronización, recomendaciones, APIs con claves privadas, seguimiento individual y comentarios propios.
 
@@ -79,7 +79,8 @@ La política de pruebas local y los límites de seguridad aprobados, junto con l
 
 * La definición ya está aprobada por su responsable identificado por rol; cualquier cambio material posterior requiere nueva aprobación canónica.
 * Para I-01 los ADR y el plan están aprobados y la ejecución está autorizada; la validación requerida con Chromium 156 fijado está completada y el resultado fue Aceptado expresamente por el propietario el 2026-11-05 y el plan está archivado. Los restantes ADR/iteraciones conservan sus propios estados.
-* Elegir más adelante la primera miniapp y la cantidad de lanzamiento; no bloquea la preparación documental.
+* I-02 está Aceptado tras su ejecución autorizada y verificación; el [informe](../i02-execution-report.md) traza sus 14 criterios y evidencias. El propietario registra su aceptación expresa el 2026-11-05, tras revisar personalmente las capturas reales de escritorio y móvil. No autoriza I-03, infraestructura, miniapps reales ni acciones de publicación.
+* Elegir más adelante la primera miniapp y la cantidad de lanzamiento; no bloquea el catálogo inicialmente vacío de I-02.
 * Resolver licencia y titularidad antes de presentar el producto como software con licencia abierta.
 * Confirmar marca, redes y dominio; compra y DNS requieren instrucción expresa.
 * Decidir si habrá analítica, qué datos trataría y sus implicaciones de privacidad; no activar trackers por defecto.

@@ -1,14 +1,14 @@
 # Arquitectura objetivo y decisiones aprobadas
 
-**Estado:** base local aprobada por ADR-001/002/003/005/006/008/015 el 2026-11-04; hosting, catálogo y rutas completas conservan su estado de propuesta. La base local está implementada y Verificada con Chromium fijado; la aceptación expresa del propietario y el archivo de I-01 se registran el 2026-11-05. Hosting, catálogo y rutas completas no están implementados.
+**Estado:** base local I-01 aceptada y archivada; ADR-MMA-011/016/017 aprobados y ratificados el 2026-11-05. El propietario autorizó después expresamente ejecutar I-02, ahora Aceptado expresamente por el propietario el 2026-11-05 y archivado. Hosting conserva Propuesta y no está provisionado.
 **Responsable:** propietario de MiMiniApp.
-**Actualizado:** 2026-11-04.
+**Actualizado:** 2026-11-05.
 
-El [registro de decisiones](index.md) conserva el estado de cada elección. La [arquitectura actual](../../ARCHITECTURE.md) describe lo que existe. Este documento sintetiza las secciones 5 y 6 del [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md); distingue el objetivo futuro de los archivos locales ya implementados en I-01. La arquitectura actual y el informe registran la evidencia; no se afirman servicios remotos o despliegues.
+El [registro de decisiones](index.md) conserva el estado de cada elección. La [arquitectura actual](../../ARCHITECTURE.md) describe lo que existe. Este documento sintetiza las secciones 5 y 6 del [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md); distingue el objetivo futuro de la base local I-01 y la implementación verificada de I-02. La arquitectura actual y el informe registran la evidencia; no se afirman servicios remotos o despliegues.
 
 ## Componentes y límites
 
-La base aprobada es **Astro** estático, **React + TypeScript estricto** para interacción en navegador y **Tailwind CSS**, con las versiones y configuración del paquete I-01. Catálogo y miniapps son objetivos posteriores, no archivos actuales ni entregables de I-01. Cloudflare Workers Static Assets sigue como propuesta de alojamiento pendiente del ADR-004; no está aprobado ni provisionado por este paquete.
+La base aprobada es **Astro** estático, **React + TypeScript estricto** para interacción en navegador y **Tailwind CSS**, con las versiones y configuración del paquete I-01. El catálogo y las rutas ES/EN se implementan en I-02; la primera miniapp real sigue fuera de alcance. Cloudflare Workers Static Assets sigue como propuesta de alojamiento pendiente del ADR-004; no está aprobado ni provisionado por este paquete.
 
 No se propone instalar `@astrojs/cloudflare` para una salida puramente prerenderizada. SSR, sesiones, KV/D1, autenticación y procesos dinámicos quedan fuera; una necesidad real exigiría nueva evaluación y decisión. Versiones, compatibilidad, configuración y límites actuales de Cloudflare se comprobarán al preparar la iteración autorizada; el dossier no acredita disponibilidad o capacidad ilimitada.
 
@@ -20,35 +20,20 @@ No se propone instalar `@astrojs/cloudflare` para una salida puramente prerender
 
 WebAssembly y Web Workers siguen siendo procesamiento cliente; si se proponen, deberán presupuestar descarga, memoria y batería en móviles. La persistencia de navegador no debe presentarse como respaldo garantizado.
 
-## Organización orientativa
+## Organización modular aprobada
 
-La separación propuesta es páginas y layouts, componentes comunes, miniapps con dominio/UI/demo/pruebas propios, i18n, estilos y registro de catálogo. La siguiente estructura completa sigue siendo orientativa y no existe como tal: I-01 solo crea pages/index.astro, components/EnvironmentFixture.tsx, lib/validation.ts y estilos/pruebas locales, sin miniapps, registro o rutas bilingües:
+Para I-02 se formalizan las [decisiones modulares y de rutas](i02-catalogue-routing-proposal.md), aprobadas en ADR-MMA-011/016. Cada carpeta de miniapp separa `metadata.ts`, `entry.astro`, interfaz React cuando proceda, dominio, traducciones ES/EN y pruebas. Un registro explícito asocia los metadatos de las publicadas con un loader de su adaptador Astro; los borradores no declaran loader. El catálogo consume solo metadatos. La ruta común `pages/[locale]/apps/[slug].astro` genera publicadas × locales mediante getStaticPaths y resuelve su entrada durante prerender, sin serializar componentes o loaders en props.
 
-```text
-src/
-  pages/[locale]/index.astro
-  pages/[locale]/apps/[slug].astro
-  pages/404.astro
-  layouts/
-  components/
-  miniapps/<slug>/
-    App.tsx
-    domain/
-    tests/
-    demo.ts
-  i18n/
-  lib/miniapp-registry.ts
-  styles/
-```
+El alta ordinaria añade una carpeta y una inscripción; no modifica rutas, layouts, navegación o módulos existentes. I-02 demuestra este comportamiento con fixtures A+D → A+B+D en un build aislado, conservando el build entregable vacío y sin sus artefactos. La firma del adaptador y la exclusión de chunks se comprobaron con Astro fijado; el [informe de ejecución](../i02-execution-report.md) registra resultados y límites.
 
-Antes de fijar rutas se comprobará la versión de Astro y la generación de rutas dinámicas estáticas mediante `getStaticPaths`. Se propone `/es/` y `/en/`, con enlace a la herramienta equivalente entre idiomas, rutas canónicas y `hreflang` por concretar. Fechas, números e importes usarían formatos de locale sin alterar su valor computacional.
+Se aprueban `/es/` y `/en/`, español por defecto y slug estable; textos comunes separados de los de cada herramienta. `/` utiliza la entrada HTML estática aprobada, local de estado 200 con meta refresh/enlace a `/es/`; la política HTTP concreta y su comprobación en Cloudflare se difieren a I-03; el 301 conserva carácter de propuesta para esa fase. Las URL desconocidas requieren 404 real mediante un 404 estático bilingüe, sin fallback SPA. Barras finales, normalización del proveedor y canónicas/hreflang sin origen público se concretan en la propuesta, sin configurar Cloudflare.
 
-El registro tipado propuesto contiene identificador, slug estable, categoría, etiquetas, estado `draft`/`published`, título y descripción ES/EN, interfaz, dependencias, ejecución `client-local` por defecto, demo, pruebas y fecha de publicación cuando exista. El build validaría consistencia y excluiría borradores del catálogo, sitemap y navegación. No se crea un motor de plugins, microfrontend o sistema remoto.
+Categorías, etiquetas, demo, fechas o dependencias específicas solo se añadirán al contrato cuando exista un uso aprobado; no se impone todo el registro futuro a I-02. La dirección Laboratorio creativo moderno, segunda composición, paleta, familias tipográficas y revisión mediante capturas están aprobadas en ADR-MMA-017. La [especificación visual](i02-visual-proposal.md) preserva las referencias y distingue detalles mecánicos por comprobar, evolución vacío→poblado y encuadres de miniapps legibles en 9:16. La [arquitectura actual](../../ARCHITECTURE.md) describe los archivos presentes y el estado de implementación; la aprobación del objetivo no acredita por sí misma su verificación.
 
 ## Entrega y validación
 
 La propuesta de dos destinos estáticos separados, `feature/* → staging → main`, pruebas y promoción se desarrolla en [fiabilidad](../RELIABILITY.md) y [calidad](../QUALITY_SCORE.md). Los nombres de Workers y subdominios del dossier son orientativos; no hay URLs ni cuenta de Cloudflare comprobadas. `miminiapp.com` continúa como candidato.
 
-## Pendientes antes de implementar
+## Límites y pendientes de ejecución
 
-La definición, los siete ADR aplicables y el plan I-01 ya están aprobados. La ejecución de I-01 fue autorizada posteriormente y ya se comprobaron instalación, tipos, lint, unitarias/componentes y build. La parte de navegador fijado está completada con Chromium 156.0.8078.4 / revisión 1248, verify exit 0 y revisión asistida visual/teclado; I-01 Aceptado por el propietario el 2026-11-05. Hosting, registro y rutas completas requieren sus decisiones y planes correspondientes. Ante una incompatibilidad se documenta y propone el ajuste mínimo; ajustes mecánicos cubiertos por ADR aprobados se aplican solo en ejecución autorizada, y cambios materiales requieren aprobación nueva. La [ficha de miniapp](../product-specs/miniapp-template.md) se utilizará cuando el propietario seleccione una; esta propuesta no elige la primera.
+La definición, los siete ADR aplicables y el plan I-01 ya están aprobados. La ejecución de I-01 fue autorizada posteriormente y ya se comprobaron instalación, tipos, lint, unitarias/componentes y build. La parte de navegador fijado está completada con Chromium 156.0.8078.4 / revisión 1248, verify exit 0 y revisión asistida visual/teclado; I-01 Aceptado por el propietario el 2026-11-05. Registro/rutas/i18n y diseño de I-02 tienen sus decisiones aprobadas y el plan está Aceptado y archivado después de la ejecución autorizada, su verificación y la revisión personal de capturas reales por el propietario el 2026-11-05. Hosting y su verificación en I-03 requieren sus decisiones y plan propios. Ante una incompatibilidad se documenta y propone el ajuste mínimo; ajustes mecánicos cubiertos por ADR aprobados se aplican solo en ejecución autorizada, y cambios materiales requieren aprobación nueva. La [ficha de miniapp](../product-specs/miniapp-template.md) se utilizará cuando el propietario seleccione una; esta propuesta no elige la primera.

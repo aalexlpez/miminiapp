@@ -16,7 +16,7 @@ Este registro conserva tareas pendientes; no equivale a un ExecPlan aprobado ni 
 | ID | Pendiente | Condición para retomarlo / fuente |
 | --- | --- | --- |
 | PEND-002 | Comprobar la carga y los escenarios de gobierno en Claude Code y Gemini CLI; limitación conocida aceptada expresamente por el propietario para I-00 el 2026-11-04, comprobación todavía no realizada | En una iteración posterior aprobada y autorizada, cuando estén disponibles los clientes; [auditoría](../onboarding-audit.md) y [bootstrap](../BOOTSTRAP.md#comprobar-instrucciones-por-herramienta) |
-| PEND-003 | Parcialmente resuelto el 2026-11-04: definición y ADR-001/002/003/005/006/008/015 aprobados; las demás decisiones permanecen pendientes para sus iteraciones | Aprobaciones en [producto](../product-specs/index.md) y [registro técnico](../design-docs/index.md); I-01 Aceptado y archivado el 2026-11-05; bloqueo PEND-006 resuelto |
+| PEND-003 | Parcialmente resuelto el 2026-11-04: definición y ADR-001/002/003/005/006/008/015 aprobados; posteriormente aprobados ADR-011/016/017 para I-02. Las decisiones restantes permanecen pendientes para sus iteraciones | Aprobaciones en [producto](../product-specs/index.md) y [registro técnico](../design-docs/index.md); I-01 Aceptado y archivado el 2026-11-05; bloqueo PEND-006 resuelto |
 | PEND-004 | Contribución pública: licencia, guía y plantillas de PR/issues | Resolver licencia/titular y autorizar el alcance correspondiente; [roadmap](../roadmap.md) |
 | PEND-005 | Accesos e infraestructura de staging/producción | Preparar en las iteraciones correspondientes con permisos mínimos y valores seguros; [registro técnico](../design-docs/index.md) |
 
@@ -35,3 +35,12 @@ La base local está implementada y verificada. Los registros siguientes conserva
 * **Estado:** Pendiente de seguimiento, sin incumplir el umbral de altas/críticas aprobado.
 * **Evidencia:** npm audit informa 11 moderadas por minimatch y dependientes de lint/TypeScript, 0 altas y 0 críticas. Los patrones no proceden de usuarios de la fixture y estas herramientas no se sirven en el build estático.
 * **Acción:** evaluar una actualización compatible cuando el ecosistema la ofrezca y antes de ampliar a contribuciones no confiables; no aplicar audit fix --force o downgrades de majors sin aprobación material. Detalle e inventario de licencias en el informe de ejecución.
+
+## PEND-008 — Movimiento suave y microinteracciones futuras
+
+* **Estado:** Mejora futura solicitada por el propietario el 2026-11-05 al aceptar I-02; implementación no autorizada. No es un defecto ni bloquea el cierre aceptado.
+* **Responsable:** Propietario de MiMiniApp.
+* **Alcance a revisar:** animación suave de flotación de la ilustración principal y posibles microinteracciones/transiciones adicionales, conservando la composición aceptada. Las transiciones funcionales breves ya existentes no se sustituyen ahora.
+* **Accesibilidad y calidad:** respetar `prefers-reduced-motion`, suprimiendo movimiento decorativo y transiciones no esenciales cuando se solicite reducción; evitar cambios de layout, ocultación de información, interferencias con teclado/foco o pérdida de legibilidad en móvil, escritorio y vídeo.
+* **Condición para retomarlo:** propuesta y autorización futura dentro de una iteración de producto. Revisar antes la política actual de ADR-MMA-017, que excluye animación continua; registrar esta mejora no cambia esa decisión ni amplía I-02 o I-03.
+* **Criterios de cierre futuros:** comportamiento acordado, evidencia con movimiento normal/reducido, teclado, reflujo y rendimiento; revisión visual del propietario. No se ha añadido flotación, nuevas microinteracciones ni dependencias.

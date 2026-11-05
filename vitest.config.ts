@@ -8,7 +8,10 @@ export default defineConfig({
         test: {
           name: 'unit',
           environment: 'node',
-          include: ['tests/unit/**/*.test.ts'],
+          include: [
+            'tests/unit/**/*.test.ts',
+            'src/miniapps/*/tests/**/*.test.ts',
+          ],
         },
       },
       {
@@ -16,7 +19,10 @@ export default defineConfig({
         test: {
           name: 'components',
           environment: 'jsdom',
-          include: ['tests/components/**/*.test.tsx'],
+          include: [
+            'tests/components/**/*.test.tsx',
+            'src/miniapps/*/tests/**/*.test.tsx',
+          ],
           setupFiles: ['tests/components/setup.ts'],
         },
       },

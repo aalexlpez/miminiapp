@@ -1,0 +1,45 @@
+---
+import BrandMark from './BrandMark.astro';
+import { getCommon } from '../i18n/common';
+import { equivalentPath, homePath, type Locale } from '../lib/locales';
+
+interface Props {
+  locale: Locale;
+  appSlug?: string;
+}
+
+const { locale, appSlug } = Astro.props;
+const copy = getCommon(locale);
+---
+
+<header class="site-header">
+  <a class="brand" href={homePath(locale)}>
+    <BrandMark />
+    MiMiniApp
+  </a>
+  <nav class="primary-navigation" aria-label={copy.navigation.label}>
+    <a href={`${homePath(locale)}#catalogo`}>{copy.navigation.catalogue}</a>
+    <a href={`${homePath(locale)}#proyecto`}>{copy.navigation.project}</a>
+  </nav>
+  <nav class="locale-navigation" aria-label={copy.navigation.language}>
+    <a
+      href={equivalentPath('es', appSlug)}
+      lang="es"
+      hreflang="es"
+      aria-label={copy.navigation.spanish}
+      aria-current={locale === 'es' ? 'page' : undefined}
+    >
+      ES
+    </a>
+    <span aria-hidden="true">/</span>
+    <a
+      href={equivalentPath('en', appSlug)}
+      lang="en"
+      hreflang="en"
+      aria-label={copy.navigation.english}
+      aria-current={locale === 'en' ? 'page' : undefined}
+    >
+      EN
+    </a>
+  </nav>
+</header>
