@@ -32,9 +32,15 @@ interface Commit {
   tree: { sha: string };
   parents: { sha: string }[];
 }
-interface PullRequest {
+/** The commit-associated listing omits detail-only fields such as `merged`. */
+interface PullRequestSummary {
   number: number;
   state: string;
+  merged_at: string | null;
+  merge_commit_sha: string | null;
+  base: { ref: string };
+}
+interface PullRequest extends PullRequestSummary {
   merged: boolean;
   merge_commit_sha: string;
   merged_by: Actor | null;
@@ -433,16 +439,41 @@ export async function checkMerged(policy: DeploymentPolicy, target: Target) {
   const [commit, currentRef, pulls] = await Promise.all([
     client.commit(sha),
     client.ref(branch),
-    client.get<PullRequest[]>(`commits/${sha}/pulls?per_page=100`),
+    client.get<PullRequestSummary[]>(`commits/${sha}/pulls?per_page=100`),
   ]);
   const matching = pulls.filter(
-    (pr) => pr.merged && pr.merge_commit_sha === sha && pr.base.ref === branch,
+    (pr) =>
+      pr.state === 'closed' &&
+      typeof pr.merged_at === 'string' &&
+      Number.isFinite(Date.parse(pr.merged_at)) &&
+      pr.merge_commit_sha === sha &&
+      pr.base.ref === branch,
   );
   if (matching.length !== 1)
     throw new Error(
       'Exactly one merged pull request is required for a deployment.',
     );
-  const pr = await client.get<PullRequest>(`pulls/${matching[0].number}`);
+  const summary = matching[0];
+  if (!Number.isSafeInteger(summary.number) || summary.number < 1)
+    throw new Error('Invalid associated pull request number.');
+  // A summary identifies a candidate; only the detailed endpoint confirms it.
+  const pr = await client.get<PullRequest>(`pulls/${summary.number}`);
+  if (
+    pr.number !== summary.number ||
+    pr.state !== 'closed' ||
+    pr.merged !== true ||
+    typeof pr.merged_at !== 'string' ||
+    !Number.isFinite(Date.parse(pr.merged_at)) ||
+    pr.merge_commit_sha !== sha ||
+    pr.base.ref !== branch ||
+    String(pr.base.repo.id) !== policy.repositoryId ||
+    pr.base.repo.full_name !== policy.repository ||
+    String(pr.head.repo.id) !== policy.repositoryId ||
+    pr.head.repo.full_name !== policy.repository
+  )
+    throw new Error(
+      'Detailed pull request does not confirm the associated merged candidate.',
+    );
   const quality = await successfulPRCheck(
     client,
     pr.head.sha,

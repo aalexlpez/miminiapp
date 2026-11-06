@@ -1,6 +1,6 @@
 # Operación I-03 — staging mediante GitHub Actions
 
-**Actualizado:** 2026-11-06. **Responsable:** propietario de MiMiniApp. I-03 está `En curso`. Autorizada y aplicada la preparación técnica de activación condicionada en el PR #3; configurar la variable, fusionar y publicar requieren otra autorización expresa. `master` permanece predeterminada.
+**Actualizado:** 2026-11-06. **Responsable:** propietario de MiMiniApp. I-03 está `En curso`. PR #3 fue fusionado por el propietario y su primer run falló en prepare, antes del job privilegiado. Está autorizado preparar un nuevo PR de corrección, sin merges o despliegues. El [informe](i03-merged-pr-correction-report.md) separa el error de resumen del bloqueo adicional de asociación CI–PR observado tras el merge. Las secciones siguientes conservan la preparación y controles del primer intento. `master` permanece predeterminada.
 
 ## Responsabilidades actuales
 
