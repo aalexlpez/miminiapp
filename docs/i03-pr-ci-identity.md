@@ -1,6 +1,6 @@
 # I-03 — identidad persistente entre PR y CI
 
-**Fecha:** 2026-11-06. **Estado:** implementación autorizada dentro del mismo PR #4, batería local completa satisfactoria; pendiente de nuevo CI y revisión. I-03 sigue `En curso`. No se permite merge o despliegue en esta tarea.
+**Actualizado:** 2026-11-07. **Estado:** implementado y fusionado mediante PR #4; identidad persistente comprobada después del merge en la publicación real de staging. Hito staging `Verificado`; I-03 sigue `En curso`, sin aceptación global. La actualización actual es solo documental.
 
 ## Mecanismo elegido
 
@@ -37,7 +37,7 @@ Un cambio futuro de ci.yml exige revisar el diff y actualizar explícitamente CI
 
 El título no es una firma criptográfica o revisión independiente. La confianza combina metadatos proporcionados por GitHub, la plantilla fijada en el head y merge revisados y el modelo aprobado de ramas protegidas/revisión y merge del propietario. Los PR se ejecutan sobre un merge sintético; el API head_sha identifica el head del PR. Verificar ambos blobs evita aceptar una definición heredada diferente, pero no se presenta como una atestación independiente del runner. Las modificaciones de workflow/base y del propio gate siguen sometidas a revisión humana y protecciones.
 
-La API no ofrece una transacción atómica entre leer CI/refs y publicar; se mantienen relecturas y revalidación inmediata bajo el bloqueo compartido. Esta tarea puede comprobar el título real del CI del PR abierto y simular la ausencia posterior del array en tests. No se fusiona el PR para demostrar la persistencia de su nuevo título: esa confirmación real y el primer deployment quedan pendientes de autorización posterior. El aislamiento de escritura Cloudflare sigue sin probar y no se alteran los límites del probe.
+La API no ofrece una transacción atómica entre leer CI/refs y publicar; se mantienen relecturas y revalidación inmediata bajo el bloqueo compartido. La confirmación posterior al merge ya existe: el CI42303556241 conserva el título de PR4/head ead0f834 aunque pull_requests está vacío, y el run42305409224 intento4 completó el gate y la publicación real. Las simulaciones anteriores siguen identificadas como tales. El aislamiento de escritura Cloudflare permanece sin probar; el403 real del probe acredita solo denegación de lectura.
 
 ## Verificación local y evidencia de revisión
 
@@ -49,4 +49,4 @@ La lectura real del CI42302954132 (head8e1562e) confirmó el título versionado 
 
 El lector TypeScript nativo validó esos metadatos reales con solo GET: success; en un replay local de las respuestas cambiando únicamente pull_requests a[] también success; con una entrada contradictoria adicional, failure. Estos dos últimos estados son simulaciones sobre metadatos grabados y no pruebas empíricas después del merge. La evidencia saneada y el script de lectura quedan en la carpeta ignorada anterior.
 
-El PR recogerá el CI del commit final y su nueva lectura real cuando se observen. No se anticipa su resultado ni se usa un merge o deployment para obtenerlo. No cambian dependencias, permisos de CI, workflows publicadores, política, secretos o protecciones.
+El CI final de la corrección pasó en [PR42303556241](https://github.com/aalexlpez/miminiapp/actions/runs/42303556241) y push42303557377. PR #4 fue fusionado después por el propietario en e1e3b659. El [informe de staging](i03-staging-preparation-report.md) registra el [despliegue posterior satisfactorio, intento4](https://github.com/aalexlpez/miminiapp/actions/runs/42305409224/attempts/4). La lectura API de esta actualización confirma el título persistente con array vacío tras el merge. Este PR documental no repite pruebas o despliegues ni cambia el mecanismo.

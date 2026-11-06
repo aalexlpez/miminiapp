@@ -1,6 +1,6 @@
 # I-03 — corrección del PR fusionado en el gate de staging
 
-**Fecha:** 2026-11-06. **Estado:** corrección técnica autorizada para un nuevo PR hacia staging; I-03 sigue `En curso`. No se autoriza fusionar, desplegar, cambiar credenciales, permisos, protecciones o rama predeterminada.
+**Actualizado:** 2026-11-07. **Estado:** corrección fusionada mediante PR #4; su gate funcionó en la publicación real de staging, run42305409224 intento4 success. Hito staging `Verificado`; I-03 sigue `En curso`, sin aceptación global. Este documento conserva la historia de la corrección y se actualiza sin cambios de código o infraestructura.
 
 ## Incidente y comprobación real
 
@@ -8,7 +8,7 @@ El propietario comunica el fallo del primer intento de staging y autoriza prepar
 
 `GET commits/21b2a20077bdd75d7096f65a5c25b7d05e8c820a/pulls?per_page=100` devuelve exactamente el PR #3, state closed, merged_at y merge_commit_sha correctos, **sin propiedad merged**. Se usaba el tipo de PR detallado para un listado resumido y el filtro lo descartaba.
 
-## Corrección y controles conservados
+## Corrección inicial eaa5fd3 y controles conservados
 
 Se separan los tipos de resumen y detalle. El listado selecciona únicamente PR cerrados con fecha merged_at válida, SHA de merge exacto y rama base esperada, sin depender del booleano ausente. Sigue exigiéndose exactamente una coincidencia y un número de PR entero positivo.
 
@@ -24,7 +24,7 @@ Al comprobar la siguiente validación, la API devuelve `pull_requests: []` para 
 
 La primera corrección eaa5fd3 **no eliminó ni sustituyó ese vínculo obligatorio** y añadió cobertura de rechazo cuando faltaba esa prueba. Con los metadatos observados seguía bloqueado el intento después de resolver el primer error; su CI verde no se presentó como garantía de deployment.
 
-El propietario autoriza después ampliar el mismo PR #4. Se implementa [identidad versionada del CI](i03-pr-ci-identity.md) mediante run-name/display_title generado desde el evento, plantilla completa fijada y metadatos API contrastados. No se acepta un fallback basado solo en head_sha o verde; la identidad es obligatoria también con asociaciones informadas, y una contradicción nativa lo rechaza. Se mantienen pruebas de evidencia ausente/manipulada y controles de último intento/cambios concurrentes. La persistencia del nuevo título después del merge de este PR se confirmará solo durante una operación posterior autorizada.
+El propietario autorizó después ampliar el mismo PR #4. Se implementó [identidad versionada del CI](i03-pr-ci-identity.md) mediante run-name/display_title desde el evento, plantilla completa fijada y metadatos API contrastados. La identidad es obligatoria incluso con asociaciones informadas y una contradicción lo rechaza; no hay fallback basado solo en SHA o verde. La persistencia después del merge ya está corroborada por API y por el gate satisfactorio del despliegue real. Se mantienen pruebas de evidencia ausente/manipulada y controles de intento/vigencia.
 
 ## Verificación y entrega
 
@@ -34,6 +34,6 @@ Las pruebas reproducen el resumen real sin merged y confirman la consulta detall
 
 Evidencia local ignorada en `.local/verification/i03/merged-pr-correction/`: verify.log y observed-api.json, saneado con los campos públicos observados. Se verifica que workflows, política, permisos, herramientas y archivos de aplicación coinciden byte a byte con staging21b2a20. No se incluyen temporales o esas evidencias en el commit. El PR recogerá su commit y CI observado tras el push; no se atribuye éxito a una ejecución futura.
 
-Se entrega para revisión, sin merge o despliegue. El aislamiento de escritura Cloudflare continúa sin probar y se mantienen los límites del probe de lectura documentados. Los resultados272/9/26 anteriores corresponden a eaa5fd3; los resultados de la ampliación y el nuevo CI se registran después de verificarlos. Resolver el contrato en código no equivale a haber completado el primer deployment.
+Durante la preparación no se atribuyó un deployment a la corrección. Los resultados272/9/26 anteriores corresponden a eaa5fd3; la ampliación posterior pasó314/9/26. Ahora PR #4 ya está fusionado y el primer deployment real terminó correctamente, con30 pruebas remotas confirmadas por el propietario. El aislamiento de escritura Cloudflare sigue sin probar y se conservan los límites del probe.
 
-La ampliación de identidad persistente pasa la batería local completa:314 unitarias,9 componentes,26 E2E e integración/regresión I-01, tipos64 archivos sin errores/warnings/hints, lint/formato/hosting correctos y git diff --check correcto. Incluye40 pruebas de identidad y pin del workflow tanto en head como merge. [Contrato, pruebas y límites](i03-pr-ci-identity.md). El nuevo CI y la lectura real se enlazan en la entrega del PR después de observarlos.
+La ampliación de identidad persistente pasó314 unitarias,9 componentes,26 E2E e integración/regresión I-01, tipos64 correctos e incluyó40 pruebas de identidad/pin. CI final42303556241 y42303557377 satisfactorios; lectura real del gate registrada en la entrega de PR #4. El [informe de staging](i03-staging-preparation-report.md) contiene la evidencia posterior: mergee1e3b659 y run42305409224 intento4, prepare/remote-test success,12 archivos y30 pruebas remotas. No se eliminan los fallos previos ni se acredita aislamiento de escritura.
