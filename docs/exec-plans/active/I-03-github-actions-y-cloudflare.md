@@ -2,15 +2,16 @@
 
 ## Control
 
-* **Estado:** `En curso`. PR #4 abierto en borrador para corregir el gate de staging. Autorizada su ampliación para conservar el vínculo PR–CI tras el merge, sin merges o despliegues.
+* **Estado:** `En curso`. I-03 no está Verificado ni Aceptado en su totalidad.
+* **Hito de staging:** `Verificado` el 2026-11-07 (Europe/Madrid): PR #4 fusionado, primera publicación real de MiMiniApp y pruebas remotas satisfactorias en run42305409224, intento4. Producción, promoción, rollback y ensayo de aislamiento de escritura siguen pendientes.
 * **Responsable de aprobación, autorización y aceptación:** propietario de MiMiniApp.
-* **Creado:** 2026-11-05. **Última actualización:** 2026-11-06.
+* **Creado:** 2026-11-05. **Última actualización:** 2026-11-07.
 * **Dependencia satisfecha:** [I-02 aceptado y archivado](../completed/I-02-catalogo-responsive-e-i18n.md).
-* **Base aceptada conservada:** `567b394583140d1710034f4798d0cf8dbb29e387` (I-02), ancestro de la rama técnica `feature/i03-preparacion-segura`. Informe actual: [Fase A](../../i03-phase-a-report.md).
-* **Autorización actual:** el 2026-11-06 el propietario confirma la corrección de resumen del PR #4 y autoriza ampliarlo para un vínculo PR–CI persistente, investigando y usando la solución más sencilla verificable, considerando run-name desde el evento. Identidad conjunta PR/repositorio/base/head/workflow/evento, último intento y quality satisfactorio; contradicciones informadas rechazadas y ausencia de asociaciones sin aceptación automática. Exige pruebas negativas/completas y nuevo CI verde en el mismo PR. No fusionar, desplegar, modificar credenciales/protecciones o predeterminada. Producción, promoción y rollback siguen bloqueados; master predeterminada. La concreción autorizada está en ADR-MMA-009 y el documento de identidad CI.
+* **Base aceptada conservada:** `567b394583140d1710034f4798d0cf8dbb29e387` (I-02), ancestro del staging publicado. Informe actual: [staging](../../i03-staging-preparation-report.md); [Fase A](../../i03-phase-a-report.md) conserva la preparación histórica.
+* **Autorización actual:** el 2026-11-07 el propietario confirma el despliegue satisfactorio y autoriza exclusivamente un PR documental hacia staging para registrar evidencias, verificar el hito y actualizar la operación/referencias. No fusionar el PR ni cambiar código, mecanismos, infraestructura, credenciales, protecciones o predeterminada. Después se presentarán tres propuestas de primera miniherramienta, sin seleccionar o implementar ninguna. La prioridad pasa al producto; no se amplía infraestructura.
 * **Aprobación formal:** 2026-11-05, propietario de MiMiniApp: «Apruebo formalmente el ExecPlan I-03 — GitHub Actions y Cloudflare: staging, producción y promoción por PR», incluidos sus 12 criterios de aceptación; ratifica los ADR correspondientes. La misma instrucción declara que todavía no autoriza su ejecución ni crear recursos, tokens o ramas, hacer commits, pushes, merges o despliegues.
-* **Límites vigentes:** la autorización actual permite código, pruebas y PR, sin activar despliegues. Bootstrap desde 73b8bd2 realizado bajo las reglas manuales del propietario. Ambas ramas están protegidas con quality de GitHub Actions para todos; la lectura administrativa completa sigue denegada403. Opciones de merge y Environments ya corroborados; main ya devuelve quality y promotion obligatorios en la API. No se activa ninguna publicación. Las capacidades reales de GitHub, compatibilidad de herramientas y aislamiento Editor por Worker deberán verificarse durante esa ejecución; no se presuponen pasadas. Si los tokens no limitan efectivamente cada Worker, detener la activación de los despliegues afectados y solicitar aprobación antes de cualquier alternativa. Main mantiene strict=true hasta demostrar y aprobar por el propietario su sustitución. I-02 permanece cerrado.
-* **Cloudflare actual, informado por el propietario el 2026-11-06:** Worker staging ya creado con plantilla; Editor y Account ID configurados solo en GitHub Environment staging. Codex no administra Cloudflare ni necesita su conectividad/credencial. No se configuran recursos o credenciales de producción.
+* **Límites vigentes:** staging ya se publicó por Actions; este trabajo documental no publica ni modifica controles. Staging exige quality y main quality+promotion de GitHub Actions para todos. Se conservan las limitaciones403 de lectura administrativa completa y los ensayos negativos no realizados; no se infiere una nueva auditoría de secretos o protecciones. Main mantiene strict=true y master predeterminada. El probe acreditó lectura de staging y denegación de otro Worker403; no acredita aislamiento de escritura. Producción, promoción, rollback, ese ensayo y aceptación global de I-03 siguen pendientes. No ampliar permisos como alternativa automática. I-01/I-02 permanecen cerrados.
+* **Cloudflare actual, confirmado el 2026-11-07:** MiMiniApp publicada en miminiapp-staging, URL https://miminiapp-staging.miminiapp-lab.workers.dev. El propietario administra cuenta/credenciales en GitHub Environment staging; Codex prepara código/pruebas/PR y no necesita acceso a Cloudflare. Producción y sus credenciales permanecen fuera de esta ejecución.
 * **Cloudflare confirmado por el propietario, 2026-11-05 (histórico):** cuenta creada, acceso a Workers & Pages y cuota Workers Free visible; subdominio `miminiapp-lab.workers.dev`. Nombres decididos: staging `miminiapp-staging`, producción `miminiapp`. No hay proyectos, Workers, tokens o integraciones creados. Es información aportada por el propietario, no una inspección autenticada del agente.
 * **Aprobación de decisiones, 2026-11-05:** el propietario aprueba alojamiento/operación, una cuenta y dos Workers con los nombres/subdominio confirmados, Wrangler 4.158.0, Ubuntu 24.04 y acciones por SHA completo a verificar durante ejecución, sincronización conservadora preservando master/I-01/I-02, retención 7/30 días, gasto objetivo 0 USD/mes y rollback manual ensayado primero en staging. Exige tokens account-owned Editor por Worker tras creación administrativa y demostrar el gate antes de sustituir la protección nativa de main. No autoriza ejecutar I-03, crear recursos/tokens, sincronizar, hacer commits/pushes/merges o desplegar.
 * **Modelo individual confirmado, 2026-11-05:** un desarrollador y responsable con una cuenta personal GitHub. PR y checks obligatorios, cero aprobaciones de terceros, revisión y merge manual del propietario, auto-merge desactivado y ningún revisor obligatorio de Environments. Estas decisiones de flujo se registran en ADR-MMA-009; no aprueban ni activan I-03.
@@ -33,13 +34,13 @@ I-03 propone configurar GitHub Actions y **Cloudflare Workers Static Assets**, c
 
 No incluye miniapps reales, animaciones de PEND-008, cambios de diseño/stack, backend, SSR, BD, cuentas de usuario de la aplicación, analítica, contribución pública ni licencia general. No requiere comprar dominio. No se crean configuraciones ejecutables o recursos por preparar este documento.
 
-## Decisiones y arquitectura aprobadas, pendientes de ejecución
+## Decisiones y arquitectura aprobadas: ejecución parcial
 
-Se mantienen los ADR aprobados de Astro estático, React cuando procede, TypeScript, Tailwind, modularidad, ES/EN y pruebas/toolchain fijadas. El propietario aprueba las decisiones del flujo individual de ADR-MMA-009 el 2026-11-05, registradas en el [índice técnico](../../design-docs/index.md), sin autorizar su activación. ADR-MMA-004/014 y la concreción operativa de ADR-MMA-009/015 quedan aprobadas por la indicación posterior del propietario el 2026-11-05, con las condiciones de tokens granulares y prueba previa de protección. El plan definitivo está ahora Aprobado formalmente; nada está implementado o autorizado para ejecutar. ADR-MMA-007 no se aprueba por observar que el repositorio ya es público.
+Se mantienen los ADR aprobados de Astro estático, React cuando procede, TypeScript, Tailwind, modularidad, ES/EN y toolchain fijada. Las decisiones de I-03 y sus autorizaciones parciales constan en el [índice técnico](../../design-docs/index.md) y el historial inferior. Staging está implementado y verificado; el resto conserva sus pendientes y no se autoriza por este PR documental. ADR-MMA-007 no se aprueba por observar que el repositorio ya es público.
 
 ### Workers Static Assets
 
-Se propone publicar únicamente `dist/`, sin adaptador SSR, función Worker propia, `main` de ejecución ni bindings de datos. Wrangler subirá los assets y su configuración. Los siguientes son valores de diseño aprobados y preparados localmente; no hay recursos Cloudflare publicados:
+Staging publica únicamente `dist/`, sin adaptador SSR, función Worker propia, `main` de ejecución o bindings de datos. Wrangler publicó12 archivos y la suite remota pasó. Los siguientes valores están aplicados en staging; la configuración de producción sigue pendiente:
 
 | Parámetro | Propuesta |
 | --- | --- |
@@ -59,18 +60,18 @@ El preview Astro seguirá respondiendo 200 con meta refresh en `/`; la suite rem
 | --- | --- | --- |
 | Rama de publicación | `staging` | `main` |
 | GitHub Environment | `staging`, restringido exactamente a esa rama | `production`, restringido exactamente a `main` |
-| Nombre confirmado; Worker aún no creado | `miminiapp-staging` | `miminiapp` |
-| URL prevista, todavía no desplegada | `https://miminiapp-staging.miminiapp-lab.workers.dev` | `https://miminiapp.miminiapp-lab.workers.dev` |
-| Credencial | Token staging en Environment staging; account ID de la cuenta común | Token producción distinto en Environment production; mismo account ID |
-| Contenido | Candidato real del catálogo, sin fixtures | Artefacto exacto validado en staging |
+| Worker | `miminiapp-staging`, creado por el propietario y publicado | `miminiapp`, objetivo pendiente de activación |
+| URL y estado | `https://miminiapp-staging.miminiapp-lab.workers.dev`, publicada y verificada | `https://miminiapp.miminiapp-lab.workers.dev`, prevista; producción pendiente |
+| Credencial | Editor staging y account ID configurados por el propietario en Environment staging | Editor de producción separado, pendiente; no se activa en este trabajo |
+| Contenido | Catálogo real publicado, sin fixtures | Futuro artefacto exacto validado en staging |
 
-El propietario confirma la cuenta, subdominio y nombres anteriores; no hay Workers, tokens o integraciones. Las URLs de ambos Workers se derivan del subdominio y no están publicadas. Queda proporcionar el Account ID como variable de configuración y, solo tras autorización, crear recursos/tokens. `workers.dev` evita comprar dominio; Cloudflare proporciona HTTPS. Un dominio propio y su DNS/certificados serían una decisión posterior. Staging será público y permanente; no contendrá secretos o datos privados.
+El propietario administra la cuenta y las credenciales; staging ya está publicado y el Account ID está configurado en su Environment. Producción conserva sus pendientes. `workers.dev` evita comprar dominio y proporciona HTTPS. Un dominio propio y DNS/certificados serían una decisión posterior. Staging es público y no contiene secretos o datos privados; no se recrea su bootstrap.
 
 **Modelo aprobado: una cuenta Cloudflare, dos Workers y autorización granular por recurso.** Se corrige la evaluación anterior, basada en permisos legacy de cuenta: la documentación oficial actual distingue roles Workers y scopes individuales para API tokens, incluido su uso con Wrangler.
 
 ### Creación administrativa controlada y tokens de CI
 
-Secuencia futura, únicamente después de la aprobación/autorización que corresponda:
+Secuencia aprobada original para los dos entornos, con cumplimiento parcial: el propietario ya creó staging y configuró su Editor/Environment; su publicación y lectura negativa están verificadas. Producción, rollback y aislamiento de escritura siguen pendientes y no se ejecutan por esta documentación. Los pasos no instruyen a repetir lo ya completado:
 
 1. Crear `miminiapp-staging` y `miminiapp` mediante administración controlada con rol Admin de Workers a nivel de producto. Los scopes individuales solo pueden asignarse a Workers existentes. Registrar sus IDs e identidad de cuenta. Crear recursos no habilita publicar una release: mantener la publicación pública deshabilitada durante bootstrap hasta disponer de controles, permisos probados y autorización del primer circuito.
 2. Crear un **account-owned API token** con rol **Editor** limitado exclusivamente al Worker/ID `miminiapp-staging`, y otro token account-owned con rol Editor exclusivamente para `miminiapp`. No conceder Editor a nivel de producto ni roles de plataforma/cuenta general a los tokens de CI.
@@ -82,11 +83,13 @@ Editor puede desplegar, gestionar versiones y hacer rollback de un Worker existe
 
 **Sin fallback automático a permisos amplios:** no utilizar `Workers Scripts: Edit` general ni otro equivalente legacy de cuenta. Ante un fallo con Wrangler 4.158.0 y Editor granular, detener el camino afectado y presentar antes evidencia reproducible de incompatibilidad: versión/operación/endpoint, scope correcto, error saneado y comprobaciones realizadas. Investigar primero ajustes compatibles sin ampliar privilegios. Cualquier alternativa de autorización requiere propuesta y aprobación expresa antes de utilizarla; la inspección estática del código legacy no demuestra incompatibilidad.
 
-Se necesitan la cuenta ya preparada, dos Workers con assets, dos GitHub Environments, dos tokens Editor individuales y GitHub Actions. No hacen falta Pages, R2, KV, D1, Durable Objects, Workers Builds ni runner propio. No habilitar integraciones Git que publiquen al margen de Actions. Las URLs temporales de versiones/previews quedarán deshabilitadas salvo aprobación expresa. No se ha creado ninguno de estos recursos o tokens.
+La arquitectura completa prevé dos Workers/tokens separados y dos Environments; staging ya funciona y producción sigue pendiente. No hacen falta Pages, R2, KV, D1, Durable Objects, Workers Builds o runner propio. No habilitar integraciones que publiquen al margen de Actions. Las URLs temporales de versiones/previews requieren autorización; este trabajo no crea recursos o tokens.
 
 ## Flujo Git y operación semanal
 
 **Rama de trabajo → PR a staging → checks obligatorios → revisión y merge manual del propietario → despliegue automático a staging → pruebas y validación de staging → PR a main → revisión y merge manual del propietario → despliegue automático a producción.**
+
+El tramo hasta staging y sus pruebas remotas está operativo y Verificado. El tramo de promoción/main/producción sigue siendo alcance aprobado pendiente, con sus publicadores bloqueados; este documento no lo activa.
 
 | Fase | Acción humana | Automatización prevista |
 | --- | --- | --- |
@@ -216,6 +219,8 @@ Concurrencia por destino y un bloqueo compartido de publicación para staging/pr
 
 ## Estado del repositorio y sincronización segura
 
+**Estado actual, 2026-11-07:** staging en e1e3b659, main en73b8bd2 y master en214a3c1, predeterminada. Los cierres I-01/I-02 y el historial están preservados. La tabla y el procedimiento siguientes documentan el punto de partida y la sincronización original; no indican que falten ahora esas ramas ni autorizan repetir el bootstrap.
+
 Comprobado por HTTPS en lectura el **2026-11-05, 19:58 CET (refs reconfirmadas; grafo inspeccionado a las 16:49 CET)**. Repositorio: `aalexlpez/miminiapp`, observado como **público**. No se han comprobado su plan contratado, colaboradores, rulesets, GitHub Environments o integraciones del dashboard Cloudflare.
 
 | Referencia | Ubicación observada |
@@ -305,7 +310,7 @@ Tras autorizar expresamente la ejecución del plan ya Aprobado: registrar Autori
 
 Conservar comandos/versiones/códigos de salida, configuración efectiva, PR/checks/revisiones, árboles/hashes, artefactos, URLs/versiones y pruebas reales con evidencia segura. Logs locales en `.local/verification/i03/`, reportes ignorados y artefactos Actions con retención aprobada. Los comandos de deploy y pruebas remotas se documentarán como operativos solo cuando existan y se hayan ejecutado.
 
-**Parada actual:** preparación de Fase A completada; comprobaciones disponibles satisfactorias. Main exige quality+promotion y staging quality, ambos de GitHub Actions para todos; opciones y Environments correctos. Detalle administrativo/secretos siguen limitados por403; sin publicación. El informe detalla hechos y evidencia. Fase B no autorizada; no se crea Worker ni se levanta ningún bloqueo de publicación. **Parada futura:** Verificado solo tras acreditar todos los AC; aceptación humana e I-04 siguen separadas.
+**Parada actual:** preparar y entregar únicamente el PR documental del hito staging Verificado, sin fusionarlo. No se ejecutan nuevas publicaciones o cambios de infraestructura. Producción, promoción, rollback y aislamiento de escritura siguen pendientes, con los límites administrativos previos. **Parada global:** I-03 solo podrá declararse Verificado tras acreditar todos sus AC; su aceptación humana sigue separada. Las propuestas de producto no autorizan implementar otra iteración.
 
 ## Decisiones aprobadas y condiciones todavía por acreditar
 
@@ -313,11 +318,11 @@ El propietario aprueba arquitectura/operación, ADR-MMA-004/014, la concreción 
 
 La corrección incorporada es vinculante: creación administrativa de ambos recursos antes de emitir account-owned tokens Editor individuales; prueba de que staging no puede modificar producción; no utilizar Workers Scripts: Edit general sin presentar primero evidencia de incompatibilidad y una alternativa para aprobación. Main conserva strict nativo hasta demostrar el gate y nunca lo rebaja si las pruebas no acreditan equivalencia/protección.
 
-**Pendiente actual:** autorización expresa y delimitada de Fase B antes de cualquier recurso/publicación Cloudflare. Checks de main/staging, opciones de merge y Environments corroborados por API; discrepancia de promotion resuelta. Se mantienen las limitaciones administrativas y ensayos de seguridad no realizados. Acceso de red y bootstrap desde 73b8bd2 completados. No se amplían credenciales ni se reducen controles automáticamente. Recursos, tokens, pruebas públicas y activación requieren autorización específica de Fase B. No se solicita de nuevo la autorización de Fase A ya concedida.
+**Pendiente actual:** producción, promoción, rollback y su ensayo, aislamiento de escritura y aceptación global. Staging ya fue publicado y verificado por el circuito autorizado; no se pide repetir su bootstrap o provisión. Checks y opciones de merge corroborados, main strict=true conservado, con límites administrativos y ensayos negativos restantes. No se amplían credenciales ni se reducen controles. Este PR solo registra hechos y no autoriza ninguna activación adicional.
 
-**Comprobaciones futuras, no fallos acreditados:** compatibilidad real de Wrangler 4.158.0 con Editor por Worker y assets/versionado/rollback; denegación real cruzada; aplicación de protecciones al administrador; rechazo de obsoletos/concurrencia/artefactos distintos antes de sustituir strict; HTTP/versión del proveedor reales. Las versiones locales y SHA de acciones ya se comprobaron en Fase A; esas comprobaciones locales no acreditan despliegue ni permisos. Si el aislamiento por Worker no funciona, detener la activación de los despliegues afectados y solicitar aprobación antes de adoptar una alternativa. Una incompatibilidad detendrá el trabajo afectado sin ampliar permisos ni reducir protección automáticamente. Cualquier sustitución de strict nativo de main exige demostración y aprobación expresa del propietario.
+**Comprobaciones restantes, no fallos acreditados:** ensayo de escritura cruzada, versionado/rollback, capacidades administrativas y pruebas de promoción/concurrencia/equivalencia antes de cualquier sustitución de strict. El despliegue real con Wrangler/Editor/Static Assets y las pruebas HTTP de staging ya pasaron; no acreditan esos otros ensayos. No se inventan IDs de proveedor ausentes de la evidencia. Cualquier incompatibilidad detiene su camino sin ampliar permisos; cualquier sustitución de strict exige demostración y aprobación expresa.
 
-La cuenta Free y subdominio ya están preparados según el propietario; no hay Workers, tokens o integraciones creados por esta tarea. Para la ejecución futura faltarán Account ID, acceso administrativo efectivo, provisión segura de roles/tokens y autorización de los primeros ensayos. No hay bloqueo documental demostrado por el modelo granular: las fuentes oficiales lo describen, incluida su utilización con Wrangler.
+La cuenta/subdominio y el Worker staging ya se utilizan; el propietario administra su token/Account ID en GitHub Environment y Codex no necesita acceso Cloudflare. Para producción y ensayos restantes harán falta las autorizaciones específicas correspondientes, sin ampliar infraestructura por este PR. Se conserva el objetivo gratuito y el modelo granular aprobado.
 
 ## Fuentes y verificaciones de esta revisión
 
@@ -334,6 +339,8 @@ Fuentes del paquete exacto: [Wrangler 4.158.0, metadatos oficiales](https://regi
 
 ## Progreso e historial
 
+Las entradas fechadas siguientes conservan autorizaciones y snapshots de cada momento. Sus restricciones de preparación no describen el staging ya publicado; Control y el último hito de verificación indican el estado vigente.
+
 | Fecha | Estado | Actor | Evidencia o motivo |
 | --- | --- | --- | --- |
 | 2026-11-05 | Borrador | Codex, por instrucción del propietario | Preparar únicamente I-03 después de aceptar I-02, sin ejecución. |
@@ -344,6 +351,7 @@ Fuentes del paquete exacto: [Wrangler 4.158.0, metadatos oficiales](https://regi
 | 2026-11-05 | `Aprobado` | Propietario de MiMiniApp | «Apruebo formalmente el ExecPlan I-03 — GitHub Actions y Cloudflare: staging, producción y promoción por PR», incluidos 12 AC; ratifica ADR. Verificación real de GitHub/toolchain/aislamiento durante ejecución futura; detener activación afectada y pedir aprobación antes de alternativa si falla aislamiento. Mantener main strict=true hasta demostrar y aprobar sustitución. Sin autorización de ejecución, recursos, tokens, ramas, commits, pushes, merges o despliegues. |
 | 2026-11-06 | `Autorizado` | Propietario de MiMiniApp | Autorización expresa únicamente Fase A: preparación técnica, CI y configuración segura; commits/pushes técnicos y ramas/protecciones permitidos solo sin publicaciones. Main strict=true; sin promociones ni cambio de predeterminada antes de verificar controles. Sin Worker o contenido público, Fase B, I-04 o miniapps reales. |
 | 2026-11-06 | `En curso` | Codex | Comienza efectivamente Fase A tras recuperar el entorno y verificar la integridad local: implementación de CI/workflows inactivos, release gate/artefactos y configuración estática/pruebas remotas. Sin publicación, promoción o Fase B. |
+| 2026-11-07 | `En curso` | Propietario / Codex | El propietario confirma la primera publicación real y autoriza registrar el hito staging `Verificado`: PR #4, merge e1e3b659, run42305409224 intento4 success, prepare/remote-test success. No es aceptación global de I-03; solo se prepara PR documental, sin fusionarlo o modificar infraestructura. |
 
 ## Evidencia incremental de Fase A — 2026-11-06
 
@@ -471,3 +479,20 @@ La prueba real de esta tarea será el CI del PR abierto y la lectura del título
 Verificación local final exit0:314 unitarias (40 de identidad persistente),9 componentes,26 E2E e integración/regresión I-01 con Chromium156.0.8078.4/r1248 fijado. Tipos64 archivos sin errores/warnings/hints, lint/formato/hosting y git diff --check correctos. Revisión independiente del diff sin bloqueos concretos; pin en head y merge, sin modificar publicadores, política, CLI/gate de publicación, permisos o toolchain. Se corrigen fixtures/tipado de tests antes del resultado final; los intentos previos quedan separados de la evidencia satisfactoria.
 
 CI del primer head de identidad8e1562e satisfactorio y display_title real correcto. La lectura API reveló que run.name también es dinámico; se corrigió la comparación y sus fixtures, manteniendo descriptor.name=CI y workflow ID/path. Batería completa posterior nuevamente314/9/26 y tipos64 correctos. El lector nativo pasó contra metadatos reales del run42302954132; replay local quitando solo asociaciones pasó y con contradicción falló. No es una prueba empírica postmerge. La entrega enlazará el nuevo CI del commit con este ajuste y la lectura final; PR4 sigue borrador/sin merge, sin publicaciones.
+
+
+## Staging Verificado — 2026-11-07 (Europe/Madrid)
+
+El propietario confirma la primera publicación real satisfactoria y autoriza exclusivamente actualizar documentación y preparar un PR hacia staging, sin fusionarlo. El hito staging pasa a `Verificado`; el estado único del ExecPlan permanece `En curso`. No se archiva o acepta I-03 completo y no se inician mecanismos, infraestructura o miniherramientas nuevas.
+
+Evidencia: PR #4 fusionado por aalexlpez en `e1e3b6596f97b86ba7e2ff3d21aab1ac5e21e0c0`; [run 42305409224, intento 4](https://github.com/aalexlpez/miminiapp/actions/runs/42305409224/attempts/4), push de staging, prepare y remote-test success. La API corrobora jobs/pasos y los artefactos de candidato, acceso y validación del intento 4. El propietario confirma 12 archivos publicados, 30 pruebas remotas correctas e identidad/ES/EN/rutas/responsive/accesibilidad verificados. Solo ese intento se presenta como satisfactorio.
+
+El probe comprobó lectura de staging y denegación de lectura del otro Worker (403); no se probó aislamiento de escritura. La identidad del CI de PR #4 permanece en display_title tras su merge con pull_requests vacío, corroborado por API. El [informe existente](../../i03-staging-preparation-report.md) distingue fuentes, IDs/digests y límites de lectura de logs; no se inventan IDs de versión Cloudflare.
+
+Flujo operativo demostrado: feature → PR a staging → CI → revisión/merge manual del propietario → Actions → Cloudflare → pruebas remotas/recibo. El propietario administra credenciales en GitHub Environment; Codex prepara código/pruebas/PR y no necesita conectarse a Cloudflare. Las [guías](../../i03-operations.md) describen la publicación ordinaria sin Wrangler manual semanal.
+
+Pendientes conservados: producción, promoción, rollback y su ensayo, aislamiento de escritura, separación completa entre entornos, IDs/timeout del proveedor no acreditados y límites de verificación administrativa. Main conserva strict=true y master predeterminada. AC7 queda verificado para staging; el automatismo de AC6 está demostrado sin atribuir IDs de proveedor ausentes. AC3/4/5/8–11 y la aceptación de AC12 no se declaran completamente satisfechos. Los12 criterios permanecen sin modificación; la tabla parcial está en el informe.
+
+La revisión de este PR documental comprueba coherencia, enlaces y diff exclusivo Markdown; se conserva el CI obligatorio del PR. No se repite manualmente la batería de aplicación ni se ejecuta otra publicación. Tras entregar el PR se presentarán tres opciones de primera miniherramienta por separado, sin elegir o implementar ninguna. La prioridad es producto, sin ampliar infraestructura.
+
+Validación documental previa al PR: 11 archivos Markdown, 111 enlaces relativos existentes, 12 criterios de aceptación idénticos al staging base, IDs/digests de los tres artefactos coincidentes con API y git diff --check correcto. Revisión independiente sin bloqueos documentales; las evidencias locales permanecen ignoradas y no se incluyen en el commit. El resultado del CI obligatorio se enlazará en el PR tras observarlo.
