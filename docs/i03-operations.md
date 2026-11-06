@@ -6,21 +6,27 @@
 
 Repositorio `aalexlpez/miminiapp`. Conservar `master` y los commits aceptados `0288de5`/`567b394`; nunca reset, force push o rebase destructivo. No cambiar aún la rama predeterminada. La rama técnica `feature/i03-preparacion-segura` separa esta preparación de promociones.
 
-Los cuerpos JSON de `deploy/github/` son configuración deseada, no prueba de aplicación. Al recuperar la API se deberá consultar primero identidad/ID/visibilidad/capacidades, ramas, checks existentes, integraciones y protecciones. Aplicar después únicamente la configuración autorizada y leerla de nuevo. Vincular los checks a la aplicación GitHub Actions comprobada cuando lo permita la API; no confiar en un contexto homónimo de otro emisor.
+Los cuerpos JSON de `deploy/github/` son configuración deseada, no prueba de aplicación. La API ya permite comprobar identidad, ramas y checks; los endpoints administrativos detallados siguen restringidos. Antes de cualquier cambio se consulta el estado vigente y después se vuelve a leer lo que permita la credencial. Vincular los checks a la aplicación GitHub Actions comprobada cuando lo permita la API; no confiar en un contexto homónimo de otro emisor.
 
-* Repositorio: auto-merge desactivado; merge commits habilitados, squash y rebase deshabilitados. No hay cambio de `default_branch` en el cuerpo preparado.
-* `staging`: PR obligatorio, cero reviews, `quality`, strict=true, administrador incluido, sin force push/borrado ni bypass preparado.
-* `main`: lo anterior más `promotion`; strict=true se mantiene. Ninguna prueba local permite sustituirlo.
+* Repositorio, objetivo aprobado: auto-merge desactivado y solo merge commits. Estado leído: auto-merge false; squash/rebase aún true, pendientes de ajuste administrativo. No cambiar `default_branch`.
+* `staging`, objetivo y configuración manual declarada: PR obligatorio, cero reviews, quality, strict=true, administrador incluido y sin force push/borrado. API comprobada: protected=true y quality de app 15368 obligatorio con enforcement everyone; los demás detalles siguen pendientes de corroboración.
+* `main`: objetivo igual a staging más promotion obligatorio; actualmente la API solo muestra quality. Añadir promotion antes de considerar completa la preparación y mantener strict=true. Ninguna prueba local permite sustituirlo.
 * Environments `staging`/`production`: sin reviewers y espera cero; políticas de rama exacta `staging`/`main` respectivamente, sin tags. `environment.json` prepara el contenedor; las políticas de rama se crean y verifican por separado antes de cualquier secreto.
 * Variables por Environment, posteriormente: `CLOUDFLARE_ACCOUNT_ID`; secreto `CLOUDFLARE_API_TOKEN` distinto en cada Environment. No poner tokens en variables, archivos, PR, logs o argumentos de shell. No configurar credenciales Cloudflare de repositorio u organización como sustituto.
 
 Las comprobaciones negativas de push directo, force y borrado se diseñarán para no perder contenido; un dry-run no demuestra enforcement. Leer la configuración no basta: verificar los rechazos reales con el propietario sujeto a las reglas. Si una capacidad falta, registrar el bloqueo, sin desproteger para terminar el ensayo. CI debe ejecutarse realmente en GitHub y sus resultados deben observarse; la batería local no lo sustituye.
 
-## Bloqueo de arranque inicial
+## Bootstrap ejecutado y comprobaciones pendientes
 
-El `master` remoto `214a3c1` no contiene los workflows ni `scripts/release/`. El plan aprobado parte de crear staging/main desde ese commit; sin embargo el primer gate de promoción carga código desde `base.sha`. No puede ejecutarse desde una base que todavía no lo contiene. No se añade una excepción verde, un bypass o un checkout arbitrario del PR.
+El propietario aprobó crear inicialmente staging y main desde `73b8bd2c1d3fc0e2f0161af9df9897d16b51ade8`, en lugar de master 214a3c1. Ambas ramas ya están creadas exactamente en ese SHA y la API las devuelve protegidas. Se conserva toda la ascendencia; f4430f0 es el padre inmediato con CI success corroborado y el delta a 73b8bd2 es documental. No cambiar ahora el origen o mover esas ramas al siguiente commit documental de la rama técnica.
 
-**Propuesta pendiente de aprobación expresa:** después de revisar el commit técnico y comprobar que conserva los tres historiales, crear inicialmente `staging` y `main` en ese commit integrado, con todos los publicadores aún bloqueados. Aplicar y verificar las protecciones y ejecutar CI antes de habilitar cualquier despliegue. Esto cambia el origen inicial de las ramas previsto en el plan; no se ejecuta por autorización implícita. No se han creado esas ramas para evitar fijar una solución sin aprobar. Si ya existieran al reanudar, volver a inventariarlas y acordar un procedimiento que preserve su historia.
+El primer intento administrativo falló con 403. Después el propietario guardó manualmente las reglas y reiteró la creación; las reglas admitieron el bootstrap sin desactivarlas. GET de cada rama confirma quality de GitHub Actions app 15368 y enforcement_level=everyone. GET de protección y GraphQL detallado siguen denegados: PR, reviews=0, strict=true, ausencia de bypass y no force/delete son por ahora configuración declarada por el propietario, no evidencia detallada obtenida por esta credencial ni ensayo empírico de rechazo.
+
+Main todavía necesita promotion obligatorio. Para emitirlo sin desplegar: preparar un PR técnico en borrador hacia main con cambios documentales reales, desde una rama distinta de staging. El workflow utiliza código de la base y debe fallar por origen no admitido, sin buscar un candidato Cloudflare. Registrar resultado y app del CheckRun; no fusionar el PR. El propietario podrá entonces añadir promotion en la regla de main, conservando quality y strict. Este ensayo está preparado y pendiente de resultado; abrir un PR en borrador no demuestra por sí solo que un merge normal quede bloqueado por el check.
+
+Releer las protecciones cuando la capacidad lo permita. No usar dry-run, pushes sin cambio o un rechazo de permisos como prueba de enforcement. No ejecutar merges, force push o borrados que puedan alterar historial para obtener evidencia. Si una regla impide una operación necesaria, detenerse y acordar el procedimiento mínimo; no retirar controles de forma automática.
+
+Conservar master intacto y predeterminado. Quedan también ajustes de squash/rebase, verificación administrativa detallada y Environments; la creación de ramas no cierra la Fase A ni habilita la Fase B.
 
 ## Cloudflare y punto de parada
 

@@ -117,3 +117,13 @@ El 2026-11-05 el propietario aprueba formalmente el [ExecPlan I-03](../exec-plan
 Después de la aprobación formal, el propietario autoriza expresamente la Fase A: preparación técnica/CI/configuración segura y commits/pushes estrictamente técnicos sin publicaciones. El ExecPlan registra Autorizado → En curso. Esta indicación posterior sustituye únicamente la falta de autorización de Fase A descrita en las notas históricas; no cambia decisiones aprobadas ni autoriza Fase B, Workers públicos, promociones o despliegues.
 
 Se implementan localmente los contratos y configuraciones de ADR-MMA-004/009/014/015, con Wrangler exacto, acciones fijadas, artefacto verificable, gate y publicación bloqueada. Las protecciones y aislamiento por Worker requieren pruebas reales; ninguna prueba local autoriza bajar strict=true. Los resultados y límites constan en el [informe Fase A](../i03-phase-a-report.md).
+
+### Excepción aprobada de bootstrap I-03 — 2026-11-06
+
+El propietario aprueba y autoriza expresamente, solo dentro de Fase A, crear inicialmente staging y main desde `73b8bd2c1d3fc0e2f0161af9df9897d16b51ade8`, en vez de directamente desde master. Es concreción aprobada de ADR-MMA-009: debe conservar como ancestros el master remoto y los cierres aceptados I-01/I-02; el CI satisfactorio corresponde al padre inmediato f4430f0, y el delta a 73b8bd2 es exclusivamente documental. Se mantiene revisión/merge manual, PR/checks obligatorios, cero reviews requeridas, administrador sujeto a reglas, strict=true y publicadores bloqueados con deploymentsEnabled=false. Si no se establecen las protecciones necesarias, detener avance y comunicar bloqueo. Master intacto/predeterminado; no autoriza promociones, Workers, Fase B, publicación o cambio de predeterminada.
+
+La ejecución de esa excepción se detuvo antes de crear ramas: opciones y protección rechazadas con403 Resource not accessible by integration (administration=write requerido). No modifica la aprobación de ADR-MMA-009 ni autoriza alternativas/bypass. Informe y ExecPlan registran el bloqueo de capacidad.
+
+### Bootstrap realizado bajo reglas manuales — 2026-11-06
+
+Tras guardar personalmente las reglas, el propietario autoriza continuar y crear ambas ramas desde 73b8bd2. Staging/main quedan en ese commit y protegidas con quality/app15368/enforcement everyone, sin cambiar master o su predeterminación. No se desactiva control alguno. PR, cero approvals, strict y prohibiciones son configuración declarada por el propietario; la integración no puede leer el detalle administrativo. La limitación de credencial no autoriza afirmar todos los campos verificados ni omitir promotion en main. No cambia ADR-MMA-009 ni autoriza Fase B.
