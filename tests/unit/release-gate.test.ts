@@ -114,6 +114,27 @@ afterEach(() => {
 });
 
 describe('Phase A publication stop', () => {
+  it.each([undefined, '', 'false', 'TRUE', '1', ' true', 'true '])(
+    'keeps an enabled staging policy closed without the exact authorization flag: %s',
+    (flag) => {
+      const stagingEnabled: DeploymentPolicy = {
+        ...policy,
+        phase: 'B',
+        deploymentsEnabled: true,
+        targets: {
+          staging: { ...policy.targets.staging, deploymentsEnabled: true },
+          production: {
+            ...policy.targets.production,
+            deploymentsEnabled: false,
+          },
+        },
+      };
+      expect(() => assertPhaseB(stagingEnabled, 'staging', flag)).toThrow(
+        'not authorized',
+      );
+    },
+  );
+
   it('requires both a committed Phase B policy and the separate activation flag', () => {
     expect(() => assertPhaseB(policy, 'production', 'true')).toThrow(
       'not authorized',

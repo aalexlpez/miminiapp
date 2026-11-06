@@ -17,7 +17,7 @@ env:
 jobs:
   prepare:
     # Phase A: activation requires an explicitly authorized code change.
-    if: ${{ false }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/staging' && github.repository == 'aalexlpez/miminiapp' && vars.I03_STAGING_PUBLICATION_AUTHORIZED == 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     outputs:
@@ -59,7 +59,7 @@ jobs:
   remote-test:
     name: remote-test
     # Both this literal lock and the committed policy deny publication in Phase A.
-    if: ${{ false }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/staging' && github.repository == 'aalexlpez/miminiapp' && vars.I03_STAGING_PUBLICATION_AUTHORIZED == 'true' && needs.prepare.result == 'success' }}
     needs: prepare
     runs-on: ubuntu-24.04
     timeout-minutes: 25

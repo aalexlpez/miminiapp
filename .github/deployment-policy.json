@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "phase": "A",
-  "deploymentsEnabled": false,
+  "phase": "B",
+  "deploymentsEnabled": true,
   "repository": "aalexlpez/miminiapp",
   "repositoryId": "1445849027",
   "owner": "aalexlpez",
@@ -10,7 +10,7 @@
       "branch": "staging",
       "worker": "miminiapp-staging",
       "url": "https://miminiapp-staging.miminiapp-lab.workers.dev",
-      "deploymentsEnabled": false
+      "deploymentsEnabled": true
     },
     "production": {
       "branch": "main",

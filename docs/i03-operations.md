@@ -1,6 +1,6 @@
 # Operación I-03 — staging mediante GitHub Actions
 
-**Actualizado:** 2026-11-06. **Responsable:** propietario de MiMiniApp. I-03 está `En curso`. Se autoriza preparar e implementar los cambios en una rama y abrir el PR a staging; no fusionarlo, activar publicadores o desplegar. `master` permanece predeterminada.
+**Actualizado:** 2026-11-06. **Responsable:** propietario de MiMiniApp. I-03 está `En curso`. Autorizada y aplicada la preparación técnica de activación condicionada en el PR #3; configurar la variable, fusionar y publicar requieren otra autorización expresa. `master` permanece predeterminada.
 
 ## Responsabilidades actuales
 
@@ -20,7 +20,7 @@ El PR técnico #2, cerrado sin merge, emitió promotion. El propietario revisó 
 
 ## Primer despliegue de la web
 
-El PR actual conserva todos los publicadores bloqueados. El [patch propuesto](staging-publication-activation.patch) cambia solo la política y condiciones de staging y su expectativa de auditoría, pero no está aplicado. Después de una autorización expresa de primera publicación, se aplicará en la rama de trabajo, se verificará CI y el propietario revisará el diff final, configurará la variable de repositorio `I03_STAGING_PUBLICATION_AUTHORIZED=true` y decidirá el merge manual a staging. No cambia la predeterminada ni habilita producción.
+El [patch aprobado](staging-publication-activation.patch) ya está aplicado en la rama del PR #3: cambia solo la política y condiciones de staging y su expectativa de auditoría. Staging exige push al ref exacto y variable de autorización; los demás destinos siguen cerrados. La variable no se configura y el PR no se fusiona durante esta preparación. Tras revisar el diff final y el nuevo CI, el propietario debe autorizar expresamente la primera publicación antes de configurar `I03_STAGING_PUBLICATION_AUTHORIZED=true` y decidir el merge manual a staging. Las ramas protegidas mantienen su configuración anterior hasta ese merge; no cambia la predeterminada ni habilita producción.
 
 Las condiciones exigen push al ref exacto staging y repositorio correcto. El CLI vuelve a comprobar la autorización y el contexto antes de usar credenciales; verifica PR fusionado por el propietario, checks y procedencia. El artefacto probado se empaqueta una vez y se descarga por ID/digest. Bajo el bloqueo compartido se repiten la comprobación de candidato y la integridad antes de cualquier escritura.
 

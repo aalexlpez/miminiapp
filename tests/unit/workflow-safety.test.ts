@@ -21,7 +21,7 @@ interface YamlNode {
 }
 
 // This explicit test expectation changes only in the owner-approved activation patch.
-const stagingPublicationApproved = false;
+const stagingPublicationApproved = true;
 const stagingPrepareCondition =
   "${{ github.event_name == 'push' && github.ref == 'refs/heads/staging' && github.repository == 'aalexlpez/miminiapp' && vars.I03_STAGING_PUBLICATION_AUTHORIZED == 'true' }}";
 const stagingPublishCondition =
@@ -251,6 +251,11 @@ function auditWorkflow(
           : '${{ false }}'),
       'Publishing job is active in Phase A or lacks the exact staging authorization gate',
     );
+    requireCondition(
+      job['continue-on-error'] === undefined ||
+        job['continue-on-error'] === false,
+      'Publishing job must not ignore failures',
+    );
     const concurrency = mapping(job.concurrency, 'publisher concurrency');
     requireCondition(
       concurrency.group === 'miminiapp-publicacion',
@@ -305,6 +310,17 @@ function auditWorkflow(
         probeIndex >= 0 && probeIndex < publishIndex,
         'Missing read-only staging access check',
       );
+      for (const step of [steps[probeIndex], steps[publishIndex]]) {
+        requireCondition(
+          step['continue-on-error'] === undefined ||
+            step['continue-on-error'] === false,
+          'Staging access and publication steps must not ignore failures',
+        );
+        requireCondition(
+          step.if === undefined,
+          'Staging access and publication steps must require prior success',
+        );
+      }
       requireCondition(
         beforePublish
           .slice(0, probeIndex)
@@ -333,6 +349,17 @@ function auditWorkflow(
 
 async function readWorkflow(name: string): Promise<Mapping> {
   return parseYaml(readFileSync(resolve(workflowDirectory, name), 'utf8'));
+}
+
+function stagingStep(workflow: Mapping, command: string): Mapping {
+  const job = mapping(
+    mapping(workflow.jobs, 'jobs')['remote-test'],
+    'publisher',
+  );
+  const steps = (job.steps as Value[]).map((step) => mapping(step, 'step'));
+  const step = steps.find((entry) => String(entry.run).includes(command));
+  requireCondition(step, `Missing staging step: ${command}`);
+  return step;
 }
 
 function readGitHubRequest(name: string): Mapping {
@@ -729,6 +756,58 @@ describe('Phase A deployment safety', () => {
         mapping(job.concurrency, 'concurrency')['cancel-in-progress'] = true;
       },
       'Publication may be interrupted',
+    ],
+    [
+      'ignore a publishing job failure',
+      (workflow: Mapping) => {
+        mapping(mapping(workflow.jobs, 'jobs')['remote-test'], 'publisher')[
+          'continue-on-error'
+        ] = true;
+      },
+      'Publishing job must not ignore failures',
+    ],
+    [
+      'ignore a failed access probe',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'probe-staging-access')['continue-on-error'] =
+          true;
+      },
+      'Staging access and publication steps must not ignore failures',
+    ],
+    [
+      'ignore a failed publication',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'cli.ts publish')['continue-on-error'] = true;
+      },
+      'Staging access and publication steps must not ignore failures',
+    ],
+    [
+      'run the access probe regardless of previous failures',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'probe-staging-access').if = '${{ always() }}';
+      },
+      'Staging access and publication steps must require prior success',
+    ],
+    [
+      'skip the access probe on a successful path',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'probe-staging-access').if = '${{ failure() }}';
+      },
+      'Staging access and publication steps must require prior success',
+    ],
+    [
+      'publish despite a failed access probe',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'cli.ts publish').if = '${{ always() }}';
+      },
+      'Staging access and publication steps must require prior success',
+    ],
+    [
+      'publish only after a prior failure',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'cli.ts publish').if = '${{ failure() }}';
+      },
+      'Staging access and publication steps must require prior success',
     ],
     [
       'grant token writes',
