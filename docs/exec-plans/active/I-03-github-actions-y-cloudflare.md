@@ -1,0 +1,349 @@
+# I-03 — GitHub Actions y Cloudflare: staging, producción y promoción por PR
+
+## Control
+
+* **Estado:** `En curso`, exclusivamente Fase A (preparación técnica y configuración segura), por el propietario el 2026-11-06. Fase B sin autorizar.
+* **Responsable de aprobación, autorización y aceptación:** propietario de MiMiniApp.
+* **Creado:** 2026-11-05. **Última actualización:** 2026-11-06.
+* **Dependencia satisfecha:** [I-02 aceptado y archivado](../completed/I-02-catalogo-responsive-e-i18n.md).
+* **Base aceptada conservada:** `567b394583140d1710034f4798d0cf8dbb29e387` (I-02), ancestro de la rama técnica `feature/i03-preparacion-segura`. Informe actual: [Fase A](../../i03-phase-a-report.md).
+* **Autorización actual:** exclusivamente Fase A: implementación técnica/CI/configuración segura y commits/pushes técnicos sin publicaciones; ramas/protecciones conforme al procedimiento aprobado. Sin promociones, cambio de predeterminada antes de controles, Fase B, Workers o contenido público. El bloqueo de bootstrap documentado no autoriza cambiar ese procedimiento.
+* **Aprobación formal:** 2026-11-05, propietario de MiMiniApp: «Apruebo formalmente el ExecPlan I-03 — GitHub Actions y Cloudflare: staging, producción y promoción por PR», incluidos sus 12 criterios de aceptación; ratifica los ADR correspondientes. La misma instrucción declara que todavía no autoriza su ejecución ni crear recursos, tokens o ramas, hacer commits, pushes, merges o despliegues.
+* **Límites vigentes:** la autorización posterior permite iniciar Fase A, no activar despliegues. Bloqueos actuales: API de GitHub y bootstrap de código confiable en main; véase informe. Las capacidades reales de GitHub, compatibilidad de herramientas y aislamiento Editor por Worker deberán verificarse durante esa ejecución; no se presuponen pasadas. Si los tokens no limitan efectivamente cada Worker, detener la activación de los despliegues afectados y solicitar aprobación antes de cualquier alternativa. Main mantiene strict=true hasta demostrar y aprobar por el propietario su sustitución. I-02 permanece cerrado.
+* **Cloudflare confirmado por el propietario, 2026-11-05:** cuenta creada, acceso a Workers & Pages y cuota Workers Free visible; subdominio `miminiapp-lab.workers.dev`. Nombres decididos: staging `miminiapp-staging`, producción `miminiapp`. No hay proyectos, Workers, tokens o integraciones creados. Es información aportada por el propietario, no una inspección autenticada del agente.
+* **Aprobación de decisiones, 2026-11-05:** el propietario aprueba alojamiento/operación, una cuenta y dos Workers con los nombres/subdominio confirmados, Wrangler 4.158.0, Ubuntu 24.04 y acciones por SHA completo a verificar durante ejecución, sincronización conservadora preservando master/I-01/I-02, retención 7/30 días, gasto objetivo 0 USD/mes y rollback manual ensayado primero en staging. Exige tokens account-owned Editor por Worker tras creación administrativa y demostrar el gate antes de sustituir la protección nativa de main. No autoriza ejecutar I-03, crear recursos/tokens, sincronizar, hacer commits/pushes/merges o desplegar.
+* **Modelo individual confirmado, 2026-11-05:** un desarrollador y responsable con una cuenta personal GitHub. PR y checks obligatorios, cero aprobaciones de terceros, revisión y merge manual del propietario, auto-merge desactivado y ningún revisor obligatorio de Environments. Estas decisiones de flujo se registran en ADR-MMA-009; no aprueban ni activan I-03.
+
+## Autorización limitada de Fase A — 2026-11-06
+
+La autorización posterior permite preparar código/configuración, verificar historia local/remota y compatibilidad, commits/pushes técnicos sin publicaciones, ramas staging/main y protecciones disponibles. El propietario conserva revisión/merge manual. Main mantiene strict=true; no se autoriza sustituirlo, promocionar o cambiar la rama predeterminada antes de comprobar los controles.
+
+Implementar CI y workflows de staging/promoción/producción con publicadores **inactivos por código**, sin secretos de despliegue utilizables hasta autorización expresa de Fase B. Preparar Workers Static Assets y tokens Editor individuales, pero no publicar Worker ni contenido. Si crear un Worker exige desplegarlo, detener esa operación y pedir autorización; ninguna alternativa de credenciales generales automática. Pruebas que necesitan publicación o cambios de seguridad no aprobados quedan pendientes de Fase B.
+
+La recuperación del entorno se verificó en Codex Cloud: pwd y git status operativos, HEAD567b394 e I01aceptado0288de5 íntegros, código/build I02 idénticos al manifiesto y planificación sin commit presente. No se modificó historia para recuperar acceso.
+
+Parada Fase A: entregar inventario de cambios, commits/ramas/configuración, pruebas y límites, pasos personales GitHub/Cloudflare y solicitar autorización antes de activar despliegues. I-03 permanece En curso hasta satisfacer fases/AC; no se declarará Verificado por preparar únicamente Fase A.
+
+## Objetivo, alcance y exclusiones
+
+Conseguir que el trabajo habitual sea desarrollar una miniapp, ejecutar pruebas, abrir PR, revisar el resultado en staging y aprobar su paso a producción. GitHub Actions ejecutará las pruebas y despliegues; el propietario no tendrá que ejecutar Wrangler ni desplegar manualmente cada semana.
+
+I-03 propone configurar GitHub Actions y **Cloudflare Workers Static Assets**, con staging y producción separados, protecciones de ramas, identidad verificable del contenido servido, promoción del artefacto validado y recuperación. Incluye documentación operativa y evidencia local, CI y remota. El borrador reúne staging y producción antes separados en I-03/I-04 del roadmap; no autoriza otra iteración.
+
+No incluye miniapps reales, animaciones de PEND-008, cambios de diseño/stack, backend, SSR, BD, cuentas de usuario de la aplicación, analítica, contribución pública ni licencia general. No requiere comprar dominio. No se crean configuraciones ejecutables o recursos por preparar este documento.
+
+## Decisiones y arquitectura aprobadas, pendientes de ejecución
+
+Se mantienen los ADR aprobados de Astro estático, React cuando procede, TypeScript, Tailwind, modularidad, ES/EN y pruebas/toolchain fijadas. El propietario aprueba las decisiones del flujo individual de ADR-MMA-009 el 2026-11-05, registradas en el [índice técnico](../../design-docs/index.md), sin autorizar su activación. ADR-MMA-004/014 y la concreción operativa de ADR-MMA-009/015 quedan aprobadas por la indicación posterior del propietario el 2026-11-05, con las condiciones de tokens granulares y prueba previa de protección. El plan definitivo está ahora Aprobado formalmente; nada está implementado o autorizado para ejecutar. ADR-MMA-007 no se aprueba por observar que el repositorio ya es público.
+
+### Workers Static Assets
+
+Se propone publicar únicamente `dist/`, sin adaptador SSR, función Worker propia, `main` de ejecución ni bindings de datos. Wrangler subirá los assets y su configuración. Los siguientes son valores de diseño aprobados, todavía sin archivos de configuración creados:
+
+| Parámetro | Propuesta |
+| --- | --- |
+| Directorio | `assets.directory = ./dist`. Nunca el repositorio, fuentes, tests o `.local/`. |
+| HTML | `assets.html_handling = auto-trailing-slash`: conserva `/es/` y `/en/`; comprobar los 307 de normalización del proveedor. |
+| No encontrado | `assets.not_found_handling = 404-page`, con `dist/404.html` bilingüe. Sin modo SPA. |
+| Raíz | Aprobada: regla estática exacta `/ /es/ 301` en `_redirects`, conservando el HTML de fallback de I-02. No redirigir rutas desconocidas a español. |
+| Ejecución dinámica | No se usa `run_worker_first` ni código servidor; no se introducen invocaciones Worker para servir la web. |
+| CLI/configuración | Aprobado: Wrangler **4.158.0**, Node **24.22.2**, npm **11.19.1**, `compatibility_date = 2026-11-04` y validación del esquema de esa versión. Sin `@latest` en CI. Aún no instalado ni ejecutado; versiones/SHA se verificarán durante ejecución autorizada. |
+| Publicación | Entorno y destino explícitos. Rechazar destino omitido o no autorizado; sin un deploy genérico que pueda seleccionar producción accidentalmente. |
+
+El preview Astro seguirá respondiendo 200 con meta refresh en `/`; la suite remota comprobará el 301 propuesto según lo aprobado. El cuerpo 404 y sus rutas seguirán siendo reales, con estado 404. Las reglas del proveedor se ensayarán en staging antes de producción. No se añaden canónicas/hreflang absolutos sin decidir el origen público.
+
+### Separación de entornos y dominios
+
+| Elemento | Staging | Producción |
+| --- | --- | --- |
+| Rama de publicación | `staging` | `main` |
+| GitHub Environment | `staging`, restringido exactamente a esa rama | `production`, restringido exactamente a `main` |
+| Nombre confirmado; Worker aún no creado | `miminiapp-staging` | `miminiapp` |
+| URL prevista, todavía no desplegada | `https://miminiapp-staging.miminiapp-lab.workers.dev` | `https://miminiapp.miminiapp-lab.workers.dev` |
+| Credencial | Token staging en Environment staging; account ID de la cuenta común | Token producción distinto en Environment production; mismo account ID |
+| Contenido | Candidato real del catálogo, sin fixtures | Artefacto exacto validado en staging |
+
+El propietario confirma la cuenta, subdominio y nombres anteriores; no hay Workers, tokens o integraciones. Las URLs de ambos Workers se derivan del subdominio y no están publicadas. Queda proporcionar el Account ID como variable de configuración y, solo tras autorización, crear recursos/tokens. `workers.dev` evita comprar dominio; Cloudflare proporciona HTTPS. Un dominio propio y su DNS/certificados serían una decisión posterior. Staging será público y permanente; no contendrá secretos o datos privados.
+
+**Modelo aprobado: una cuenta Cloudflare, dos Workers y autorización granular por recurso.** Se corrige la evaluación anterior, basada en permisos legacy de cuenta: la documentación oficial actual distingue roles Workers y scopes individuales para API tokens, incluido su uso con Wrangler.
+
+### Creación administrativa controlada y tokens de CI
+
+Secuencia futura, únicamente después de la aprobación/autorización que corresponda:
+
+1. Crear `miminiapp-staging` y `miminiapp` mediante administración controlada con rol Admin de Workers a nivel de producto. Los scopes individuales solo pueden asignarse a Workers existentes. Registrar sus IDs e identidad de cuenta. Crear recursos no habilita publicar una release: mantener la publicación pública deshabilitada durante bootstrap hasta disponer de controles, permisos probados y autorización del primer circuito.
+2. Crear un **account-owned API token** con rol **Editor** limitado exclusivamente al Worker/ID `miminiapp-staging`, y otro token account-owned con rol Editor exclusivamente para `miminiapp`. No conceder Editor a nivel de producto ni roles de plataforma/cuenta general a los tokens de CI.
+3. Guardar cada token únicamente en su GitHub Environment. La credencial administrativa de bootstrap queda fuera de Environments, jobs ordinarios y código de aplicación; no se reutiliza en CI. Si se usa una credencial administrativa temporal, retirarla/revocarla al terminar su propósito.
+4. Wrangler utilizará `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` explícitos. **No usar `wrangler login` OAuth**, que la documentación identifica como incompatible actualmente con autorización granular.
+5. Antes de habilitar publicación, demostrar que cada Editor despliega/versiona y permite el rollback de su Worker existente, sin capacidad de crear/borrar Workers. Ejecutar una prueba negativa de permisos para acreditar que el token staging no puede modificar producción; registrar denegación del endpoint pertinente, política del token y que versión/identidad/assets de producción no cambian. Comprobar también separación de secretos GitHub; un token activo o un GET permitido no sustituyen esta prueba.
+
+Editor puede desplegar, gestionar versiones y hacer rollback de un Worker existente; no puede crearlo ni borrarlo. El proyecto usa workers.dev, sin añadir Routes o Custom Domains, por lo que no se propone permiso de zona. Mantener los nombres y la configuración de destino para prevenir errores, además de la autorización real por Worker.
+
+**Sin fallback automático a permisos amplios:** no utilizar `Workers Scripts: Edit` general ni otro equivalente legacy de cuenta. Ante un fallo con Wrangler 4.158.0 y Editor granular, detener el camino afectado y presentar antes evidencia reproducible de incompatibilidad: versión/operación/endpoint, scope correcto, error saneado y comprobaciones realizadas. Investigar primero ajustes compatibles sin ampliar privilegios. Cualquier alternativa de autorización requiere propuesta y aprobación expresa antes de utilizarla; la inspección estática del código legacy no demuestra incompatibilidad.
+
+Se necesitan la cuenta ya preparada, dos Workers con assets, dos GitHub Environments, dos tokens Editor individuales y GitHub Actions. No hacen falta Pages, R2, KV, D1, Durable Objects, Workers Builds ni runner propio. No habilitar integraciones Git que publiquen al margen de Actions. Las URLs temporales de versiones/previews quedarán deshabilitadas salvo aprobación expresa. No se ha creado ninguno de estos recursos o tokens.
+
+## Flujo Git y operación semanal
+
+**Rama de trabajo → PR a staging → checks obligatorios → revisión y merge manual del propietario → despliegue automático a staging → pruebas y validación de staging → PR a main → revisión y merge manual del propietario → despliegue automático a producción.**
+
+| Fase | Acción humana | Automatización prevista |
+| --- | --- | --- |
+| Desarrollo en `feature/*` | Desarrollar y revisar cambios; ejecutar pruebas locales; abrir PR a `staging`. | CI del PR, sin publicación ni credenciales Cloudflare. |
+| PR a `staging` | Revisar personalmente el contenido y fusionar manualmente cuando los checks permitan. | PR obligatorio, cero reviews requeridas y checks sobre el SHA actual y su combinación con la base. Nuevos cambios obligan a comprobar de nuevo ese contenido. |
+| Merge a `staging` | No hay comando de despliegue manual. | Validar commit integrado, construir artefacto, publicar staging, comprobar identidad y ejecutar suite remota. |
+| Revisión de staging | Abrir su URL y validar el candidato. Abrir/revisar el PR `staging` → `main`; el merge manual del propietario será la decisión de promoción. | Gate comprueba origen del PR, candidato exacto y pruebas remotas. No se exige evento Approve ni otra cuenta. |
+| PR a `main` | Revisar el candidato validado y decidir su merge manual. | Cero reviews requeridas; bloqueo si cambia el contenido, falla un check o no coincide con staging validado. |
+| Merge a `main` | No hay comando ni segundo clic ordinario de deploy. | Revalidar promoción, publicar el mismo artefacto y ejecutar smoke de producción. |
+
+Auto-merge desactivado. El propietario revisa cada PR y decide su merge manual: esa acción es el control humano, sin aprobación independiente. Los workflows no aprueban ni fusionan PR. Tras el merge válido, staging o producción se despliegan automáticamente, sin otra aprobación del deployment ni revisores obligatorios de Environments. Incidentes o credenciales caducadas podrán requerir intervención excepcional.
+
+**Evidencia del control humano individual:** comprobar PR fusionado, origen/base, commit/árbol, checks vigentes y `merged_by` atribuido a la cuenta del propietario, que se fijará en la configuración. GitHub no permite aprobar el propio PR; no se exigirá ese evento. El registro de merge identifica la cuenta que actuó, no demuestra por sí solo que se leyera el código ni que hubiera una revisión independiente. Se documentará la revisión de staging en el PR con su URL e identidad de candidato; el merge manual del propietario confirma la decisión de promover ese contenido.
+
+### Activar revisiones de colaboradores en el futuro
+
+Sin rediseñar los workflows: cuando exista un colaborador autorizado, cambiar la protección de staging/main de cero a una o más aprobaciones requeridas, invalidar reviews ante cambios nuevos y, si se acuerda, exigir revisión del último push y CODEOWNERS para archivos sensibles. Comprobar que hay al menos un revisor elegible distinto del autor; no contar bots como aprobación humana independiente.
+
+Los workflows conservarán PR/checks/identidad/merge como contrato y confiarán en las reglas de rama efectivamente aplicadas: no codificarán una exigencia fija de cero reviews ni de una segunda cuenta. Mantener auto-merge desactivado y despliegues automáticos posteriores al merge; no añadir reviewers de Environments por activar reviews de PR. Antes de activar la nueva política, probar tanto el bloqueo sin review como el merge con review válida, sin alterar el artefacto o publicador.
+
+## GitHub Actions y controles obligatorios
+
+### Workflows previstos
+
+Los cinco archivos están implementados localmente en Fase A. CI incorpora además push de la rama técnica feature/i03* para comprobar el arranque sin publicar. Staging/producción/rollback tienen todos sus jobs desactivados; no se afirma activación remota.
+
+| Workflow | Disparo y trabajo | Permisos/credenciales |
+| --- | --- | --- |
+| `ci.yml` | PR hacia `staging`/`main`: tipos, lint, formato, unitarias, componentes, build, E2E local/axe e integración modular. | `contents: read`; sin tokens Cloudflare. |
+| `staging.yml` | Actualización de `staging` tras merge protegido: comprobar commit, validar/construir, generar manifiesto, publicar y probar URL real. | Build sin secretos; job de deploy referencia solo Environment staging. Permisos GitHub de lectura según la tabla concreta; registro nativo del Environment, sin deployments: write. |
+| `promotion.yml` | PR `staging` → `main`: vincular árbol, artefacto, run confiable y pruebas remotas; no contar reviews de otro usuario. Nuevos cambios invalidan el candidato. | Lectura de contenido/Actions/PR/Check Runs según la tabla concreta; check nativo del job, sin permisos de escritura o credencial Cloudflare. |
+| `production.yml` | Actualización de `main` tras PR y merge manual del propietario: verificar PR/actor/candidato y publicar el artefacto validado; smoke. | Environment production, credencial solo en job privilegiado. |
+| `rollback.yml` | Recuperación manual excepcional del propietario desde una ref protegida, con destino explícito y versión/artefacto anterior validado. | Credencial del destino afectado; sin rollback automático ni publicación arbitraria. Ensayar inicialmente tras autorización. |
+
+### Paquete operativo exacto aprobado, pendiente de verificación en ejecución
+
+Metadatos y fuentes oficiales consultados el 2026-11-05, sin instalaciones ni ejecución del código descargado:
+
+| Herramienta | Versión/valor aprobado | Verificación realizada y alcance |
+| --- | --- | --- |
+| Wrangler | **4.158.0** | Registro npm oficial y SRI contrastados; instalado desde lockfile, versión CLI y parseo de ambas configuraciones comprobados en Fase A. Deploy/Editor/rollback reales pendientes de autorización y recursos. |
+| Node / npm | **24.22.2 / 11.19.1** | Conservar el runtime aprobado; comprobar ambas versiones al iniciar cada job. |
+| Runner | **ubuntu-24.04**, GitHub-hosted estándar | Imagen gestionada por GitHub, no inmutable; registrar ImageVersion y versión del runner. Las acciones elegidas usan Node 24 y requieren runner >=2.327.1. |
+| Compatibilidad Workers | **2026-11-04** | Fecha explícita coherente con el workerd incluido en Wrangler. Validar esquema/compatibilidad durante ejecución autorizada. |
+| Playwright / Chromium | **1.64.1 / 156.0.8078.4, r1248** | Conservar versiones aceptadas y usar el mismo path de navegador al instalar y ejecutar. |
+
+| Acción oficial | Release consultada | Referencia exacta que se usará en `uses` |
+| --- | --- | --- |
+| `actions/checkout` | v7.0.1 | `actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1` |
+| `actions/setup-node` | v7.1.0 | `actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1` |
+| `actions/upload-artifact` | v7.0.2 | `actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9` |
+| `actions/download-artifact` | v8.0.2 | `actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333` |
+
+Se verificaron tags completos, `action.yml`, runtime Node 24 y fuentes al SHA. Los tags son referencias informativas; CI utilizará únicamente los SHA completos. No se necesitan `github-script`, `actions/cache` ni una acción adicional de Cloudflare: publicación mediante el binario local de Wrangler exacto. El propietario aprueba estos valores y exige contrastar SHA/versión durante ejecución. Cambiarlos requiere revisión del paquete conforme a su alcance, sin seguir automáticamente un tag móvil.
+
+En Fase A se añadió `wrangler: 4.158.0` como devDependency exacta y se actualizó el único `package-lock.json`. npm ci reproducible satisfactorio; scripts de instalación esbuild@0.28.2 y workerd@1.20261104.1 autorizados por versión exacta como parte mecánica del paquete aprobado. Su peer `@cloudflare/workers-types` es opcional y no se incorpora a la aplicación por defecto. Usar `npm ci` y el binario local `./node_modules/.bin/wrangler`, sin instalación dinámica de latest en el publicador. Dependencias/build se preparan sin inyectar credenciales Cloudflare; el token se entrega solo al paso Wrangler del job autorizado.
+
+Checkout con `persist-credentials: false`; setup-node con `package-manager-cache: false` en jobs privilegiados. Descargar artefactos por `artifact-ids` y `run-id` de una ejecución confiable y exigir `digest-mismatch: error`, además de verificar el hash propio del paquete/manifiesto. No usar un nombre o input libre para elegir el artefacto.
+
+Se empleará un runner GitHub-hosted Linux estándar, acciones fijadas por SHA completo y herramientas con versiones exactas. Node **24.22.2**, npm **11.19.1**, lockfile actual; Playwright **1.64.1** y Chromium **156.0.8078.4 / revisión 1248**. Instalación y ejecución compartirán `PLAYWRIGHT_BROWSERS_PATH`. El navegador del sistema no sustituye al fijado.
+
+### Pruebas locales y remotas
+
+* **Local/CI:** `npm ci`, `npm run verify` y escaneo de límites/ausencia de fixtures en el entregable. La suite existente conserva 59 unitarias, 9 componentes, 26 E2E/axe e integración aislada mientras no cambie el producto; sus cifras no se convierten en un límite a pruebas futuras.
+* **Staging:** suite remota reutilizable, con URL aprobada y sin iniciar el `webServer` local. Verificar ES/EN, selector, navegación, responsive, teclado/axe, recursos, errores de consola/red, 301 de raíz según lo aprobado, barras y 404 reales. Comprobar ausencia de herramientas sintéticas y borradores.
+* **Producción:** identidad de versión y smoke de ES/EN, navegación esencial, recursos, raíz/404 y ausencia de fixtures; conservar resultado y bloquear nuevas promociones ante fallo.
+* Los comandos remotos aún no existen. Se crearán en ejecución autorizada, manteniendo la suite local y una allowlist derivada del destino. No se relajarán errores para obtener verde.
+
+### Protecciones, confianza y secretos
+
+`staging` y `main` exigirán PR y checks obligatorios vigentes, con **cero aprobaciones requeridas**: no exigir CODEOWNERS ni aprobación del último push que dependan de un segundo usuario. El propietario revisará y fusionará manualmente. `main` solo admitirá promoción desde staging mediante gate comprobable. Desactivar auto-merge; bloquear pushes directos, force pushes y borrados y aplicar las protecciones al administrador cuando GitHub lo permita, verificando su comportamiento real antes de activar publicación. Si alguna restricción no puede aplicarse, registrar el bloqueo; no declarar que está protegida. Los checks requeridos propuestos son `quality` en staging y `quality` + `promotion` en main, asociados a GitHub Actions. Antes de activar la protección, verificar que esos nombres se emiten realmente y no dependen de filtros o skips que los omitan. `promotion` se ejecutará en todo PR a main y fallará si origen/repositorio no son staging del mismo repositorio; no se saltará el job para una rama no admitida. Actions no dispondrá de permisos para aprobar/fusionar PR ni se usará un token de escritura para hacerlo.
+
+Los Environments restringirán las ramas exactas staging/main y acceso a secretos, **sin revisores obligatorios, esperas ni otra aprobación manual del deployment**. Su función es delimitar destino y credencial; no suplir una revisión independiente inexistente.
+
+Cambios en `.github/workflows/`, configuración de despliegue y política de promoción requerirán revisión humana específica. Los PR no recibirán secretos Cloudflare; no se ejecutará contenido de PR con `pull_request_target` privilegiado. Builds y pruebas se separarán de jobs con credenciales. No se consumirá un artefacto de PR o caché no confiables en el publicador de producción.
+
+Tokens Cloudflare account-owned distintos, con rol Editor y scope de su Worker individual, conforme al modelo aprobado. No usar Global API Key, OAuth Wrangler ni permisos legacy generales de cuenta. No añadir DNS/Routes/datos. `CLOUDFLARE_API_TOKEN` será secreto de cada Environment; Account ID y Worker/ID son valores explícitos de destino. No imprimir, versionar o exponer tokens; responsable, revocación y rotación definidos.
+
+### Permisos mínimos, secretos y protecciones con condiciones aprobadas
+
+`permissions` por defecto: `contents: read`; todo permiso no solicitado queda en none. Cada job declarará todos los permisos de lectura que realmente utilice, sin heredar implícitamente una mezcla de otros jobs.
+
+| Job/función | `GITHUB_TOKEN` propuesto | Credencial Cloudflare |
+| --- | --- | --- |
+| `quality`, build, tests locales/remotos | `contents: read` | Ninguna. Las pruebas públicas no necesitan token de deploy. |
+| `promotion`, gate previo y comprobación final del publicador | `contents: read`, `actions: read`, `pull-requests: read`, `checks: read` | Ninguna durante el gate previo. En el publicador, solo el paso Wrangler tras superar las comprobaciones. |
+| Upload/download de artefactos | Upload del run propio no requiere `actions: write`; download cross-run usa `actions: read` | Ninguna. |
+| Deploy/rollback | Mismo conjunto de lectura si revalidan PR/checks/artefacto; sin escrituras GitHub | Solo el secreto del Environment correspondiente y en el paso de publicación autorizado. |
+
+No se solicitan `contents: write`, `pull-requests: write`, `checks: write`, `statuses: write`, `id-token: write` ni `deployments: write`: se emplean checks nativos de jobs, lecturas de Check Runs y registro del Environment, sin API propia de publicación de checks/deployments ni OIDC. `statuses: read` tampoco se solicita porque se verifican Check Runs de Actions, no estados legacy. Cualquier necesidad nueva se justifica antes de ampliar permisos.
+
+| Configuración | `staging` | `main` |
+| --- | --- | --- |
+| PR requerido | Sí, reviews requeridas = **0** | Sí, reviews requeridas = **0** |
+| Checks obligatorios | `quality` | `quality`, `promotion` |
+| Exigir rama actualizada nativamente (`strict`) | **true** | **true inicialmente**. Sustitución solo tras demostrar el gate y obtener aprobación expresa del propietario; si no se acredita o aprueba, conservar true. |
+| Aplicar también al administrador | **true** (`enforce_admins` o equivalente sin bypass); verificar efectivamente | Igual |
+| Push directo / force push / borrado | Bloqueados; `allow_force_pushes = false`, `allow_deletions = false` | Igual |
+| Reviews de CODEOWNERS / último push | No requeridas en modo individual | Igual |
+| Environment | Solo rama exacta staging; reviewers vacíos, espera 0 | Solo rama exacta main; reviewers vacíos, espera 0 |
+
+Repositorio: `allow_auto_merge = false`, `allow_merge_commit = true`, `allow_squash_merge = false`, `allow_rebase_merge = false`. No exigir historial lineal al utilizar merge commits. Esto conserva los commits aceptados y evita políticas incompatibles. No se presupone que restricciones de push exclusivas de repositorios de organización estén disponibles para una cuenta personal; el rechazo de push directo debe acreditarse mediante PR obligatorio y reglas efectivas, incluyendo al administrador.
+
+**Condición previa a sustituir la protección de main:** mantener la exigencia nativa de rama actualizada (`strict = true`) mientras no exista evidencia verificable de que el gate bloquea candidatos obsoletos, cambios concurrentes de base/staging, artefactos distintos/manipulados y reruns antiguos. No desactivar esa protección para poder probar el propio gate. Los checks quality/promotion y la equivalencia exacta con el candidato validado son obligatorios en ambos escenarios.
+
+La propuesta de sustituir strict nativo por el gate propio solo podrá aplicarse después de acreditar, en ensayos autorizados sin exponer producción: candidato A validado seguido de B obsoleto para la promoción anterior; main/base o staging cambiados antes y durante la publicación; dos publicaciones concurrentes; hash/run/artefacto no coincidentes; y un rerun antiguo. Añadir dos ciclos válidos consecutivos. Registrar entradas, árbol/base/candidato, resultado y ausencia de cambio en producción para cada rechazo. La comprobación final del publicador repetirá identidad/base/artefacto bajo bloqueo compartido, sin reconstrucción silenciosa.
+
+Solo tras superar y registrar esas pruebas y obtener aprobación expresa del propietario para sustituir el control se podrá cambiar a strict=false en main; no es un cambio automático ni queda autorizado solo por aprobar el plan. Si alguna prueba no acredita seguridad/equivalencia o no puede ejecutarse, mantener strict=true y documentar el bloqueo de sustitución. Mientras rija strict nativo, resolver divergencias main/staging mediante PR revisado cuando sea necesario; no force push ni bypass. El posible coste de esa sincronización no justifica rebajar protección.
+
+El grupo compartido de concurrencia propuesto es `miminiapp-publicacion` en los jobs que publican staging, producción o rollback, con `cancel-in-progress: false`; gates/builds sin credenciales quedan fuera. Revalidar después de adquirirlo y antes de publicar. GitHub no garantiza FIFO y puede sustituir ejecuciones pendientes: registrar cancelaciones y candidatos obsoletos, sin prometer que se publicará todo lo encolado ni que cancelar equivale a rollback.
+
+Secretos: dos valores distintos llamados `CLOUDFLARE_API_TOKEN`, uno en cada Environment; variable `CLOUDFLARE_ACCOUNT_ID` de la cuenta común, Workers fijados por destino y cuenta del merger `aalexlpez`, que deberá confirmarse con la identidad efectiva al configurar. No crear secretos de repositorio accesibles indiscriminadamente a PR, ni usar un PAT con permisos de merge para automatizar decisiones del propietario. La separación de secretos GitHub complementa el scope Editor individual y no lo sustituye; comprobar ambos controles.
+
+Retención propuesta concretada: reportes/trazas de fallos **7 días**, candidato y artefacto de release **30 días**, caché npm solo de datos descargados en jobs sin secretos y con clave de SO/Node/lockfile; sin cachear `dist`, credenciales o código de publicación entre contextos no confiables. Antes de caducar la última release válida, conservar su versión de Cloudflare y renovar el respaldo del mismo artefacto mediante una operación confiable sin reconstruir/publicar código nuevo. Un candidato expirado requiere nueva validación, no sustitución silenciosa. Objetivo de gasto **0 USD/mes** en planes Free; no activar productos, runners mayores o excedentes pagados sin autorización. Configurar alertas y bloqueo de consumo si el proveedor/plan lo permite y comprobar sus límites reales.
+
+## Candidato validado y prevención de publicaciones accidentales
+
+El build confiable de staging producirá un manifiesto público inocuo con commit/árbol de origen y huella del payload, y un registro de release con hash del artefacto, run de Actions y deployment/version ID de Cloudflare. La huella excluirá el propio campo autorreferente; el registro externo conservará el hash final del archivo empaquetado.
+
+Producción reutilizará el **mismo artefacto estático** que se probó en staging. Las cuentas, nombres y URLs serán configuración de publicación, no variables que reconstruyan el frontend. Si se necesita contenido distinto por entorno, será un cambio que requiere definir de nuevo cómo demostrar equivalencia.
+
+Un job de gate sin Environment ni secretos comprobará el candidato antes de habilitar mediante `needs` el job privilegiado: GitHub entrega los secretos del Environment al iniciar ese job, no después de un paso interno. El job privilegiado repetirá la comprobación antes de desplegar. El gate del PR y esos controles comprobarán: rama origen, árbol exacto promovido, run de build confiable correcto, artefacto por ID/hash y pruebas remotas correctas. Antes de publicar tras el merge se comprobará además que hubo PR válido fusionado manualmente por la cuenta del propietario, sin exigir reviews nativas. En repeticiones de workflows también se comprobará `triggering_actor`, no solo el actor original: un rerun no puede republicar un candidato obsoleto. Restaurar una versión anterior requiere el rollback manual dedicado. El check previo del PR no debe esperar a su propio merge ni a una aprobación de otro usuario. Un SHA nuevo de merge no prueba equivalencia por sí solo. Si el candidato servido y validado en staging cambió, el artefacto caducó, desapareció o no coincide, se detiene la promoción; no se reconstruye o sustituye silenciosamente.
+
+Concurrencia por destino y un bloqueo compartido de publicación para staging/producción: cancelar validaciones obsoletas cuando sea seguro y serializar publicaciones. La promoción adquiere ese bloqueo antes de su verificación final y lo mantiene hasta terminar deploy/smoke, de modo que staging no publique otro candidato durante ese intervalo. Nuevos merges pueden quedar en cola, pero no modifican el artefacto congelado y aprobado. Antes de publicar, comprobar otra vez que el candidato servido validado sigue vigente. No asumir que cancelar un job revierte una publicación iniciada. No se habilitarán despliegues ordinarios desde `feature/*`, tags, PR externos, un input libre de `workflow_dispatch` o una integración paralela del proveedor. La única excepción prevista es el rollback manual restringido descrito aquí: no permite publicar código nuevo.
+
+**Alcance de la garantía:** los tests demostrarán que los eventos, ramas y jobs del circuito ordinario no pueden saltarse el PR, los checks y el merge manual del propietario. No existe aprobación independiente. Se comprobará la denegación real de acceso de modificación a producción mediante el token Editor de staging; los controles de GitHub no sustituyen esa autorización por recurso. Un propietario con capacidad de editar protecciones, sustituir secretos o desplegar desde Cloudflare puede alterar esos controles; no se promete una imposibilidad absoluta frente al administrador. El acceso administrativo queda reservado al mantenimiento inicial y a emergencias auditadas.
+
+## Estado del repositorio y sincronización segura
+
+Comprobado por HTTPS en lectura el **2026-11-05, 19:58 CET (refs reconfirmadas; grafo inspeccionado a las 16:49 CET)**. Repositorio: `aalexlpez/miminiapp`, observado como **público**. No se han comprobado su plan contratado, colaboradores, rulesets, GitHub Environments o integraciones del dashboard Cloudflare.
+
+| Referencia | Ubicación observada |
+| --- | --- |
+| Checkpoint I-01 `0cf778f988068e9ac7f7c7a519e1ec36486cc8aa` | Local y GitHub: `feature/i01-base-local-testing`; también ancestro de `master`. |
+| Cierre aceptado I-01 `0288de567fe7e1665973c6d8e128866962f66e2e` | Local; ninguna rama remota anunciada lo contiene. |
+| Cierre aceptado I-02 `567b394583140d1710034f4798d0cf8dbb29e387` | HEAD local, `feature/i02-catalogo-responsive-e-i18n`; ninguna rama remota anunciada lo contiene. |
+| `master` remoto / HEAD remoto | `214a3c16ad5e968214af540033246baa9dd32ba1`, merge del PR #1 de I-01. |
+| `main`, `staging`, rama de I-02 remotas | No anunciadas en la lectura de refs. |
+
+Hay ancestro común `0cf778f`. Frente a `master`, la rama local tiene **dos commits exclusivos** y el remoto **uno**, el merge PR #1. El árbol de ese merge remoto es idéntico al del checkpoint: no hay un cambio de contenido remoto adicional. No se trata de historias sin relación ni procede un push forzado.
+
+La comprobación usó `git ls-remote --symref origin` y un fetch en un bare aislado ignorado, sin actualizar refs del checkout. Evidencias: `.local/verification/i03/repo-ls-remote.json` y `repo-graph.json`. La lectura refleja ese momento; se repetirá antes de sincronizar.
+
+**Procedimiento conservador aprobado; ejecución limitada de Fase A:**
+
+1. Preservar el commit local y los cambios sin commit del borrador; inventariar refs y automatizaciones existentes y refrescar la lectura remota. No hacer reset, rebase destructivo, force push o borrado de `master`.
+2. Aprobar el bootstrap de `main` y `staging` desde el `master` remoto existente, conservando su historia. Mantener publicación desactivada hasta que protecciones, identidad y credenciales estén listas; decidir después el cambio de rama predeterminada a `main`.
+3. En un worktree limpio, preparar una rama de integración que conserve el merge remoto y los dos commits aceptados, mediante merge normal si hace falta. Revisar el árbol resultante frente al I-02 aceptado y ejecutar solo las verificaciones afectadas. Los cambios I-03 no se incorporarán sin su aprobación/autorización propias.
+4. Solo con permiso de push, publicar la rama de trabajo y tramitar PR a staging, checks y revisión humana. No subir directamente a `staging` o `main`. El primer bootstrap deberá acordar cómo introducir CI y activar checks existentes, sin un periodo de publicación sin controles.
+5. Primer despliegue de staging autorizado, pruebas remotas y revisión; después PR protegido a main y primera publicación de producción autorizada. Los despliegues semanales seguirán el circuito normal automático.
+
+Reinventario y fetch de origin/master efectuados en Fase A. Rama técnica local creada; integración conservadora y commit técnico se registran en el informe. Las ramas remotas staging/main se posponen por API inaccesible y bloqueo de bootstrap: partir de master no proporciona código confiable al primer gate. Una base inicial alternativa requiere aprobación expresa; no se aplica silenciosamente.
+
+## Costes y límites consultados
+
+Fuentes oficiales consultadas el **2026-11-05**. Se propone comenzar con planes gratuitos, runners estándar y sin dominio propio; confirmar límites vigentes y facturación de las cuentas antes de activar.
+
+| Servicio | Posibilidad gratuita y límites relevantes |
+| --- | --- |
+| Cloudflare Workers Static Assets | Peticiones a assets estáticos gratuitas e ilimitadas, sin cargo adicional por almacenarlos. Plan Free: **20 000 archivos por versión**, **25 MiB por archivo**, **100 Workers por cuenta**. Dos Workers caben holgadamente. No supone SLA ni capacidad ilimitada en todo servicio. |
+| Worker dinámico, si se añadiera | Fuera de alcance. Free: **100 000 peticiones/día** y **10 ms CPU/invocación**; el servicio de assets no tiene ese límite de peticiones. Workers Paid parte de **5 USD/mes por cuenta** más excedentes. No se activa. |
+| Dominio / TLS | `workers.dev` y HTTPS no requieren comprar dominio. Un dominio propio cuesta su registro/renovación; opcional y no presupuestado. |
+| GitHub Actions en este repositorio público | Compute de runners GitHub-hosted **estándar gratuito**. No usar larger runners, que pueden cobrarse incluso en público. GitHub Free incluye **500 MB de artefactos compartidos con Packages** y **10 GB de caché por repositorio**. Confirmar consumo total de la cuenta. |
+| Si el repositorio pasara a privado | GitHub Free ofrece actualmente **12 USD/mes de compute incluido** —aproximadamente 2000 minutos Linux 2-core a 0,006 USD/min si solo se usa eso— y 500 MB de artefactos. La cuota se comparte con otros consumos elegibles; no es una bolsa universal fija de minutos. Las protecciones de ramas/Environments privadas exigirían un plan compatible de pago. |
+| Protecciones GitHub | En el repositorio público, ramas protegidas y Environments están disponibles en Free. En privado se requiere Pro/Team o superior; revisores obligatorios de Environments privados no se presuponen incluidos en Pro/Team. El control individual acordado es revisión y merge manual del propietario con PR y checks obligatorios, cero reviews requeridas y ningún reviewer de deployment. |
+
+**Coste base previsto: 0 USD/mes**, manteniendo el repositorio público, Workers Free, runners estándar y consumos dentro de cuotas de almacenamiento. No se aprueba cambiar la visibilidad para ahorrar costes. No hay garantía de gratuidad si se contratan extras o excede almacenamiento.
+
+Propuesta de retención: reports/trazas solo cuando sean útiles, fallos 7 días; artefacto del candidato y última release válida hasta 30 días, dentro del presupuesto. Conservar versión válida del proveedor y gestionar renovación del artefacto antes de que expire. Si un candidato expira, no se promueve. Configurar alertas/límites de gasto y comprobar si el bloqueo de excedentes es efectivo; una alerta por sí sola no evita cargos. No se instala un runner propio para evitar cuotas.
+
+## Intervención inicial del propietario y automatización posterior
+
+| Intervención inicial requerida | Después de la configuración aprobada |
+| --- | --- |
+| Confirmar el plan definitivo; las decisiones técnicas indicadas ya están aprobadas. Autorizar después ejecución/activación y primeros despliegues. | Nuevas herramientas usan la infraestructura aprobada sin autorizar un sistema de despliegue cada semana. |
+| Acceso administrativo controlado y 2FA: crear primero ambos Workers y luego los account-owned tokens Editor individuales, solo tras autorización y por canales seguros. | Tokens se usan automáticamente en sus jobs; intervención excepcional para rotación o incidentes. |
+| Fijar la cuenta personal del propietario como responsable del merge manual y configurar cero reviews requeridas, auto-merge desactivado y Environments sin reviewers. Modelo ya decidido. | El propietario revisa y fusiona cada PR y valida staging; no necesita otro usuario. Futuras reviews de colaboradores se activan en protecciones sin rediseñar los workflows. |
+| Aplicar tras autorización la sincronización conservadora aprobada, protecciones/checks/Environments; no sustituir strict de main sin prueba previa. | CI, build, despliegue de staging, suite remota, comprobación de candidato y deploy/smoke de producción son automáticos. |
+| Nombres/subdominio, retención 7/30, objetivo cero y rollback manual ya aprobados. Proporcionar Account ID y autorizar por separado bootstrap, pruebas de permisos y ensayo de recuperación. | No hay que copiar archivos, ejecutar Wrangler o entrar en Cloudflare para cada release. |
+
+Si el propietario prefiere delegar los ajustes iniciales, necesitará autorizar expresamente el acceso y las modificaciones correspondientes; esta revisión no lo hace. No se deben enviar tokens por el chat. Cuando se ejecute desde Codex, podrán requerirse permisos de red para GitHub API, Cloudflare API y URLs `workers.dev`; los runners de Actions tienen su propia red. No se modifica la red actual en esta tarea.
+
+## Seguridad, errores y recuperación
+
+* **Fallo de CI o revisión:** no merge/publicación. Artefactos y logs suficientes para diagnosticar, sin secretos; mantener [PEND-007](../tech-debt-tracker.md#pend-007--seguimiento-de-incidencias-moderadas-de-lint).
+* **Fallo o timeout de deploy:** registrar versión anterior y respuesta del proveedor; consultar la versión realmente activa, porque un timeout no demuestra que no haya publicado. Bloquear promoción y comprobar staging/producción independientemente.
+* **Fallo de pruebas remotas en staging:** no se habilita el PR de promoción; se corrige y se vuelve a validar otro candidato.
+* **Fallo de smoke de producción:** release fallida; detener promociones y registrar el incidente. El propietario decide y ejecuta el rollback manual al último artefacto/versión validado mediante el procedimiento restringido. No hay recuperación automática ni un deployment de reemplazo sin su acción. Es una excepción de incidente, no un despliegue semanal manual.
+* **Mecanismo de recuperación:** verificar soporte efectivo de `wrangler rollback`/versiones para este proyecto con assets; Cloudflare documenta las **100 versiones publicadas más recientes**. Comprobar también el contenido estático recuperado. Como respaldo, conservar y redeplegar el artefacto íntegro anterior verificado, sin reconstruir fuentes diferentes. Ensayar inicialmente el rollback manual en staging y una comprobación controlada de producción, con autorización de esos ensayos; registrar actor, destino, versión anterior y posterior y smoke de recuperación. No se habilita un rollback automático latente.
+* **Credencial expuesta:** revocar/rotar, detener el job afectado y verificar despliegues reales. No recuperar publicando con una credencial más amplia.
+
+La recuperación no altera una BD porque I-03 no incorpora datos persistentes. Un rollback no recupera automáticamente recursos externos borrados; esa limitación del proveedor se conserva. El acceso de emergencia queda auditado y no forma parte de la rutina semanal.
+
+## Criterios de aceptación aprobados y pruebas reproducibles
+
+| ID | Evidencia exigida antes de declarar I-03 Verificado |
+| --- | --- |
+| I03-AC1 | Decisiones/autorización registradas; inventario de ramas, cuentas, destinos, URLs y capacidades efectivas. Sin confundir infraestructura propuesta con existente. |
+| I03-AC2 | CI desde checkout limpio pasa tipos, lint, formato, unitarias, componentes, E2E local/axe e integración con el paquete operativo exacto documentado (Wrangler/acciones/runtime/navegador); registrar versiones de runner/imagen y lockfile. Un PR con fallo queda bloqueado y no publica. |
+| I03-AC3 | PR obligatorios con cero reviews requeridas y checks vigentes: rechazar push directo, force push, borrado y merge con checks fallidos/no vigentes, también para el administrador cuando la capacidad exista. Probar que el propietario puede fusionar manualmente su propio PR válido, sin segunda cuenta; auto-merge desactivado y Environments sin reviewers de deployment. Registrar cualquier restricción no soportada como bloqueo real. |
+| I03-AC4 | Crear primero ambos Workers con administración controlada sin credencial Admin en CI; después account-owned tokens Editor limitados a cada Worker. Cada token funciona para su destino existente; una operación de modificación con el token staging contra producción recibe denegación y no cambia versión/identidad/assets. PR sin confianza no accede a secretos y staging no obtiene el secreto production. Sin OAuth ni permisos generales de cuenta; cualquier incompatibilidad requiere evidencia y propuesta previa antes de cambiar autorización. |
+| I03-AC5 | Publicar un candidato marcado en staging cambia su identidad servida y deja intactos manifiesto/versión de producción; URLs, Workers y credenciales corresponden a destinos distintos. |
+| I03-AC6 | Tras merge humano a staging, Actions publica automáticamente el artefacto identificado y su identidad HTTP coincide con hash/run/version ID registrados; sin comandos manuales de publicación. |
+| I03-AC7 | La suite contra staging real pasa ES/EN, idioma, navegación, responsive, teclado/axe, recursos, raíz/barra/404 y ausencia de fixtures/borradores. |
+| I03-AC8 | Strict nativo de main permanece true hasta demostrar rechazos de candidato obsoleto, cambios concurrentes de staging/base, artefacto/hash/run distinto y rerun antiguo, más dos promociones válidas consecutivas con equivalencia exacta. Registrar evidencia y obtener aprobación expresa del propietario antes de sustituirlo por el gate; sin evidencia y aprobación, no rebajar protección. PR/origen inválido o checks fallidos no se omiten como gate verde. Gate sin secretos y revalidación bajo bloqueo compartido antes de usar credencial. |
+| I03-AC9 | PR staging→main con checks correctos, revisado y fusionado manualmente por el propietario, publica automáticamente el mismo artefacto probado. Verificar PR merged, identidad de la cuenta y candidato; sin exigir evento Approve ni afirmar review independiente. Features, tags, PR no fusionados, otros actores y dispatch arbitrario no publican; sin aprobación extra de deployment. |
+| I03-AC10 | Smoke real de producción confirma identidad y recorridos críticos; un fallo produce estado de release fallida y la recuperación acordada, nunca una validación verde ficticia. |
+| I03-AC11 | Ensayo inicial autorizado de rollback manual del propietario restaura versión y assets anteriores y pasa smoke. Solo admite destino fijo y versión/artefacto previamente validado desde ref protegida; no permite código arbitrario ni rollback automático. Concurrencia evita pisar una release posterior y retención permite recuperar la última release válida. |
+| I03-AC12 | Guía y evidencia distinguen configuración inicial, revisión/merge manual individual, despliegues automáticos y rollback manual excepcional. Documentar cómo exigir reviews futuras cambiando protecciones sin rediseñar workflows, costes y límites administrativos/de tokens. El propietario acepta la entrega expresamente. |
+
+Los casos negativos se probarán con candidatos/PR y permisos autorizados, antes de habilitar el publicador de producción o en ramas/destinos de ensayo con controles equivalentes comprobados. No se publicará contenido de prueba en producción ni se abrirá para comprobar un bypass. En producción activa se usarán lecturas y comprobaciones de permisos no destructivas; una simulación local o `push --dry-run` no acredita por sí sola el rechazo del servidor; si una operación no puede verificarse sin impacto, acordar antes el ensayo controlado. No se expondrán fixtures sintéticas en ningún destino público.
+
+## Trabajo previsto, evidencias y punto de parada
+
+Tras autorizar expresamente la ejecución del plan ya Aprobado: registrar Autorizado → En curso, sincronizar conservando master/commits aceptados, preparar configuración revisable y protecciones, crear ambos Workers administrativamente sin publicar una release antes de los controles, emitir Editor individuales, probar permisos y gate manteniendo strict nativo, habilitar el primer circuito autorizado, ensayar rollback manual primero en staging y documentar resultados. La introducción inicial de automatizaciones deberá tener una autorización de activación específica; no se deduce de un borrador.
+
+Conservar comandos/versiones/códigos de salida, configuración efectiva, PR/checks/revisiones, árboles/hashes, artefactos, URLs/versiones y pruebas reales con evidencia segura. Logs locales en `.local/verification/i03/`, reportes ignorados y artefactos Actions con retención aprobada. Los comandos de deploy y pruebas remotas se documentarán como operativos solo cuando existan y se hayan ejecutado.
+
+**Parada actual:** Fase A En curso. Preparación y verificaciones locales realizadas; API/protecciones/CI remoto y bootstrap pendientes, sin publicación. El informe detalla hechos y evidencia. Fase B no autorizada; no se crea Worker ni se levanta ningún bloqueo de publicación. **Parada futura:** Verificado solo tras acreditar todos los AC; aceptación humana e I-04 siguen separadas.
+
+## Decisiones aprobadas y condiciones todavía por acreditar
+
+El propietario aprueba arquitectura/operación, ADR-MMA-004/014, la concreción de ADR-MMA-009/015, una cuenta y los dos nombres/subdominio confirmados, versiones/SHA fijados a verificar durante ejecución, sincronización conservadora preservando master/I-01/I-02 y creando staging/main antes de cambiar la predeterminada a main, retención 7/30, objetivo de gasto 0 USD/mes y rollback manual probado primero en staging. No se vuelven a pedir esas aprobaciones ni la aceptación de tokens generales, que se retiran del modelo.
+
+La corrección incorporada es vinculante: creación administrativa de ambos recursos antes de emitir account-owned tokens Editor individuales; prueba de que staging no puede modificar producción; no utilizar Workers Scripts: Edit general sin presentar primero evidencia de incompatibilidad y una alternativa para aprobación. Main conserva strict nativo hasta demostrar el gate y nunca lo rebaja si las pruebas no acreditan equivalencia/protección.
+
+**Pendiente actual:** aplicar el acceso a api.github.com ya preparado por el propietario al terminar el turno, completar configuración/validación remota de Fase A y aprobar el procedimiento inicial de introducción del gate antes de crear staging/main. Recursos, tokens, pruebas públicas y activación requieren autorización específica de Fase B. No se solicita de nuevo la autorización de Fase A ya concedida.
+
+**Comprobaciones futuras, no fallos acreditados:** compatibilidad real de Wrangler 4.158.0 con Editor por Worker y assets/versionado/rollback; denegación real cruzada; aplicación de protecciones al administrador; rechazo de obsoletos/concurrencia/artefactos distintos antes de sustituir strict; HTTP/versión del proveedor reales. Las versiones locales y SHA de acciones ya se comprobaron en Fase A; esas comprobaciones locales no acreditan despliegue ni permisos. Si el aislamiento por Worker no funciona, detener la activación de los despliegues afectados y solicitar aprobación antes de adoptar una alternativa. Una incompatibilidad detendrá el trabajo afectado sin ampliar permisos ni reducir protección automáticamente. Cualquier sustitución de strict nativo de main exige demostración y aprobación expresa del propietario.
+
+La cuenta Free y subdominio ya están preparados según el propietario; no hay Workers, tokens o integraciones creados por esta tarea. Para la ejecución futura faltarán Account ID, acceso administrativo efectivo, provisión segura de roles/tokens y autorización de los primeros ensayos. No hay bloqueo documental demostrado por el modelo granular: las fuentes oficiales lo describen, incluida su utilización con Wrangler.
+
+## Fuentes y verificaciones de esta revisión
+
+Consultadas el 2026-11-05 en registro npm y repositorios oficiales `cloudflare/cloudflare-docs` (rama production) y `github/docs` (rama main). Los dominios developers.cloudflare.com y docs.github.com devolvieron 403 del proxy del entorno; se leyeron sus fuentes oficiales publicadas en GitHub, sin cambiar red ni omitir TLS. Evidencia temporal en `.local/verification/i03/research/`.
+
+* [CF: Static Assets y facturación](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/) y [fuente oficial](https://github.com/cloudflare/cloudflare-docs/blob/production/src/content/docs/workers/static-assets/billing-and-limitations.mdx).
+* [CF: autorización granular y Wrangler](https://developers.cloudflare.com/workers/authorization/) y [roles/scopes de Workers](https://developers.cloudflare.com/workers/authorization/workers/): Editor individual para tokens account-owned; bootstrap Admin para crear recursos. Fuentes oficiales leídas también en [authorization/index.mdx](https://github.com/cloudflare/cloudflare-docs/blob/production/src/content/docs/workers/authorization/index.mdx) y [authorization/workers.mdx](https://github.com/cloudflare/cloudflare-docs/blob/production/src/content/docs/workers/authorization/workers.mdx); evidencia `.local/verification/i03/research/authorization/`.
+* [CF: límites](https://developers.cloudflare.com/workers/platform/limits/), [HTML](https://developers.cloudflare.com/workers/static-assets/routing/advanced/html-handling/), [redirecciones](https://developers.cloudflare.com/workers/static-assets/redirects/), [permisos](https://developers.cloudflare.com/fundamentals/api/reference/permissions/) y [rollback](https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/).
+* [GitHub: Actions y facturación](https://docs.github.com/en/billing/concepts/product-billing/github-actions), [cuotas en fuente oficial](https://github.com/github/docs/blob/main/data/reusables/billing/actions-included-quotas.md), [ramas protegidas](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches) y [Environments](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments).
+* [GitHub: revisión de PR](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/approving-a-pull-request-with-required-reviews). No se han consultado secretos ni configurado protecciones.
+
+
+Fuentes del paquete exacto: [Wrangler 4.158.0, metadatos oficiales](https://registry.npmjs.org/wrangler/4.158.0), [checkout v7.0.1](https://github.com/actions/checkout/releases/tag/v7.0.1), [setup-node v7.1.0](https://github.com/actions/setup-node/releases/tag/v7.1.0), [upload-artifact v7.0.2](https://github.com/actions/upload-artifact/releases/tag/v7.0.2) y [download-artifact v8.0.2](https://github.com/actions/download-artifact/releases/tag/v8.0.2). Tags/SHA/action.yml y tarball/schema/SRI verificados en lectura; evidencia ignorada `.local/verification/i03/research/operative/`. No se ejecutó la CLI ni se instalaron dependencias.
+
+## Progreso e historial
+
+| Fecha | Estado | Actor | Evidencia o motivo |
+| --- | --- | --- | --- |
+| 2026-11-05 | Borrador | Codex, por instrucción del propietario | Preparar únicamente I-03 después de aceptar I-02, sin ejecución. |
+| 2026-11-05 | Borrador | Codex, por instrucción del propietario | Ampliar arquitectura, operación, costes, seguridad y criterios; comprobar refs/grafo GitHub y consultar documentación oficial en lectura. Sin commits, pushes, merges, despliegues o configuración. |
+| 2026-11-05 | Borrador | Propietario / Codex | Decisiones expresas para proyecto individual con una cuenta GitHub: PR/checks obligatorios, cero reviews requeridas, revisión/merge manual del propietario y deploy automático sin reviewers de Environments. Evaluar una cuenta Cloudflare/dos Workers y alcance real de tokens; rollback manual a probar inicialmente y reviews futuras mediante protecciones. Sin aprobación/ejecución de I-03, commits, pushes, merges o despliegues. |
+| 2026-11-05 | Borrador | Propietario / Codex | Cuenta Cloudflare Free y acceso Workers & Pages confirmados por propietario, subdominio miminiapp-lab.workers.dev y nombres decididos, sin proyectos/tokens/integraciones. Paquete exacto de CLI/acciones/permisos/protecciones concretado documentalmente con fuentes oficiales; sin implementación, creación de recursos, commits, pushes o despliegues. |
+| 2026-11-05 | Borrador | Propietario / Codex | Arquitectura/operación aprobadas con condiciones: Editor account-owned por Worker tras bootstrap administrativo, pruebas de denegación cruzada; main mantiene strict nativo hasta demostrar el gate y no lo rebaja si falta evidencia. Ratificados alojamiento, versiones, sincronización, retención/coste y rollback manual primero en staging. Plan definitivo pendiente de confirmación y sin autorización de ejecución/creación/sincronización/push/merge/deploy. |
+| 2026-11-05 | `Aprobado` | Propietario de MiMiniApp | «Apruebo formalmente el ExecPlan I-03 — GitHub Actions y Cloudflare: staging, producción y promoción por PR», incluidos 12 AC; ratifica ADR. Verificación real de GitHub/toolchain/aislamiento durante ejecución futura; detener activación afectada y pedir aprobación antes de alternativa si falla aislamiento. Mantener main strict=true hasta demostrar y aprobar sustitución. Sin autorización de ejecución, recursos, tokens, ramas, commits, pushes, merges o despliegues. |
+| 2026-11-06 | `Autorizado` | Propietario de MiMiniApp | Autorización expresa únicamente Fase A: preparación técnica, CI y configuración segura; commits/pushes técnicos y ramas/protecciones permitidos solo sin publicaciones. Main strict=true; sin promociones ni cambio de predeterminada antes de verificar controles. Sin Worker o contenido público, Fase B, I-04 o miniapps reales. |
+| 2026-11-06 | `En curso` | Codex | Comienza efectivamente Fase A tras recuperar el entorno y verificar la integridad local: implementación de CI/workflows inactivos, release gate/artefactos y configuración estática/pruebas remotas. Sin publicación, promoción o Fase B. |
+
+## Evidencia incremental de Fase A — 2026-11-06
+
+El [informe](../../i03-phase-a-report.md) registra recuperación del entorno, integridad del historial, archivos implementados, batería local, bloqueos API/bootstrap y límites. La [guía operativa](../../i03-operations.md) conserva el procedimiento revisable. Los 12 AC se mantienen sin rebajarlos: las pruebas locales de gates/artefactos no sustituyen pruebas reales de GitHub/Cloudflare ni habilitan strict=false. Fase A no permite declarar I-03 Verificado.

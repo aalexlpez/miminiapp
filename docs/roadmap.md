@@ -9,8 +9,8 @@ Cada iteración tendrá su propio ExecPlan cuando corresponda prepararla. I-00 t
 | I-00 | Transferencia documental, fuentes canónicas, puentes de instrucciones y contrato de iteraciones | Coherencia y enlaces; verificación por herramienta o limitación explícita; revisión humana | I-00 aceptada expresamente y archivada; H-002 aprobada; limitación Claude/Gemini aceptada para su alcance y diferida en PEND-002 |
 | I-01 | Base del proyecto y testing reproducible | Instalación desde lockfile; check, lint, pruebas, build y un E2E local real | Definición y ADR-001/002/003/005/006/008/015 aprobados; I-01 Aceptado y archivado el 2026-11-05; se conservan pruebas/evidencia y deudas |
 | [I-02](exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) | Catálogo, diseño responsive e i18n ES/EN | ES/EN, rutas, 404, teclado y móvil/escritorio; sin anunciar miniapps inexistentes | I-02 Aceptado y archivado el 2026-11-05, tras revisión personal de capturas reales de escritorio/móvil y conformidad con diseño, arquitectura y verificaciones. Conserva 14 criterios y ADR-MMA-011/016/017; [informe y evidencias](i02-execution-report.md). Commit local de cierre autorizado; sin pushes/despliegues |
-| I-03 | Staging permanente separado | Deploy real, suite contra URL pública e identificación del código servido | I-02 aceptada, acceso Cloudflare seguro, decisiones y plan de infraestructura autorizados |
-| I-04 | Producción y gate de promoción | PR protegido; árbol/artefacto validado y aceptado en staging; deploy automático y smoke/rollback | I-03 aceptada, permisos reales y plan propio autorizado |
+| [I-03](exec-plans/active/I-03-github-actions-y-cloudflare.md) | GitHub Actions y Cloudflare: staging/producción separados y promoción controlada por PR | CI, protecciones, despliegues y pruebas en URLs reales, identidad del artefacto, validación humana y recuperación | I-02 Aceptado; solo borrador solicitado el 2026-11-05. Arquitectura/operación aprobadas con condiciones de Editor individual y prueba previa del gate; plan En curso exclusivamente Fase A autorizada el 2026-11-06; Fase B y publicaciones no autorizadas |
+| I-04 | Reserva del roadmap original; alcance por revisar | Producción y gate de promoción originalmente previstos aquí se incorporan al borrador I-03 por instrucción del propietario el 2026-11-05, evitando duplicación | Sin ExecPlan preparado ni ejecución autorizada; concretar si queda alcance propio después de revisar I-03 |
 | I-05 | Flujo documental semanal y contribución | Ficha de miniapp y guías utilizables; fixtures solo si se autorizan | Flujo base estable; licencia resuelta antes de aplicar licencia o presentar el proyecto como distribuible bajo ella |
 | I-06 | Primera miniapp real | Criterios de la ficha y pruebas de su iteración | **Elección humana aplazada**; no preparar ni autorizar su implementación sin esa elección |
 
@@ -19,3 +19,15 @@ No es una fecha de lanzamiento ni un compromiso de publicar semanalmente a costa
 ## Al final: skills opcionales
 
 Por petición del usuario, evaluar las skills después de completar y estabilizar el flujo anterior, cuando haya evidencia de procedimientos repetidos. La tarea se mantiene en [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final); no bloquea el trabajo sin skills ni autoriza su creación. No se fija una iteración de implementación hasta definir su utilidad y alcance.
+
+## Alcance del borrador I-03 solicitado
+
+El 2026-11-05 el propietario solicita reunir configuración GitHub Actions/Cloudflare de staging y producción en I-03, manteniendo el circuito de PR, pruebas y revisión humana antes de cada despliegue. Se conserva la numeración posterior sin inventar alcance nuevo para I-04. Esta alineación del roadmap no aprueba ni ejecuta I-03: su [ExecPlan](exec-plans/active/I-03-github-actions-y-cloudflare.md) está Aprobado formalmente y sin ejecución autorizada. La mejora de flotación y microinteracciones se registra por separado en PEND-008 y no se incorpora a infraestructura.
+
+La adaptación individual del 2026-11-05 registra ADR-MMA-009 Aprobada: PR/checks obligatorios y decisión de merge manual del propietario, sin segunda cuenta ni reviewers de Environments; despliegues automáticos tras merge. El plan I-03 está Aprobado formalmente y conserva la evaluación de una cuenta Cloudflare/dos Workers, rollback manual a ensayar inicialmente y sus comprobaciones operativas pendientes. No se activa infraestructura por esta definición.
+
+El propietario aprueba posteriormente la arquitectura/operación I-03 y fija tokens account-owned Editor por Worker tras bootstrap administrativo, y strict nativo de main hasta demostrar el gate y aprobar expresamente su sustitución. El ExecPlan definitivo está Aprobado formalmente; sigue pendiente autorizar ejecución; estas aprobaciones no crean Workers/tokens, no sincronizan ni despliegan.
+
+## Ejecución limitada de I-03 — 2026-11-06
+
+Fase A expresamente autorizada: preparación técnica/CI/configuración segura y sincronización conservadora sin publicaciones. El estado actual es En curso; las notas anteriores describen la planificación y no anulan esta autorización. Fase B, promociones, despliegues e I-04 siguen fuera de alcance. Véase el [informe](i03-phase-a-report.md).

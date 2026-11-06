@@ -1,6 +1,6 @@
 # Arquitectura actual
 
-**Actualizado:** 2026-11-05. **I-01:** Aceptado y archivado por el propietario. **I-02:** Aceptado expresamente por el propietario el 2026-11-05 y archivado, tras aprobación del plan/ADR-MMA-011/016/017 y autorización expresa de ejecución.
+**Actualizado:** 2026-11-06. **I-01:** Aceptado y archivado por el propietario. **I-02:** Aceptado expresamente por el propietario el 2026-11-05 y archivado, tras aprobación del plan/ADR-MMA-011/016/017 y autorización expresa de ejecución.
 
 La base se mantiene en Astro 7.4.5 estático, React/DOM 19.3.1 cuando procede interacción, TypeScript 6.0.3 strict y Tailwind 4.3.4. Node 24.22.2, npm 11.19.1 y dependencias directas exactas con un único lockfile. I-02 no incorpora dependencias visuales o servicios externos.
 
@@ -39,3 +39,15 @@ La base I-01 aceptada tiene evidencia histórica de 14 unitarias, 9 componentes 
 No hay miniapp real, backend, base de datos, API externa, persistencia de usuario, analítica, CI remoto, Cloudflare ni despliegue. La primera miniapp, licencia general del proyecto, infraestructura, otros motores/dispositivos físicos y decisiones aún propuestas conservan sus pendientes. Se mantiene PEND-007 y el resto de la deuda documentada. El [objetivo de arquitectura](docs/design-docs/architecture-target.md) y los [ADR](docs/design-docs/index.md) conservan la distinción entre implementación local, contrato aprobado y propuestas futuras.
 
 El propietario autoriza expresamente un commit local de cierre de I-02, sin pushes o despliegues. Solo se prepara el borrador de I-03; no se ejecuta. Su [ExecPlan aceptado y archivado](docs/exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) es la fuente canónica del estado.
+
+Las decisiones objetivo de alojamiento/operación I-03 se aprueban posteriormente con tokens account-owned Editor por Worker y protección nativa de main hasta demostrar el gate y aprobar expresamente su sustitución. No se implementan: cuenta/subdominio preparados según el propietario, sin Workers/tokens/configuración remota creados por el agente. La aprobación técnica y el ExecPlan Aprobado no autorizan provisión, sincronización o despliegues; la arquitectura ejecutable anterior permanece intacta.
+
+## Infraestructura preparada en I-03, Fase A
+
+`.github/workflows/ci.yml` ejecuta la batería local en PR a staging/main y en la rama técnica de I-03. `promotion.yml` evalúa el candidato desde código de base confiable, sin secretos. Los jobs de staging/producción/rollback conservan `if: false` literal: su presencia no equivale a activación. `.github/deployment-policy.json` registra Fase A y deshabilita publicaciones.
+
+`scripts/release/` implementa empaquetado determinista, manifiesto público inocuo, verificación de bytes/procedencia y gates de candidato/merge. La promoción utiliza el mismo artefacto, sin reconstrucción. Las comprobaciones negativas son locales; no sustituyen ensayos de carreras, permisos, rollback o despliegues reales.
+
+`deploy/cloudflare/` contiene dos configuraciones de Static Assets sin script/SSR, con HTML de barra final y 404 real. `public/_redirects` reserva el 301 de raíz a /es/ del proveedor; el preview Astro conserva su raíz 200. No hay Workers creados o publicados por esta ejecución. `playwright.remote.config.ts` separa pruebas públicas de las locales y requiere destino e identidad explícitos. `deploy/github/` conserva cuerpos de configuración deseada, cuya existencia no demuestra protecciones remotas aplicadas.
+
+El [informe Fase A](docs/i03-phase-a-report.md) es la evidencia actual; [I-03](docs/exec-plans/active/I-03-github-actions-y-cloudflare.md) continúa En curso y Fase B requiere autorización expresa.

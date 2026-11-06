@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "phase": "A",
+  "deploymentsEnabled": false,
+  "repository": "aalexlpez/miminiapp",
+  "repositoryId": "1445849027",
+  "owner": "aalexlpez",
+  "targets": {
+    "staging": {
+      "branch": "staging",
+      "worker": "miminiapp-staging",
+      "url": "https://miminiapp-staging.miminiapp-lab.workers.dev"
+    },
+    "production": {
+      "branch": "main",
+      "worker": "miminiapp",
+      "url": "https://miminiapp.miminiapp-lab.workers.dev"
+    }
+  }
+}
