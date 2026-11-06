@@ -1,6 +1,6 @@
 # I-03 — primera publicación de MiMiniApp en staging
 
-**Estado, 2026-11-06:** el propietario autoriza aplicar el parche de activación condicionada en la rama del PR #3, volver a probar y actualizar el PR. El parche está aplicado; no se autoriza configurar la variable de publicación, fusionar o desplegar. I-03 continúa `En curso`; `master` sigue siendo la rama predeterminada.
+**Estado, 2026-11-06:** el propietario fusionó PR #3 y el primer run falló en prepare, sin ejecutar el job privilegiado. PR #4 corrige el resumen de GitHub y se amplía por autorización expresa para una [identidad persistente CI–PR](i03-pr-ci-identity.md), sin merges o despliegues. El [informe](i03-merged-pr-correction-report.md) distingue el incidente, la primera corrección y esta ampliación. La secuencia inferior documenta la preparación del primer intento; no es permiso para reintentarlo. I-03 sigue `En curso`; master permanece predeterminada.
 
 ## Responsabilidades y situación inicial
 

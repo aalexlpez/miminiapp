@@ -1,5 +1,8 @@
 name: CI
 
+run-name: >-
+  ${{ github.event_name == 'pull_request' && format('I03 CI v1 | repo={0} | id={1} | pr={2} | base={3} | head={4}', github.event.pull_request.base.repo.full_name, github.event.pull_request.base.repo.id, github.event.pull_request.number, github.event.pull_request.base.ref, github.event.pull_request.head.sha) || format('I03 CI push | repo={0} | head={1}', github.repository, github.sha) }}
+
 on:
   pull_request:
     branches: [staging, main]
