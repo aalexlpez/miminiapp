@@ -44,6 +44,8 @@ Las decisiones objetivo de alojamiento/operación I-03 se aprueban posteriorment
 
 ## Infraestructura preparada en I-03, Fase A
 
+La sección conserva el estado histórico de Fase A. En el PR #4, todavía sin fusionar, `scripts/release/github.ts` confirma el PR de merge mediante resumen y detalle, y delega quality a `scripts/release/pr-ci.ts`: identidad versionada en run-name/display_title, blob CI completo fijado en el head y metadatos/último intento contrastados. El [contrato](docs/i03-pr-ci-identity.md) documenta su confianza, mantenimiento y límites. Los controles de artefacto permanecen; producción, promoción y rollback siguen bloqueados. La preparación de este PR no publica ni altera las ramas protegidas.
+
 `.github/workflows/ci.yml` ejecuta la batería local en PR a staging/main y en la rama técnica de I-03. `promotion.yml` evalúa el candidato desde código de base confiable, sin secretos. Los jobs de staging/producción/rollback conservan `if: false` literal: su presencia no equivale a activación. `.github/deployment-policy.json` registra Fase A y deshabilita publicaciones.
 
 `scripts/release/` implementa empaquetado determinista, manifiesto público inocuo, verificación de bytes/procedencia y gates de candidato/merge. La promoción utiliza el mismo artefacto, sin reconstrucción. Las comprobaciones negativas son locales; no sustituyen ensayos de carreras, permisos, rollback o despliegues reales.

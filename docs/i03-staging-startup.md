@@ -1,6 +1,6 @@
 # I-03 — primera publicación de MiMiniApp en staging
 
-**Estado, 2026-11-06:** el propietario fusionó PR #3 y el primer run falló en prepare, sin ejecutar el job privilegiado. Está autorizada únicamente la preparación de un nuevo PR de corrección del resumen de GitHub, sin merges o despliegues. El [informe de corrección](i03-merged-pr-correction-report.md) registra también un bloqueo adicional de asociación CI–PR tras el merge que se conserva. La secuencia inferior documenta la preparación del primer intento; no es permiso para reintentarlo. I-03 sigue `En curso`; master permanece predeterminada.
+**Estado, 2026-11-06:** el propietario fusionó PR #3 y el primer run falló en prepare, sin ejecutar el job privilegiado. PR #4 corrige el resumen de GitHub y se amplía por autorización expresa para una [identidad persistente CI–PR](i03-pr-ci-identity.md), sin merges o despliegues. El [informe](i03-merged-pr-correction-report.md) distingue el incidente, la primera corrección y esta ampliación. La secuencia inferior documenta la preparación del primer intento; no es permiso para reintentarlo. I-03 sigue `En curso`; master permanece predeterminada.
 
 ## Responsabilidades y situación inicial
 

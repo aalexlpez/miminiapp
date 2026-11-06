@@ -19,6 +19,7 @@ import {
   verifyCandidate,
   verifyMerge,
 } from './gate.ts';
+import { successfulPRQuality } from './pr-ci.ts';
 
 interface Repository {
   id: number;
@@ -474,13 +475,13 @@ export async function checkMerged(policy: DeploymentPolicy, target: Target) {
     throw new Error(
       'Detailed pull request does not confirm the associated merged candidate.',
     );
-  const quality = await successfulPRCheck(
-    client,
-    pr.head.sha,
-    pr.number,
-    '.github/workflows/ci.yml',
-    'quality',
-  );
+  const quality = await successfulPRQuality(client, {
+    number: pr.number,
+    base: pr.base.ref,
+    headSha: pr.head.sha,
+    headRef: pr.head.ref,
+    mergeSha: sha,
+  });
   const promotion =
     target === 'production'
       ? await successfulPRCheck(

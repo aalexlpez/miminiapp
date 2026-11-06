@@ -18,13 +18,13 @@ Se mantienen los controles originales de checkMerged, verifyMerge y successfulPR
 
 La rama `feature/i03-fix-merged-pr-summary` parte del staging actual21b2a20. Main conserva73b8bd2 y master214a3c1 permanece predeterminada; se preservan I-01/I-02 y el historial anterior. Solo se permite push de la rama de trabajo y apertura del PR, sin reintentar el run de publicación fallido.
 
-## Bloqueo adicional de CI observado
+## Bloqueo adicional observado en la primera versión del PR #4
 
 Al comprobar la siguiente validación, la API devuelve `pull_requests: []` para el CI satisfactorio del PR #3 ([run42263591117](https://github.com/aalexlpez/miminiapp/actions/runs/42263591117)), tanto en el listado de runs filtrado por head como en el endpoint detallado del run. Se conservan event pull_request, head SHA f4f26a3, workflow ci.yml, conclusion success y job quality satisfactorio, pero falta la asociación explícita con el número de PR que exige successfulPRCheck.
 
-Esta corrección **no elimina ni sustituye ese vínculo obligatorio**. Se añade cobertura de rechazo cuando el listado de PR del run está vacío. Con los metadatos observados el gate seguiría bloqueando el intento después de resolver el primer error. Un CI verde de este nuevo PR demuestra la corrección del contrato y las regresiones; no demuestra que un siguiente deployment vaya a pasar ese gate.
+La primera corrección eaa5fd3 **no eliminó ni sustituyó ese vínculo obligatorio** y añadió cobertura de rechazo cuando faltaba esa prueba. Con los metadatos observados seguía bloqueado el intento después de resolver el primer error; su CI verde no se presentó como garantía de deployment.
 
-Antes de reanudar la primera publicación hace falta definir una evidencia comprobable que conserve el vínculo exacto PR–head–run y permanezca disponible tras el merge. Si requiere cambiar el contrato compartido de procedencia o introducir un nuevo artefacto de evidencia, deberá aprobarlo el propietario. No se adopta un fallback basado solo en head_sha o en un estado verde, ni se desactiva la comprobación existente.
+El propietario autoriza después ampliar el mismo PR #4. Se implementa [identidad versionada del CI](i03-pr-ci-identity.md) mediante run-name/display_title generado desde el evento, plantilla completa fijada y metadatos API contrastados. No se acepta un fallback basado solo en head_sha o verde; la identidad es obligatoria también con asociaciones informadas, y una contradicción nativa lo rechaza. Se mantienen pruebas de evidencia ausente/manipulada y controles de último intento/cambios concurrentes. La persistencia del nuevo título después del merge de este PR se confirmará solo durante una operación posterior autorizada.
 
 ## Verificación y entrega
 
@@ -34,4 +34,6 @@ Las pruebas reproducen el resumen real sin merged y confirman la consulta detall
 
 Evidencia local ignorada en `.local/verification/i03/merged-pr-correction/`: verify.log y observed-api.json, saneado con los campos públicos observados. Se verifica que workflows, política, permisos, herramientas y archivos de aplicación coinciden byte a byte con staging21b2a20. No se incluyen temporales o esas evidencias en el commit. El PR recogerá su commit y CI observado tras el push; no se atribuye éxito a una ejecución futura.
 
-Se entrega para revisión, sin merge o despliegue. El aislamiento de escritura Cloudflare continúa sin probar y se mantienen los límites del probe de lectura documentados. El bloqueo adicional CI–PR permanece abierto: esta corrección no basta para declarar listo el primer deployment.
+Se entrega para revisión, sin merge o despliegue. El aislamiento de escritura Cloudflare continúa sin probar y se mantienen los límites del probe de lectura documentados. Los resultados272/9/26 anteriores corresponden a eaa5fd3; los resultados de la ampliación y el nuevo CI se registran después de verificarlos. Resolver el contrato en código no equivale a haber completado el primer deployment.
+
+La ampliación de identidad persistente pasa la batería local completa:314 unitarias,9 componentes,26 E2E e integración/regresión I-01, tipos64 archivos sin errores/warnings/hints, lint/formato/hosting correctos y git diff --check correcto. Incluye40 pruebas de identidad y pin del workflow tanto en head como merge. [Contrato, pruebas y límites](i03-pr-ci-identity.md). El nuevo CI y la lectura real se enlazan en la entrega del PR después de observarlos.

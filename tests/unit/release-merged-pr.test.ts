@@ -4,6 +4,11 @@ import { join } from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { checkMerged } from '../../scripts/release/github.ts';
 import { type DeploymentPolicy } from '../../scripts/release/gate.ts';
+import {
+  CI_WORKFLOW_BLOB_SHA,
+  CI_WORKFLOW_PATH,
+  expectedPRCIName,
+} from '../../scripts/release/pr-ci.ts';
 
 const headSha = 'a'.repeat(40);
 const treeSha = 'b'.repeat(40);
@@ -53,6 +58,9 @@ const summary = {
 const detail = { ...summary, merged: true, merged_by: actor };
 const qualityRun = {
   id: 100,
+  name: 'CI',
+  workflow_id: 408984944,
+  repository,
   run_attempt: 2,
   head_sha: headSha,
   head_branch: summary.head.ref,
@@ -62,7 +70,14 @@ const qualityRun = {
   conclusion: 'success',
   actor,
   triggering_actor: actor,
-  path: '.github/workflows/ci.yml',
+  path: CI_WORKFLOW_PATH,
+  display_title: expectedPRCIName(policy, {
+    number: 3,
+    base: 'staging',
+    headSha,
+    headRef: summary.head.ref,
+    mergeSha,
+  }),
   pull_requests: [{ number: 3 }],
 };
 const temporary: string[] = [];
@@ -141,6 +156,29 @@ async function setup(
       expect(url.searchParams.get('event')).toBe('pull_request');
       expect(url.searchParams.get('head_sha')).toBe(headSha);
       return Response.json({ workflow_runs: options.runs ?? [qualityRun] });
+    }
+    if (path === 'actions/workflows/ci.yml')
+      return Response.json({
+        id: 408984944,
+        path: CI_WORKFLOW_PATH,
+        name: 'CI',
+        state: 'active',
+      });
+    if (path === `contents/${CI_WORKFLOW_PATH}`) {
+      expect([headSha, mergeSha]).toContain(url.searchParams.get('ref'));
+      return Response.json({
+        type: 'file',
+        path: CI_WORKFLOW_PATH,
+        sha: CI_WORKFLOW_BLOB_SHA,
+      });
+    }
+    const runMatch = /^actions\/runs\/(\d+)$/.exec(path);
+    if (runMatch) {
+      const selected = (options.runs ?? [qualityRun]).find(
+        (run) => (run as { id: number }).id === Number(runMatch[1]),
+      );
+      if (!selected) throw new Error('Unexpected workflow run ID');
+      return Response.json(selected);
     }
     if (path === 'actions/runs/100/attempts/2/jobs')
       return Response.json({
@@ -294,8 +332,10 @@ describe('merged pull request lookup with GitHub summary responses', () => {
   it.each([
     ['no PR CI', { runs: [] }],
     [
-      'CI without an associated PR',
-      { runs: [{ ...qualityRun, pull_requests: [] }] },
+      'CI without persistent PR identity',
+      {
+        runs: [{ ...qualityRun, display_title: undefined, pull_requests: [] }],
+      },
     ],
     ['missing required job', { jobs: [] }],
     [
@@ -307,6 +347,13 @@ describe('merged pull request lookup with GitHub summary responses', () => {
     await expect(checkMerged(policy, 'staging')).rejects.toThrow(
       'owner-merged pull request',
     );
+  });
+
+  it('accepts missing native PR associations only with valid pinned persistent CI identity', async () => {
+    await setup({ runs: [{ ...qualityRun, pull_requests: [] }] });
+    await expect(checkMerged(policy, 'staging')).resolves.toMatchObject({
+      evidence: { checks: { quality: 'success' } },
+    });
   });
 
   it('rejects an obsolete merge at the initial destination read', async () => {

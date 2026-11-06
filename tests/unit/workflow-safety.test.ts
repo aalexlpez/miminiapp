@@ -2,11 +2,16 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname } from 'node:path';
-import { execFile } from 'node:child_process';
+import { execFile, execFileSync } from 'node:child_process';
 import { promisify } from 'node:util';
 import { resolve } from 'node:path';
 import { parsers } from 'prettier/plugins/yaml';
 import { describe, expect, it } from 'vitest';
+import {
+  CI_RUN_NAME_EXPRESSION,
+  CI_WORKFLOW_BLOB_SHA,
+  CI_WORKFLOW_PATH,
+} from '../../scripts/release/pr-ci.ts';
 
 type Value = string | number | boolean | null | Value[] | Mapping;
 interface Mapping {
@@ -457,6 +462,18 @@ function auditGitHubRequests(
 }
 
 describe('Phase A deployment safety', () => {
+  it('pins the complete CI workflow and its context-derived persistent PR run-name', async () => {
+    const workflow = await readWorkflow('ci.yml');
+    expect(normalize(workflow['run-name'])).toBe(
+      normalize(CI_RUN_NAME_EXPRESSION),
+    );
+    expect(
+      execFileSync('git', ['hash-object', resolve(root, CI_WORKFLOW_PATH)], {
+        encoding: 'utf8',
+      }).trim(),
+    ).toBe(CI_WORKFLOW_BLOB_SHA);
+  });
+
   it('keeps the committed authorization disabled and the destinations separate', () => {
     const policy = JSON.parse(
       readFileSync(resolve(root, '.github/deployment-policy.json'), 'utf8'),
