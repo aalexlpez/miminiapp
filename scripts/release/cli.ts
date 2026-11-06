@@ -24,6 +24,7 @@ import {
   verifyRelease,
   type ReleaseManifest,
 } from './manifest.ts';
+import { runChild } from './process.ts';
 
 function git(...args: string[]) {
   return execFileSync('git', args, {
@@ -148,7 +149,7 @@ export async function publish(target: Target, directory: string) {
   const frozen = await verifyRelease(artifactDirectory);
   if (frozen.siteSha256 !== manifest.siteSha256)
     throw new Error('Release changed immediately before deployment.');
-  execFileSync(
+  await runChild(
     process.execPath,
     [
       'node_modules/wrangler/bin/wrangler.js',

@@ -28,10 +28,11 @@ Evidencia local ignorada: `.local/verification/i03/phase-a/`. Los logs no se inc
 | Instalación | Wrangler 4.158.0 exacto, npm ci desde el único lockfile satisfactorio. Scripts esbuild@0.28.2/workerd@1.20261104.1 autorizados por versión exacta. Node 24.22.2/npm 11.19.1. |
 | Acciones oficiales | Cuatro tags contrastados de nuevo con sus SHA completos por git ls-remote; action.yml recuperados al SHA usan Node 24. `actions-tags.json` y `actions-runtime.json`. |
 | Batería completa local | `npm run verify` exit 0: tipos, lint, formato, validación offline Wrangler, unitarias, componentes, E2E/axe e integración. `verify.log`. |
-| Cambios finales del gate | Tras la batería se añadió rechazo de checkout sucio, se amplió auditoría de protecciones y se corrigió el CLI nativo. Tipos finales: 57 archivos, cero errores/avisos/hints; lint y formato correctos. Unitarias finales: 182/182 (incluye 65 de release, 31 de workflows/políticas y 27 de destino/identidad remotos). Logs `unit-final.log`, `workflow-final.log`, `check-final.log`, `lint-final.log`. |
+| Cambios finales del gate | Tras la batería se añadió rechazo de checkout sucio, se amplió auditoría de protecciones y se corrigió el CLI nativo. Tipos finales: 59 archivos, cero errores/avisos/hints; lint y formato correctos. Unitarias finales: 185/185 (incluye 68 de release, 31 de workflows/políticas y 27 de destino/identidad remotos). Logs `unit-final.log`, `workflow-final.log`, `check-final.log`, `lint-final.log`. |
 | Componentes | 9/9 satisfactorias. |
 | Navegador local | 26/26 E2E, con axe y responsive ES/EN. Chromium real 156.0.8078.4, revisión 1248, ejecutable de la caché fijada; DEBUG registra lanzamiento de chromium_headless_shell-1248. No se utilizó Chromium del sistema. `chromium-pin.log`. |
 | Integración modular | Alta aislada A→A+B genera 2→4 rutas ES/EN; pruebas propias 2→4. Fuentes comunes intactas, HTML previo estable salvo uid interno normalizado. Build sin traducción rechazado; fixtures/borradores ausentes de los 12 archivos públicos. Regresión I-01 móvil/escritorio con estados y axe satisfactoria. `modular-result.json`. |
+| Paquete real local | `npm run release:pack` y `release:verify` exit 0 sobre checkout limpio `a49c705`; 12 assets y un manifiesto público. Payload SHA-256 `4fc237a77c041683e99a92b8ee502e80da3a58056b854207e1f0ffe8e18647ab`. Run local 0, no candidato confiable de Actions ni publicación. `local-release-manifest.json`. |
 | Hosting offline | Wrangler valida ambas configuraciones, destinos y modos de assets; sin deploy/dry-run, login o API Cloudflare. |
 | Descubrimiento remoto | 30 pruebas listadas; no se visitaron sitios remotos. `remote-list.log`. |
 | Auditoría npm | Producción: cero vulnerabilidades. Total desarrollo: once moderadas, cero altas/críticas; se conserva PEND-007. No se ejecutó audit fix ni se cambiaron majors. |
@@ -69,4 +70,10 @@ Fase A local preparada; configuración/verificación remota todavía incompleta.
 
 Commits técnicos locales hasta la integración: `79f31a3` prepara infraestructura con publicaciones bloqueadas; `4690c27` incorpora únicamente ascendencia de master (árbol sin cambios respecto a su primer padre); `b9ecd19` conserva las pruebas del checkout limpio. Los hashes de I-01/I-02 y origin/master siguen siendo ancestros, sin reescritura. El resultado final del push de la rama técnica se comprobará sin actualizar ramas de promoción.
 
+`a49c705` corrige la sintaxis nativa y conserva la evidencia actualizada. La ejecución del proceso futuro Wrangler se ajustó después a spawn asíncrono sin shell para propagar correctamente salida/fallos, con pruebas inocuas del proceso; no se ejecutó deploy.
+
 El primer ensayo del CLI real detectó `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`: una parameter property no admitida por Node 24 en modo strip-only, que Vitest transformaba. Se sustituyó por campos/asignaciones ordinarios y se añadieron pruebas con subprocess del Node real, sin nuevas dependencias ni cambios de arquitectura. Los archivos temporales, paquetes de prueba, capturas y evidencias ignoradas quedan fuera de Git.
+
+## Reproducción del estado Git al cierre
+
+`git log --graph --oneline --all` conserva los hashes anteriores; `git merge-base --is-ancestor` comprueba I-01, I-02 y origin/master contra HEAD. La integración `4690c27` tiene el mismo árbol que `79f31a3`; los cambios posteriores son correcciones/pruebas/documentación de Fase A. El dry-run del push técnico a `feature/i03-preparacion-segura` pasó. La comprobación final remota se conserva en `.local/verification/i03/phase-a/ls-remote-after-push.txt`; la configuración y estado de CI vía API siguen pendientes del cambio de red. Ninguna de estas operaciones escribe staging/main/master o cambia la predeterminada.
