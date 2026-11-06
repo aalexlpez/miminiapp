@@ -1,27 +1,27 @@
 # Operación I-03 — preparación segura
 
-**Actualizado:** 2026-11-06. **Responsable:** propietario de MiMiniApp. Fase A autorizada y preparación técnica realizada, con verificación incompleta; Fase B no autorizada. Esta guía no activa publicaciones. Estado/evidencia: [ExecPlan](exec-plans/active/I-03-github-actions-y-cloudflare.md), [informe](i03-phase-a-report.md).
+**Actualizado:** 2026-11-06. **Responsable:** propietario de MiMiniApp. Preparación de Fase A completada y comprobaciones disponibles de configuración satisfechas, con limitaciones documentadas; I-03 continúa En curso y Fase B no autorizada. Esta guía no activa publicaciones. Estado/evidencia: [ExecPlan](exec-plans/active/I-03-github-actions-y-cloudflare.md), [informe](i03-phase-a-report.md).
 
 ## Configuración actual y límites
 
 Repositorio `aalexlpez/miminiapp`. Main y staging permanecen exactamente en `73b8bd2c1d3fc0e2f0161af9df9897d16b51ade8`, con los cierres aceptados I-01/I-02 y master como ancestros. Master conserva `214a3c16ad5e968214af540033246baa9dd32ba1` y sigue predeterminada. No mover esas ramas al siguiente commit documental, resetear, hacer force push o reinterpretar el bootstrap como promoción.
 
-Los JSON de `deploy/github/` son plantillas, no prueba de aplicación. La revisión actual en `.local/verification/i03/phase-a/final-github/` acredita:
+Los JSON de `deploy/github/` son plantillas, no prueba de aplicación. La evidencia actual de cierre en `.local/verification/i03/phase-a/closure/` acredita:
 
 * Opciones de merge correctas: merge commits habilitados; squash, rebase y auto-merge deshabilitados. No hay otro ajuste pendiente de esas opciones.
 * Staging protegida con quality de GitHub Actions app 15368, enforcement_level=everyone.
-* Main protegida, pero la lectura repetida sin caché solo muestra quality de la misma app. Promotion todavía no aparece como obligatorio; rulesets y reglas activas de main devuelven listas vacías, sin una capa adicional observada que lo imponga.
+* Main protegida con quality y promotion obligatorios, ambos de GitHub Actions app 15368 y enforcement_level=everyone. La lectura posterior al nuevo guardado de la regla resuelve la discrepancia anterior; no volver a pedir su configuración.
 * Environment staging existente y limitado a una política de tipo branch con nombre exacto staging. Environment production limitado de igual modo a main. Ambos usan custom_branch_policies=true, protected_branches=false y solo tienen regla branch_policy: sin reviewers o regla de espera. No repetir su creación ni ampliar esas ramas o admitir tags.
 
 PR obligatorio, cero approvals, strict=true, ausencia de bypass y force/delete deshabilitados son configuración declarada por el propietario. GET de protección detallada sigue denegado con 403; no se afirma haber leído esos campos o probado empíricamente sus rechazos. La consulta de secretos y variables de repositorio y Environments también está denegada: el propietario declara que no los ha creado, pero la API no permite corroborar su ausencia total. No solicitar ni imprimir valores por chat.
 
-## Discrepancia de main que falta resolver
+## Check de promoción y alcance de su evidencia
 
-El propietario informa de quality y promotion obligatorios; la evidencia disponible aún refleja solo quality. No se conoce la causa de la diferencia ni se modifica silenciosamente una regla para corregirla.
+La revisión anterior en final-github solo mostraba quality en main. El propietario volvió a guardar la regla y closure/main.json ya confirma quality y promotion de GitHub Actions. Se mantiene ese historial, sin tratar la observación anterior como un ajuste todavía pendiente. Conservar ambos checks, strict=true, PR obligatorio, cero approvals y ausencia de bypass; no cambiar silenciosamente esas opciones.
 
-En Settings → Branches, revisar la regla que se aplica a main, conservar quality, Require branches to be up to date, PR obligatorio y ausencia de bypass, y guardar también promotion de GitHub Actions como obligatorio. Mantener Require approvals desactivado para el escenario individual y no permitir force/deletions. Volver a comprobar required_status_checks mediante GET branch y, cuando la capacidad lo permita, el detalle administrativo. Usar el emisor app 15368 comprobado, no un contexto homónimo de otro origen.
+El [PR técnico #2](https://github.com/aalexlpez/miminiapp/pull/2) se abrió en borrador con delta documental y se cerró sin merge. Promotion de app 15368 terminó failure en su paso de gate. El propietario revisó el log en GitHub y confirmó personalmente: `Promotion is not the current same-repository staging to main pull request.` Esa confirmación es evidencia humana del propietario; no se presenta como lectura de los logs por el agente o por API, cuyo acceso estaba bloqueado.
 
-El check ya existe: el [PR técnico #2](https://github.com/aalexlpez/miminiapp/pull/2) se abrió en borrador con delta documental y se cerró sin merge. Promotion de app 15368 terminó failure en su paso de gate. El log literal está bloqueado desde Codex en results-receiver.actions.githubusercontent.com; no se atribuye una causa exacta sin leerlo ni se interpreta el estado blocked de un draft como prueba de enforcement del check. El propietario puede revisar el [paso del ensayo](https://github.com/aalexlpez/miminiapp/actions/runs/42211336925/job/127870423964) en GitHub sin retirar ninguna protección.
+No repetir esa revisión ni pedir acceso de red para volver a confirmar el mismo error. El resultado no sustituye los ensayos de obsolescencia, concurrencia, artefactos distintos, reruns, rechazos de direct/force/delete o merge válido. El estado blocked de aquel draft tampoco acredita por sí solo enforcement del check obligatorio.
 
 Un dry-run, push sin cambio o rechazo de permisos de la integración no demuestra enforcement. No ejecutar merges, force push o borrados que puedan alterar historia para obtener evidencia. Documentar las verificaciones que no se pueden realizar con seguridad o permisos suficientes y conservar strict=true.
 
@@ -33,11 +33,11 @@ Los runs del bootstrap de Staging y Production terminaron skipped; deployments s
 
 ## Alcance que debe autorizarse para Fase B
 
-Antes de pedir la autorización, resolver promotion obligatorio en main y registrar con precisión los controles comprobados y las limitaciones restantes. Las opciones de merge y los Environments ya están acreditados; no pedir al propietario que vuelva a configurarlos.
+La preparación de Fase A ya está completada, con los checks y configuración disponibles corroborados y los límites de acreditación registrados. No volver a pedir configuración de main, opciones de merge, Environments o lectura del error del PR #2. I-03 sigue En curso: las pruebas reales de B y de enforcement aún pendientes no se declaran satisfechas por este cierre.
 
 La solicitud futura debe delimitar el bootstrap administrativo y las pruebas: creación de miminiapp-staging y miminiapp en la cuenta aprobada, primer contenido accesible si la creación requiere deploy, Account ID por canal seguro y creación posterior de dos account-owned tokens Editor, cada uno restringido a su Worker existente. La creación documentada requiere `wrangler deploy`, por lo que no se ejecuta en Fase A. Admin queda fuera de CI; no usar OAuth o permisos generales de cuenta como alternativa automática.
 
-Si la fase autorizada se ejecutará desde Codex, preparar antes de sus llamadas el acceso de red a api.cloudflare.com y el suministro seguro del Account ID y token aprobado: el dominio no está permitido y las variables de proceso correspondientes no están presentes en la revisión actual. No publicar borradores de entorno ni instalar credenciales por esta comprobación. La lectura del log también requiere results-receiver.actions.githubusercontent.com, actualmente no permitido; revisar el error desde GitHub es una alternativa para esa evidencia. No confundir variables ausentes del proceso con una auditoría de secretos del repositorio o usar credenciales generales como sustituto.
+Si la fase autorizada se ejecutará desde Codex, preparar antes de sus llamadas el acceso de red a api.cloudflare.com y el suministro seguro del Account ID y token aprobado: el dominio no está permitido y las variables de proceso correspondientes no están presentes en la revisión actual. No publicar borradores de entorno ni instalar credenciales por esta comprobación. Una futura lectura automatizada de logs requeriría results-receiver.actions.githubusercontent.com, actualmente no permitido. El propietario ya confirmó el error del PR #2 desde GitHub, de modo que no hace falta ese cambio de red para repetir su comprobación. No confundir variables ausentes del proceso con una auditoría de secretos del repositorio o usar credenciales generales como sustituto.
 
 El aislamiento real no puede estar ya probado antes de autorizar el bootstrap de recursos que aún no existen. Se comprobará dentro de la Fase B autorizada y limitada, **antes de activar los publicadores ordinarios**: Wrangler funciona en el destino permitido y una modificación con el token staging contra producción se deniega sin cambiar versión o assets. Si falla, detener activación afectada y presentar evidencia antes de una alternativa. No ampliar permisos automáticamente.
 

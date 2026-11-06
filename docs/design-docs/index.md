@@ -131,3 +131,7 @@ Tras guardar personalmente las reglas, el propietario autoriza continuar y crear
 ### Verificación de la configuración manual final de Fase A — 2026-11-06
 
 El propietario comunica completados checks, strict, opciones y Environments, sin secretos o activación. Se corroboran por API las opciones de merge y políticas exactas de ambos Environments sin reviewers/espera. Main sigue mostrando solo quality de GitHub Actions, sin rulesets adicionales: promotion obligatorio permanece sin acreditar, no se cambia la regla ni se reinterpretan ADR-MMA-009/014 para omitirlo. Detalles de protección y secretos/variables no legibles por403; se distingue declaración del propietario de prueba automatizada. Los publicadores siguen bloqueados y master predeterminada. La arquitectura aprobada no cambia; resultados en el informe y ExecPlan.
+
+### Cierre de preparación de Fase A — 2026-11-06
+
+Nueva lectura API confirma main con quality+promotion y staging con quality, app15368 y enforcement everyone. Opciones y Environments siguen correctos; la discrepancia previa queda cerrada. El propietario confirma por revisión propia el mensaje del PR#2 que rechaza un origen no autorizado; no sustituye el resto de pruebas. Preparación A completada con límites administrativos/secretos/ensayos registrados; I-03 permanece En curso, Fase B no autorizada. Sin cambios de decisiones, publicadores, Workers, ramas protegidas o predeterminada.
