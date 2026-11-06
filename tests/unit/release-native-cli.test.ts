@@ -57,6 +57,7 @@ describe('native Node release CLI', () => {
       import assert from 'node:assert/strict';
       import { main } from './scripts/release/cli.ts';
       process.env.RELEASE_TARGET = 'staging';
+      process.env.GITHUB_EVENT_NAME = 'pull_request';
       process.env.I03_STAGING_PUBLICATION_AUTHORIZED = 'true';
       globalThis.fetch = () => { throw new Error('Network must remain unused'); };
       await assert.rejects(main(['probe-staging-access']), /Phase B is not authorized|Publication requires/);

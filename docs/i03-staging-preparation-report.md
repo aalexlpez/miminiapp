@@ -50,3 +50,9 @@ La expectativa del test nativo del probe admite tanto el rechazo por política c
 El [parche de activación](staging-publication-activation.patch) está preparado y sin aplicar. El [procedimiento](i03-staging-startup.md) especifica: autorización expresa → aplicar parche en el mismo PR → CI verde → revisión final y variable de repositorio específica → merge manual del propietario. Solo ese merge a staging puede disparar el circuito autorizado. Ni este informe ni abrir el PR constituye esa autorización.
 
 El PR se entrega en borrador. Antes del merge el propietario deberá pasarlo a listo para revisión y conservar las protecciones. Un fallo o timeout no autoriza rollback automático ni ampliación de permisos; se registra el estado y el propietario revisa Cloudflare. Los IDs del PR y los resultados remotos efectivamente observados se presentan al entregar; no se inventan pruebas de permisos, despliegue o identidad HTTP de la plantilla/web.
+
+## PR y CI observados
+
+PR [#3](https://github.com/aalexlpez/miminiapp/pull/3) abierto en borrador hacia staging, sin merge. El primer CI del código `8e822278faf51872b97f27be43a36e6c8a050f99` pasó en [run42259685654](https://github.com/aalexlpez/miminiapp/actions/runs/42259685654), evento pull_request, quality de GitHub Actions app15368. La entrega y descripción del PR registran también el resultado de su último head.
+
+Se reforzó el test nativo para forzar el evento pull_request: así no hereda por accidente el contexto válido de un futuro push protegido. Sus cinco casos pasan; la copia con el parche futuro y contexto simulado de Actions push a staging también pasa las226 unitarias, sin peticiones reales. Este ajuste no modifica código de publicación ni aplica el parche a la rama.
