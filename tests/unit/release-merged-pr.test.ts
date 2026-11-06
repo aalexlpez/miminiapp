@@ -56,9 +56,16 @@ const summary = {
   user: actor,
 };
 const detail = { ...summary, merged: true, merged_by: actor };
+const ciName = expectedPRCIName(policy, {
+  number: 3,
+  base: 'staging',
+  headSha,
+  headRef: summary.head.ref,
+  mergeSha,
+});
 const qualityRun = {
   id: 100,
-  name: 'CI',
+  name: ciName,
   workflow_id: 408984944,
   repository,
   run_attempt: 2,
@@ -71,13 +78,7 @@ const qualityRun = {
   actor,
   triggering_actor: actor,
   path: CI_WORKFLOW_PATH,
-  display_title: expectedPRCIName(policy, {
-    number: 3,
-    base: 'staging',
-    headSha,
-    headRef: summary.head.ref,
-    mergeSha,
-  }),
+  display_title: ciName,
   pull_requests: [{ number: 3 }],
 };
 const temporary: string[] = [];

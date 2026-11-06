@@ -154,9 +154,10 @@ export async function successfulPRQuality(client: Reader, pr: PRCIContext) {
   )
     return 'failure';
 
+  const expectedName = expectedPRCIName(policy, pr);
   const valid = (run: Run) =>
     run.id === latest.id &&
-    run.name === 'CI' &&
+    run.name === expectedName &&
     run.workflow_id === workflow.id &&
     run.path === CI_WORKFLOW_PATH &&
     run.event === 'pull_request' &&
@@ -164,7 +165,7 @@ export async function successfulPRQuality(client: Reader, pr: PRCIContext) {
     run.head_branch === pr.headRef &&
     sameRepository(run.repository, policy) &&
     sameRepository(run.head_repository, policy) &&
-    run.display_title === expectedPRCIName(policy, pr) &&
+    run.display_title === expectedName &&
     consistentAssociations(run.pull_requests, policy, pr) &&
     positiveInteger(run.run_attempt) &&
     run.run_attempt === latest.run_attempt &&

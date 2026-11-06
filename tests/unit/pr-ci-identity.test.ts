@@ -45,7 +45,7 @@ const context = {
 const title = `I03 CI v1 | repo=${policy.repository} | id=${policy.repositoryId} | pr=3 | base=staging | head=${sha}`;
 const run = {
   id: 100,
-  name: 'CI',
+  name: title,
   workflow_id: 408984944,
   path: CI_WORKFLOW_PATH,
   event: 'pull_request',
@@ -207,7 +207,7 @@ describe('persistent PR identity in GitHub CI metadata', () => {
     ['other workflow ID', { ...run, workflow_id: 999 }],
     ['other workflow file', { ...run, path: '.github/workflows/foreign.yml' }],
     ['wrong head branch', { ...run, head_branch: 'another-branch' }],
-    ['wrong workflow name', { ...run, name: 'Other' }],
+    ['contradictory dynamic run name', { ...run, name: 'Other' }],
     ['pending CI', { ...run, status: 'in_progress', conclusion: null }],
     ['failed CI', { ...run, conclusion: 'failure' }],
     ['invalid attempt', { ...run, run_attempt: 0 }],

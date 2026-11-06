@@ -16,6 +16,8 @@ Los cinco valores proceden exclusivamente de github.event.pull_request: base.rep
 
 GitHub expone el nombre evaluado como display_title del run. El gate lo compara literalmente con la identidad reconstruida a partir del PR detallado que ya ha confirmado realmente fusionado. El número del PR y su base permanecen en el nombre aunque pull_requests esté vacío después del merge; la ausencia del array no es por sí misma evidencia ni una autorización.
 
+La API real del nuevo CI confirmó que run.name también contiene el nombre dinámico, mientras actions/workflows/ci.yml conserva name=CI. Se distinguen ambos contratos: descriptor CI por ID/path/nombre; name y display_title del run iguales a la identidad esperada. Las fixtures reproducen esta estructura observada.
+
 ## Comprobaciones conjuntas
 
 1. El lector está limitado al repositorio aprobado y a GET. Entre los runs del evento pull_request, workflow ci.yml y head SHA esperado elige el de mayor ID **antes** de filtrar por identidad de repositorio, título o estado. Un título ausente/manipulado, repositorio contradictorio o run más nuevo fallido no permite volver a un verde anterior.
@@ -43,4 +45,8 @@ La API no ofrece una transacción atómica entre leer CI/refs y publicar; se man
 
 Durante la revisión se corrigió el tipado genérico del lector simulado y se movieron tres casos negativos a su tabla de asociaciones para que comprobaran esa validación. La ampliación del pin al merge detectó una fixture sin ese campo; se actualizó antes de la batería final. Los primeros chequeos y el resultado final quedan separados en evidencia local ignorada `.local/verification/i03/pr-ci-identity/`.
 
-El PR recogerá commit, nuevo CI y lectura real de display_title/lector contra API cuando se observen. No se anticipa su resultado ni se usa un merge o deployment para obtenerlo. No cambian dependencias, permisos de CI, workflows publicadores, política, secretos o protecciones.
+La lectura real del CI42302954132 (head8e1562e) confirmó el título versionado exacto y el campo dinámico run.name. Se ajustó su comparación y las fixtures antes de entregar el código final. Tras el ajuste, `npm run verify` vuelve a finalizar exit0 con los mismos314/9/26 resultados y tipos64 correctos.
+
+El lector TypeScript nativo validó esos metadatos reales con solo GET: success; en un replay local de las respuestas cambiando únicamente pull_requests a[] también success; con una entrada contradictoria adicional, failure. Estos dos últimos estados son simulaciones sobre metadatos grabados y no pruebas empíricas después del merge. La evidencia saneada y el script de lectura quedan en la carpeta ignorada anterior.
+
+El PR recogerá el CI del commit final y su nueva lectura real cuando se observen. No se anticipa su resultado ni se usa un merge o deployment para obtenerlo. No cambian dependencias, permisos de CI, workflows publicadores, política, secretos o protecciones.
