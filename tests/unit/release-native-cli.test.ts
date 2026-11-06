@@ -48,6 +48,23 @@ describe('native Node release CLI', () => {
     },
   );
 
+  it('blocks the real staging access check before reading secrets or touching the network', async () => {
+    await expect(
+      runNode(process.execPath, [
+        '--input-type=module',
+        '--eval',
+        `
+      import assert from 'node:assert/strict';
+      import { main } from './scripts/release/cli.ts';
+      process.env.RELEASE_TARGET = 'staging';
+      process.env.I03_STAGING_PUBLICATION_AUTHORIZED = 'true';
+      globalThis.fetch = () => { throw new Error('Network must remain unused'); };
+      await assert.rejects(main(['probe-staging-access']), /Phase B is not authorized|Publication requires/);
+    `,
+      ]),
+    ).resolves.toMatchObject({ stdout: '', stderr: '' });
+  });
+
   it('rejects the native publisher before any network access or artifact lookup', async () => {
     await expect(
       runNode(

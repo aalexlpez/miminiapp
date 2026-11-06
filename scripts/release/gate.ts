@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import {
   isCommit,
   isDigest,
+  sha256,
   type ReleaseManifest,
   validateManifest,
 } from './manifest.ts';
@@ -11,10 +12,21 @@ export interface DeploymentPolicy {
   schemaVersion: 1;
   phase: 'A' | 'B';
   deploymentsEnabled: boolean;
+  promotionEnabled?: boolean;
+  rollbackEnabled?: boolean;
   repository: string;
   repositoryId: string;
   owner: string;
-  targets: Record<Target, { branch: string; worker: string; url: string }>;
+  cloudflareAccountIdSha256?: string;
+  targets: Record<
+    Target,
+    {
+      branch: string;
+      worker: string;
+      url: string;
+      deploymentsEnabled?: boolean;
+    }
+  >;
 }
 
 export function assertTarget(value: unknown): asserts value is Target {
@@ -31,6 +43,12 @@ export function validatePolicy(
     policy.schemaVersion !== 1 ||
     !['A', 'B'].includes(policy.phase) ||
     typeof policy.deploymentsEnabled !== 'boolean' ||
+    (policy.cloudflareAccountIdSha256 !== undefined &&
+      !isDigest(policy.cloudflareAccountIdSha256)) ||
+    (policy.promotionEnabled !== undefined &&
+      typeof policy.promotionEnabled !== 'boolean') ||
+    (policy.rollbackEnabled !== undefined &&
+      typeof policy.rollbackEnabled !== 'boolean') ||
     policy.repository !== 'aalexlpez/miminiapp' ||
     !/^\d+$/.test(policy.repositoryId ?? '') ||
     policy.owner !== 'aalexlpez'
@@ -46,7 +64,9 @@ export function validatePolicy(
     if (
       value?.branch !== branch ||
       value.worker !== worker ||
-      value.url !== `https://${worker}.miminiapp-lab.workers.dev`
+      value.url !== `https://${worker}.miminiapp-lab.workers.dev` ||
+      (value.deploymentsEnabled !== undefined &&
+        typeof value.deploymentsEnabled !== 'boolean')
     )
       throw new Error(`Deployment destination mismatch: ${target}`);
   }
@@ -69,9 +89,68 @@ export function assertPhaseB(
   if (
     policy.phase !== 'B' ||
     policy.deploymentsEnabled !== true ||
+    policy.targets[target].deploymentsEnabled !== true ||
+    (target === 'production' && policy.promotionEnabled !== true) ||
     flag !== 'true'
   )
     throw new Error('Phase B is not authorized: publication is disabled.');
+}
+
+export function assertCloudflareAccount(
+  policy: DeploymentPolicy,
+  accountId: string,
+) {
+  if (
+    !/^[a-f0-9]{32}$/.test(accountId) ||
+    !isDigest(policy.cloudflareAccountIdSha256) ||
+    sha256(accountId) !== policy.cloudflareAccountIdSha256
+  )
+    throw new Error(
+      'Cloudflare account differs from the approved destination.',
+    );
+}
+
+export function publicationFlag(target: Target, environment = process.env) {
+  return target === 'staging'
+    ? environment.I03_STAGING_PUBLICATION_AUTHORIZED
+    : environment.I03_PRODUCTION_PUBLICATION_AUTHORIZED;
+}
+
+/** Cheap event checks precede GitHub metadata, artifacts and Cloudflare secrets. */
+export function assertPublicationContext(
+  policy: DeploymentPolicy,
+  target: Target,
+  environment: NodeJS.ProcessEnv = process.env,
+) {
+  validatePolicy(policy);
+  assertTarget(target);
+  if (
+    environment.GITHUB_ACTIONS !== 'true' ||
+    environment.GITHUB_EVENT_NAME !== 'push' ||
+    environment.GITHUB_REF !== `refs/heads/${policy.targets[target].branch}` ||
+    environment.GITHUB_REPOSITORY !== policy.repository ||
+    environment.GITHUB_REPOSITORY_ID !== policy.repositoryId ||
+    environment.GITHUB_ACTOR !== policy.owner ||
+    environment.GITHUB_TRIGGERING_ACTOR !== policy.owner ||
+    !isCommit(environment.GITHUB_SHA) ||
+    !/^[1-9]\d*$/.test(environment.GITHUB_RUN_ID ?? '') ||
+    !/^[1-9]\d*$/.test(environment.GITHUB_RUN_ATTEMPT ?? '')
+  )
+    throw new Error(
+      'Publication requires an owner-triggered protected-branch push in GitHub Actions.',
+    );
+}
+
+export function assertPromotionAuthorized(policy: DeploymentPolicy) {
+  validatePolicy(policy);
+  if (policy.promotionEnabled !== true)
+    throw new Error('Promotion is not authorized during staging setup.');
+}
+
+export function assertRollbackAuthorized(policy: DeploymentPolicy) {
+  validatePolicy(policy);
+  if (policy.rollbackEnabled !== true)
+    throw new Error('Rollback is not authorized during staging setup.');
 }
 
 export interface CandidateProof {

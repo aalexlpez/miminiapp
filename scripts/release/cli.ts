@@ -4,7 +4,12 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   assertPhaseB,
+  assertCloudflareAccount,
+  assertPublicationContext,
+  assertPromotionAuthorized,
+  assertRollbackAuthorized,
   assertTarget,
+  publicationFlag,
   readPolicy,
   verifyCandidate,
   type StagingReceipt,
@@ -25,6 +30,7 @@ import {
   type ReleaseManifest,
 } from './manifest.ts';
 import { runChild } from './process.ts';
+import { probeStagingAccess } from './cloudflare.ts';
 
 function git(...args: string[]) {
   return execFileSync('git', args, {
@@ -83,10 +89,12 @@ function matchTrusted(
 /** Future publisher: the Phase A policy is checked before tokens, network, or Wrangler. */
 export async function publish(target: Target, directory: string) {
   const policy = await readPolicy();
-  assertPhaseB(policy, target, process.env.I03_PHASE_B_AUTHORIZED);
+  assertPhaseB(policy, target, publicationFlag(target));
+  const rollback = process.env.RELEASE_OPERATION === 'rollback';
+  if (rollback) assertRollbackAuthorized(policy);
+  else assertPublicationContext(policy, target);
   const artifactDirectory = resolve(directory);
   const manifest = await verifyRelease(artifactDirectory);
-  const rollback = process.env.RELEASE_OPERATION === 'rollback';
   if (process.env.RELEASE_OPERATION && !rollback)
     throw new Error('Unknown release operation.');
   let trusted: TrustedCandidate | undefined;
@@ -107,6 +115,7 @@ export async function publish(target: Target, directory: string) {
   }
   if (trusted) matchTrusted(manifest, trusted, await readReceipt());
   const account = process.env.CLOUDFLARE_ACCOUNT_ID ?? '';
+  assertCloudflareAccount(policy, account);
   const token = process.env.CLOUDFLARE_API_TOKEN ?? '';
   if (
     !/^[a-f0-9]{32}$/.test(account) ||
@@ -117,16 +126,30 @@ export async function publish(target: Target, directory: string) {
       'Explicit account, destination Environment and scoped token are required.',
     );
   const worker = policy.targets[target].worker;
-  // Editor must address an already existing Worker. A failed read does not trigger bootstrap.
-  const existing = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/${worker}`,
-    { headers: { Authorization: `Bearer ${token}` }, redirect: 'error' },
-  );
-  if (!existing.ok)
-    throw new Error(
-      `Existing destination Worker cannot be verified (${existing.status}); no deployment attempted.`,
+  if (target === 'staging') {
+    const report = await probeStagingAccess({
+      accountId: account,
+      accountIdSha256: policy.cloudflareAccountIdSha256!,
+      token,
+      worker,
+    });
+    await mkdir('.local', { recursive: true });
+    await writeFile(
+      '.local/staging-access.json',
+      `${JSON.stringify(report, null, 2)}\n`,
     );
-  await existing.body?.cancel();
+  } else {
+    // Future production remains disabled. Never bootstrap a missing Worker.
+    const existing = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${account}/workers/scripts/${worker}`,
+      { headers: { Authorization: `Bearer ${token}` }, redirect: 'error' },
+    );
+    if (!existing.ok)
+      throw new Error(
+        `Existing destination Worker cannot be verified (${existing.status}); no deployment attempted.`,
+      );
+    await existing.body?.cancel();
+  }
   const wrangler = JSON.parse(
     await readFile('node_modules/wrangler/package.json', 'utf8'),
   ) as { version: string };
@@ -163,7 +186,12 @@ export async function publish(target: Target, directory: string) {
     ],
     {
       stdio: 'inherit',
-      env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
+      env: {
+        ...process.env,
+        WRANGLER_SEND_METRICS: 'false',
+        WRANGLER_LOG_SANITIZE: 'true',
+        CI: '1',
+      },
     },
   );
   if (
@@ -219,12 +247,38 @@ export async function main(args: string[]) {
       throw new Error('Usage: verify artifactDirectory');
     await manifestOutputs(await verifyRelease(first));
   } else if (operation === 'assert-phase-b') {
-    assertPhaseB(await readPolicy(), first, process.env.I03_PHASE_B_AUTHORIZED);
+    assertTarget(first);
+    assertPhaseB(await readPolicy(), first, publicationFlag(first));
+  } else if (operation === 'probe-staging-access') {
+    if (args.length !== 1 || process.env.RELEASE_TARGET !== 'staging')
+      throw new Error('The read-only check requires the staging Environment.');
+    const policy = await readPolicy();
+    assertPhaseB(policy, 'staging', publicationFlag('staging'));
+    assertPublicationContext(policy, 'staging');
+    await checkMerged(policy, 'staging');
+    const accountId = process.env.CLOUDFLARE_ACCOUNT_ID ?? '';
+    assertCloudflareAccount(policy, accountId);
+    const report = await probeStagingAccess({
+      accountId,
+      accountIdSha256: policy.cloudflareAccountIdSha256!,
+      token: process.env.CLOUDFLARE_API_TOKEN ?? '',
+      worker: policy.targets.staging.worker,
+    });
+    await mkdir('.local', { recursive: true });
+    await writeFile(
+      '.local/staging-access.json',
+      `${JSON.stringify(report, null, 2)}\n`,
+    );
+    console.log(JSON.stringify(report));
   } else if (operation === 'check-promotion') {
-    await saveProof(await checkPromotion(await readPolicy()));
+    const policy = await readPolicy();
+    assertPromotionAuthorized(policy);
+    await saveProof(await checkPromotion(policy));
   } else if (operation === 'check-merged') {
     assertTarget(first);
-    const checked = await checkMerged(await readPolicy(), first);
+    const policy = await readPolicy();
+    assertPublicationContext(policy, first);
+    const checked = await checkMerged(policy, first);
     if (checked.candidate) await saveProof(checked.candidate);
     else
       await writeOutputs({
@@ -233,7 +287,9 @@ export async function main(args: string[]) {
       });
   } else if (operation === 'check-rollback') {
     assertTarget(first);
-    await saveProof(await checkRollback(await readPolicy(), first));
+    const policy = await readPolicy();
+    assertRollbackAuthorized(policy);
+    await saveProof(await checkRollback(policy, first));
   } else if (operation === 'verify-receipt') {
     if (!first || !second)
       throw new Error('Usage: verify-receipt artifactDirectory receiptFile');

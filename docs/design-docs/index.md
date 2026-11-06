@@ -135,3 +135,11 @@ El propietario comunica completados checks, strict, opciones y Environments, sin
 ### Cierre de preparación de Fase A — 2026-11-06
 
 Nueva lectura API confirma main con quality+promotion y staging con quality, app15368 y enforcement everyone. Opciones y Environments siguen correctos; la discrepancia previa queda cerrada. El propietario confirma por revisión propia el mensaje del PR#2 que rechaza un origen no autorizado; no sustituye el resto de pruebas. Preparación A completada con límites administrativos/secretos/ensayos registrados; I-03 permanece En curso, Fase B no autorizada. Sin cambios de decisiones, publicadores, Workers, ramas protegidas o predeterminada.
+
+### Alcance de ejecución B1 autorizado — 2026-11-06
+
+El propietario confirma Fase A y autoriza únicamente el bootstrap mínimo de miminiapp-staging conforme a ADR-MMA-004/014. Producción, circuito ordinario, promociones, rollback y predeterminada siguen fuera del permiso. Workers Admin a nivel de producto es necesario para crear un Worker inexistente y se informa expresamente; credencial temporal fuera de CI por secreto personal con destino API. Después, el propietario emite Editor account-owned limitado al Worker existente, sin asumir que leerlo acredita escritura o aislamiento cruzado. No se altera la arquitectura o la exigencia de aislamiento antes de activación futura. El ExecPlan conserva el estado En curso.
+
+### Operación de Cloudflare por el propietario y preparación de staging en Actions — 2026-11-06
+
+El propietario cambia la distribución operativa: él administra Cloudflare/tokens; Codex prepara código, pruebas y PR; Actions usa el Editor de staging y publica tras autorización/merge. Informa del bootstrap manual y de secreto/variable en el Environment staging. Se conserva Workers Static Assets, Wrangler fijado, aislamiento por Worker y separación de entornos de ADR-MMA-004/009/014/015. No se necesita acceso Cloudflare desde Codex. Se autoriza únicamente preparar/implementar y abrir PR de staging, con publicadores cerrados hasta nueva autorización; producción, promoción, rollback y predeterminada no se activan. La concreción mecánica añade autorización por destino para que una futura habilitación de staging no abra otros destinos.
