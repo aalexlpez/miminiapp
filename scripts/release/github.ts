@@ -75,14 +75,15 @@ interface Event {
 
 /** Read-only API client. No mutation method or caller-provided API origin is accepted. */
 export class GitHubReader {
-  constructor(
-    readonly policy: DeploymentPolicy,
-    private readonly token: string,
-  ) {
+  readonly policy: DeploymentPolicy;
+  private readonly token: string;
+  constructor(policy: DeploymentPolicy, token: string) {
     if (!token)
       throw new Error(
         'A read-only GitHub token is required for trusted metadata.',
       );
+    this.policy = policy;
+    this.token = token;
   }
   private async request(path: string) {
     if (
