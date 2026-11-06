@@ -117,3 +117,29 @@ El 2026-11-05 el propietario aprueba formalmente el [ExecPlan I-03](../exec-plan
 Después de la aprobación formal, el propietario autoriza expresamente la Fase A: preparación técnica/CI/configuración segura y commits/pushes estrictamente técnicos sin publicaciones. El ExecPlan registra Autorizado → En curso. Esta indicación posterior sustituye únicamente la falta de autorización de Fase A descrita en las notas históricas; no cambia decisiones aprobadas ni autoriza Fase B, Workers públicos, promociones o despliegues.
 
 Se implementan localmente los contratos y configuraciones de ADR-MMA-004/009/014/015, con Wrangler exacto, acciones fijadas, artefacto verificable, gate y publicación bloqueada. Las protecciones y aislamiento por Worker requieren pruebas reales; ninguna prueba local autoriza bajar strict=true. Los resultados y límites constan en el [informe Fase A](../i03-phase-a-report.md).
+
+### Excepción aprobada de bootstrap I-03 — 2026-11-06
+
+El propietario aprueba y autoriza expresamente, solo dentro de Fase A, crear inicialmente staging y main desde `73b8bd2c1d3fc0e2f0161af9df9897d16b51ade8`, en vez de directamente desde master. Es concreción aprobada de ADR-MMA-009: debe conservar como ancestros el master remoto y los cierres aceptados I-01/I-02; el CI satisfactorio corresponde al padre inmediato f4430f0, y el delta a 73b8bd2 es exclusivamente documental. Se mantiene revisión/merge manual, PR/checks obligatorios, cero reviews requeridas, administrador sujeto a reglas, strict=true y publicadores bloqueados con deploymentsEnabled=false. Si no se establecen las protecciones necesarias, detener avance y comunicar bloqueo. Master intacto/predeterminado; no autoriza promociones, Workers, Fase B, publicación o cambio de predeterminada.
+
+La ejecución de esa excepción se detuvo antes de crear ramas: opciones y protección rechazadas con403 Resource not accessible by integration (administration=write requerido). No modifica la aprobación de ADR-MMA-009 ni autoriza alternativas/bypass. Informe y ExecPlan registran el bloqueo de capacidad.
+
+### Bootstrap realizado bajo reglas manuales — 2026-11-06
+
+Tras guardar personalmente las reglas, el propietario autoriza continuar y crear ambas ramas desde 73b8bd2. Staging/main quedan en ese commit y protegidas con quality/app15368/enforcement everyone, sin cambiar master o su predeterminación. No se desactiva control alguno. PR, cero approvals, strict y prohibiciones son configuración declarada por el propietario; la integración no puede leer el detalle administrativo. La limitación de credencial no autoriza afirmar todos los campos verificados ni omitir promotion en main. No cambia ADR-MMA-009 ni autoriza Fase B.
+
+### Verificación de la configuración manual final de Fase A — 2026-11-06
+
+El propietario comunica completados checks, strict, opciones y Environments, sin secretos o activación. Se corroboran por API las opciones de merge y políticas exactas de ambos Environments sin reviewers/espera. Main sigue mostrando solo quality de GitHub Actions, sin rulesets adicionales: promotion obligatorio permanece sin acreditar, no se cambia la regla ni se reinterpretan ADR-MMA-009/014 para omitirlo. Detalles de protección y secretos/variables no legibles por403; se distingue declaración del propietario de prueba automatizada. Los publicadores siguen bloqueados y master predeterminada. La arquitectura aprobada no cambia; resultados en el informe y ExecPlan.
+
+### Cierre de preparación de Fase A — 2026-11-06
+
+Nueva lectura API confirma main con quality+promotion y staging con quality, app15368 y enforcement everyone. Opciones y Environments siguen correctos; la discrepancia previa queda cerrada. El propietario confirma por revisión propia el mensaje del PR#2 que rechaza un origen no autorizado; no sustituye el resto de pruebas. Preparación A completada con límites administrativos/secretos/ensayos registrados; I-03 permanece En curso, Fase B no autorizada. Sin cambios de decisiones, publicadores, Workers, ramas protegidas o predeterminada.
+
+### Alcance de ejecución B1 autorizado — 2026-11-06
+
+El propietario confirma Fase A y autoriza únicamente el bootstrap mínimo de miminiapp-staging conforme a ADR-MMA-004/014. Producción, circuito ordinario, promociones, rollback y predeterminada siguen fuera del permiso. Workers Admin a nivel de producto es necesario para crear un Worker inexistente y se informa expresamente; credencial temporal fuera de CI por secreto personal con destino API. Después, el propietario emite Editor account-owned limitado al Worker existente, sin asumir que leerlo acredita escritura o aislamiento cruzado. No se altera la arquitectura o la exigencia de aislamiento antes de activación futura. El ExecPlan conserva el estado En curso.
+
+### Operación de Cloudflare por el propietario y preparación de staging en Actions — 2026-11-06
+
+El propietario cambia la distribución operativa: él administra Cloudflare/tokens; Codex prepara código, pruebas y PR; Actions usa el Editor de staging y publica tras autorización/merge. Informa del bootstrap manual y de secreto/variable en el Environment staging. Se conserva Workers Static Assets, Wrangler fijado, aislamiento por Worker y separación de entornos de ADR-MMA-004/009/014/015. No se necesita acceso Cloudflare desde Codex. Se autoriza únicamente preparar/implementar y abrir PR de staging, con publicadores cerrados hasta nueva autorización; producción, promoción, rollback y predeterminada no se activan. La concreción mecánica añade autorización por destino para que una futura habilitación de staging no abra otros destinos.

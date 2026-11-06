@@ -1,6 +1,6 @@
 # Fiabilidad y entrega
 
-**Estado actual, 2026-11-06:** I-03 En curso exclusivamente Fase A autorizada. Preparación técnica local; configuración/validación remota incompletas. Publicaciones bloqueadas y Fase B sin autorizar. **Responsable:** propietario de MiMiniApp.
+**Estado actual, 2026-11-06:** I-03 En curso exclusivamente Fase A autorizada. Preparación de Fase A completada con comprobaciones disponibles satisfactorias y limitaciones documentadas. Publicaciones bloqueadas y Fase B sin autorizar. **Responsable:** propietario de MiMiniApp.
 
 ## Circuito aprobado
 
@@ -16,15 +16,17 @@ Se construye y prueba el candidato una vez en staging, con manifiesto inocuo e i
 
 ## Estado implementado de Fase A
 
-CI, gate, empaquetado, pruebas negativas, suite remota y configuraciones están en el repositorio. Los jobs de staging/producción/rollback tienen condición literal falsa; política versionada Fase A con publicaciones deshabilitadas y guardia previa al uso de credenciales/red/Wrangler. El [informe](i03-phase-a-report.md) registra comandos, evidencia y AC pendientes. La API de GitHub bloqueada y la introducción inicial del gate impiden completar la preparación remota; no se presentan protecciones deseadas como efectivas.
+CI, gate, empaquetado, pruebas negativas, suite remota y configuraciones están preparados. Publicadores de staging/producción/rollback conservan condiciones literales falsas y política A con deploymentsEnabled=false. Main/staging permanecen en73b8bd2; master214a3c1 sigue predeterminada. Runs de publicación skipped y deployments vacíos. La aplicación y la infraestructura no han cambiado desde el commit verificado.
 
-Una cuenta Cloudflare Free y dos Workers aprobados: `miminiapp-staging`/`miminiapp`, subdominio `miminiapp-lab.workers.dev`. Sin Workers o tokens creados por esta ejecución. La creación administrativa documentada requiere deploy y queda detenida. Después de autorización específica: dos account-owned tokens Editor limitados individualmente y prueba real de denegación cruzada. Admin fuera de CI; sin OAuth ni fallback de Workers Scripts: Edit general. Si el aislamiento falla, detener activación y solicitar aprobación antes de una alternativa.
+La API corrobora solo merge commits, sin squash/rebase/auto-merge, y ambos Environments sin reviewers/espera con sus ramas exactas. Main exige quality y promotion de GitHub Actions app15368; staging quality, ambos para todos. La discrepancia previa quedó resuelta y se completa la preparación de Fase A. El detalle de protecciones y los listados de secretos/variables están denegados403: strict, PR/reviews, force/delete y ausencia de secretos quedan como declaración del propietario, sin afirmar lectura o enforcement automatizado. El PR técnico #2 quedó cerrado sin merge; emitió promotion y falló en el paso del gate. El propietario revisó el log y confirmó el mensaje literal de rechazo de un origen distinto del PR staging→main del mismo repositorio; evidencia humana, sin atribuir al agente acceso a logs ni dar por probadas otras garantías de seguridad. Véase el [informe](i03-phase-a-report.md).
+
+Una cuenta Cloudflare Free y dos Workers aprobados: `miminiapp-staging`/`miminiapp`, subdominio `miminiapp-lab.workers.dev`. Sin Workers o tokens creados por esta ejecución. La creación administrativa documentada requiere deploy y queda detenida. Dentro de un bootstrap B expresamente autorizado: crear los recursos con administración controlada, después dos account-owned tokens Editor limitados individualmente y prueba real de denegación cruzada antes de activar publicadores ordinarios. Ese aislamiento no se exige como ya demostrado antes de autorizar el bootstrap necesario para probarlo. Admin fuera de CI; sin OAuth ni fallback de Workers Scripts: Edit general. Si el aislamiento falla, detener activación y solicitar aprobación antes de una alternativa.
 
 ## Fallos y recuperación
 
 Tras activar el circuito, staging requiere pruebas reales ES/EN/rutas/recursos/responsive/teclado/axe/identidad y exclusión de fixtures; producción requiere smoke. No activar Workers Builds u otro segundo publicador. Si una publicación falla o tiene timeout, consultar el estado realmente servido y la versión del proveedor; no asumir ausencia de efecto ni declarar release verde.
 
-Rollback excepcional manual del propietario, desde ref protegida, destino fijo y artefacto anterior validado, sin código arbitrario. Ensayo inicial autorizado en staging pendiente; captura de versión Cloudflare, restauración y smoke deben acreditarse realmente. No hay rollback automático preparado. Retención 7 días para fallos y hasta 30 para candidatos/recibos; un artefacto expirado no se promueve y se conserva una versión recuperable.
+Rollback excepcional manual del propietario, desde ref protegida, destino fijo y artefacto anterior validado, sin código arbitrario. Ensayo inicial autorizado en staging pendiente; captura de versión Cloudflare, resolución del estado tras timeout, restauración y smoke deben implementarse/comprobarse realmente antes de la activación ordinaria. Master todavía no contiene los workflows, por lo que workflow_dispatch de rollback requerirá una secuencia de predeterminada revisada y autorizada posteriormente. No hay rollback automático preparado. Retención 7 días para fallos y hasta 30 para candidatos/recibos; un artefacto expirado no se promueve y se conserva una versión recuperable.
 
 ## Coste y evolución
 

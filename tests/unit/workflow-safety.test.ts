@@ -1,4 +1,9 @@
 import { readFileSync, readdirSync } from 'node:fs';
+import { mkdtemp, mkdir, readFile, writeFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { dirname } from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { resolve } from 'node:path';
 import { parsers } from 'prettier/plugins/yaml';
 import { describe, expect, it } from 'vitest';
@@ -14,6 +19,14 @@ interface YamlNode {
   anchor?: unknown;
   tag?: unknown;
 }
+
+// This explicit test expectation changes only in the owner-approved activation patch.
+const stagingPublicationApproved = true;
+const stagingPrepareCondition =
+  "${{ github.event_name == 'push' && github.ref == 'refs/heads/staging' && github.repository == 'aalexlpez/miminiapp' && vars.I03_STAGING_PUBLICATION_AUTHORIZED == 'true' }}";
+const stagingPublishCondition =
+  "${{ github.event_name == 'push' && github.ref == 'refs/heads/staging' && github.repository == 'aalexlpez/miminiapp' && vars.I03_STAGING_PUBLICATION_AUTHORIZED == 'true' && needs.prepare.result == 'success' }}";
+const normalize = (value: unknown) => String(value).replace(/\s+/g, ' ').trim();
 
 const root = resolve(import.meta.dirname, '../..');
 const workflowDirectory = resolve(root, '.github/workflows');
@@ -126,7 +139,10 @@ function checkPermissions(value: Value | undefined): void {
   }
 }
 
-function auditWorkflow(workflow: Mapping): void {
+function auditWorkflow(
+  workflow: Mapping,
+  stageApproved = stagingPublicationApproved,
+): void {
   const triggers = mapping(workflow.on, 'on');
   requireCondition(
     Object.keys(triggers).every((trigger) =>
@@ -229,8 +245,16 @@ function auditWorkflow(workflow: Mapping): void {
       continue;
     }
     requireCondition(
-      job.if === '${{ false }}',
-      'Publishing job is active in Phase A',
+      normalize(job.if) ===
+        (stageApproved && job.environment === 'staging'
+          ? stagingPublishCondition
+          : '${{ false }}'),
+      'Publishing job is active in Phase A or lacks the exact staging authorization gate',
+    );
+    requireCondition(
+      job['continue-on-error'] === undefined ||
+        job['continue-on-error'] === false,
+      'Publishing job must not ignore failures',
     );
     const concurrency = mapping(job.concurrency, 'publisher concurrency');
     requireCondition(
@@ -278,11 +302,42 @@ function auditWorkflow(workflow: Mapping): void {
       beforePublish.some((step) => /cli\.ts verify /.test(String(step.run))),
       'Missing artifact verification',
     );
+    const probeIndex = steps.findIndex((step) =>
+      /cli\.ts probe-staging-access/.test(String(step.run)),
+    );
+    if (job.environment === 'staging') {
+      requireCondition(
+        probeIndex >= 0 && probeIndex < publishIndex,
+        'Missing read-only staging access check',
+      );
+      for (const step of [steps[probeIndex], steps[publishIndex]]) {
+        requireCondition(
+          step['continue-on-error'] === undefined ||
+            step['continue-on-error'] === false,
+          'Staging access and publication steps must not ignore failures',
+        );
+        requireCondition(
+          step.if === undefined,
+          'Staging access and publication steps must require prior success',
+        );
+      }
+      requireCondition(
+        beforePublish
+          .slice(0, probeIndex)
+          .some((step) => /check-merged staging/.test(String(step.run))),
+        'Probe precedes the trusted merged-PR check',
+      );
+      requireCondition(
+        !serialized.includes('I03_PHASE_B_AUTHORIZED'),
+        'Staging uses the old global authorization flag',
+      );
+    }
     for (const step of steps) {
       if (!/secrets\./.test(JSON.stringify(step))) continue;
       requireCondition(
-        step === steps[publishIndex],
-        'Secret exposed outside publication step',
+        step === steps[publishIndex] ||
+          (job.environment === 'staging' && step === steps[probeIndex]),
+        'Secret exposed outside guarded probe or publication step',
       );
       requireCondition(
         !Object.hasOwn(job, 'env'),
@@ -294,6 +349,17 @@ function auditWorkflow(workflow: Mapping): void {
 
 async function readWorkflow(name: string): Promise<Mapping> {
   return parseYaml(readFileSync(resolve(workflowDirectory, name), 'utf8'));
+}
+
+function stagingStep(workflow: Mapping, command: string): Mapping {
+  const job = mapping(
+    mapping(workflow.jobs, 'jobs')['remote-test'],
+    'publisher',
+  );
+  const steps = (job.steps as Value[]).map((step) => mapping(step, 'step'));
+  const step = steps.find((entry) => String(entry.run).includes(command));
+  requireCondition(step, `Missing staging step: ${command}`);
+  return step;
 }
 
 function readGitHubRequest(name: string): Mapping {
@@ -397,19 +463,23 @@ describe('Phase A deployment safety', () => {
     ) as Record<string, unknown>;
     expect(policy).toMatchObject({
       schemaVersion: 1,
-      phase: 'A',
-      deploymentsEnabled: false,
+      phase: stagingPublicationApproved ? 'B' : 'A',
+      deploymentsEnabled: stagingPublicationApproved,
+      promotionEnabled: false,
+      rollbackEnabled: false,
       repository: 'aalexlpez/miminiapp',
       repositoryId: '1445849027',
       owner: 'aalexlpez',
       targets: {
         staging: {
           branch: 'staging',
+          deploymentsEnabled: stagingPublicationApproved,
           worker: 'miminiapp-staging',
           url: 'https://miminiapp-staging.miminiapp-lab.workers.dev',
         },
         production: {
           branch: 'main',
+          deploymentsEnabled: false,
           worker: 'miminiapp',
           url: 'https://miminiapp.miminiapp-lab.workers.dev',
         },
@@ -469,6 +539,10 @@ describe('Phase A deployment safety', () => {
     );
     expect(gate).toBeDefined();
     expect(gate?.if).toBeUndefined();
+    const block = steps[0];
+    expect(block.name).toBe('Block promotion until separately authorized');
+    expect(String(block.run)).toContain('exit 1');
+    expect(block.if).toBeUndefined();
   });
 
   it('permits only explicit rollback destinations and a previous trusted run', async () => {
@@ -489,8 +563,22 @@ describe('Phase A deployment safety', () => {
   it('also disables preparation jobs in every publishing workflow during Phase A', async () => {
     for (const file of ['staging.yml', 'production.yml', 'rollback.yml']) {
       const workflow = await readWorkflow(file);
-      for (const job of Object.values(mapping(workflow.jobs, 'jobs'))) {
-        expect(mapping(job, 'job').if).toBe('${{ false }}');
+      for (const [jobId, value] of Object.entries(
+        mapping(workflow.jobs, 'jobs'),
+      )) {
+        const job = mapping(value, 'job');
+        const expected =
+          file === 'staging.yml' && stagingPublicationApproved
+            ? jobId === 'prepare'
+              ? stagingPrepareCondition
+              : stagingPublishCondition
+            : '${{ false }}';
+        expect(normalize(job.if)).toBe(expected);
+      }
+      if (file === 'staging.yml') {
+        const triggers = mapping(workflow.on, 'triggers');
+        expect(Object.keys(triggers)).toEqual(['push']);
+        expect(mapping(triggers.push, 'push').branches).toEqual(['staging']);
       }
     }
   });
@@ -670,6 +758,58 @@ describe('Phase A deployment safety', () => {
       'Publication may be interrupted',
     ],
     [
+      'ignore a publishing job failure',
+      (workflow: Mapping) => {
+        mapping(mapping(workflow.jobs, 'jobs')['remote-test'], 'publisher')[
+          'continue-on-error'
+        ] = true;
+      },
+      'Publishing job must not ignore failures',
+    ],
+    [
+      'ignore a failed access probe',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'probe-staging-access')['continue-on-error'] =
+          true;
+      },
+      'Staging access and publication steps must not ignore failures',
+    ],
+    [
+      'ignore a failed publication',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'cli.ts publish')['continue-on-error'] = true;
+      },
+      'Staging access and publication steps must not ignore failures',
+    ],
+    [
+      'run the access probe regardless of previous failures',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'probe-staging-access').if = '${{ always() }}';
+      },
+      'Staging access and publication steps must require prior success',
+    ],
+    [
+      'skip the access probe on a successful path',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'probe-staging-access').if = '${{ failure() }}';
+      },
+      'Staging access and publication steps must require prior success',
+    ],
+    [
+      'publish despite a failed access probe',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'cli.ts publish').if = '${{ always() }}';
+      },
+      'Staging access and publication steps must require prior success',
+    ],
+    [
+      'publish only after a prior failure',
+      (workflow: Mapping) => {
+        stagingStep(workflow, 'cli.ts publish').if = '${{ failure() }}';
+      },
+      'Staging access and publication steps must require prior success',
+    ],
+    [
       'grant token writes',
       (workflow: Mapping) => {
         mapping(workflow.permissions, 'permissions').contents = 'write';
@@ -725,6 +865,82 @@ describe('Phase A deployment safety', () => {
       expect(() => auditWorkflow(workflow)).toThrow(error);
     },
   );
+
+  it('proves the reviewed activation patch changes staging alone without weakening security tests', async () => {
+    if (stagingPublicationApproved) return; // Already applied: the real-workflow audit above now checks its guards.
+    const directory = await mkdtemp(resolve(tmpdir(), 'miminiapp-activation-'));
+    const files = [
+      '.github/deployment-policy.json',
+      '.github/workflows/staging.yml',
+      'tests/unit/workflow-safety.test.ts',
+    ];
+    try {
+      for (const filename of files) {
+        const destination = resolve(directory, filename);
+        await mkdir(dirname(destination), { recursive: true });
+        await writeFile(destination, await readFile(resolve(root, filename)));
+      }
+      const patchPath = resolve(
+        root,
+        'docs/staging-publication-activation.patch',
+      );
+      const patch = await readFile(patchPath, 'utf8');
+      expect(
+        [...patch.matchAll(/^\+\+\+ b\/(.+)$/gm)].map((m) => m[1]).sort(),
+      ).toEqual([...files].sort());
+      await promisify(execFile)('git', ['apply', '--check', patchPath], {
+        cwd: directory,
+      });
+      await promisify(execFile)('git', ['apply', patchPath], {
+        cwd: directory,
+      });
+      const original = JSON.parse(
+        await readFile(resolve(root, files[0]), 'utf8'),
+      );
+      const activated = JSON.parse(
+        await readFile(resolve(directory, files[0]), 'utf8'),
+      );
+      const expected = structuredClone(original);
+      expected.phase = 'B';
+      expected.deploymentsEnabled = true;
+      expected.targets.staging.deploymentsEnabled = true;
+      expect(activated).toEqual(expected);
+      expect(activated.targets.production.deploymentsEnabled).toBe(false);
+      expect(activated.promotionEnabled).toBe(false);
+      expect(activated.rollbackEnabled).toBe(false);
+      const workflow = await parseYaml(
+        await readFile(resolve(directory, files[1]), 'utf8'),
+      );
+      auditWorkflow(workflow, true);
+      const expectedWorkflow = await readWorkflow('staging.yml');
+      const expectedJobs = mapping(expectedWorkflow.jobs, 'jobs');
+      mapping(expectedJobs.prepare, 'prepare').if = stagingPrepareCondition;
+      mapping(expectedJobs['remote-test'], 'publisher').if =
+        stagingPublishCondition;
+      const patchedJobs = mapping(workflow.jobs, 'jobs');
+      mapping(patchedJobs.prepare, 'prepare').if = normalize(
+        mapping(patchedJobs.prepare, 'prepare').if,
+      );
+      mapping(patchedJobs['remote-test'], 'publisher').if = normalize(
+        mapping(patchedJobs['remote-test'], 'publisher').if,
+      );
+      expect(workflow).toEqual(expectedWorkflow);
+      const jobs = mapping(workflow.jobs, 'jobs');
+      expect(normalize(mapping(jobs.prepare, 'prepare').if)).toBe(
+        stagingPrepareCondition,
+      );
+      const before = await readFile(resolve(root, files[2]), 'utf8');
+      const after = await readFile(resolve(directory, files[2]), 'utf8');
+      expect(after).toBe(
+        before.replace(
+          'const stagingPublicationApproved = false;',
+          'const stagingPublicationApproved = true;',
+        ),
+      );
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
 
   it.each([
     'jobs: &jobs {}\nother: *jobs\n',

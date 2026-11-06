@@ -1,6 +1,11 @@
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import {
   assertPhaseB,
+  assertCloudflareAccount,
+  assertPublicationContext,
+  publicationFlag,
+  assertPromotionAuthorized,
+  assertRollbackAuthorized,
   verifyCandidate,
   verifyMerge,
   type CandidateProof,
@@ -9,7 +14,10 @@ import {
   type StagingReceipt,
 } from '../../scripts/release/gate.ts';
 import { publish } from '../../scripts/release/cli.ts';
-import { type ReleaseManifest } from '../../scripts/release/manifest.ts';
+import {
+  sha256,
+  type ReleaseManifest,
+} from '../../scripts/release/manifest.ts';
 
 const sha = 'a'.repeat(40);
 const tree = 'b'.repeat(40);
@@ -106,6 +114,27 @@ afterEach(() => {
 });
 
 describe('Phase A publication stop', () => {
+  it.each([undefined, '', 'false', 'TRUE', '1', ' true', 'true '])(
+    'keeps an enabled staging policy closed without the exact authorization flag: %s',
+    (flag) => {
+      const stagingEnabled: DeploymentPolicy = {
+        ...policy,
+        phase: 'B',
+        deploymentsEnabled: true,
+        targets: {
+          staging: { ...policy.targets.staging, deploymentsEnabled: true },
+          production: {
+            ...policy.targets.production,
+            deploymentsEnabled: false,
+          },
+        },
+      };
+      expect(() => assertPhaseB(stagingEnabled, 'staging', flag)).toThrow(
+        'not authorized',
+      );
+    },
+  );
+
   it('requires both a committed Phase B policy and the separate activation flag', () => {
     expect(() => assertPhaseB(policy, 'production', 'true')).toThrow(
       'not authorized',
@@ -121,7 +150,20 @@ describe('Phase A publication stop', () => {
     expect(() => assertPhaseB(enabled, 'production', 'false')).toThrow(
       'not authorized',
     );
-    expect(() => assertPhaseB(enabled, 'production', 'true')).not.toThrow();
+    expect(() => assertPhaseB(enabled, 'production', 'true')).toThrow(
+      'not authorized',
+    );
+    const stageOnly: DeploymentPolicy = {
+      ...enabled,
+      targets: {
+        staging: { ...policy.targets.staging, deploymentsEnabled: true },
+        production: { ...policy.targets.production, deploymentsEnabled: false },
+      },
+    };
+    expect(() => assertPhaseB(stageOnly, 'staging', 'true')).not.toThrow();
+    expect(() => assertPhaseB(stageOnly, 'production', 'true')).toThrow(
+      'not authorized',
+    );
     expect(() =>
       assertPhaseB(
         {
@@ -236,4 +278,74 @@ describe('owner merge and race boundaries', () => {
         ).toThrow();
     },
   );
+});
+
+describe('independent staging publication authority', () => {
+  const environment = {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'push',
+    GITHUB_REF: 'refs/heads/staging',
+    GITHUB_REPOSITORY: policy.repository,
+    GITHUB_REPOSITORY_ID: policy.repositoryId,
+    GITHUB_ACTOR: policy.owner,
+    GITHUB_TRIGGERING_ACTOR: policy.owner,
+    GITHUB_SHA: sha,
+    GITHUB_RUN_ID: '123',
+    GITHUB_RUN_ATTEMPT: '1',
+  };
+  it('accepts a protected branch event as an input to the subsequent online merged-PR check', () => {
+    expect(() =>
+      assertPublicationContext(policy, 'staging', environment),
+    ).not.toThrow();
+  });
+  it.each([
+    ['GITHUB_EVENT_NAME', 'pull_request'],
+    ['GITHUB_EVENT_NAME', 'workflow_dispatch'],
+    ['GITHUB_REF', 'refs/pull/3/merge'],
+    ['GITHUB_REF', 'refs/heads/feature/tool'],
+    ['GITHUB_REF', 'refs/heads/main'],
+    ['GITHUB_ACTIONS', 'false'],
+    ['GITHUB_ACTOR', 'another-user'],
+    ['GITHUB_TRIGGERING_ACTOR', 'another-user'],
+    ['GITHUB_REPOSITORY_ID', '999'],
+    ['GITHUB_REPOSITORY', 'another/repo'],
+    ['GITHUB_RUN_ID', '0'],
+    ['GITHUB_RUN_ATTEMPT', '0'],
+    ['GITHUB_SHA', 'invalid'],
+  ])(
+    'rejects unauthorized context %s=%s before credentials or metadata',
+    (key, value) => {
+      expect(() =>
+        assertPublicationContext(policy, 'staging', {
+          ...environment,
+          [key]: value,
+        }),
+      ).toThrow('protected-branch push');
+    },
+  );
+  it('does not accept the old global flag as staging or production authorization', () => {
+    const legacy = { I03_PHASE_B_AUTHORIZED: 'true' };
+    expect(publicationFlag('staging', legacy)).toBeUndefined();
+    expect(publicationFlag('production', legacy)).toBeUndefined();
+    const stage = { I03_STAGING_PUBLICATION_AUTHORIZED: 'true' };
+    expect(publicationFlag('staging', stage)).toBe('true');
+    expect(publicationFlag('production', stage)).toBeUndefined();
+  });
+  it('binds the destination to the approved Cloudflare account', () => {
+    const bound = {
+      ...policy,
+      cloudflareAccountIdSha256: sha256('a'.repeat(32)),
+    };
+    expect(() => assertCloudflareAccount(bound, 'a'.repeat(32))).not.toThrow();
+    expect(() => assertCloudflareAccount(bound, 'b'.repeat(32))).toThrow(
+      'approved destination',
+    );
+    expect(() => assertCloudflareAccount(policy, 'b'.repeat(32))).toThrow(
+      'approved destination',
+    );
+  });
+  it('keeps promotion and rollback separately closed', () => {
+    expect(() => assertPromotionAuthorized(policy)).toThrow('not authorized');
+    expect(() => assertRollbackAuthorized(policy)).toThrow('not authorized');
+  });
 });
