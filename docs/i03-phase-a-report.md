@@ -28,6 +28,7 @@ Evidencia local ignorada: `.local/verification/i03/phase-a/`. Los logs no se inc
 | Instalación | Wrangler 4.158.0 exacto, npm ci desde el único lockfile satisfactorio. Scripts esbuild@0.28.2/workerd@1.20261104.1 autorizados por versión exacta. Node 24.22.2/npm 11.19.1. |
 | Acciones oficiales | Cuatro tags contrastados de nuevo con sus SHA completos por git ls-remote; action.yml recuperados al SHA usan Node 24. `actions-tags.json` y `actions-runtime.json`. |
 | Batería completa local | `npm run verify` exit 0: tipos, lint, formato, validación offline Wrangler, unitarias, componentes, E2E/axe e integración. `verify.log`. |
+| CI real en GitHub | [Run 42170329302](https://github.com/aalexlpez/miminiapp/actions/runs/42170329302), commit `f4430f0a997f2ba47c3b6c6d0b78e8c12a2102f6`, estado **Success** observado en HTML público el 2026-11-06 05:49 UTC. Corrió quality desde push de la rama técnica, sin publicaciones. No es prueba de protecciones ni de bloqueo de un PR fallido. `ci-observation.json`. |
 | Cambios finales del gate | Tras la batería se añadió rechazo de checkout sucio, se amplió auditoría de protecciones y se corrigió el CLI nativo. Tipos finales: 59 archivos, cero errores/avisos/hints; lint y formato correctos. Unitarias finales: 185/185 (incluye 68 de release, 31 de workflows/políticas y 27 de destino/identidad remotos). Logs `unit-final.log`, `workflow-final.log`, `check-final.log`, `lint-final.log`. |
 | Componentes | 9/9 satisfactorias. |
 | Navegador local | 26/26 E2E, con axe y responsive ES/EN. Chromium real 156.0.8078.4, revisión 1248, ejecutable de la caché fijada; DEBUG registra lanzamiento de chromium_headless_shell-1248. No se utilizó Chromium del sistema. `chromium-pin.log`. |
@@ -42,7 +43,7 @@ No se repiten pruebas de interfaz por cambios exclusivamente documentales o de g
 
 ## Configuración remota y bloqueos
 
-**GitHub API:** el token inyectado está disponible, pero `api.github.com` recibe `CONNECT 403 Forbidden`. No se exponen valores ni se intenta eludir el proxy. El propietario ya preparó permitir el dominio; indica que solo puede publicar el borrador del entorno al terminar este turno. Quedan pendientes identidad/capacidades reales, configuración y prueba de protecciones, Environments, secretos y observación del CI remoto. La autorización de Fase A sigue vigente tras ese cambio de red.
+**GitHub API:** el token inyectado está disponible, pero `api.github.com` recibe `CONNECT 403 Forbidden`. No se exponen valores ni se intenta eludir el proxy. El propietario ya preparó permitir el dominio; indica que solo puede publicar el borrador del entorno al terminar este turno. Quedan pendientes identidad/capacidades autenticadas, configuración y prueba de protecciones, Environments y secretos. El CI técnico sí se observó por la página pública, sin eludir el bloqueo de la API. La autorización de Fase A sigue vigente tras ese cambio de red.
 
 **Bootstrap:** las ramas staging/main previstas desde master no contendrían el código confiable del primer gate. No se aplica un bypass ni se modifica ese punto aprobado. La [guía](i03-operations.md) presenta una alternativa concreta para aprobación: crear inicialmente ambas ramas en el commit técnico integrado y revisado, conservando todos los historiales y los publicadores bloqueados; proteger/verificar antes de publicar. Mientras no se apruebe y se recupere la API, no se crean esas ramas remotas ni se cambia la predeterminada.
 
@@ -55,7 +56,7 @@ No se repiten pruebas de interfaz por cambios exclusivamente documentales o de g
 | AC | Fase A y trabajo pendiente |
 | --- | --- |
 | AC1 | Autorización/inventario local documentados; capacidades e identidad autenticada pendientes API. |
-| AC2 | Batería local reproducible y pins comprobados; CI real y bloqueo de PR fallido pendientes GitHub. |
+| AC2 | Batería local y pins comprobados; CI técnico real Success. Bloqueo de PR fallido y vínculo efectivo del emisor/check pendientes de protecciones/API. |
 | AC3 | Configuración deseada y pruebas negativas offline; enforcement/merge manual reales pendientes. |
 | AC4 | Separación preparada; creación/tokens/permisos reales detenidos antes de publicación. |
 | AC5–AC7 | Hosting, manifiesto y suite preparados; publicación/separación HTTP/pruebas remotas pendientes Fase B. |
@@ -70,10 +71,12 @@ Fase A local preparada; configuración/verificación remota todavía incompleta.
 
 Commits técnicos locales hasta la integración: `79f31a3` prepara infraestructura con publicaciones bloqueadas; `4690c27` incorpora únicamente ascendencia de master (árbol sin cambios respecto a su primer padre); `b9ecd19` conserva las pruebas del checkout limpio. Los hashes de I-01/I-02 y origin/master siguen siendo ancestros, sin reescritura. El resultado final del push de la rama técnica se comprobará sin actualizar ramas de promoción.
 
-`a49c705` corrige la sintaxis nativa y conserva la evidencia actualizada. La ejecución del proceso futuro Wrangler se ajustó después a spawn asíncrono sin shell para propagar correctamente salida/fallos, con pruebas inocuas del proceso; no se ejecutó deploy.
+`a49c705` corrige la sintaxis nativa y conserva la evidencia actualizada. `f4430f0` incorpora el proceso asíncrono y cierra la evidencia local; está subido a origin/feature/i03-preparacion-segura, con identidad de tip confirmada por ls-remote y CI satisfactorio. La ejecución del proceso futuro Wrangler se ajustó después a spawn asíncrono sin shell para propagar correctamente salida/fallos, con pruebas inocuas del proceso; no se ejecutó deploy.
 
 El primer ensayo del CLI real detectó `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`: una parameter property no admitida por Node 24 en modo strip-only, que Vitest transformaba. Se sustituyó por campos/asignaciones ordinarios y se añadieron pruebas con subprocess del Node real, sin nuevas dependencias ni cambios de arquitectura. Los archivos temporales, paquetes de prueba, capturas y evidencias ignoradas quedan fuera de Git.
 
 ## Reproducción del estado Git al cierre
 
-`git log --graph --oneline --all` conserva los hashes anteriores; `git merge-base --is-ancestor` comprueba I-01, I-02 y origin/master contra HEAD. La integración `4690c27` tiene el mismo árbol que `79f31a3`; los cambios posteriores son correcciones/pruebas/documentación de Fase A. El dry-run del push técnico a `feature/i03-preparacion-segura` pasó. La comprobación final remota se conserva en `.local/verification/i03/phase-a/ls-remote-after-push.txt`; la configuración y estado de CI vía API siguen pendientes del cambio de red. Ninguna de estas operaciones escribe staging/main/master o cambia la predeterminada.
+`git log --graph --oneline --all` conserva los hashes anteriores; `git merge-base --is-ancestor` comprueba I-01, I-02 y origin/master contra HEAD. La integración `4690c27` tiene el mismo árbol que `79f31a3`; los cambios posteriores son correcciones/pruebas/documentación de Fase A. El dry-run del push técnico a `feature/i03-preparacion-segura` pasó. La comprobación final remota se conserva en `.local/verification/i03/phase-a/ls-remote-after-push.txt`; la configuración y corroboración del CI vía API siguen pendientes del cambio de red. La lectura pública acredita Success del run indicado. Ninguna de estas operaciones escribe staging/main/master o cambia la predeterminada.
+
+Esta última actualización solo documenta el CI ya observado; no cambia código, workflows, contratos o configuración. Un nuevo push documental puede generar otro run normal de quality, sin activar publicaciones. El commit probado `f4430f0` continúa siendo el punto de evidencia del código.
