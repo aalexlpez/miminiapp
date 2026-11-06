@@ -127,3 +127,7 @@ La ejecución de esa excepción se detuvo antes de crear ramas: opciones y prote
 ### Bootstrap realizado bajo reglas manuales — 2026-11-06
 
 Tras guardar personalmente las reglas, el propietario autoriza continuar y crear ambas ramas desde 73b8bd2. Staging/main quedan en ese commit y protegidas con quality/app15368/enforcement everyone, sin cambiar master o su predeterminación. No se desactiva control alguno. PR, cero approvals, strict y prohibiciones son configuración declarada por el propietario; la integración no puede leer el detalle administrativo. La limitación de credencial no autoriza afirmar todos los campos verificados ni omitir promotion en main. No cambia ADR-MMA-009 ni autoriza Fase B.
+
+### Verificación de la configuración manual final de Fase A — 2026-11-06
+
+El propietario comunica completados checks, strict, opciones y Environments, sin secretos o activación. Se corroboran por API las opciones de merge y políticas exactas de ambos Environments sin reviewers/espera. Main sigue mostrando solo quality de GitHub Actions, sin rulesets adicionales: promotion obligatorio permanece sin acreditar, no se cambia la regla ni se reinterpretan ADR-MMA-009/014 para omitirlo. Detalles de protección y secretos/variables no legibles por403; se distingue declaración del propietario de prueba automatizada. Los publicadores siguen bloqueados y master predeterminada. La arquitectura aprobada no cambia; resultados en el informe y ExecPlan.
