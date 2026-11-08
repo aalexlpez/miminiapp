@@ -1,4 +1,5 @@
 ---
+import BrandMark from './BrandMark.astro';
 import { getCommon } from '../i18n/common';
 import type { Locale } from '../lib/locales';
 
@@ -10,19 +11,7 @@ const copy = getCommon(Astro.props.locale);
 
 <div class="empty-catalogue">
   <div class="empty-symbol" aria-hidden="true">
-    <svg viewBox="0 0 64 64" focusable="false">
-      <path
-        d="M32 6c0 17-9 26-26 26 17 0 26 9 26 26 0-17 9-26 26-26-17 0-26-9-26-26Z"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="3"
-      />
-      <path
-        d="M13 8v8M9 12h8M51 48v8M47 52h8"
-        stroke="currentColor"
-        stroke-width="2"
-      />
-    </svg>
+    <BrandMark />
   </div>
   <div>
     <h3>

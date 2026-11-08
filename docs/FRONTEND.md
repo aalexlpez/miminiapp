@@ -39,4 +39,13 @@ El [ExecPlan](exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) y el [inf
 
 ## Mejora futura de movimiento
 
-Por indicación del propietario el 2026-11-05 se registra [PEND-008](exec-plans/tech-debt-tracker.md#pend-008--movimiento-suave-y-microinteracciones-futuras): flotación suave de la ilustración principal y posibles microinteracciones/transiciones adicionales. Se conserva el diseño aceptado; no se implementa ahora. Deben respetar `prefers-reduced-motion`, mantener legibilidad y evitar desplazar contenido o interferir con controles. El registro no cambia la política actual de movimiento de ADR-MMA-017 ni autoriza animación continua.
+Por indicación del propietario el 2026-11-05 se registra [PEND-008](exec-plans/tech-debt-tracker.md#pend-008--movimiento-suave-y-microinteracciones-futuras): flotación suave de la ilustración principal y posibles microinteracciones/transiciones adicionales. Se conserva el diseño aceptado; no se implementa ahora. Deben respetar `prefers-reduced-motion`, mantener legibilidad y evitar desplazar contenido o interferir con controles. Aquel registro no cambió la política de movimiento de ADR-MMA-017 ni autorizó animación continua; su evolución visual posterior se distingue a continuación.
+
+
+## Creative Playground — dirección aprobada y ejecución pendiente
+
+El 2026-11-08 el propietario aprueba M modular integrada, wordmark compacto de interfaz/editorial de marca, ensamblaje expresivo, hover y hero B. Esta evolución delimitada de [ADR-MMA-017](design-docs/creative-playground.md) permite el ambiente B con pausa accesible y reduced-motion; sustituye hacia adelante la exclusión continua descrita en la mejora futura anterior, sin modificar la aceptación de I-02.
+
+La [decisión ADR-MMA-018](design-docs/creative-playground.md#adr-mma-018--integración-y-accesibilidad) especifica SVG/CSS y coordinación nativa mínima, sin hidratación React, preferencias almacenadas o dependencias nuevas. El [ExecPlan CP-01](exec-plans/active/CP-01-creative-playground.md), aprobado formalmente el 2026-11-08, está En curso exclusivamente para Iteración 1: primero identidad estática y revisión; después animaciones con autorización propia. La identidad estática está implementada en la rama feature/cp01-identidad-visual, pendiente de aceptación visual; las animaciones siguen sin implementar ni autorizar. En Iteración 2, las pruebas permitirán el coordinador local de portada y conservarán el resto de garantías de scripts/red/almacenamiento; la raíz estática seguirá sin scripts.
+
+La verificación local de Iteración 1 pasa con 314 unitarias, 9 componentes y 36 E2E/axe, además de integración modular. Las comparaciones reales y limitaciones están en el [informe CP-01](cp01-execution-report.md). No se ha publicado el candidato; CI/PR no implican merge autorizado.

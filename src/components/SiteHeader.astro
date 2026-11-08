@@ -1,5 +1,5 @@
 ---
-import BrandMark from './BrandMark.astro';
+import Wordmark from './Wordmark.astro';
 import { getCommon } from '../i18n/common';
 import { equivalentPath, homePath, type Locale } from '../lib/locales';
 
@@ -13,9 +13,8 @@ const copy = getCommon(locale);
 ---
 
 <header class="site-header">
-  <a class="brand" href={homePath(locale)}>
-    <BrandMark />
-    MiMiniApp
+  <a class="brand" href={homePath(locale)} aria-label="MiMiniApp">
+    <Wordmark />
   </a>
   <nav class="primary-navigation" aria-label={copy.navigation.label}>
     <a href={`${homePath(locale)}#catalogo`}>{copy.navigation.catalogue}</a>

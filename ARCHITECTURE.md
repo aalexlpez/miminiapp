@@ -1,6 +1,6 @@
 # Arquitectura actual
 
-**Actualizado:** 2026-11-06. **I-01:** Aceptado y archivado por el propietario. **I-02:** Aceptado expresamente por el propietario el 2026-11-05 y archivado, tras aprobación del plan/ADR-MMA-011/016/017 y autorización expresa de ejecución.
+**Actualizado:** 2026-11-08. **I-01:** Aceptado y archivado por el propietario. **I-02:** Aceptado expresamente por el propietario el 2026-11-05 y archivado, tras aprobación del plan/ADR-MMA-011/016/017 y autorización expresa de ejecución.
 
 La base se mantiene en Astro 7.4.5 estático, React/DOM 19.3.1 cuando procede interacción, TypeScript 6.0.3 strict y Tailwind 4.3.4. Node 24.22.2, npm 11.19.1 y dependencias directas exactas con un único lockfile. I-02 no incorpora dependencias visuales o servicios externos.
 
@@ -55,3 +55,14 @@ Staging sirve la web estática de MiMiniApp en https://miminiapp-staging.miminia
 El propietario administra token/Account ID en GitHub Environment staging; Codex no requiere conectividad o credenciales Cloudflare. El probe acreditó lectura de staging y 403 del otro Worker, sin ensayo de escritura. Producción, promoción, rollback, aislamiento de escritura y aceptación global siguen pendientes. Se conservan main strict=true, master predeterminada y límites administrativos de Fase A; este documento no modifica su configuración.
 
 El [informe de Fase A](docs/i03-phase-a-report.md) es histórico. La [guía operativa vigente](docs/i03-operations.md) describe feature → PR → CI → merge manual → Actions → Cloudflare → pruebas remotas, sin despliegues manuales semanales o ampliación de arquitectura.
+
+
+## CP-01 — Identidad estática en rama de trabajo
+
+ADR-MMA-018 y CP-01 están aprobados formalmente por el propietario el 2026-11-08. Solo Iteración 1 está autorizada: identidad estática implementada en `feature/cp01-identidad-visual`, pendiente de aceptación visual y merge. Esta descripción de la rama no afirma que el staging publicado ya sirva la nueva marca.
+
+`BrandInitial.astro` comparte las cuatro piezas SVG seleccionadas entre `Wordmark.astro` (contornos compactos exactos), `BrandMark.astro` (isotipo) y el centro de `LaboratoryArt.astro`. Cabecera y pie componen un solo nombre accesible MiMiniApp, sin M duplicada. El estado vacío usa el mismo isotipo conservando su estructura. `public/brand/` distribuye seis SVG seleccionados y `public/favicon.svg` sustituye el favicon vacío en layout/raíz. La editorial es un recurso de marca, sin selector de producto.
+
+La portada conserva HTML estático sin scripts/islas React ni runtime de movimiento. Fuentes, tokens, navegación, rutas, registro y exclusión de fixtures/borradores se mantienen. El build ordinario tiene 19 archivos: los 12 anteriores más seis recursos de marca y favicon; ninguna referencia de docs, captura o prototipo se publica. El [informe CP-01](docs/cp01-execution-report.md) registra 314 unitarias, 9 componentes, 36 E2E/axe, integración modular, capturas ES/EN y zoom real al 200 %.
+
+Ensamblaje, hover, ambiente B y flotación de la tarjeta central, coordinador mínimo y pausa están aprobados como contrato futuro; su ejecución pertenece a Iteración 2, no autorizada. No se han cambiado workflows, infraestructura, credenciales, protecciones o configuración de despliegue. CP-01 sigue En curso hasta completar sus dos hitos y sus condiciones humanas; la implementación actual se detiene para aceptar visualmente Iteración 1.
