@@ -94,7 +94,7 @@ Los detalles de nombre de archivo, agrupación CSS y atributos internos que mant
 
 ## Aprobación registrada y ejecución limitada
 
-La dirección visual y su excepción delimitada al movimiento continuo ya están aprobadas; no se vuelven a someter como nuevas alternativas. **ADR-MMA-018 y CP-01 están aprobados formalmente el 2026-11-08; Iteración 1 está aceptada e Iteración 2 autorizada expresamente el 2026-11-08 y en ejecución.** Sin autorización de merge o despliegue. El plan exige evidencias reales y comparación en cada iteración; la verificación automática no reemplaza la aceptación visual del propietario.
+La dirección visual y su excepción delimitada al movimiento continuo ya están aprobadas; no se vuelven a someter como nuevas alternativas. **ADR-MMA-018 y CP-01 están aprobados formalmente el 2026-11-08; Iteración 1 está aceptada e Iteración 2 autorizada expresamente el 2026-11-08, ejecutada y Verificada en CP-01, pendiente de aceptación de su resultado.** Sin autorización de merge o despliegue. El plan exige evidencias reales y comparación en cada iteración; la verificación automática no reemplaza la aceptación visual del propietario.
 
 | Fecha | Actor | Registro |
 | --- | --- | --- |

@@ -51,3 +51,5 @@ La [decisión ADR-MMA-018](design-docs/creative-playground.md#adr-mma-018--integ
 La verificación local de Iteración 1 pasa con 314 unitarias, 9 componentes y 36 E2E/axe, además de integración modular. Las comparaciones reales y limitaciones están en el [informe CP-01](cp01-execution-report.md). No se ha publicado el candidato; CI/PR no implican merge autorizado.
 
 Iteración 2 implementa ensamblaje/hover, siete bucles B con flotación central y pausa/reduced-motion progresivos. Astro integra un único módulo inline de 872 bytes gzip; se mantienen cero scripts externos e islas React en portada. La batería local pasa 314 unitarias, 9 componentes y 52 E2E más integración; visibilidad nativa y BFCache también acreditados. El [informe](cp01-execution-report.md) conserva recursos, CLS, comparaciones y vídeos, sin publicación del candidato.
+
+CP-01 queda Verificado tras CI quality satisfactorio de implementación a6942c6 (run42519292572). Iteración 1 Aceptada; resultado animado de Iteración 2 pendiente de aceptación del propietario. PR #6 continúa en borrador, sin publicación.

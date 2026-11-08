@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-11-08. **Responsable de aceptación:** propietario de MiMiniApp.
 
-**Resultado:** identidad estática implementada, verificada técnicamente y **Aceptada expresamente por el propietario el 2026-11-08** (CP-AC06). CP-01 permanece `En curso`. **Iteración 2 autorizada posteriormente y ejecutada; véase su sección de resultados.** El [ExecPlan](exec-plans/active/CP-01-creative-playground.md) es la fuente canónica de estado y límites.
+**Resultado:** identidad estática implementada, verificada técnicamente y **Aceptada expresamente por el propietario el 2026-11-08** (CP-AC06). CP-01 pasa a **`Verificado`** tras completar Iteración 2, pendiente de aceptación final del propietario. **Iteración 2 autorizada posteriormente y ejecutada; véase su sección de resultados.** El [ExecPlan](exec-plans/active/CP-01-creative-playground.md) es la fuente canónica de estado y límites.
 
 ## Procedencia y preservación
 
@@ -127,7 +127,7 @@ Se conservaron los fallos y repeticiones: la primera batería focalizada detect�
 
 Comparación en el mismo ejecutor con el commit aceptado `6f367e5`, reconstruido en un worktree aislado fuera de carpetas ignoradas. Su CSS vuelve a producir el archivo aceptado `global.BbHDy4pF.css`. Una primera copia dentro de `.local` alteró el descubrimiento de Tailwind y **se descartó como baseline no comparable**; sus valores no se usan para afirmar rendimiento.
 
-* CSS del build aceptado: **5745 bytes gzip**; actual: **6965**, incremento **1220 bytes** (presupuesto adicional ≤5120).
+* CSS del build aceptado: **5745 bytes gzip**; actual: **6971**, incremento **1226 bytes** (presupuesto adicional ≤5120).
 * Coordinador inline: **2271 bytes sin comprimir / 872 gzip** (presupuesto ≤5120); ninguna descarga JS externa nueva.
 * **CLS observado 0 en ambos builds**, incluyendo carga y, en el actual, pausa/reanudación y cambio a reduced-motion. Cero tareas largas en las dos muestras locales; pausa/reanudación con cálculo de estilo: aproximadamente **1,8 ms** en esta ejecución.
 * Se conservan muestras/trazas locales y geometrías; no se atribuyen percentiles de campo, INP real ni una certificación de rendimiento a estas mediciones.
@@ -166,9 +166,11 @@ Comparación en el mismo ejecutor con el commit aceptado `6f367e5`, reconstruido
 | CP-AC10 | Pausa/reanudación real, teclado, etiquetas ES/EN y foco/contraste/tamaño. |
 | CP-AC11 | Reduced-motion dinámico/fallback, visibilidad nativa y BFCache acreditados. |
 | CP-AC12 | Presupuesto JS/CSS cumplido, CLS 0 y trazas locales; sin librerías, almacenamiento o bucle JS por frame. |
-| CP-AC13 | Verify íntegro exit 0 (314+9+52), integración y gates existentes intactos. El CI del PR actualizado se contrasta antes de entregar. |
+| CP-AC13 | Verify íntegro exit 0 (314+9+52), integración y gates existentes intactos. CI quality de implementación a6942c6 satisfactorio; último check del PR para el cierre documental. |
 | CP-AC14 | Informe, capturas, clips reales y manifiesto; pendiente aceptación humana del resultado e intensidad de Iteración 2. |
 
 Reproducción: `npm run verify`; después `DISPLAY=:93 node tests/visual/cp01-motion.ts` con pantalla/gestor de ventanas privados disponibles, Chromium fijado y galería original de comparación. El capturador preserva los archivos de Iteración 1 y registra en `.local/verification/cp01/iteration-2/`. Las mediciones adicionales/trazas y los comandos FFmpeg de recorte/escalado se conservan en el paquete de revisión. Solo las capturas/clips seleccionados y metadatos pequeños se versionan para revisión; no se publican con la aplicación. Sin datos de usuarios o credenciales.
 
-No se ha desplegado este candidato ni ejecutado su suite remota contra el staging antiguo. El PR #6 continúa en borrador; master predeterminada y producción/promoción/rollback sin cambios. El CI del nuevo SHA se registrará al actualizar el PR; la aceptación de Iteración 2 y cualquier merge/publicación siguen siendo decisiones separadas del propietario.
+No se ha desplegado este candidato ni ejecutado su suite remota contra el staging antiguo. El PR #6 continúa en borrador; master predeterminada y producción/promoción/rollback sin cambios. CI de implementación **a6942c6**: **quality success**, [run 42519292572](https://github.com/aalexlpez/miminiapp/actions/runs/42519292572), confirmado por API y SHA coincidente. El cierre posterior solo modifica documentación/metadatos de revisión; el último check del PR acredita su SHA vigente antes de entregar. CP-01 queda **Verificado**; la aceptación de Iteración 2 y cualquier merge/publicación siguen siendo decisiones separadas del propietario.
+
+La entrega de Iteración 2 está **Verificada**, con la aceptación del resultado/intensidad visual todavía pendiente. La aceptación de Iteración 1 no se extiende automáticamente a Iteración 2. No se fusiona el PR, publica el candidato o comienza trabajo posterior.
