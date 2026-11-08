@@ -39,4 +39,17 @@ El [ExecPlan](exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) y el [inf
 
 ## Mejora futura de movimiento
 
-Por indicación del propietario el 2026-11-05 se registra [PEND-008](exec-plans/tech-debt-tracker.md#pend-008--movimiento-suave-y-microinteracciones-futuras): flotación suave de la ilustración principal y posibles microinteracciones/transiciones adicionales. Se conserva el diseño aceptado; no se implementa ahora. Deben respetar `prefers-reduced-motion`, mantener legibilidad y evitar desplazar contenido o interferir con controles. El registro no cambia la política actual de movimiento de ADR-MMA-017 ni autoriza animación continua.
+Por indicación del propietario el 2026-11-05 se registra [PEND-008](exec-plans/tech-debt-tracker.md#pend-008--movimiento-suave-y-microinteracciones-futuras): flotación suave de la ilustración principal y posibles microinteracciones/transiciones adicionales. Se conserva el diseño aceptado; no se implementa ahora. Deben respetar `prefers-reduced-motion`, mantener legibilidad y evitar desplazar contenido o interferir con controles. Aquel registro no cambió la política de movimiento de ADR-MMA-017 ni autorizó animación continua; su evolución visual posterior se distingue a continuación.
+
+
+## Creative Playground — dirección aprobada y ejecución pendiente
+
+El 2026-11-08 el propietario aprueba M modular integrada, wordmark compacto de interfaz/editorial de marca, ensamblaje expresivo, hover y hero B. Esta evolución delimitada de [ADR-MMA-017](design-docs/creative-playground.md) permite el ambiente B con pausa accesible y reduced-motion; sustituye hacia adelante la exclusión continua descrita en la mejora futura anterior, sin modificar la aceptación de I-02.
+
+La [decisión ADR-MMA-018](design-docs/creative-playground.md#adr-mma-018--integración-y-accesibilidad) especifica SVG/CSS y coordinación nativa mínima, sin hidratación React, preferencias almacenadas o dependencias nuevas. El [ExecPlan CP-01](exec-plans/completed/CP-01-creative-playground.md), aprobado formalmente el 2026-11-08, queda Aceptado y archivado tras ejecutar y aceptar sus dos iteraciones. La identidad estática está implementada en la rama feature/cp01-identidad-visual, aceptada visualmente por el propietario el 2026-11-08; Iteración 2 fue autorizada expresamente después y está implementada/verificada localmente, aceptada visualmente por el propietario el 2026-11-08. En Iteración 2, las pruebas permitirán el coordinador local de portada y conservarán el resto de garantías de scripts/red/almacenamiento; la raíz estática seguirá sin scripts.
+
+La verificación local de Iteración 1 pasa con 314 unitarias, 9 componentes y 36 E2E/axe, además de integración modular. Las comparaciones reales y limitaciones están en el [informe CP-01](cp01-execution-report.md). No se ha publicado el candidato; CI/PR no implican merge autorizado.
+
+Iteración 2 implementa ensamblaje/hover, siete bucles B con flotación central y pausa/reduced-motion progresivos. Astro integra un único módulo inline de 872 bytes gzip; se mantienen cero scripts externos e islas React en portada. La batería local pasa 314 unitarias, 9 componentes y 52 E2E más integración; visibilidad nativa y BFCache también acreditados. El [informe](cp01-execution-report.md) conserva recursos, CLS, comparaciones y vídeos, sin publicación del candidato.
+
+CP-01 queda Aceptado y archivado tras verificación, CI final satisfactorio 779b88b (run42519701947) y aceptación expresa del propietario el 2026-11-08 de ambas iteraciones, incluido el movimiento. PR #6 continúa en borrador, sin publicación.

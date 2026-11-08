@@ -10,6 +10,10 @@ Las láminas son maquetas aisladas para revisar el diseño: no son capturas de l
 
 En esta instancia se entrega también `/workspace/shared/downloads/I02-propuesta-visual.zip`: extraer y abrir `index.html` para ver la galería, las portadas ES/EN redimensionables, los especímenes y los dos encuadres 9:16 sin servidor ni conexión. Las fuentes están embebidas solo en las maquetas y sus licencias SIL OFL acompañan el paquete. Los archivos de generación, mediciones y manifiesto de hashes permanecen en `.local/design/i02/`, ignorados; las láminas de este documento son artefactos de diseño solicitados, sin commit.
 
+## Evolución posterior aprobada, sin reabrir I-02
+
+Este documento conserva la referencia histórica aceptada de I-02, incluida su exclusión original de animación continua. El 2026-11-08 el propietario aprueba la dirección Creative Playground de la segunda exploración: M integrada, compacta/editorial, ensamblaje expresivo, hover y hero B. Para trabajo futuro, esa selección sustituye únicamente la restricción de movimiento continuo mediante ambiente B con pausa y reduced-motion; no altera retroactivamente I-02. Véanse [ADR-MMA-017/018](creative-playground.md) y [CP-01 en Borrador](../exec-plans/completed/CP-01-creative-playground.md). La preparación está autorizada; su ejecución todavía no.
+
 ## Láminas revisables
 
 | Lámina | Qué permite revisar |
@@ -28,7 +32,7 @@ El catálogo real permanecerá vacío hasta incorporar miniapps aprobadas. El co
 
 El laboratorio se expresa con un lienzo cálido, tinta ciruela oscura, retícula limpia, títulos con personalidad y pequeños gestos geométricos. El violeta identifica las acciones; lima y coral aportan ritmo en etiquetas, formas y detalles. Evitar iconografía médica. Las decoraciones no contienen información y, en la implementación futura, serán fondos CSS o elementos con `aria-hidden="true"`, sin semántica interactiva.
 
-La portada debe reconocerse en un fotograma: marca, frase breve, acción para ver el catálogo, una forma distintiva y comienzo del catálogo. La composición puede ser asimétrica en su decoración; la lectura y los controles conservan una estructura predecible. No habrá animación continua, parallax ni movimientos que distraigan del contenido.
+La portada debe reconocerse en un fotograma: marca, frase breve, acción para ver el catálogo, una forma distintiva y comienzo del catálogo. La composición puede ser asimétrica en su decoración; la lectura y los controles conservan una estructura predecible. La política de I-02 excluía animación continua, parallax y movimientos que distrajesen del contenido. Su evolución posterior, delimitada a hero B, se registra en el apartado anterior; parallax y movimiento del contenido siguen excluidos.
 
 Se prefieren recursos locales: SVG propios para formas e iconos y fuentes autoalojadas. La composición de interfaz y sus formas se desarrollarán como recursos originales del proyecto. La imagen conceptual generada conserva su función de referencia artística; no se presupone su incorporación como recurso de producción.
 
@@ -115,7 +119,7 @@ Se propone escalado fluido acotado entre extremos, títulos con espaciado óptic
 | Rejilla | Una columna móvil; dos alrededor de 768 px si el contenido lo permite; tres en escritorio; tarjeta mínima aproximada 280 px |
 | Cabecera | Mínimo 72 px móvil y 88 px escritorio; dos filas móviles visibles y altura ampliable por traducción, reflujo o zoom |
 | Controles | Objetivo táctil mínimo 48 × 48 px y separación mínima de 8 px |
-| Transiciones | 120–180 ms para estados; respetar `prefers-reduced-motion`; sin animación permanente |
+| Transiciones | 120–180 ms para estados; respetar `prefers-reduced-motion`; sin animación permanente en I-02 (evolución B posterior enlazada arriba) |
 
 **Navegación.** Marca enlazada al inicio del idioma actual, catálogo y selector ES / EN con nombres accesibles. La navegación móvil visible está elegida y puede ocupar dos filas en 320 px. Incluir enlace de salto al contenido y una indicación del idioma activo que no dependa solo del color. No depender de hover ni introducir una cabecera fija sin revisar oclusión del foco.
 

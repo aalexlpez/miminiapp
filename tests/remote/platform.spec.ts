@@ -105,7 +105,9 @@ for (const home of homes) {
     await expect(page.locator('main')).toBeFocused();
 
     await page.goto(`/${home.locale}/`);
-    for (const link of await page.locator('a').all()) {
+    for (const link of await page
+      .locator('a, button:not([hidden]):not(:disabled)')
+      .all()) {
       await page.keyboard.press('Tab');
       await expect(link).toBeFocused();
       await expect(link).toBeVisible();

@@ -1,5 +1,5 @@
 ---
-import BrandMark from './BrandMark.astro';
+import Wordmark from './Wordmark.astro';
 import { getCommon } from '../i18n/common';
 import { homePath, type Locale } from '../lib/locales';
 
@@ -11,9 +11,8 @@ const copy = getCommon(locale);
 ---
 
 <footer class="site-footer" id="proyecto">
-  <a class="brand" href={homePath(locale)}>
-    <BrandMark />
-    MiMiniApp
+  <a class="brand" href={homePath(locale)} aria-label="MiMiniApp">
+    <Wordmark />
   </a>
   <p>{copy.footer.description}</p>
 </footer>
