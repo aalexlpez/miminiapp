@@ -30,4 +30,10 @@ El propietario aprueba posteriormente la arquitectura/operación I-03 y fija tok
 
 ## Ejecución limitada de I-03 — 2026-11-06
 
-Fase A expresamente autorizada: preparación técnica/CI/configuración segura y sincronización conservadora sin publicaciones. El estado actual es En curso; las notas anteriores describen la planificación y no anulan esta autorización. Fase B, promociones, despliegues e I-04 siguen fuera de alcance. Véase el [informe](i03-phase-a-report.md).
+La Fase A autorizada preparó CI/configuración segura y sincronización conservadora, sin publicar en esa fase. Las notas anteriores conservan la historia de planificación. Véase el [informe histórico](i03-phase-a-report.md).
+
+## Staging verificado — 2026-11-07
+
+La primera publicación real de MiMiniApp terminó correctamente: PR #4 fusionado, mergee1e3b659, run42305409224 intento4 success y30 pruebas remotas confirmadas. El hito staging está `Verificado`; I-03 permanece `En curso`, sin aceptación global. Producción, promoción, rollback y aislamiento de escritura siguen pendientes y bloqueados según corresponda. [Informe vigente](i03-staging-preparation-report.md).
+
+Está autorizado solo un PR documental para registrar ese resultado y, por separado, una propuesta breve de tres primeras miniherramientas. La prioridad pasa al producto, sin ampliar infraestructura. Ninguna herramienta está seleccionada o autorizada para implementación, ni se inicia otra iteración mediante esta actualización.
