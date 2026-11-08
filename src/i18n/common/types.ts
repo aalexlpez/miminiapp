@@ -27,6 +27,13 @@ export interface CommonCopy {
     emptyNoteLines: readonly string[];
   };
   footer: { description: string };
+  motion: {
+    pause: string;
+    resume: string;
+    reduced: string;
+    running: string;
+    paused: string;
+  };
   errors: {
     title: string;
     description: string;

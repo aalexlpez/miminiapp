@@ -36,6 +36,13 @@ export const es = {
     emptyNoteLines: ['Espacio para', 'lo que viene'],
   },
   footer: { description: 'Hecho para explorar' },
+  motion: {
+    pause: 'Pausar animaciones',
+    resume: 'Reanudar animaciones',
+    reduced: 'Movimiento reducido',
+    running: 'Animaciones activas',
+    paused: 'Animaciones en pausa',
+  },
   errors: {
     title: 'Página no encontrada · MiMiniApp',
     description: 'Esta página no existe. Vuelve al catálogo de MiMiniApp.',

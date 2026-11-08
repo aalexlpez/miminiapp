@@ -73,7 +73,7 @@ for (const home of homes) {
 
     // Traverse the DOM's actual focus order, including visible mobile navigation.
     await page.goto(`/${home.locale}/`);
-    const links = page.locator('a');
+    const links = page.locator('a, button:not([hidden]):not(:disabled)');
     for (let index = 0; index < (await links.count()); index += 1) {
       await page.keyboard.press('Tab');
       const link = links.nth(index);

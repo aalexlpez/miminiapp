@@ -4,7 +4,7 @@
 
 **ADR-MMA-017, evolución visual:** `Aprobada` expresamente por el propietario el 2026-11-08, tras revisar `creative-playground-v2`. Sustituye hacia adelante la restricción de movimiento continuo de I-02 únicamente por los movimientos descritos aquí. La aceptación histórica de I-02 no cambia.
 
-**ADR-MMA-018, integración y ciclo de vida:** `Aprobada` formalmente por el propietario el 2026-11-08, incluyendo flotación central. El [ExecPlan CP-01](../exec-plans/active/CP-01-creative-playground.md) está aprobado y su ejecución autorizada exclusivamente para Iteración 1, estática. La intensidad del movimiento se revisará en Iteración 2, todavía no autorizada. El [registro](index.md) es la fuente canónica de los estados de los ADR. La concreción técnica queda aprobada; su aprobación no significa implementación de animaciones.
+**ADR-MMA-018, integración y ciclo de vida:** `Aprobada` formalmente por el propietario el 2026-11-08, incluyendo flotación central. El [ExecPlan CP-01](../exec-plans/active/CP-01-creative-playground.md) está aprobado y Iteración 1 aceptada y ejecución de Iteración 2 autorizada expresamente el 2026-11-08. La intensidad del movimiento se revisará antes de aceptar su resultado. El [registro](index.md) es la fuente canónica de los estados de los ADR. La concreción técnica queda aprobada; su aprobación no significa implementación de animaciones.
 
 ## Referencia visual seleccionada
 
@@ -94,12 +94,12 @@ Los detalles de nombre de archivo, agrupación CSS y atributos internos que mant
 
 ## Aprobación registrada y ejecución limitada
 
-La dirección visual y su excepción delimitada al movimiento continuo ya están aprobadas; no se vuelven a someter como nuevas alternativas. **ADR-MMA-018 y CP-01 están aprobados formalmente el 2026-11-08; solo Iteración 1 está autorizada y en ejecución.** Iteración 2 requiere aceptación del hito estático y autorización propia. El plan exige evidencias reales y comparación en cada iteración; la verificación automática no reemplaza la aceptación visual del propietario.
+La dirección visual y su excepción delimitada al movimiento continuo ya están aprobadas; no se vuelven a someter como nuevas alternativas. **ADR-MMA-018 y CP-01 están aprobados formalmente el 2026-11-08; Iteración 1 está aceptada e Iteración 2 autorizada expresamente el 2026-11-08 y en ejecución.** Sin autorización de merge o despliegue. El plan exige evidencias reales y comparación en cada iteración; la verificación automática no reemplaza la aceptación visual del propietario.
 
 | Fecha | Actor | Registro |
 | --- | --- | --- |
 | 2026-11-08 | Propietario de MiMiniApp | Aprueba dirección de logo A integrado, compacta/editorial, ensamblaje expresivo, hover y hero B. Autoriza únicamente preparar decisiones/plan. |
 | 2026-11-08 | Propietario de MiMiniApp | Añade que la ilustración grande de la derecha quede en bucle de movimiento. Se incorpora al alcance propuesto la flotación moderada de tarjeta/M, con amplitud/periodo pendientes de aprobación; no autoriza ejecutar el plan. |
 | 2026-11-08 | Codex | Registra la evolución visual de ADR-MMA-017 y prepara ADR-MMA-018/CP-01 como propuestas. Sin implementación, commit, PR, push o despliegue. |
-
 | 2026-11-08 | Propietario de MiMiniApp | Aprueba formalmente ADR-MMA-018, la flotación central y CP-01. Autoriza solo Iteración 1 y PR en borrador con CI. Reserva animaciones y aceptación de su intensidad a Iteración 2. |
+| 2026-11-08 | Propietario de MiMiniApp | Tras aceptar visualmente Iteración 1, autoriza expresamente Iteración 2. Codex ejecuta el contrato aprobado; la aceptación de intensidad/fidelidad sigue pendiente. |

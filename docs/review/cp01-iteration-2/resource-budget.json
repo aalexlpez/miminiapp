@@ -1,0 +1,9 @@
+{
+  "baselineCommit": "6f367e5",
+  "baselineMethod": "detached worktree outside ignored directories; identical accepted CSS filename/hash",
+  "baselineCssGzip": 5745,
+  "currentCssGzip": 6965,
+  "additionalBuiltCssGzip": 1220,
+  "inlineJsBytes": 2271,
+  "inlineJsGzip": 872
+}

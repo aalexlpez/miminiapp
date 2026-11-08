@@ -11,6 +11,7 @@ for (const locale of ['es', 'en']) {
   test(`preserves the approved integrated geometry and accessible brand in ${locale}`, async ({
     page,
   }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(`/${locale}/`);
     const links = page.getByRole('link', { name: 'MiMiniApp', exact: true });
     await expect(links).toHaveCount(2);
@@ -70,8 +71,14 @@ for (const locale of ['es', 'en']) {
         .locator('.site-container')
         .evaluate((n) => n.getAnimations({ subtree: true }).length),
     ).toBe(0);
-    await expect(page.locator('script')).toHaveCount(0);
-    await expect(page.getByRole('button')).toHaveCount(0);
+    await expect(page.locator('script[type="module"]')).toHaveCount(1);
+    await expect(page.locator('script[src]')).toHaveCount(0);
+    await expect(
+      page.getByRole('button', {
+        name: locale === 'es' ? 'Movimiento reducido' : 'Reduced motion',
+        exact: true,
+      }),
+    ).toBeDisabled();
     await links.last().focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(new RegExp(`/${locale}/$`));

@@ -5,9 +5,9 @@
 * **Estado:** `En curso`.
 * **Responsable de aprobación, autorización y aceptación:** propietario de MiMiniApp.
 * **Creado / última actualización:** 2026-11-08.
-* **Autorización actual:** propietario aprueba el plan y ADR-MMA-018 el 2026-11-08 y autoriza **únicamente Iteración 1 — Identidad visual**, incluidos rama feature, commits/push necesarios y PR en borrador hacia staging con CI. Iteración 2 no autorizada.
+* **Autorización actual:** propietario aprueba el plan y ADR-MMA-018 el 2026-11-08 y autoriza **Iteración 1 — Identidad visual**, aceptada después; el propietario autoriza expresamente **Iteración 2 — Sistema de animaciones** el 2026-11-08. Se conserva la rama feature y el PR #6 en borrador con CI; sin merge ni despliegue.
 * **Dependencias:** I-01 e I-02 Aceptados; hito staging de I-03 Verificado. I-03 sigue En curso por su alcance pendiente; CP-01 no lo cierra ni requiere activar producción, promoción o rollback. La nueva línea de producto se prepara por indicación expresa del propietario.
-* **Bloqueos de inicio:** resueltos para Iteración 1 mediante aprobación/autorización expresa del propietario. Iteración 2 requiere aceptación visual del hito 1 y autorización posterior.
+* **Bloqueos de inicio:** resueltos para Iteración 1 mediante aprobación/autorización expresa del propietario. Aceptación visual del hito 1 recibida el 2026-11-08; Iteración 2 autorizada expresamente el 2026-11-08; sin bloqueos de inicio.
 * **Rama de preparación:** `design/creative-playground`, basada en staging `e2830fa0a5682da1660bbf5189daf62b9c90c98c`, que incluye el PR documental #5. No modifica directamente staging/main/master. CP-01 no ocupa la reserva I-04 ni renumera el roadmap.
 
 ## Objetivo y resultado esperado
@@ -119,9 +119,9 @@ Flujo conservado: feature → PR a staging → CI obligatorio → revisión y me
 
 ## Punto de parada vigente
 
-Ahora: ejecutar exclusivamente Iteración 1, entregar PR en borrador con CI y comparaciones de la identidad real, y **solicitar aceptación visual del propietario**. Detenerse antes del merge y de cualquier animación.
+Iteración 1 entregada y **Aceptada expresamente por el propietario el 2026-11-08** («sí, lo acepto»), en respuesta a la solicitud de aceptación visual de la entrega del PR #6, HEAD `6f367e5`, CI final satisfactorio [42513124125](https://github.com/aalexlpez/miminiapp/actions/runs/42513124125). Mantener el punto de parada: sin merge ni despliegue y continuar únicamente con la Iteración 2 autorizada expresamente el 2026-11-08.
 
-El propietario ha aprobado ADR-MMA-018 y CP-01 con sus 14 AC y la flotación central; la autorización se limita al hito estático. Comprobar su intensidad visual y ejecutar ensamblaje/ambiente/hover/pausa queda reservado a Iteración 2, todavía sin autorización.
+El propietario ha aprobado ADR-MMA-018 y CP-01 con sus 14 AC y la flotación central; la autorización se limita al hito estático. Comprobar su intensidad visual y ejecutar ensamblaje/ambiente/hover/pausa corresponde a Iteración 2, autorizada expresamente el 2026-11-08.
 
 No se identifica un bloqueo externo de Cloudflare/GitHub o una incompatibilidad demostrada. La compatibilidad y fidelidad reales se acreditarán durante ejecución; si aparecen cambios materiales se pedirá aprobación antes de adoptarlos.
 
@@ -129,8 +129,8 @@ No se identifica un bloqueo externo de Cloudflare/GitHub o una incompatibilidad 
 
 * Ajuste solicitado el 2026-11-08: bucle de la ilustración grande de la derecha; se propone flotación moderada de tarjeta/M, manteniendo los seis bucles B y la M ensamblada. Amplitud/periodo aprobados con ADR-MMA-018; intensidad sujeta a revisión visual en Iteración 2.
 * Preparación local preservada en `.local/verification/cp01/preparation-backup/` (tar, patch y hashes); referencias/prototipos originales intactos. Rama feature creada desde staging remoto actualizado `e2830fa0a5682da1660bbf5189daf62b9c90c98c`.
-* Iteración 1: implementada y verificada técnicamente: verify exit 0 (314 unitarias, 9 componentes, 36 E2E e integración modular), capturas ES/EN y zoom real al 200 %. [Informe](../../cp01-execution-report.md). CP-AC06 pendiente de aceptación visual del propietario. [PR #6](https://github.com/aalexlpez/miminiapp/pull/6) abierto en borrador hacia staging; CI quality satisfactorio de implementación `007534c` en [run 42512670663](https://github.com/aalexlpez/miminiapp/actions/runs/42512670663), acreditado por API. El último check del PR acredita también cualquier cierre documental posterior. Sin merge ni publicación.
-* Iteración 2: plan/decisión aprobados; ejecución no autorizada, pendiente aceptación del hito 1 y autorización propia.
+* Iteración 1: implementada y verificada técnicamente: verify exit 0 (314 unitarias, 9 componentes, 36 E2E e integración modular), capturas ES/EN y zoom real al 200 %. [Informe](../../cp01-execution-report.md). CP-AC06 cumplido: aceptación visual expresa del propietario el 2026-11-08; **Iteración 1 Aceptada**. [PR #6](https://github.com/aalexlpez/miminiapp/pull/6) abierto en borrador hacia staging; CI quality satisfactorio de implementación `007534c` en [run 42512670663](https://github.com/aalexlpez/miminiapp/actions/runs/42512670663), acreditado por API. El último check del PR acredita también cualquier cierre documental posterior. Sin merge ni publicación.
+* Iteración 2: implementada y verificada localmente (314 unitarias, 9 componentes, 52 E2E, integración, capturas/vídeos, visibilidad nativa/BFCache y presupuestos). Preparando actualización del PR #6 y contraste del nuevo CI antes del cierre Verificado. Pendiente aceptación visual del propietario.
 * Las pruebas de la galería v2 son evidencia de exploración; no acreditan CP-AC ni una implementación real.
 
 ## Historial de estado
@@ -141,3 +141,5 @@ No se identifica un bloqueo externo de Cloudflare/GitHub o una incompatibilidad 
 | 2026-11-08 | `Aprobado` | Propietario de MiMiniApp | Aprueba formalmente ADR-MMA-018 y CP-01, con dos iteraciones, 14 AC, exclusiones y verificaciones. |
 | 2026-11-08 | `Autorizado` | Propietario de MiMiniApp | Autoriza exclusivamente Iteración 1, rama feature desde staging vigente y PR en borrador con CI; sin merge, despliegue o Iteración 2. |
 | 2026-11-08 | `En curso` | Codex | Preserva preparación local, verifica staging remoto y comienza identidad estática en feature/cp01-identidad-visual. |
+| 2026-11-08 | `En curso` | Propietario de MiMiniApp | Acepta expresamente el resultado visual de Iteración 1: «sí, lo acepto». Se satisface CP-AC06; no autoriza Iteración 2, merge ni despliegue. El plan completo conserva su estado. |
+| 2026-11-08 | `En curso` | Propietario de MiMiniApp / Codex | Tras aceptar el hito 1, el propietario autoriza expresamente Iteración 2; Codex comienza SVG/CSS/coordinación nativa y verificación, sin merge ni despliegue. |
