@@ -129,7 +129,7 @@ No se identifica un bloqueo externo de Cloudflare/GitHub o una incompatibilidad 
 
 * Ajuste solicitado el 2026-11-08: bucle de la ilustración grande de la derecha; se propone flotación moderada de tarjeta/M, manteniendo los seis bucles B y la M ensamblada. Amplitud/periodo aprobados con ADR-MMA-018; intensidad sujeta a revisión visual en Iteración 2.
 * Preparación local preservada en `.local/verification/cp01/preparation-backup/` (tar, patch y hashes); referencias/prototipos originales intactos. Rama feature creada desde staging remoto actualizado `e2830fa0a5682da1660bbf5189daf62b9c90c98c`.
-* Iteración 1: implementada y verificada técnicamente: verify exit 0 (314 unitarias, 9 componentes, 36 E2E e integración modular), capturas ES/EN y zoom real al 200 %. [Informe](../../cp01-execution-report.md). CP-AC06 pendiente de aceptación visual del propietario; PR/CI por registrar.
+* Iteración 1: implementada y verificada técnicamente: verify exit 0 (314 unitarias, 9 componentes, 36 E2E e integración modular), capturas ES/EN y zoom real al 200 %. [Informe](../../cp01-execution-report.md). CP-AC06 pendiente de aceptación visual del propietario. [PR #6](https://github.com/aalexlpez/miminiapp/pull/6) abierto en borrador hacia staging; CI quality satisfactorio de implementación `007534c` en [run 42512670663](https://github.com/aalexlpez/miminiapp/actions/runs/42512670663), acreditado por API. El último check del PR acredita también cualquier cierre documental posterior. Sin merge ni publicación.
 * Iteración 2: plan/decisión aprobados; ejecución no autorizada, pendiente aceptación del hito 1 y autorización propia.
 * Las pruebas de la galería v2 son evidencia de exploración; no acreditan CP-AC ni una implementación real.
 
