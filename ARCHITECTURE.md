@@ -65,7 +65,7 @@ ADR-MMA-018 y CP-01 están aprobados formalmente por el propietario el 2026-11-0
 
 La entrega estática de Iteración 1 conservaba HTML sin scripts/islas React ni runtime de movimiento; su evolución autorizada se describe después. Fuentes, tokens, navegación, rutas, registro y exclusión de fixtures/borradores se mantienen. El build ordinario tiene 19 archivos: los 12 anteriores más seis recursos de marca y favicon; ninguna referencia de docs, captura o prototipo se publica. El [informe CP-01](docs/cp01-execution-report.md) registra 314 unitarias, 9 componentes, 36 E2E/axe, integración modular, capturas ES/EN y zoom real al 200 %.
 
-Ensamblaje, hover, ambiente B y flotación de la tarjeta central, coordinador mínimo y pausa están aprobados como contrato futuro; su ejecución fue autorizada posteriormente para Iteración 2. No se han cambiado workflows, infraestructura, credenciales, protecciones o configuración de despliegue. CP-01 sigue En curso hasta completar sus dos hitos y sus condiciones humanas; Iteración 1 queda Aceptada visualmente y el propietario autoriza posteriormente Iteración 2, cuyo resultado se entrega para aceptación.
+Ensamblaje, hover, ambiente B y flotación de la tarjeta central, coordinador mínimo y pausa están aprobados como contrato futuro; su ejecución fue autorizada posteriormente para Iteración 2. No se han cambiado workflows, infraestructura, credenciales, protecciones o configuración de despliegue. CP-01 queda Aceptado tras completar sus dos hitos y sus condiciones humanas; Iteración 1 queda Aceptada visualmente y el propietario autoriza posteriormente Iteración 2, cuyo resultado acepta después expresamente el 2026-11-08.
 
 
 ## CP-01 — Sistema de animaciones en la rama de trabajo
@@ -76,4 +76,4 @@ Las E2E comparan CSS/WAAPI y estados de pausa/fallback. El capturador `tests/vis
 
 El build conserva 19 archivos; la lógica mínima está inline y no añade un bundle externo solicitado por la portada. Registro, rutas, dependencias y workflows no cambian; tampoco el staging publicado, la infraestructura o la rama predeterminada. La aceptación visual de intensidad/fidelidad de Iteración 2 y el merge/publicación no se sustituyen por las pruebas. Véase el [informe completo](docs/cp01-execution-report.md).
 
-Estado de CP-01: Verificado, CI quality de implementación a6942c6 satisfactorio (run42519292572), pendiente de aceptación del resultado animado por el propietario. El último check del PR #6 corresponde al cierre documental. No se afirma despliegue del candidato.
+Estado de CP-01: Aceptado y archivado, tras CI final 779b88b satisfactorio (run42519701947) y aceptación expresa del resultado animado por el propietario el 2026-11-08. El último check del PR #6 corresponde al cierre documental. No se afirma despliegue del candidato.

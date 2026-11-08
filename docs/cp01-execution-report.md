@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-11-08. **Responsable de aceptación:** propietario de MiMiniApp.
 
-**Resultado:** identidad estática implementada, verificada técnicamente y **Aceptada expresamente por el propietario el 2026-11-08** (CP-AC06). CP-01 pasa a **`Verificado`** tras completar Iteración 2, pendiente de aceptación final del propietario. **Iteración 2 autorizada posteriormente y ejecutada; véase su sección de resultados.** El [ExecPlan](exec-plans/active/CP-01-creative-playground.md) es la fuente canónica de estado y límites.
+**Resultado:** identidad estática implementada, verificada técnicamente y **Aceptada expresamente por el propietario el 2026-11-08** (CP-AC06). CP-01 queda **`Aceptado`** por el propietario el 2026-11-08, tras aceptar también el resultado de Iteración 2. **Iteración 2 autorizada posteriormente y ejecutada; véase su sección de resultados.** El [ExecPlan](exec-plans/completed/CP-01-creative-playground.md) es la fuente canónica de estado y límites.
 
 ## Procedencia y preservación
 
@@ -148,7 +148,7 @@ Comparación en el mismo ejecutor con el commit aceptado `6f367e5`, reconstruido
 | Fotogramas con movimiento normal | [Escritorio](review/cp01-iteration-2/desktop-motion.png), [móvil tras scroll](review/cp01-iteration-2/mobile-9x16-motion.png) |
 | 9:16 estático completo / catálogo | [Portada](review/cp01-iteration-2/vertical-9x16-home.png), [catálogo](review/cp01-iteration-2/vertical-9x16-catalogue.png) |
 
-[Manifiesto de ficheros y hashes](review/cp01-iteration-2/manifest.json). Referencias v2 y evidencia aceptada de Iteración 1 intactas. La revisión asistida aprecia movimiento independiente visible, M sólida tras encaje y navegación/titular estables. Diferencias explícitas frente a la galería: se conserva la composición del producto I-02, se incorpora el control accesible junto al hero y se añade la flotación central aprobada después de la exploración; las barras de laboratorio y variantes descartadas no están en la web. La intensidad final de esa flotación requiere aceptación visual del propietario.
+[Manifiesto de ficheros y hashes](review/cp01-iteration-2/manifest.json). Referencias v2 y evidencia aceptada de Iteración 1 intactas. La revisión asistida aprecia movimiento independiente visible, M sólida tras encaje y navegación/titular estables. Diferencias explícitas frente a la galería: se conserva la composición del producto I-02, se incorpora el control accesible junto al hero y se añade la flotación central aprobada después de la exploración; las barras de laboratorio y variantes descartadas no están en la web. La intensidad final de esa flotación fue aceptada expresamente por el propietario el 2026-11-08.
 
 ### Matriz final de CP-01
 
@@ -167,10 +167,17 @@ Comparación en el mismo ejecutor con el commit aceptado `6f367e5`, reconstruido
 | CP-AC11 | Reduced-motion dinámico/fallback, visibilidad nativa y BFCache acreditados. |
 | CP-AC12 | Presupuesto JS/CSS cumplido, CLS 0 y trazas locales; sin librerías, almacenamiento o bucle JS por frame. |
 | CP-AC13 | Verify íntegro exit 0 (314+9+52), integración y gates existentes intactos. CI quality de implementación a6942c6 satisfactorio; último check del PR para el cierre documental. |
-| CP-AC14 | Informe, capturas, clips reales y manifiesto; pendiente aceptación humana del resultado e intensidad de Iteración 2. |
+| CP-AC14 | Informe, capturas, clips reales y manifiesto entregados; resultado e intensidad de Iteración 2 aceptados expresamente por el propietario el 2026-11-08. |
 
 Reproducción: `npm run verify`; después `DISPLAY=:93 node tests/visual/cp01-motion.ts` con pantalla/gestor de ventanas privados disponibles, Chromium fijado y galería original de comparación. El capturador preserva los archivos de Iteración 1 y registra en `.local/verification/cp01/iteration-2/`. Las mediciones adicionales/trazas y los comandos FFmpeg de recorte/escalado se conservan en el paquete de revisión. Solo las capturas/clips seleccionados y metadatos pequeños se versionan para revisión; no se publican con la aplicación. Sin datos de usuarios o credenciales.
 
-No se ha desplegado este candidato ni ejecutado su suite remota contra el staging antiguo. El PR #6 continúa en borrador; master predeterminada y producción/promoción/rollback sin cambios. CI de implementación **a6942c6**: **quality success**, [run 42519292572](https://github.com/aalexlpez/miminiapp/actions/runs/42519292572), confirmado por API y SHA coincidente. El cierre posterior solo modifica documentación/metadatos de revisión; el último check del PR acredita su SHA vigente antes de entregar. CP-01 queda **Verificado**; la aceptación de Iteración 2 y cualquier merge/publicación siguen siendo decisiones separadas del propietario.
+No se ha desplegado este candidato ni ejecutado su suite remota contra el staging antiguo. El PR #6 continúa en borrador; master predeterminada y producción/promoción/rollback sin cambios. CI de implementación **a6942c6**: **quality success**, [run 42519292572](https://github.com/aalexlpez/miminiapp/actions/runs/42519292572), confirmado por API y SHA coincidente. El cierre posterior solo modifica documentación/metadatos de revisión; el último check del PR acredita su SHA vigente antes de entregar. CP-01 fue Verificado y queda posteriormente **Aceptado** por el propietario; cualquier merge/publicación sigue requiriendo una decisión separada.
 
-La entrega de Iteración 2 está **Verificada**, con la aceptación del resultado/intensidad visual todavía pendiente. La aceptación de Iteración 1 no se extiende automáticamente a Iteración 2. No se fusiona el PR, publica el candidato o comienza trabajo posterior.
+La entrega de Iteración 2 fue **Verificada** y recibe ahora aceptación expresa del resultado/intensidad visual del propietario; se registra separadamente de la aceptación de Iteración 1. No se fusiona el PR, publica el candidato o comienza trabajo posterior.
+
+
+## Aceptación final y cierre — 2026-11-08
+
+El propietario responde **«acepto el resultado»** a la entrega de Iteración 2 y a la pregunta de aceptación del movimiento, incluida la intensidad de flotación central. La entrega aceptada corresponde al PR #6, HEAD `779b88bdd50249afde2d9edb22fd258a9c6f951b`, con [CI final satisfactorio 42519701947](https://github.com/aalexlpez/miminiapp/actions/runs/42519701947), grabaciones reales, comparaciones ES/EN y paquete de revisión. **Iteraciones 1 y 2 Aceptadas; CP-01 Aceptado y archivado.**
+
+Se conservan las evidencias, deudas ajenas y limitaciones de este informe: Chromium/móvil emulado, medidas locales sin garantía de percentiles de campo, requisitos del ensayo nativo y suite remota del candidato pendiente de publicación autorizada. PEND-008 se resuelve en el alcance entregado. La aceptación no autoriza merge, despliegue, promoción o trabajo nuevo. Este cierre es documental; no se modificó el frontend ni se repitieron las pruebas ya satisfactorias.

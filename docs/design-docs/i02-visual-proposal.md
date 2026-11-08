@@ -12,7 +12,7 @@ En esta instancia se entrega también `/workspace/shared/downloads/I02-propuesta
 
 ## Evolución posterior aprobada, sin reabrir I-02
 
-Este documento conserva la referencia histórica aceptada de I-02, incluida su exclusión original de animación continua. El 2026-11-08 el propietario aprueba la dirección Creative Playground de la segunda exploración: M integrada, compacta/editorial, ensamblaje expresivo, hover y hero B. Para trabajo futuro, esa selección sustituye únicamente la restricción de movimiento continuo mediante ambiente B con pausa y reduced-motion; no altera retroactivamente I-02. Véanse [ADR-MMA-017/018](creative-playground.md) y [CP-01 en Borrador](../exec-plans/active/CP-01-creative-playground.md). La preparación está autorizada; su ejecución todavía no.
+Este documento conserva la referencia histórica aceptada de I-02, incluida su exclusión original de animación continua. El 2026-11-08 el propietario aprueba la dirección Creative Playground de la segunda exploración: M integrada, compacta/editorial, ensamblaje expresivo, hover y hero B. Para trabajo futuro, esa selección sustituye únicamente la restricción de movimiento continuo mediante ambiente B con pausa y reduced-motion; no altera retroactivamente I-02. Véanse [ADR-MMA-017/018](creative-playground.md) y [CP-01 en Borrador](../exec-plans/completed/CP-01-creative-playground.md). La preparación está autorizada; su ejecución todavía no.
 
 ## Láminas revisables
 
