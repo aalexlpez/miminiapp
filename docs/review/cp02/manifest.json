@@ -1,5 +1,5 @@
 {
-  "purpose": "CP-02 real build with single active icon and native popover",
+  "purpose": "CP-02: vertical 56px centered popover; prior video labelled historical",
   "manifest": [
     {
       "filename": "bfcache.json",
@@ -78,23 +78,23 @@
     },
     {
       "filename": "popover-desktop-dark.png",
-      "bytes": 110476,
-      "sha256": "af6308985979ae7f62c254a424d13f374de7e47b424fc73c1eb09957bd7956c3"
+      "bytes": 110374,
+      "sha256": "6980416fe17545ccaf4b144d9bbadbb188d7c1eb08d604c08fe9a91ee9d5e856"
     },
     {
       "filename": "popover-desktop-light.png",
-      "bytes": 108910,
-      "sha256": "c770733279f0da98c62c8f65e36986d09bb29907c66b6f983441222ca6f8a622"
+      "bytes": 108883,
+      "sha256": "fd9cd982b2367372f5566a1a2bd9442d09c525ac4b93d10b91a353f7fa5509c0"
     },
     {
       "filename": "popover-mobile-dark.png",
-      "bytes": 53604,
-      "sha256": "b5e6881cd175e224686d1e4732f9ea8fe77b4256ad0bdd980794d40873efbf6c"
+      "bytes": 53544,
+      "sha256": "6dfcb853a139902eb4a2470ed2a409c2f0afae2061623abc2c38d6f7d6070e5a"
     },
     {
       "filename": "popover-mobile-light.png",
-      "bytes": 52239,
-      "sha256": "5c3a0df1b9ee447fee565cda6e2c60caf98ff167fd3233ba573120925901e7a6"
+      "bytes": 52412,
+      "sha256": "c18c45653a942639ebff82ff28850545c17b6c1220f44e112f6ea5464a3ded0d"
     },
     {
       "filename": "results.json",
@@ -103,8 +103,8 @@
     },
     {
       "filename": "review.html",
-      "bytes": 2829,
-      "sha256": "dbe5fe74e2215f8237d369ec51fce5d887926650931819baeb8bc35b7d405798"
+      "bytes": 2881,
+      "sha256": "2ea643d5f9a99dd1d3bb3203d33611a92b5fe1bdc5b493025beaffc43a2cb4e8"
     },
     {
       "filename": "root-filmstrip/000.png",
@@ -159,6 +159,7 @@
     "components": 9,
     "e2e": 78,
     "integration": "passed",
-    "control": "single active icon; native popover; keyboard, Escape, light dismiss, selection, reduced-motion and open-state axe"
+    "control": "single active icon; native popover; keyboard, Escape, light dismiss, selection, reduced-motion and open-state axe",
+    "verticalE2E": 8
   }
 }
