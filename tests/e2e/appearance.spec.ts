@@ -130,6 +130,28 @@ for (const locale of ['es', 'en'])
       ).toHaveCount(1);
       await page.locator('[data-appearance-trigger]').click();
       await expect(group.locator('.appearance-option:visible')).toHaveCount(3);
+      const triggerBox = await page
+        .locator('[data-appearance-trigger]')
+        .boundingBox();
+      const panelBox = await page.locator('#appearance-options').boundingBox();
+      const optionBoxes = await page
+        .locator('.appearance-option')
+        .evaluateAll((nodes) =>
+          nodes.map((node) => node.getBoundingClientRect().toJSON()),
+        );
+      expect(panelBox!.width).toBeLessThanOrEqual(56);
+      expect(
+        Math.abs(
+          panelBox!.x +
+            panelBox!.width / 2 -
+            triggerBox!.x -
+            triggerBox!.width / 2,
+        ),
+      ).toBeLessThanOrEqual(1);
+      expect(optionBoxes[1].y).toBeGreaterThan(optionBoxes[0].y);
+      expect(optionBoxes[2].y).toBeGreaterThan(optionBoxes[1].y);
+      expect(optionBoxes.every((box) => box.x === optionBoxes[0].x)).toBe(true);
+
       await page.keyboard.press('Escape');
       await expect(page.locator('[data-appearance-trigger]')).toBeFocused();
       await expect(group.locator('select')).toHaveCount(0);
