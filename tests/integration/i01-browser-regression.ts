@@ -27,6 +27,7 @@ export async function verifyFixtureCatalogue(
             await page.setViewportSize({ width, height: 1000 });
             const response = await page.goto(`/${locale}/`);
             expect(response?.status()).toBe(200);
+            await page.locator('[data-appearance-trigger]').click();
             await page.locator(`[data-appearance-option="${theme}"]`).click();
             await expect(page.locator('html')).toHaveAttribute(
               'data-theme',

@@ -166,3 +166,6 @@ El 2026-11-08 el propietario aprueba formalmente ADR-MMA-018 y CP-01, incluidos 
 El propietario acepta expresamente Iteración 1 y después autoriza Iteración 2 el 2026-11-08. Se ejecutan los mismos ADR aprobados; el portado conserva la Bézier global de WAAPI mediante segmentos CSS equivalentes, sin cambiar ritmos o geometrías. La publicación y la aceptación del resultado de Iteración 2 siguen separadas.
 
 El 2026-11-08 el propietario acepta expresamente el resultado de Iteración 2, incluido el movimiento de la tarjeta central. CP-01 queda Aceptado y archivado; ADR-MMA-017/018 mantienen su estado Aprobada. La aceptación no autoriza merge, despliegue ni otra iteración.
+
+
+Actualización aprobada por el propietario, 2026-11-09: sustituir los tres iconos siempre visibles por **un solo icono activo** en un botón de 48×48 px sin marco. Al pulsarlo, popover nativo compacto con las tres opciones por iconos; selección cierra y devuelve foco, Escape/clic exterior cierran. El botón comunica nombre del modo y expansión en ES/EN. Giro de 240 ms en el icono del botón tras elegir, salvo reduced-motion. Se elimina la fila móvil extra que requería el grupo grande. El resto del contrato de CP-02 permanece vigente. Cambio solicitado y autorizado expresamente dentro de CP-02/PR #7.
