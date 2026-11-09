@@ -1,5 +1,5 @@
 {
-  "purpose": "CP-02 subtle appearance: warm translucent canvas, 16px icons, transparent 48px hit targets; older solid-selection measurements and video are historical",
+  "purpose": "Current CP-02 header: single crossed animation icon, appearance icon and compact ES/EN; older video and measurements remain historical",
   "manifest": [
     {
       "filename": "bfcache.json",
@@ -8,23 +8,23 @@
     },
     {
       "filename": "desktop-en-dark.png",
-      "bytes": 109785,
-      "sha256": "b8fc0b2649db0049840fdc8ebc2a203550e33d6eda23accb9516b95fba019c53"
+      "bytes": 107338,
+      "sha256": "2288c0f2f1e7afa264ddd170c519a23c09710b18a78f865daa7dc36f2ed72297"
     },
     {
       "filename": "desktop-en-light.png",
-      "bytes": 108037,
-      "sha256": "be8ad5cb3c881279a624ffa362b6c0dbbf10090752152f74cb2da46a5aa798a9"
+      "bytes": 106175,
+      "sha256": "6f93dc6e6a50b2b297ecb065beb1c854b798db7af0b27399db7e70e14d8ebcdd"
     },
     {
       "filename": "desktop-es-dark.png",
-      "bytes": 111094,
-      "sha256": "0079da02577df64a28f11dbb04b50b9384074a788db67b9e8160aa3f78ce170e"
+      "bytes": 108101,
+      "sha256": "e3c4c6eac78ad60b32237688f24cb47aa418c847a07b5a6a36ed710854667924"
     },
     {
       "filename": "desktop-es-light.png",
-      "bytes": 109853,
-      "sha256": "af3c0ad4aeec1b069bc1f191e22ebaef95ecee483841d52653e7d45c3bcb06fe"
+      "bytes": 106768,
+      "sha256": "9a52ffc2878c2f8ea2dc663cb02ea4210097aa00e9c9f6308740d84db044d484"
     },
     {
       "filename": "filmstrip/000.png",
@@ -52,49 +52,94 @@
       "sha256": "94fd9ff440f808027e6982e8fbc25539197196a59fd1c247f14857446add662f"
     },
     {
+      "filename": "header-controls.json",
+      "bytes": 895,
+      "sha256": "71c8c915c0bb8c54a2be966d7ef8b25c10589d82daca97879454273ff0e3a82d"
+    },
+    {
+      "filename": "header-desktop-dark-paused.png",
+      "bytes": 9120,
+      "sha256": "fed858bd7b570884bbb3bd236e2927ed2677c80b6b033f3f644d57d9723037ae"
+    },
+    {
+      "filename": "header-desktop-dark-playing.png",
+      "bytes": 8440,
+      "sha256": "54d33bdc054d71f9c106fbf8cf3e79627b33fca6b0c9569242ecdfbeed767f46"
+    },
+    {
+      "filename": "header-desktop-light-paused.png",
+      "bytes": 9205,
+      "sha256": "c094dbd6ead1ad32059168899b9a3b73bf91260bf68f8bd120e2d2e039eea639"
+    },
+    {
+      "filename": "header-desktop-light-playing.png",
+      "bytes": 8582,
+      "sha256": "9adf06d5e0e0cb44c4f2cccacb5f77b5ad593167a36377aed68d9cef6d1b8739"
+    },
+    {
+      "filename": "header-mobile-dark-paused.png",
+      "bytes": 8586,
+      "sha256": "9970499eb9ae454457c1fce3b55bfbbf0ec5a63abf70c42cae63d6cf1324c3cc"
+    },
+    {
+      "filename": "header-mobile-dark-playing.png",
+      "bytes": 7830,
+      "sha256": "040141fbd8fcacb1d39bd59f1577e1570b45083b8c3bd81c6ae8cf4ff431c9b1"
+    },
+    {
+      "filename": "header-mobile-light-paused.png",
+      "bytes": 8601,
+      "sha256": "2fb626a90be736e1826308c0796ca624b957dc00be3a648854ecaf15e7a38b65"
+    },
+    {
+      "filename": "header-mobile-light-playing.png",
+      "bytes": 7950,
+      "sha256": "96d0ebbc6a2aed7745f88775993914d79693f27a3d948f375e761b5d9af856ab"
+    },
+    {
       "filename": "hero-theme-and-pause.webm",
       "bytes": 4756140,
       "sha256": "7939f1f46dab8510f59c5bf20eeb8e19880693b17a933a7a92b7f0ff81e39d18"
     },
     {
       "filename": "mobile-en-dark.png",
-      "bytes": 68504,
-      "sha256": "375591d561a40cf30864d2a19b3ceaaadae81e5e7e7e3ea2d160ab5b070240a3"
+      "bytes": 66336,
+      "sha256": "484a69f399c516f6cf306631629c83fba2097f6781ae914c39e4ef8eb1a34634"
     },
     {
       "filename": "mobile-en-light.png",
-      "bytes": 67364,
-      "sha256": "744bc1d16c82538ac32397c752eb8b4712e64d9a089028f457403fa76e877989"
+      "bytes": 65172,
+      "sha256": "0ee94a54245b63a9fdee62218e4c1ae946b59bdd9a4bcaf8d24d8bf2fed53972"
     },
     {
       "filename": "mobile-es-dark.png",
-      "bytes": 71022,
-      "sha256": "da1a61dcecc870467176b86bdcf601876a54460439d87a7cc978b852d946247d"
+      "bytes": 68617,
+      "sha256": "5ece66c4ef89a0480f936160cc308316acecaab6647aea0016310b5f19bbbbe6"
     },
     {
       "filename": "mobile-es-light.png",
-      "bytes": 70029,
-      "sha256": "c2439a80a6dad57bdab7675279385364b085533f3d498f33641d9b606eb05dd3"
+      "bytes": 67579,
+      "sha256": "3c4663f40f4ed2946f1733e5e3c50ac809c2218d1fec6d1350ca33767647f68a"
     },
     {
       "filename": "popover-desktop-dark.png",
-      "bytes": 108858,
-      "sha256": "fdfbedb737554e0e3bf467c91142f5ab144df2f116350c60e41dab16cb03ca4f"
+      "bytes": 117182,
+      "sha256": "75fe9f9a9b3833dcded7c81db886a39ceb42b2e3252d5d2787406707d8636bb9"
     },
     {
       "filename": "popover-desktop-light.png",
-      "bytes": 107362,
-      "sha256": "500e6b9cd5572ff80734d0a754cabe59aa68a28a63657dd7879bf05877d83712"
+      "bytes": 114696,
+      "sha256": "7110d2b28af89e31bfaebbeeccacb4d0ca2999b3802e96f1fb2786c5c69444e7"
     },
     {
       "filename": "popover-mobile-dark.png",
-      "bytes": 51944,
-      "sha256": "25502ce2356905380ece06ff1c0368a3702f55e594f5e7ff256aa327debfb5ca"
+      "bytes": 58534,
+      "sha256": "058e214b8f6c1610073bcb50b9cf7c93fb4eefea098164065e060999a13175d0"
     },
     {
       "filename": "popover-mobile-light.png",
-      "bytes": 50772,
-      "sha256": "5f9a4313da86f01df5dcf76327aec291547cb2626c64709634797ba3a692ff93"
+      "bytes": 56880,
+      "sha256": "f0fb078bfc1403c86ff8f1198b176718e8283477fdfb1506b6144b597f713584"
     },
     {
       "filename": "results.json",
@@ -103,8 +148,8 @@
     },
     {
       "filename": "review.html",
-      "bytes": 2881,
-      "sha256": "2ea643d5f9a99dd1d3bb3203d33611a92b5fe1bdc5b493025beaffc43a2cb4e8"
+      "bytes": 3353,
+      "sha256": "32be0e6495dcd4297923a60ec5a1fcdc7f9febcde91f22ef3825de4a8d0bda50"
     },
     {
       "filename": "root-filmstrip/000.png",
@@ -159,21 +204,13 @@
   ],
   "baseSha": "f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f",
   "verification": {
-    "inheritedBaseline": {
-      "verifyExit": 0,
+    "fullVerify": {
+      "exit": 0,
       "unit": 326,
       "components": 9,
       "e2e": 78,
-      "integration": "passed",
-      "control": "single active icon; native popover; keyboard, Escape, light dismiss, selection, reduced-motion and open-state axe",
-      "verticalE2E": 8
+      "modularIntegration": "passed"
     },
-    "currentRevision": {
-      "lint": "passed",
-      "format": "passed",
-      "build": "passed",
-      "appearanceE2E": 8,
-      "finalTriggerRefinementE2E": 4
-    }
+    "finalDesktopGap": "check/build + interactive header capture passed"
   }
 }

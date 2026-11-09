@@ -39,23 +39,6 @@ const copy = getCommon(locale);
     </div>
     <div class="hero-visual">
       <LaboratoryArt />
-      <div class="motion-control-slot">
-        <button
-          type="button"
-          class="motion-toggle"
-          data-motion-control
-          hidden
-          data-pause={copy.motion.pause}
-          data-resume={copy.motion.resume}
-          data-reduced={copy.motion.reduced}
-          data-running={copy.motion.running}
-          data-paused={copy.motion.paused}
-          aria-describedby="motion-state"
-        >
-          {copy.motion.pause}
-        </button>
-        <span id="motion-state" class="sr-only" role="status"></span>
-      </div>
     </div>
   </section>
   <section

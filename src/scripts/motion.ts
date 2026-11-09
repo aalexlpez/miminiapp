@@ -22,12 +22,14 @@ if (!html.classList.contains('motion-ready')) {
       roots.filter((r) => r.dataset.motionSeen).forEach(settle);
     for (const button of controls) {
       button.disabled = reduced.matches;
-      button.textContent =
+      const label =
         (reduced.matches
           ? button.dataset.reduced
           : manuallyPaused
             ? button.dataset.resume
             : button.dataset.pause) ?? '';
+      button.ariaLabel = label;
+      button.title = label;
       const status = document.getElementById(
         button.getAttribute('aria-describedby') ?? '',
       );

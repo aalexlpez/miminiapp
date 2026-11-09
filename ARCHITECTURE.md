@@ -88,3 +88,6 @@ La tarjeta central del hero conserva siempre fondo #F7F5F0, borde #242136 y M #7
 
 
 Actualización aprobada por el propietario, 2026-11-09: sustituir los tres iconos siempre visibles por **un solo icono activo** en un botón de 48×48 px sin marco. Al pulsarlo, popover nativo compacto con las tres opciones por iconos; selección cierra y devuelve foco, Escape/clic exterior cierran. El botón comunica nombre del modo y expansión en ES/EN. Giro de 240 ms en el icono del botón tras elegir, salvo reduced-motion. Se elimina la fila móvil extra que requería el grupo grande. El resto del contrato de CP-02 permanece vigente. Cambio solicitado y autorizado expresamente dentro de CP-02/PR #7.
+
+
+Ajuste autorizado por el propietario (2026-11-09): mover la pausa del hero a un solo icono de animaciones en la cabecera, junto a apariencia. Pulsación directa, sin desplegable; el mismo icono muestra una raya diagonal al pausar o con reduced-motion. Se conservan ciclo de vida, prioridad de reducción de movimiento, pausa en memoria, nombres/estado ES/EN y dianas de 48 px. ES / EN se compacta con texto de 13 px, separación y padding reducidos, preservando foco, enlaces equivalentes y áreas pulsables. Rama `feature/cp02-controles-cabecera` desde staging vigente, después del PR #11 fusionado por el propietario.

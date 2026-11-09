@@ -56,6 +56,23 @@
   }
 }
 @layer components {
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    grid-row: 2;
+    grid-column: 2;
+    justify-self: end;
+  }
+  .site-header .locale-navigation {
+    gap: 0.125rem;
+    font-size: 0.8125rem;
+  }
+  .site-header .locale-navigation a {
+    padding: 0;
+    text-underline-offset: 0.1875rem;
+    text-decoration-thickness: 1px;
+  }
   .appearance-control {
     grid-row: 2;
     grid-column: 2;
@@ -184,6 +201,10 @@
     outline-offset: 2px;
     z-index: 1;
   }
+}
+/* Keep the compact gap above the original unlayered desktop breakpoint. */
+.site-header .locale-navigation {
+  gap: 0.125rem;
 }
 /* Keep mark, language and links at their existing sizes, reserving the control. */
 @media (max-width: 65.6874rem) {
