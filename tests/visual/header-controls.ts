@@ -60,22 +60,18 @@ try {
           const control = page.locator('[data-motion-control]');
           await expect(control).toBeEnabled();
           await expect(control.locator('.motion-icon-slash')).toBeHidden();
-          await page
-            .locator('header')
-            .screenshot({
-              path: `${output}/header-${device}-${theme}-playing.png`,
-            });
+          await page.locator('header').screenshot({
+            path: `${output}/header-${device}-${theme}-playing.png`,
+          });
           await control.click();
           await expect(control.locator('.motion-icon-slash')).toBeVisible();
           await expect(page.locator('html')).toHaveAttribute(
             'data-motion-paused',
             'true',
           );
-          await page
-            .locator('header')
-            .screenshot({
-              path: `${output}/header-${device}-${theme}-paused.png`,
-            });
+          await page.locator('header').screenshot({
+            path: `${output}/header-${device}-${theme}-paused.png`,
+          });
           results.push({
             device,
             theme,
