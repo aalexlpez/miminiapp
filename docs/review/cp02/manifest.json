@@ -1,5 +1,5 @@
 {
-  "purpose": "CP-02: vertical 56px centered popover; prior video labelled historical",
+  "purpose": "CP-02 subtle appearance: warm translucent canvas, 16px icons, transparent 48px hit targets; older solid-selection measurements and video are historical",
   "manifest": [
     {
       "filename": "bfcache.json",
@@ -78,23 +78,23 @@
     },
     {
       "filename": "popover-desktop-dark.png",
-      "bytes": 110374,
-      "sha256": "6980416fe17545ccaf4b144d9bbadbb188d7c1eb08d604c08fe9a91ee9d5e856"
+      "bytes": 108858,
+      "sha256": "fdfbedb737554e0e3bf467c91142f5ab144df2f116350c60e41dab16cb03ca4f"
     },
     {
       "filename": "popover-desktop-light.png",
-      "bytes": 108883,
-      "sha256": "fd9cd982b2367372f5566a1a2bd9442d09c525ac4b93d10b91a353f7fa5509c0"
+      "bytes": 107362,
+      "sha256": "500e6b9cd5572ff80734d0a754cabe59aa68a28a63657dd7879bf05877d83712"
     },
     {
       "filename": "popover-mobile-dark.png",
-      "bytes": 53544,
-      "sha256": "6dfcb853a139902eb4a2470ed2a409c2f0afae2061623abc2c38d6f7d6070e5a"
+      "bytes": 51944,
+      "sha256": "25502ce2356905380ece06ff1c0368a3702f55e594f5e7ff256aa327debfb5ca"
     },
     {
       "filename": "popover-mobile-light.png",
-      "bytes": 52412,
-      "sha256": "c18c45653a942639ebff82ff28850545c17b6c1220f44e112f6ea5464a3ded0d"
+      "bytes": 50772,
+      "sha256": "5f9a4313da86f01df5dcf76327aec291547cb2626c64709634797ba3a692ff93"
     },
     {
       "filename": "results.json",
@@ -132,6 +132,11 @@
       "sha256": "0ec8c10abf188d93b87fc6700f88b0bf22c9f1276f9e34fca2f0e404fe0c9420"
     },
     {
+      "filename": "subtle-live-review.json",
+      "bytes": 2337,
+      "sha256": "9d39b84aaaa3b2fc7d296201992da719b818acd53e8dd1d56a6ec80fdcb147fd"
+    },
+    {
       "filename": "vertical-9x16-dark.png",
       "bytes": 124285,
       "sha256": "93bc40a1d9ccd6c6103fdfda42010dd65177a75343d5392bf8603284b73d7f70"
@@ -154,12 +159,21 @@
   ],
   "baseSha": "f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f",
   "verification": {
-    "verifyExit": 0,
-    "unit": 326,
-    "components": 9,
-    "e2e": 78,
-    "integration": "passed",
-    "control": "single active icon; native popover; keyboard, Escape, light dismiss, selection, reduced-motion and open-state axe",
-    "verticalE2E": 8
+    "inheritedBaseline": {
+      "verifyExit": 0,
+      "unit": 326,
+      "components": 9,
+      "e2e": 78,
+      "integration": "passed",
+      "control": "single active icon; native popover; keyboard, Escape, light dismiss, selection, reduced-motion and open-state axe",
+      "verticalE2E": 8
+    },
+    "currentRevision": {
+      "lint": "passed",
+      "format": "passed",
+      "build": "passed",
+      "appearanceE2E": 8,
+      "finalTriggerRefinementE2E": 4
+    }
   }
 }

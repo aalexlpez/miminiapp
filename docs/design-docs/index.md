@@ -172,3 +172,6 @@ Actualización aprobada por el propietario, 2026-11-09: sustituir los tres icono
 
 
 Ajuste solicitado y autorizado por el propietario el 2026-11-09: desplegable **vertical de 56 px de ancho**, centrado bajo el icono activo y separado 6 px. Opciones en una columna, manteniendo dianas de 48×48 px, teclado y semántica nativa. Rama `feature/cp02-selector-vertical` desde staging `87887d71803b2513fe2bd33fc0f74c24889e023e` (PR #8 ya fusionado por el propietario). Solo cambia la presentación del popover; preferencias, tarjeta del hero y movimiento mantienen sus contratos.
+
+
+Revisión visual solicitada y autorizada por el propietario (2026-11-09): eliminar el efecto de panel blanco y tarjetas grandes. Popover vertical de 44 px, fondo canvas suavemente translúcido y sin borde marcado, iconos de 16 px, halo de selección/hover de 28 px y pequeña marca lateral. Se conservan dianas transparentes de 48×48 px, centrado y teclado. Separar tamaño visual y superficie pulsable evita degradar accesibilidad para lograr discreción. No se altera lógica de preferencias, persistencia, hero ni infraestructura. Rama nueva desde staging vigente, después del PR #9 fusionado por el propietario.

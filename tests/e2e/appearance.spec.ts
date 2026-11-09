@@ -139,7 +139,25 @@ for (const locale of ['es', 'en'])
         .evaluateAll((nodes) =>
           nodes.map((node) => node.getBoundingClientRect().toJSON()),
         );
-      expect(panelBox!.width).toBeLessThanOrEqual(56);
+      expect(panelBox!.width).toBeLessThanOrEqual(44);
+      const optionStyles = await page
+        .locator('.appearance-option')
+        .evaluateAll((nodes) =>
+          nodes.map((node) => ({
+            icon: getComputedStyle(node.querySelector('svg')!).width,
+            background: getComputedStyle(node).backgroundColor,
+          })),
+        );
+      expect(
+        optionStyles.every(
+          (style) =>
+            style.icon === '16px' && style.background === 'rgba(0, 0, 0, 0)',
+        ),
+      ).toBe(true);
+      await expect(page.locator('#appearance-options')).toHaveCSS(
+        'border-width',
+        '0px',
+      );
       expect(
         Math.abs(
           panelBox!.x +
