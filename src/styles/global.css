@@ -17,6 +17,11 @@
   font-display: swap;
 }
 @theme {
+  --color-appearance-panel: color-mix(
+    in srgb,
+    var(--color-canvas) 94%,
+    transparent
+  );
   --color-action-ink: #ffffff;
   --color-accent-ink: #242136;
   --color-panel: #fbfaf8;
