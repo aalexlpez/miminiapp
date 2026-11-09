@@ -1,4 +1,5 @@
 ---
+import AppearanceControl from './AppearanceControl.astro';
 import Wordmark from './Wordmark.astro';
 import { getCommon } from '../i18n/common';
 import { equivalentPath, homePath, type Locale } from '../lib/locales';
@@ -41,4 +42,5 @@ const copy = getCommon(locale);
       EN
     </a>
   </nav>
+  <AppearanceControl locale={locale} />
 </header>

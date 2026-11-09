@@ -1,0 +1,157 @@
+{
+  "purpose": "CP-02 ordinary build, corrected approved design",
+  "baseSha": "f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f",
+  "verification": {
+    "verifyExit": 0,
+    "unit": 326,
+    "components": 9,
+    "e2e": 78,
+    "modularIntegration": "passed light/dark",
+    "pending": [
+      "Manual screen reader review",
+      "Decision for transient system-themed redirect document in local Astro preview root; staging root is HTTP 301"
+    ]
+  },
+  "manifest": [
+    {
+      "filename": "bfcache.json",
+      "bytes": 379,
+      "sha256": "0c0c4f5e75931ddc210abbd40b089e785a5dc0f73d6bc4772d709005e3a6c321"
+    },
+    {
+      "filename": "desktop-en-dark.png",
+      "bytes": 112133,
+      "sha256": "7f0f52cde70c1dea74c472eb3c5409b4793fb372e191d72d25189d1eeb62cfeb"
+    },
+    {
+      "filename": "desktop-en-light.png",
+      "bytes": 110088,
+      "sha256": "460d6c39668a71e54b5f0a8c63b153fcbfb5aa214782c8d8c78428c422922f03"
+    },
+    {
+      "filename": "desktop-es-dark.png",
+      "bytes": 113344,
+      "sha256": "a259fe6b0b8583eff92768ef77bfdf960aca19277e18afe135e3b72f58aeca1e"
+    },
+    {
+      "filename": "desktop-es-light.png",
+      "bytes": 111923,
+      "sha256": "4c7a1f4b6889c366499cfff3792fb90c39684416e0736aedc155a082e9b0c99e"
+    },
+    {
+      "filename": "filmstrip/000.png",
+      "bytes": 8314,
+      "sha256": "210e7bc9a4199a242ac3869b7b4725a3dcef3dfb6b688c69c753e2aa495f37fa"
+    },
+    {
+      "filename": "filmstrip/001.png",
+      "bytes": 72503,
+      "sha256": "e7d5e1dbafbf00c65750196a9446e36aed3b16e9994fa914ceb8bbf4647c0bb3"
+    },
+    {
+      "filename": "filmstrip/002.png",
+      "bytes": 68913,
+      "sha256": "1538dfeb9e715b458284f5745df37103aab5fcdea534af21d103b9f436e9e345"
+    },
+    {
+      "filename": "filmstrip/003.png",
+      "bytes": 64203,
+      "sha256": "9d75c71f356e97abe8845d56ec6a6733920d5783408eb0c25bccee0e5faaf579"
+    },
+    {
+      "filename": "forced-colors-focus.png",
+      "bytes": 107990,
+      "sha256": "a2c5e9ffb2cfcf80116a629f83344937eb2412574ce03c60f6b2864f4efcfcd9"
+    },
+    {
+      "filename": "hero-theme-and-pause.webm",
+      "bytes": 5052577,
+      "sha256": "9b85ea15ec1a6d244e0c6f92263830422aa21f7ef35109b772365014808e8457"
+    },
+    {
+      "filename": "mobile-en-dark.png",
+      "bytes": 70835,
+      "sha256": "fa299a23f4ff31d838506e6584fe299b7a131b2167ef6dceede7ed5bddef477d"
+    },
+    {
+      "filename": "mobile-en-light.png",
+      "bytes": 69398,
+      "sha256": "a1ad449f3f7270026bee1c86469a38ccbf4500d1f8b89df258a1addad350a3ed"
+    },
+    {
+      "filename": "mobile-es-dark.png",
+      "bytes": 73381,
+      "sha256": "c050e37ae47c91e70b1e41f0929c73303ad6f59172095cf722cb38af5980bcbb"
+    },
+    {
+      "filename": "mobile-es-light.png",
+      "bytes": 72103,
+      "sha256": "5f203e3c8901bfd67413d80b30a7ea8f5da653d83de07dbc09a6c942098829ae"
+    },
+    {
+      "filename": "results.json",
+      "bytes": 7893,
+      "sha256": "6e8bafaabd7fbda830c3af83a150dcdd0eca3b4c5c80974c891e95ca8cd53915"
+    },
+    {
+      "filename": "review.html",
+      "bytes": 2592,
+      "sha256": "821a232af8a3f82b17c8afcdcda120396c96aee27e4ff362e9e3f6098dabd667"
+    },
+    {
+      "filename": "root-filmstrip/000.png",
+      "bytes": 64203,
+      "sha256": "9d75c71f356e97abe8845d56ec6a6733920d5783408eb0c25bccee0e5faaf579"
+    },
+    {
+      "filename": "root-filmstrip/001.png",
+      "bytes": 13372,
+      "sha256": "74e2e24c0693575518812edc081fc8b4300659303bbc66b43d5f9ece1fe9cccc"
+    },
+    {
+      "filename": "root-filmstrip/002.png",
+      "bytes": 13175,
+      "sha256": "793f2b4d9b885a846087acc04ab474596243ff9b61c69b0be7250c2b7ebb7813"
+    },
+    {
+      "filename": "root-filmstrip/003.png",
+      "bytes": 13104,
+      "sha256": "ea06410856c0ecaa06055b68a05f83742281bfcc6d198c3a5c1e0e08f0479cba"
+    },
+    {
+      "filename": "root-filmstrip/004.png",
+      "bytes": 72503,
+      "sha256": "e7d5e1dbafbf00c65750196a9446e36aed3b16e9994fa914ceb8bbf4647c0bb3"
+    },
+    {
+      "filename": "root-filmstrip/005.png",
+      "bytes": 68913,
+      "sha256": "1538dfeb9e715b458284f5745df37103aab5fcdea534af21d103b9f436e9e345"
+    },
+    {
+      "filename": "root-filmstrip/006.png",
+      "bytes": 64203,
+      "sha256": "9d75c71f356e97abe8845d56ec6a6733920d5783408eb0c25bccee0e5faaf579"
+    },
+    {
+      "filename": "vertical-9x16-dark.png",
+      "bytes": 117832,
+      "sha256": "a9b2b148bc77df64b3da3eab61cc3d1fc6265e91a5be7236d8e99bd25a74a780"
+    },
+    {
+      "filename": "zoom-200-en.png",
+      "bytes": 80207,
+      "sha256": "e8ddbf8d97b11bffd473bf48968ee28fda3a1538fe2280ff1d8801dfd0bc7b02"
+    },
+    {
+      "filename": "zoom-200-es.png",
+      "bytes": 83387,
+      "sha256": "1133f0898caa4310588d141d9f3d1b66e02168d3a13e25900225dec20a3f452f"
+    },
+    {
+      "filename": "zoom.json",
+      "bytes": 1209,
+      "sha256": "666f8f22203170700f89cc27d659bafa5af995dcfa6dfaf1860f6af6ec12201f"
+    }
+  ]
+}

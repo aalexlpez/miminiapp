@@ -195,7 +195,13 @@ for (const locale of ['es', 'en']) {
     });
     await expect(page.locator('astro-island')).toHaveCount(0);
     await expect(page.locator('script[src]')).toHaveCount(0);
-    await expect(page.locator('script')).toHaveCount(1);
+    // CP-02 adds exactly one bounded pre-paint initializer, not another runtime.
+    await expect(page.locator('script')).toHaveCount(2);
+    await expect(page.locator('head script:not([type])')).toHaveCount(1);
+    const init = await page.locator('head script:not([type])').textContent();
+    expect(init).toContain('miminiapp.appearance');
+    expect(gzipSync(init!).length).toBeLessThanOrEqual(1024);
+    await expect(page.locator('script[type="module"]')).toHaveCount(1);
     const script = await page.locator('script[type="module"]').textContent();
     const html = await readFile(`dist/${locale}/index.html`, 'utf8');
     expect(script).toBe(

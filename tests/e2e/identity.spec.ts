@@ -135,7 +135,12 @@ test.describe('local identity resources', () => {
     }
     const icon = await request.get('/favicon.svg');
     expect(icon.status()).toBe(200);
-    expect(await icon.text()).toBe(
+    // CP-02 changes only the favicon's internal system color media rule.
+    const iconText = await icon.text();
+    const systemPalette =
+      '@media(prefers-color-scheme:dark){.initial{fill:#A68AFF}}';
+    expect(iconText).toContain(systemPalette);
+    expect(iconText.replace(systemPalette, '')).toBe(
       await readFile(referenceRoot + 'M-isotype.svg', 'utf8'),
     );
     for (const path of ['/es/', '/en/', '/es/unknown-brand-page/']) {

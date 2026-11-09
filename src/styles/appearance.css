@@ -1,0 +1,149 @@
+/* Same palette for the no-script CSS fallback and the explicit runtime mode. */
+@layer base {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      --color-canvas: #171421;
+      --color-surface: #242033;
+      --color-ink: #f7f3ff;
+      --color-muted: #c0b7d0;
+      --color-brand: #a68aff;
+      --color-brand-hover: #bba5ff;
+      --color-brand-pressed: #9474ed;
+      --color-link: #bba5ff;
+      --color-control-border: #9385aa;
+      --color-decorative-line: #494057;
+      --color-success-ink: #b9f65a;
+      --color-error-ink: #ffad91;
+      --color-action-ink: #171421;
+      --color-panel: #242033;
+      --color-tint: #352b4b;
+      --color-tint-ink: #bba5ff;
+      --color-panel-border: #494057;
+      --color-underline: #445326;
+      --color-focus: #b9f65a;
+      --color-illustration-line: #c0b7d0;
+      --color-selection: #a68aff;
+      --color-selection-ink: #171421;
+      --color-shadow: rgb(0 0 0 / 24%);
+    }
+  }
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --color-canvas: #171421;
+    --color-surface: #242033;
+    --color-ink: #f7f3ff;
+    --color-muted: #c0b7d0;
+    --color-brand: #a68aff;
+    --color-brand-hover: #bba5ff;
+    --color-brand-pressed: #9474ed;
+    --color-link: #bba5ff;
+    --color-control-border: #9385aa;
+    --color-decorative-line: #494057;
+    --color-success-ink: #b9f65a;
+    --color-error-ink: #ffad91;
+    --color-action-ink: #171421;
+    --color-panel: #242033;
+    --color-tint: #352b4b;
+    --color-tint-ink: #bba5ff;
+    --color-panel-border: #494057;
+    --color-underline: #445326;
+    --color-focus: #b9f65a;
+    --color-illustration-line: #c0b7d0;
+    --color-selection: #a68aff;
+    --color-selection-ink: #171421;
+    --color-shadow: rgb(0 0 0 / 24%);
+  }
+}
+@layer components {
+  .appearance-control {
+    display: flex;
+    gap: 0.125rem;
+    padding: 0.125rem;
+    border: 1px solid var(--color-control-border);
+    border-radius: 1rem;
+    background: var(--color-surface);
+    grid-row: 2;
+    grid-column: 2;
+    justify-self: end;
+    flex-shrink: 0;
+    visibility: hidden;
+  }
+  .appearance-ready .appearance-control {
+    visibility: visible;
+  }
+  .appearance-option {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 0;
+    border-radius: 0.75rem;
+    padding: 0;
+    background: transparent;
+    color: var(--color-muted);
+  }
+  .appearance-option:hover {
+    background: var(--color-tint);
+    color: var(--color-tint-ink);
+  }
+  .appearance-option[aria-pressed='true'] {
+    background: var(--color-selection);
+    color: var(--color-selection-ink);
+  }
+  .appearance-indicator {
+    position: absolute;
+    bottom: 0.25rem;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    background: currentColor;
+    visibility: hidden;
+  }
+  .appearance-option[aria-pressed='true'] .appearance-indicator {
+    visibility: visible;
+  }
+  .appearance-option svg {
+    transform-origin: center;
+  }
+  .appearance-option:focus-visible {
+    outline-offset: 2px;
+    z-index: 1;
+  }
+}
+/* Keep mark, language and links at their existing sizes, reserving the control. */
+@media (max-width: 65.6874rem) {
+  .site-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.25rem 0.75rem;
+    padding-block: 0.625rem 0.5rem;
+  }
+  .site-header .primary-navigation {
+    grid-column: 1;
+    grid-row: 2;
+    margin-left: 0;
+    gap: 1rem;
+  }
+  .site-header .locale-navigation {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+}
+@media (max-width: 23.75rem) {
+  .appearance-control {
+    grid-row: 3;
+    grid-column: 1 / -1;
+  }
+  .site-header .primary-navigation {
+    grid-column: 1 / -1;
+  }
+}
+@media (forced-colors: active) {
+  .appearance-option[aria-pressed='true'] {
+    outline: 2px solid Highlight;
+    outline-offset: -4px;
+  }
+}

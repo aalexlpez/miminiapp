@@ -1,4 +1,5 @@
 ---
+import AppearanceInit from '../components/AppearanceInit.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { getCommon } from '../i18n/common';
@@ -20,6 +21,7 @@ const copy = getCommon(locale);
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
+    <AppearanceInit />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description ?? copy.meta.description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -52,6 +54,7 @@ const copy = getCommon(locale);
     </div>
     <script>
       import '../scripts/motion';
+      import '../scripts/appearance';
     </script>
   </body>
 </html>

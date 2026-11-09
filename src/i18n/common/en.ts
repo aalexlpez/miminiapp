@@ -36,6 +36,12 @@ export const en = {
     emptyNoteLines: ['Room for', 'what comes next'],
   },
   footer: { description: 'Made for exploring' },
+  appearance: {
+    label: 'Appearance',
+    light: 'Light',
+    dark: 'Dark',
+    system: 'System',
+  },
   motion: {
     pause: 'Pause animations',
     resume: 'Resume animations',

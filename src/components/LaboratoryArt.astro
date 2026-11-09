@@ -16,7 +16,7 @@ import BrandInitial from './BrandInitial.astro';
       height="18"
       patternUnits="userSpaceOnUse"
     >
-      <circle cx="2" cy="2" r="1.6" fill="#7950F2" opacity=".5" />
+      <circle cx="2" cy="2" r="1.6" fill="var(--color-brand)" opacity=".5" />
     </pattern>
   </defs>
   <g class="motion-entry" data-entry="dots">
@@ -32,7 +32,7 @@ import BrandInitial from './BrandInitial.astro';
   </g>
   <g class="motion-entry" data-entry="lime">
     <g class="motion-ambient" data-ambient="lime">
-      <circle cx="346" cy="141" r="104" fill="#B9F65A" />
+      <circle cx="346" cy="141" r="104" fill="var(--color-lime)" />
     </g>
   </g>
   <g class="motion-entry" data-entry="coral">
@@ -43,7 +43,7 @@ import BrandInitial from './BrandInitial.astro';
         width="142"
         height="140"
         rx="24"
-        fill="#FF9368"
+        fill="var(--color-coral)"
         transform="rotate(-15 167 298)"
       />
     </g>
@@ -56,7 +56,7 @@ import BrandInitial from './BrandInitial.astro';
         rx="223"
         ry="73"
         fill="none"
-        stroke="#242136"
+        stroke="var(--color-illustration-line)"
         stroke-width="2.3"
         transform="rotate(-24 268 235)"
       />
@@ -70,12 +70,15 @@ import BrandInitial from './BrandInitial.astro';
         width="171"
         height="174"
         rx="30"
-        fill="#F7F5F0"
-        stroke="#242136"
+        fill="var(--color-hero-tile)"
+        stroke="var(--color-hero-tile-border)"
         stroke-width="2"
         transform="rotate(-10 250 228)"
       />
-      <g transform="translate(205 146) rotate(-10 42 76) scale(1.2)">
+      <g
+        style="color: var(--color-hero-tile-brand)"
+        transform="translate(205 146) rotate(-10 42 76) scale(1.2)"
+      >
         <BrandInitial />
       </g>
     </g>
@@ -87,7 +90,7 @@ import BrandInitial from './BrandInitial.astro';
         cy="310"
         r="38"
         fill="none"
-        stroke="#242136"
+        stroke="var(--color-illustration-line)"
         stroke-width="2"
       />
       <circle
@@ -95,21 +98,21 @@ import BrandInitial from './BrandInitial.astro';
         cy="315"
         r="38"
         fill="none"
-        stroke="#242136"
+        stroke="var(--color-illustration-line)"
         stroke-width="2"
       />
     </g>
   </g>
   <g class="motion-entry" data-entry="satellite">
     <g class="motion-ambient" data-ambient="satellite">
-      <circle cx="127" cy="326" r="13" fill="#7950F2" />
+      <circle cx="127" cy="326" r="13" fill="var(--color-brand)" />
     </g>
   </g>
   <g class="motion-entry" data-entry="wave">
     <g class="motion-ambient" data-ambient="wave">
       <path
         d="M183 392q18-33 36-1t36 0t36 0t36-1"
-        stroke="#FF9368"
+        stroke="var(--color-coral)"
         stroke-width="9"
         fill="none"
         stroke-linecap="round"
