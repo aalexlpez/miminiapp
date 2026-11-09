@@ -99,10 +99,11 @@ Implementación terminada en feature/cp02-apariencia; `npm run verify` final exi
 
 ## Historial de estado
 
-| Fecha      | Estado     | Actor  | Evidencia o motivo                                                                                                                                                     |
-| ---------- | ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-09 | `Borrador` | Agente | Solicitud expresa de investigación/prototipos/documentación, sin implementación. Base staging y CP-01 comprobados; dossier visual y matriz de verificación preparados. |
+| Fecha      | Estado       | Actor       | Evidencia o motivo                                                                                                                                                     |
+| ---------- | ------------ | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-09 | `Borrador`   | Agente      | Solicitud expresa de investigación/prototipos/documentación, sin implementación. Base staging y CP-01 comprobados; dossier visual y matriz de verificación preparados. |
+| 2026-11-09 | `Aprobado`   | Propietario | Aprueba formalmente ADR-MMA-019 y CP-02 con correcciones A/B/C de tarjeta, iconos y rotación.                                                                          |
+| 2026-11-09 | `Autorizado` | Propietario | Autoriza expresamente ejecución en rama feature desde staging y PR en borrador; sin merge ni publicación.                                                              |
+| 2026-11-09 | `En curso`   | Agente      | Rama creada desde f26d97bb; contrato y plan actualizados antes de implementar.                                                                                         |
 
-| 2026-11-09 | `Aprobado` | Propietario | Aprueba formalmente ADR-MMA-019 y CP-02 con correcciones A/B/C de tarjeta, iconos y rotación. |
-| 2026-11-09 | `Autorizado` | Propietario | Autoriza expresamente ejecución en rama feature desde staging y PR en borrador; sin merge ni publicación. |
-| 2026-11-09 | `En curso` | Agente | Rama creada desde f26d97bb; contrato y plan actualizados antes de implementar. |
+| 2026-11-09 | `En curso` | Agente | Implementación ec6ace3, verify local satisfactorio y [PR #7 en borrador](https://github.com/aalexlpez/miminiapp/pull/7). Pendientes lector de pantalla y decisión AP-11 del preview local. |
