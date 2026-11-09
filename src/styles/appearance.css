@@ -57,12 +57,6 @@
 }
 @layer components {
   .appearance-control {
-    display: flex;
-    gap: 0.125rem;
-    padding: 0.125rem;
-    border: 1px solid var(--color-control-border);
-    border-radius: 1rem;
-    background: var(--color-surface);
     grid-row: 2;
     grid-column: 2;
     justify-self: end;
@@ -71,6 +65,55 @@
   }
   .appearance-ready .appearance-control {
     visibility: visible;
+  }
+  .appearance-trigger {
+    anchor-name: --appearance-trigger;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    color: var(--color-link);
+    background: transparent;
+  }
+  .appearance-trigger:hover {
+    background: var(--color-tint);
+  }
+  .appearance-trigger svg {
+    display: none;
+  }
+  :root[data-appearance='light']
+    .appearance-trigger
+    [data-appearance-icon='light'],
+  :root[data-appearance='dark']
+    .appearance-trigger
+    [data-appearance-icon='dark'],
+  :root[data-appearance='system']
+    .appearance-trigger
+    [data-appearance-icon='system'] {
+    display: block;
+  }
+  .appearance-options {
+    position: fixed;
+    inset: auto;
+    position-anchor: --appearance-trigger;
+    top: calc(anchor(bottom) + 0.5rem);
+    left: calc(anchor(right) - 10.25rem);
+    margin: 0;
+    width: 10.25rem;
+    box-sizing: border-box;
+    padding: 0.375rem;
+    border: 1px solid var(--color-control-border);
+    border-radius: 1rem;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    box-shadow: 0 8px 20px var(--color-shadow);
+  }
+  .appearance-options:popover-open {
+    display: flex;
+    gap: 0.125rem;
   }
   .appearance-option {
     position: relative;
@@ -130,15 +173,6 @@
     grid-column: 2;
     grid-row: 1;
     justify-self: end;
-  }
-}
-@media (max-width: 23.75rem) {
-  .appearance-control {
-    grid-row: 3;
-    grid-column: 1 / -1;
-  }
-  .site-header .primary-navigation {
-    grid-column: 1 / -1;
   }
 }
 @media (forced-colors: active) {

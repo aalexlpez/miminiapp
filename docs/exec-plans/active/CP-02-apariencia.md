@@ -15,7 +15,7 @@ Ofrecer tres preferencias de apariencia con Sistema inicial, cambio dinámico se
 
 ## Alcance
 
-Tokens semánticos y fallbacks CSS; grupo visual de tres botones de icono (sol, luna, dispositivo), con aria-pressed, nombres ES/EN y rotación suave de 240 ms solo en selección explícita; arranque mínimo previo a pintura; coordinador nativo de apariencia; clave localStorage aislada y manejo de fallos; diccionarios comunes ES/EN; gráficos/controles/tarjetas, favicon y rutas compartidas; verificación de identidad/movimiento, accesibilidad y arquitectura modular. Actualizar documentos afectados para reflejar el resultado real durante ejecución. Mantener una iteración breve de producto con revisión final; si aparecen decisiones de hosting o un alcance mayor, detener ese trabajo y proponer división.
+Tokens semánticos y fallbacks CSS; botón de icono activo que abre un popover compacto con tres opciones (sol, luna, dispositivo), con nombres ES/EN, selección explícita y rotación suave de 240 ms en el botón principal; arranque mínimo previo a pintura; coordinador nativo de apariencia; clave localStorage aislada y manejo de fallos; diccionarios comunes ES/EN; gráficos/controles/tarjetas, favicon y rutas compartidas; verificación de identidad/movimiento, accesibilidad y arquitectura modular. Actualizar documentos afectados para reflejar el resultado real durante ejecución. Mantener una iteración breve de producto con revisión final; si aparecen decisiones de hosting o un alcance mayor, detener ese trabajo y proponer división.
 
 ## Exclusiones relevantes
 
@@ -28,7 +28,7 @@ ADR-MMA-001/003/005/008/011/015/016: Astro estático, Tailwind, evaluación de p
 ## Correcciones aprobadas antes de implementar
 
 1. Se conserva la tarjeta completa de CP-01: fondo #F7F5F0, borde #242136 y M #7950F2, iguales en ambos temas. Tokens de ilustración invariantes; los demás elementos sí se adaptan. No tocar geometría ni transformaciones.
-2. Se sustituye la presentación A/B del dossier por tres botones visuales de sol/luna/dispositivo. Grupo «Apariencia»/«Appearance», nombres accesibles localizados, title y aria-pressed; estado activo con fondo y marca visible. No select, no switch binario. Tab/Shift+Tab y Enter/Espacio nativos para los tres botones.
+2. Se sustituye la presentación A/B del dossier por tres botones visuales de sol/luna/dispositivo. Las opciones viven en un popover cerrado por defecto; solo el icono activo permanece visible. Nombres accesibles localizados, title, expansión nativa y aria-pressed en las opciones; selección cierra y devuelve foco. No select, no switch binario. Tab/Shift+Tab y Enter/Espacio nativos para los tres botones.
 3. Rotación suave de 240 ms al activar otro modo; solo iconos, sin transiciones globales de color ni movimientos extra del hero. Reduced-motion elimina la microinteracción. Sistema/almacenamiento/carga no provocan rotaciones.
 4. Favicon según sistema y raíz CSS sin scripts se mantienen según contrato aprobado. Validar carga fría y CSP, sin cambiar hosting.
 
@@ -107,3 +107,5 @@ Implementación terminada en feature/cp02-apariencia; `npm run verify` final exi
 | 2026-11-09 | `En curso`   | Agente      | Rama creada desde f26d97bb; contrato y plan actualizados antes de implementar.                                                                                         |
 
 | 2026-11-09 | `En curso` | Agente | Implementación ec6ace3, verify local satisfactorio y [PR #7 en borrador](https://github.com/aalexlpez/miminiapp/pull/7). Pendientes lector de pantalla y decisión AP-11 del preview local. |
+
+Actualización aprobada por el propietario, 2026-11-09: sustituir los tres iconos siempre visibles por **un solo icono activo** en un botón de 48×48 px sin marco. Al pulsarlo, popover nativo compacto con las tres opciones por iconos; selección cierra y devuelve foco, Escape/clic exterior cierran. El botón comunica nombre del modo y expansión en ES/EN. Giro de 240 ms en el icono del botón tras elegir, salvo reduced-motion. Se elimina la fila móvil extra que requería el grupo grande. El resto del contrato de CP-02 permanece vigente. Cambio solicitado y autorizado expresamente dentro de CP-02/PR #7.
