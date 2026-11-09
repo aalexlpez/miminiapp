@@ -36,6 +36,12 @@ export const es = {
     emptyNoteLines: ['Espacio para', 'lo que viene'],
   },
   footer: { description: 'Hecho para explorar' },
+  appearance: {
+    label: 'Apariencia',
+    light: 'Claro',
+    dark: 'Oscuro',
+    system: 'Sistema',
+  },
   motion: {
     pause: 'Pausar animaciones',
     resume: 'Reanudar animaciones',

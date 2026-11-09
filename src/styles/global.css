@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './motion.css';
+@import './appearance.css';
 
 @font-face {
   font-family: 'Space Grotesk';
@@ -16,6 +17,22 @@
   font-display: swap;
 }
 @theme {
+  --color-action-ink: #ffffff;
+  --color-accent-ink: #242136;
+  --color-panel: #fbfaf8;
+  --color-tint: #ede6fe;
+  --color-tint-ink: #653acb;
+  --color-panel-border: #cec6d8;
+  --color-underline: #b9f65a;
+  --color-focus: #653acb;
+  --color-illustration-line: #605b70;
+  --color-selection: #653acb;
+  --color-selection-ink: #ffffff;
+  --color-shadow: rgb(36 33 54 / 5%);
+  /* Approved CP-01 hero tile is intentionally invariant in both schemes. */
+  --color-hero-tile: #f7f5f0;
+  --color-hero-tile-border: #242136;
+  --color-hero-tile-brand: #7950f2;
   --color-canvas: #f7f5f0;
   --color-surface: #ffffff;
   --color-ink: #242136;
@@ -70,7 +87,7 @@
   input:focus-visible,
   select:focus-visible,
   textarea:focus-visible {
-    outline: 3px solid var(--color-ink);
+    outline: 3px solid var(--color-focus);
     outline-offset: 2px;
   }
   button,
@@ -201,6 +218,7 @@
     padding: 0.3125rem 0.625rem;
     border-radius: 6.25rem;
     background: var(--color-lime);
+    color: var(--color-accent-ink);
     font-size: 0.625rem;
     font-weight: 800;
     line-height: 1.5;
@@ -228,7 +246,7 @@
     left: 0;
     height: 7px;
     border-radius: 8px;
-    background: var(--color-lime);
+    background: var(--color-underline);
     transform: rotate(-1.5deg);
     content: '';
   }
@@ -249,7 +267,7 @@
     border-radius: var(--radius-control);
     padding: 0.75rem 1.25rem;
     background: var(--color-brand);
-    color: var(--color-surface);
+    color: var(--color-action-ink);
     font-size: 1rem;
     font-weight: 700;
     text-decoration: none;
@@ -309,10 +327,10 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 1.0625rem;
-    border: 1px solid #cec6d8;
+    border: 1px solid var(--color-panel-border);
     border-radius: var(--radius-card);
     padding: 1.625rem 1.5rem;
-    background: rgb(255 255 255 / 52%);
+    background: var(--color-panel);
   }
   .empty-symbol {
     display: grid;
@@ -321,7 +339,7 @@
     height: 3.25rem;
     flex-shrink: 0;
     border-radius: 0.875rem;
-    background: #ede6fe;
+    background: var(--color-tint);
     color: var(--color-brand);
   }
   .empty-symbol svg {
@@ -361,7 +379,7 @@
   }
   .catalogue-card:hover {
     border-color: var(--color-brand);
-    box-shadow: 0 8px 20px rgb(36 33 54 / 5%);
+    box-shadow: 0 8px 20px var(--color-shadow);
   }
   .card-symbol {
     display: grid;
@@ -370,7 +388,7 @@
     height: 3.625rem;
     margin-block: 1.25rem;
     border-radius: 0.9375rem;
-    background: #eee8fe;
+    background: var(--color-tint);
     color: var(--color-link);
     font-family: var(--font-heading);
     font-size: 1.875rem;
@@ -378,11 +396,11 @@
   }
   .catalogue-card:nth-child(3n + 2) .card-symbol {
     background: var(--color-lime);
-    color: var(--color-ink);
+    color: var(--color-accent-ink);
   }
   .catalogue-card:nth-child(3n + 3) .card-symbol {
     background: var(--color-coral);
-    color: var(--color-ink);
+    color: var(--color-accent-ink);
   }
   .catalogue-card h3 {
     margin-block: 0.875rem 0.75rem;

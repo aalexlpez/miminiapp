@@ -17,49 +17,81 @@ export async function verifyFixtureCatalogue(
     const context = await browser.newContext({ baseURL });
     const page = await context.newPage();
     try {
-      for (const locale of ['es', 'en']) {
-        for (const width of [320, 768, 1440]) {
-          await page.setViewportSize({ width, height: 1000 });
-          const response = await page.goto(`/${locale}/`);
-          expect(response?.status()).toBe(200);
-          await expect(page.locator('.catalogue-card')).toHaveCount(
-            slugs.length,
-          );
-          await expect(page.locator('.empty-catalogue')).toHaveCount(0);
-          const dimensions = await page.evaluate(() => ({
-            scroll: document.documentElement.scrollWidth,
-            viewport: document.documentElement.clientWidth,
-          }));
-          expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.viewport);
-          for (const slug of slugs) {
-            await expect(
-              page.locator(`#catalogo a[href="/${locale}/apps/${slug}/"]`),
-            ).toBeVisible();
+      for (const theme of ['light', 'dark'] as const) {
+        await page.emulateMedia({
+          colorScheme: theme,
+          reducedMotion: 'reduce',
+        });
+        for (const locale of ['es', 'en']) {
+          for (const width of [320, 768, 1440]) {
+            await page.setViewportSize({ width, height: 1000 });
+            const response = await page.goto(`/${locale}/`);
+            expect(response?.status()).toBe(200);
+            await page.locator(`[data-appearance-option="${theme}"]`).click();
+            await expect(page.locator('html')).toHaveAttribute(
+              'data-theme',
+              theme,
+            );
+            await expect(page.locator('.catalogue-card')).toHaveCount(
+              slugs.length,
+            );
+            await expect(page.locator('.empty-catalogue')).toHaveCount(0);
+            const dimensions = await page.evaluate(() => ({
+              scroll: document.documentElement.scrollWidth,
+              viewport: document.documentElement.clientWidth,
+            }));
+            expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.viewport);
+            for (const slug of slugs) {
+              await expect(
+                page.locator(`#catalogo a[href="/${locale}/apps/${slug}/"]`),
+              ).toBeVisible();
+            }
+            await page.locator('#catalogo').scrollIntoViewIfNeeded();
+            const filename = `catalogue-${slugs.length}-${locale}-${width}-${theme}.png`;
+            await page.screenshot({
+              path: join(evidenceDir, filename),
+              fullPage: true,
+            });
+            results.push({
+              locale,
+              theme,
+              width,
+              entries: slugs.length,
+              filename,
+            });
           }
-          await page.locator('#catalogo').scrollIntoViewIfNeeded();
-          const filename = `catalogue-${slugs.length}-${locale}-${width}.png`;
-          await page.screenshot({
-            path: join(evidenceDir, filename),
-            fullPage: true,
-          });
-          results.push({ locale, width, entries: slugs.length, filename });
         }
-      }
 
-      for (const slug of slugs) {
-        await page.goto(`/es/apps/${slug}/`);
-        const english = page.locator('header a[hreflang="en"]');
-        await expect(english).toHaveAttribute('href', `/en/apps/${slug}/`);
-        await english.focus();
-        await page.keyboard.press('Enter');
-        await expect(page).toHaveURL(new RegExp(`/en/apps/${slug}/$`));
-        await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+        for (const slug of slugs) {
+          await page.goto(`/es/apps/${slug}/`);
+          await expect(page.locator('html')).toHaveAttribute(
+            'data-theme',
+            theme,
+          );
+          expect(
+            (
+              await new AxeBuilder({ page })
+                .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+                .analyze()
+            ).violations,
+          ).toEqual([]);
+          const english = page.locator('header a[hreflang="en"]');
+          await expect(english).toHaveAttribute('href', `/en/apps/${slug}/`);
+          await english.focus();
+          await page.keyboard.press('Enter');
+          await expect(page).toHaveURL(new RegExp(`/en/apps/${slug}/$`));
+          await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+          await expect(page.locator('html')).toHaveAttribute(
+            'data-theme',
+            theme,
+          );
+        }
       }
       await writeFile(
         join(evidenceDir, 'populated-catalogue.json'),
-        `${JSON.stringify({ slugs, results, contextSwitches: slugs.length }, null, 2)}\n`,
+        `${JSON.stringify({ slugs, results, contextSwitches: slugs.length * 2 }, null, 2)}\n`,
       );
-      return { slugs, results, contextSwitches: slugs.length };
+      return { slugs, results, contextSwitches: slugs.length * 2 };
     } finally {
       await context.close();
     }

@@ -22,3 +22,7 @@ Los PR de colaboradores externos ejecutarán verificaciones sin secretos de Clou
 Staging propuesto es público, separado de producción y sin datos privados. `noindex` y excluirlo del sitemap no aportan autenticación. Las normas de Markdown orientan el comportamiento; protección de ramas, permisos, aislamiento y secretos deben respaldarlas mediante controles reales.
 
 El modelo propuesto de promoción y rollback se desarrolla en [fiabilidad](RELIABILITY.md). Actualmente no se han configurado ni verificado protecciones, Workers, tokens o dominios de aplicación. No se crea infraestructura por este documento.
+
+## Excepción aprobada de apariencia — ADR-MMA-019
+
+El 2026-11-09 el propietario aprueba exclusivamente `miminiapp.appearance` con los valores `light`, `dark`, `system`. Se valida lo leído como enumeración cerrada; no se interpola contenido almacenado en HTML/CSS. No se escribe por entrar en la web, solo por elegir explícitamente. Lectura y escritura están protegidas: sin almacenamiento funciona en memoria de la página, y en la siguiente navegación completa vuelve al sistema si no pudo persistir. Sistema explícito se conserva como preferencia, nunca como color resuelto. El control permite volver a Sistema; eliminar la clave también recupera ese comportamiento. Los orígenes staging/producción son independientes. No se transmiten datos, no hay cookies/telemetría ni persistencia de pausa, idioma o actividad. El script inicial inline no requiere cambios de CSP/hosting en este alcance.

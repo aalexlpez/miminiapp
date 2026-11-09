@@ -77,3 +77,11 @@ Las E2E comparan CSS/WAAPI y estados de pausa/fallback. El capturador `tests/vis
 El build conserva 19 archivos; la lógica mínima está inline y no añade un bundle externo solicitado por la portada. Registro, rutas, dependencias y workflows no cambian; tampoco el staging publicado, la infraestructura o la rama predeterminada. La aceptación visual de intensidad/fidelidad de Iteración 2 y el merge/publicación no se sustituyen por las pruebas. Véase el [informe completo](docs/cp01-execution-report.md).
 
 Estado de CP-01: Aceptado y archivado, tras CI final 779b88b satisfactorio (run42519701947) y aceptación expresa del resultado animado por el propietario el 2026-11-08. El último check del PR #6 corresponde al cierre documental. No se afirma despliegue del candidato.
+
+## CP-02 — Apariencia en la rama feature (2026-11-09)
+
+ADR-MMA-019 y CP-02 aprobados y ejecución autorizada por el propietario, incluidos sus ajustes de tarjeta original, iconos y rotación. `AppearanceInit.astro` resuelve antes de la primera pintura una única clave `miminiapp.appearance`; `appearance.ts` mantiene light/dark/system, cambios del dispositivo, sincronización entre pestañas, pageshow y fallback en memoria ante almacenamiento bloqueado. `AppearanceControl.astro` usa tres botones nativos con sol/luna/dispositivo y nombres comunes ES/EN; aria-pressed y marca visible identifican la selección. Giro de 240 ms solo al elegir, cancelado con reduced-motion.
+
+`appearance.css` define la paleta nocturna y fallback del sistema sin JS, además del control responsive. No hay nuevo provider, dependencia ni hidratación React. El layout incluye un inicializador inline y un único módulo inline combinado de apariencia/movimiento; la raíz conserva redirección y cero scripts. El favicon sigue al dispositivo con CSS interno, pudiendo diferir de la elección explícita de la página.
+
+La tarjeta central del hero conserva siempre fondo #F7F5F0, borde #242136 y M #7950F2 de CP-01 mediante tokens invariantes. Los otros colores SVG consumen variables semánticas. No se alteran nodos, geometría, keyframes, coordinador ni estados de pausa del movimiento. La única excepción nueva de persistencia es apariencia; pausa y otros estados siguen efímeros. Esta implementación es local/en PR, sin nueva publicación. [Informe y límites](docs/cp02-execution-report.md).
