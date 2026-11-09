@@ -1,17 +1,5 @@
 {
-  "purpose": "CP-02 ordinary build, corrected approved design",
-  "baseSha": "f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f",
-  "verification": {
-    "verifyExit": 0,
-    "unit": 326,
-    "components": 9,
-    "e2e": 78,
-    "modularIntegration": "passed light/dark",
-    "pending": [
-      "Manual screen reader review",
-      "Decision for transient system-themed redirect document in local Astro preview root; staging root is HTTP 301"
-    ]
-  },
+  "purpose": "CP-02 real build with single active icon and native popover",
   "manifest": [
     {
       "filename": "bfcache.json",
@@ -20,23 +8,23 @@
     },
     {
       "filename": "desktop-en-dark.png",
-      "bytes": 112133,
-      "sha256": "7f0f52cde70c1dea74c472eb3c5409b4793fb372e191d72d25189d1eeb62cfeb"
+      "bytes": 109785,
+      "sha256": "b8fc0b2649db0049840fdc8ebc2a203550e33d6eda23accb9516b95fba019c53"
     },
     {
       "filename": "desktop-en-light.png",
-      "bytes": 110088,
-      "sha256": "460d6c39668a71e54b5f0a8c63b153fcbfb5aa214782c8d8c78428c422922f03"
+      "bytes": 108037,
+      "sha256": "be8ad5cb3c881279a624ffa362b6c0dbbf10090752152f74cb2da46a5aa798a9"
     },
     {
       "filename": "desktop-es-dark.png",
-      "bytes": 113344,
-      "sha256": "a259fe6b0b8583eff92768ef77bfdf960aca19277e18afe135e3b72f58aeca1e"
+      "bytes": 111094,
+      "sha256": "0079da02577df64a28f11dbb04b50b9384074a788db67b9e8160aa3f78ce170e"
     },
     {
       "filename": "desktop-es-light.png",
-      "bytes": 111923,
-      "sha256": "4c7a1f4b6889c366499cfff3792fb90c39684416e0736aedc155a082e9b0c99e"
+      "bytes": 109853,
+      "sha256": "af3c0ad4aeec1b069bc1f191e22ebaef95ecee483841d52653e7d45c3bcb06fe"
     },
     {
       "filename": "filmstrip/000.png",
@@ -45,63 +33,83 @@
     },
     {
       "filename": "filmstrip/001.png",
-      "bytes": 72503,
-      "sha256": "e7d5e1dbafbf00c65750196a9446e36aed3b16e9994fa914ceb8bbf4647c0bb3"
+      "bytes": 70642,
+      "sha256": "4274d2cb36fdd2422c3595e3ed85e861d54d01badd14f85d1bf13d81351eac17"
     },
     {
       "filename": "filmstrip/002.png",
-      "bytes": 68913,
-      "sha256": "1538dfeb9e715b458284f5745df37103aab5fcdea534af21d103b9f436e9e345"
+      "bytes": 67063,
+      "sha256": "22346318fa38f1aba9554107dd362ba1d61686943a6013f1ad7d18e594e4908d"
     },
     {
       "filename": "filmstrip/003.png",
-      "bytes": 64203,
-      "sha256": "9d75c71f356e97abe8845d56ec6a6733920d5783408eb0c25bccee0e5faaf579"
+      "bytes": 62164,
+      "sha256": "0ec8c10abf188d93b87fc6700f88b0bf22c9f1276f9e34fca2f0e404fe0c9420"
     },
     {
       "filename": "forced-colors-focus.png",
-      "bytes": 107990,
-      "sha256": "a2c5e9ffb2cfcf80116a629f83344937eb2412574ce03c60f6b2864f4efcfcd9"
+      "bytes": 112954,
+      "sha256": "94fd9ff440f808027e6982e8fbc25539197196a59fd1c247f14857446add662f"
     },
     {
       "filename": "hero-theme-and-pause.webm",
-      "bytes": 5052577,
-      "sha256": "9b85ea15ec1a6d244e0c6f92263830422aa21f7ef35109b772365014808e8457"
+      "bytes": 4756140,
+      "sha256": "7939f1f46dab8510f59c5bf20eeb8e19880693b17a933a7a92b7f0ff81e39d18"
     },
     {
       "filename": "mobile-en-dark.png",
-      "bytes": 70835,
-      "sha256": "fa299a23f4ff31d838506e6584fe299b7a131b2167ef6dceede7ed5bddef477d"
+      "bytes": 68504,
+      "sha256": "375591d561a40cf30864d2a19b3ceaaadae81e5e7e7e3ea2d160ab5b070240a3"
     },
     {
       "filename": "mobile-en-light.png",
-      "bytes": 69398,
-      "sha256": "a1ad449f3f7270026bee1c86469a38ccbf4500d1f8b89df258a1addad350a3ed"
+      "bytes": 67364,
+      "sha256": "744bc1d16c82538ac32397c752eb8b4712e64d9a089028f457403fa76e877989"
     },
     {
       "filename": "mobile-es-dark.png",
-      "bytes": 73381,
-      "sha256": "c050e37ae47c91e70b1e41f0929c73303ad6f59172095cf722cb38af5980bcbb"
+      "bytes": 71022,
+      "sha256": "da1a61dcecc870467176b86bdcf601876a54460439d87a7cc978b852d946247d"
     },
     {
       "filename": "mobile-es-light.png",
-      "bytes": 72103,
-      "sha256": "5f203e3c8901bfd67413d80b30a7ea8f5da653d83de07dbc09a6c942098829ae"
+      "bytes": 70029,
+      "sha256": "c2439a80a6dad57bdab7675279385364b085533f3d498f33641d9b606eb05dd3"
+    },
+    {
+      "filename": "popover-desktop-dark.png",
+      "bytes": 110476,
+      "sha256": "af6308985979ae7f62c254a424d13f374de7e47b424fc73c1eb09957bd7956c3"
+    },
+    {
+      "filename": "popover-desktop-light.png",
+      "bytes": 108910,
+      "sha256": "c770733279f0da98c62c8f65e36986d09bb29907c66b6f983441222ca6f8a622"
+    },
+    {
+      "filename": "popover-mobile-dark.png",
+      "bytes": 53604,
+      "sha256": "b5e6881cd175e224686d1e4732f9ea8fe77b4256ad0bdd980794d40873efbf6c"
+    },
+    {
+      "filename": "popover-mobile-light.png",
+      "bytes": 52239,
+      "sha256": "5c3a0df1b9ee447fee565cda6e2c60caf98ff167fd3233ba573120925901e7a6"
     },
     {
       "filename": "results.json",
       "bytes": 7893,
-      "sha256": "6e8bafaabd7fbda830c3af83a150dcdd0eca3b4c5c80974c891e95ca8cd53915"
+      "sha256": "61f6faa70bd12273bd20eb26b0c34f3863cf8798af51b95a8018c1ee90c714b9"
     },
     {
       "filename": "review.html",
-      "bytes": 2592,
-      "sha256": "821a232af8a3f82b17c8afcdcda120396c96aee27e4ff362e9e3f6098dabd667"
+      "bytes": 2829,
+      "sha256": "dbe5fe74e2215f8237d369ec51fce5d887926650931819baeb8bc35b7d405798"
     },
     {
       "filename": "root-filmstrip/000.png",
-      "bytes": 64203,
-      "sha256": "9d75c71f356e97abe8845d56ec6a6733920d5783408eb0c25bccee0e5faaf579"
+      "bytes": 62164,
+      "sha256": "0ec8c10abf188d93b87fc6700f88b0bf22c9f1276f9e34fca2f0e404fe0c9420"
     },
     {
       "filename": "root-filmstrip/001.png",
@@ -110,48 +118,47 @@
     },
     {
       "filename": "root-filmstrip/002.png",
-      "bytes": 13175,
-      "sha256": "793f2b4d9b885a846087acc04ab474596243ff9b61c69b0be7250c2b7ebb7813"
+      "bytes": 70642,
+      "sha256": "4274d2cb36fdd2422c3595e3ed85e861d54d01badd14f85d1bf13d81351eac17"
     },
     {
       "filename": "root-filmstrip/003.png",
-      "bytes": 13104,
-      "sha256": "ea06410856c0ecaa06055b68a05f83742281bfcc6d198c3a5c1e0e08f0479cba"
+      "bytes": 67063,
+      "sha256": "22346318fa38f1aba9554107dd362ba1d61686943a6013f1ad7d18e594e4908d"
     },
     {
       "filename": "root-filmstrip/004.png",
-      "bytes": 72503,
-      "sha256": "e7d5e1dbafbf00c65750196a9446e36aed3b16e9994fa914ceb8bbf4647c0bb3"
-    },
-    {
-      "filename": "root-filmstrip/005.png",
-      "bytes": 68913,
-      "sha256": "1538dfeb9e715b458284f5745df37103aab5fcdea534af21d103b9f436e9e345"
-    },
-    {
-      "filename": "root-filmstrip/006.png",
-      "bytes": 64203,
-      "sha256": "9d75c71f356e97abe8845d56ec6a6733920d5783408eb0c25bccee0e5faaf579"
+      "bytes": 62164,
+      "sha256": "0ec8c10abf188d93b87fc6700f88b0bf22c9f1276f9e34fca2f0e404fe0c9420"
     },
     {
       "filename": "vertical-9x16-dark.png",
-      "bytes": 117832,
-      "sha256": "a9b2b148bc77df64b3da3eab61cc3d1fc6265e91a5be7236d8e99bd25a74a780"
+      "bytes": 124285,
+      "sha256": "93bc40a1d9ccd6c6103fdfda42010dd65177a75343d5392bf8603284b73d7f70"
     },
     {
       "filename": "zoom-200-en.png",
-      "bytes": 80207,
-      "sha256": "e8ddbf8d97b11bffd473bf48968ee28fda3a1538fe2280ff1d8801dfd0bc7b02"
+      "bytes": 74004,
+      "sha256": "7f0d2c5c0a2ccb2851222fb69b974b9992f5910f2b6a9f4a332633e3e0031fca"
     },
     {
       "filename": "zoom-200-es.png",
-      "bytes": 83387,
-      "sha256": "1133f0898caa4310588d141d9f3d1b66e02168d3a13e25900225dec20a3f452f"
+      "bytes": 77546,
+      "sha256": "a69e36be710504514edaa7454d0775cbfad5d8d3062b37b3d5feeb3884c71d74"
     },
     {
       "filename": "zoom.json",
       "bytes": 1209,
       "sha256": "666f8f22203170700f89cc27d659bafa5af995dcfa6dfaf1860f6af6ec12201f"
     }
-  ]
+  ],
+  "baseSha": "f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f",
+  "verification": {
+    "verifyExit": 0,
+    "unit": 326,
+    "components": 9,
+    "e2e": 78,
+    "integration": "passed",
+    "control": "single active icon; native popover; keyboard, Escape, light dismiss, selection, reduced-motion and open-state axe"
+  }
 }

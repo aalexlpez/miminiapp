@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { gzipSync } from 'node:zlib';
+import { join, relative } from 'node:path';
 import { captureBrowserZoom } from './zoom.ts';
 
 // Real ordinary-build captures; the historical prototype remains separate.
@@ -56,6 +57,13 @@ try {
           path: `${output}/${device}-${locale}-${theme}.png`,
           fullPage: true,
         });
+        if (locale === 'es') {
+          await page.locator('[data-appearance-trigger]').click();
+          await page.screenshot({
+            path: `${output}/popover-${device}-${theme}.png`,
+          });
+          await page.keyboard.press('Escape');
+        }
         const colors = await page.evaluate(() => {
           const color = (selector: string, property: string) =>
             getComputedStyle(
@@ -68,8 +76,8 @@ try {
             panel: color('.empty-catalogue', 'background-color'),
             buttonText: color('.primary-action', 'color'),
             button: color('.primary-action', 'background-color'),
-            control: color('.appearance-control', 'background-color'),
-            border: color('.appearance-control', 'border-top-color'),
+            control: color('.appearance-options', 'background-color'),
+            border: color('.appearance-options', 'border-top-color'),
             selectedText: color(
               '.appearance-option[aria-pressed=true]',
               'color',
@@ -130,11 +138,14 @@ try {
   await page.evaluate(() => document.fonts.ready);
   // Observe two complete orbit cycles, with the approved tile and normal motion.
   await page.waitForTimeout(18000);
+  await page.locator('[data-appearance-trigger]').click();
   await page.locator('[data-appearance-option=dark]').click();
   await page.waitForTimeout(400);
+  await page.locator('[data-appearance-trigger]').click();
   await page.locator('[data-appearance-option=light]').click();
   await page.waitForTimeout(400);
   await page.locator('[data-motion-control]').click();
+  await page.locator('[data-appearance-trigger]').click();
   await page.locator('[data-appearance-option=dark]').click();
   await page.waitForTimeout(600);
   const video = page.video();
@@ -147,11 +158,12 @@ try {
   });
   const verticalPage = await vertical.newPage();
   await verticalPage.goto(`${origin}/es/`);
+  await verticalPage.locator('[data-appearance-trigger]').click();
   await verticalPage.locator('[data-appearance-option=dark]').click();
   await verticalPage.evaluate(() => document.fonts.ready);
   await verticalPage.screenshot({ path: `${output}/vertical-9x16-dark.png` });
   await verticalPage.emulateMedia({ forcedColors: 'active' });
-  await verticalPage.locator('[data-appearance-option=dark]').focus();
+  await verticalPage.locator('[data-appearance-trigger]').focus();
   await verticalPage.screenshot({ path: `${output}/forced-colors-focus.png` });
   await vertical.close();
   // Filmstrip of a cold navigation with a stored override and CPU/network throttle.
@@ -248,11 +260,22 @@ try {
       '\n',
   );
   const manifest = [];
-  for (const filename of (await readdir(output)).sort()) {
-    if (filename === 'manifest.json') continue;
-    const bytes = await readFile(`${output}/${filename}`);
+  async function collect(directory: string): Promise<string[]> {
+    const entries = await readdir(directory, { withFileTypes: true });
+    const nested = await Promise.all(
+      entries.map((entry) =>
+        entry.isDirectory()
+          ? collect(join(directory, entry.name))
+          : [join(directory, entry.name)],
+      ),
+    );
+    return nested.flat();
+  }
+  for (const filename of (await collect(output)).sort()) {
+    if (filename === `${output}/manifest.json`) continue;
+    const bytes = await readFile(filename);
     manifest.push({
-      filename,
+      filename: relative(output, filename),
       bytes: bytes.length,
       sha256: createHash('sha256').update(bytes).digest('hex'),
     });

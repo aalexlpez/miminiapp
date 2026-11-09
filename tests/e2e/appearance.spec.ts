@@ -1,8 +1,16 @@
+import type { Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures';
 
 const key = 'miminiapp.appearance';
 const option = (mode: string) => `[data-appearance-option="${mode}"]`;
+
+async function choose(page: Page, mode: string) {
+  const button = page.locator(option(mode));
+  if (!(await button.isVisible()))
+    await page.locator('[data-appearance-trigger]').click();
+  await button.click();
+}
 
 test('system is default without writes, follows media, and explicit choice survives locale navigation', async ({
   page,
@@ -18,7 +26,7 @@ test('system is default without writes, follows media, and explicit choice survi
   expect(await page.evaluate(() => localStorage.length)).toBe(0);
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await page.locator(option('dark')).click();
+  await choose(page, 'dark');
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.reload();
@@ -33,7 +41,7 @@ test('system is default without writes, follows media, and explicit choice survi
   });
   expect(await page.evaluate(() => sessionStorage.length)).toBe(0);
   expect(await context.cookies()).toEqual([]);
-  await page.locator(option('system')).click();
+  await choose(page, 'system');
   expect(await page.evaluate((k) => localStorage.getItem(k), key)).toBe(
     'system',
   );
@@ -63,13 +71,13 @@ for (const failure of ['read', 'write']) {
     );
     await page.emulateMedia({ colorScheme: 'dark' });
     await page.goto('/es/');
-    await page.locator(option('light')).click();
+    await choose(page, 'light');
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
     await page.evaluate(() =>
       dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })),
     );
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-    await page.locator(option('system')).click();
+    await choose(page, 'system');
     await page.emulateMedia({ colorScheme: 'light' });
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   });
@@ -91,7 +99,7 @@ test('ignores invalid data and syncs choices and deletion between tabs', async (
   );
   const other = await context.newPage();
   await other.goto('/en/');
-  await other.locator(option('light')).click();
+  await choose(other, 'light');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await other.evaluate((k) => localStorage.removeItem(k), key);
   await expect(page.locator('html')).toHaveAttribute(
@@ -116,8 +124,25 @@ for (const locale of ['es', 'en'])
         name: locale === 'es' ? 'Apariencia' : 'Appearance',
       });
       await expect(group).toBeVisible();
-      await expect(group.locator('button')).toHaveCount(3);
+      await expect(group.locator('button:visible')).toHaveCount(1);
+      await expect(
+        page.locator('[data-appearance-trigger] svg:visible'),
+      ).toHaveCount(1);
+      await page.locator('[data-appearance-trigger]').click();
+      await expect(group.locator('.appearance-option:visible')).toHaveCount(3);
+      await page.keyboard.press('Escape');
+      await expect(page.locator('[data-appearance-trigger]')).toBeFocused();
       await expect(group.locator('select')).toHaveCount(0);
+      await page.locator('[data-appearance-trigger]').click();
+      expect(
+        (
+          await new AxeBuilder({ page })
+            .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+            .analyze()
+        ).violations,
+      ).toEqual([]);
+      await page.locator('h1').click();
+      await expect(page.locator('#appearance-options')).toBeHidden();
       const names =
         locale === 'es'
           ? ['Claro', 'Oscuro', 'Sistema']
@@ -126,15 +151,17 @@ for (const locale of ['es', 'en'])
         const button = group.getByRole('button', {
           name: names[i],
           exact: true,
+          includeHidden: true,
         });
-        await button.focus();
-        await page.keyboard.press(i === 1 ? 'Space' : 'Enter');
-        await expect(button).toBeFocused();
-        await expect(button).toHaveAttribute('aria-pressed', 'true');
-        await expect(group.locator('[aria-pressed="true"]')).toHaveCount(1);
+        await page.locator('[data-appearance-trigger]').click();
         const size = await button.boundingBox();
         expect(size!.width).toBeGreaterThanOrEqual(48);
         expect(size!.height).toBeGreaterThanOrEqual(48);
+        await button.focus();
+        await page.keyboard.press(i === 1 ? 'Space' : 'Enter');
+        await expect(page.locator('[data-appearance-trigger]')).toBeFocused();
+        await expect(button).toHaveAttribute('aria-pressed', 'true');
+        await expect(group.locator('[aria-pressed="true"]')).toHaveCount(1);
         expect(
           await button.evaluate(
             (b) => b.querySelector('svg')!.getAnimations().length,
@@ -208,8 +235,10 @@ test('rotates only on interaction, honors reduced motion and preserves CP-01 loo
     .locator(option('dark'))
     .evaluate((button: HTMLButtonElement) => {
       button.click();
-      return button
-        .querySelector('svg')!
+      return document
+        .querySelector(
+          '[data-appearance-trigger] [data-appearance-icon="dark"]',
+        )!
         .getAnimations()
         .map((a) => a.effect!.getTiming().duration);
     });
@@ -251,7 +280,7 @@ test('rotates only on interaction, honors reduced motion and preserves CP-01 loo
     'true',
   );
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.locator(option('light')).click();
+  await choose(page, 'light');
   expect(
     await page
       .locator(option('light'))
@@ -361,7 +390,7 @@ test.describe('the shared 404 shell', () => {
   test.use({ expected404Paths: ['/es/unknown/'] });
   test('retains appearance and bilingual recovery', async ({ page }) => {
     await page.goto('/es/');
-    await page.locator(option('dark')).click();
+    await choose(page, 'dark');
     await page.goto('/es/unknown/');
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     await expect(page.locator('.appearance-control')).toBeVisible();

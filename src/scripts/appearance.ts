@@ -9,6 +9,16 @@ if (!root.classList.contains('appearance-ready')) {
   const controls = [
     ...document.querySelectorAll<HTMLButtonElement>('[data-appearance-option]'),
   ];
+  const trigger = document.querySelector<HTMLButtonElement>(
+    '[data-appearance-trigger]',
+  );
+  const panel = document.querySelector<HTMLElement>('#appearance-options');
+  function closePanel() {
+    panel?.hidePopover();
+    trigger?.focus({ preventScroll: true });
+  }
+  // Native popovertarget supplies expansion semantics, Escape and light dismiss;
+  // CSS anchors keep the panel attached without JS geometry or resize listeners.
   let preference = parseAppearance(root.dataset.appearance);
   let memoryOnly = false;
   let system: MediaQueryList | undefined;
@@ -26,6 +36,11 @@ if (!root.classList.contains('appearance-ready')) {
       preference,
       system?.matches ?? false,
     );
+    if (trigger) {
+      const label = `${trigger.dataset.label} · ${trigger.dataset[preference]}`;
+      trigger.setAttribute('aria-label', label);
+      trigger.title = label;
+    }
     controls.forEach((button) => {
       button.setAttribute(
         'aria-pressed',
@@ -37,7 +52,10 @@ if (!root.classList.contains('appearance-ready')) {
   controls.forEach((button) => {
     button.addEventListener('click', () => {
       const next = parseAppearance(button.dataset.appearanceOption);
-      if (next === preference) return;
+      if (next === preference) {
+        closePanel();
+        return;
+      }
       preference = next;
       try {
         localStorage.setItem(appearanceKey, preference);
@@ -46,9 +64,12 @@ if (!root.classList.contains('appearance-ready')) {
         memoryOnly = true;
       }
       render();
+      closePanel();
       // No class toggles, replacement nodes or animation changes in the hero.
       if (reduced && !reduced.matches) {
-        const icon = button.querySelector('svg');
+        const icon = trigger?.querySelector<SVGElement>(
+          `[data-appearance-icon="${preference}"]`,
+        );
         icon?.getAnimations().forEach((animation) => animation.cancel());
         icon?.animate(
           [
@@ -64,12 +85,9 @@ if (!root.classList.contains('appearance-ready')) {
   system?.addEventListener('change', render);
   reduced?.addEventListener('change', () => {
     if (reduced?.matches)
-      controls.forEach((button) =>
-        button
-          .querySelector('svg')
-          ?.getAnimations()
-          .forEach((a) => a.cancel()),
-      );
+      trigger
+        ?.querySelectorAll('svg')
+        .forEach((icon) => icon.getAnimations().forEach((a) => a.cancel()));
   });
   window.addEventListener('storage', (event) => {
     if (event.key === appearanceKey || event.key === null) {
@@ -88,6 +106,7 @@ if (!root.classList.contains('appearance-ready')) {
     }
     render();
   });
+  if (trigger) trigger.disabled = false;
   render();
   root.classList.add('appearance-ready');
 }
