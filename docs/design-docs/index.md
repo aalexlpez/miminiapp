@@ -175,3 +175,6 @@ Ajuste solicitado y autorizado por el propietario el 2026-11-09: desplegable **v
 
 
 Revisión visual solicitada y autorizada por el propietario (2026-11-09): eliminar el efecto de panel blanco y tarjetas grandes. Popover vertical de 44 px, fondo canvas suavemente translúcido y sin borde marcado, iconos de 16 px, halo de selección/hover de 28 px y pequeña marca lateral. Se conservan dianas transparentes de 48×48 px, centrado y teclado. Separar tamaño visual y superficie pulsable evita degradar accesibilidad para lograr discreción. No se altera lógica de preferencias, persistencia, hero ni infraestructura. Rama nueva desde staging vigente, después del PR #9 fusionado por el propietario.
+
+
+Ajuste autorizado por el propietario (2026-11-09): mover la pausa del hero a un solo icono de animaciones en la cabecera, junto a apariencia. Pulsación directa, sin desplegable; el mismo icono muestra una raya diagonal al pausar o con reduced-motion. Se conservan ciclo de vida, prioridad de reducción de movimiento, pausa en memoria, nombres/estado ES/EN y dianas de 48 px. ES / EN se compacta con texto de 13 px, separación y padding reducidos, preservando foco, enlaces equivalentes y áreas pulsables. Rama `feature/cp02-controles-cabecera` desde staging vigente, después del PR #11 fusionado por el propietario.

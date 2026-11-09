@@ -160,10 +160,14 @@ for (const locale of ['es', 'en']) {
     );
     await control.focus();
     await page.keyboard.press('Space');
-    await expect(control).toHaveText(
+    await expect(control).toHaveAccessibleName(
       locale === 'es' ? 'Reanudar animaciones' : 'Resume animations',
     );
     await expect(control).toBeFocused();
+    await expect(page.locator('header [data-motion-control]')).toHaveCount(1);
+    await expect(control.locator('svg')).toHaveCount(1);
+    await expect(control.locator('.motion-icon-slash')).toBeVisible();
+    await expect(control).not.toHaveAttribute('popovertarget');
     const state = () =>
       hero.evaluate((n) =>
         n.getAnimations({ subtree: true }).map((a) => ({
@@ -189,6 +193,7 @@ for (const locale of ['es', 'en']) {
     await page.keyboard.press('Space');
     await page.waitForTimeout(80);
     const resumed = await state();
+    await expect(control.locator('.motion-icon-slash')).toBeHidden();
     resumed.forEach((a, i) => {
       expect(a.state).toBe('running');
       expect(Number(a.time)).toBeGreaterThan(Number(frozen[i].time));
