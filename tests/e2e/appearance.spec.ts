@@ -156,7 +156,7 @@ for (const locale of ['es', 'en'])
       ).toBe(true);
       await expect(page.locator('#appearance-options')).toHaveCSS(
         'border-width',
-        '0px',
+        '1px',
       );
       expect(
         Math.abs(
