@@ -45,7 +45,6 @@ export const es = {
   motion: {
     pause: 'Pausar animaciones',
     resume: 'Reanudar animaciones',
-    reduced: 'Movimiento reducido',
     running: 'Animaciones activas',
     paused: 'Animaciones en pausa',
   },

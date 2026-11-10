@@ -2,7 +2,7 @@ import { chromium, expect } from '@playwright/test';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 
-const output = 'docs/review/cp02';
+const output = 'docs/review/motion-default';
 const origin = 'http://127.0.0.1:4326';
 const server = spawn(
   process.execPath,
@@ -47,6 +47,11 @@ try {
         const page = await context.newPage();
         await page.goto(`${origin}/${locale}/`);
         await page.evaluate(() => document.fonts.ready);
+        await expect(page.locator('.hero-art')).toHaveAttribute(
+          'data-motion-entered',
+          'true',
+        );
+        await page.locator('[data-motion-control]').click();
         await expect(page.locator('main [data-motion-control]')).toHaveCount(0);
         await expect(page.locator('header [data-motion-control]')).toHaveCount(
           1,
@@ -56,8 +61,8 @@ try {
           fullPage: true,
         });
         if (locale === 'es') {
-          await page.emulateMedia({ reducedMotion: 'no-preference' });
           const control = page.locator('[data-motion-control]');
+          await control.click();
           await expect(control).toBeEnabled();
           await expect(control.locator('.motion-icon-slash')).toBeHidden();
           await page.locator('header').screenshot({

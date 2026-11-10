@@ -50,15 +50,10 @@
   .motion-toggle[hidden] {
     display: none;
   }
-  .motion-toggle:disabled {
-    color: var(--color-muted);
-    cursor: default;
-  }
   .motion-icon-slash {
     display: none;
   }
-  :root[data-motion-paused='true'] .motion-icon-slash,
-  :root[data-motion-reduced='true'] .motion-icon-slash {
+  .motion-toggle[aria-pressed='true'] .motion-icon-slash {
     display: block;
   }
   [data-motion] .brand-piece,
@@ -195,9 +190,6 @@
   .motion-ready[data-motion-paused='true'] [data-motion] *,
   .motion-ready [data-motion]:not([data-motion-visible='true']) * {
     animation-play-state: paused !important;
-  }
-  .motion-ready[data-motion-reduced='true'] [data-motion] * {
-    animation: none !important;
   }
   /* Restricted Bezier segments preserve WAAPI's overall easing exactly;
      CSS normally eases each keyframe interval separately. */
@@ -348,11 +340,6 @@
   @media (max-width: 21.875rem) {
     .hero-visual {
       width: 13.125rem;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    [data-motion] * {
-      animation: none !important;
     }
   }
 }
