@@ -2,6 +2,8 @@
 
 ## Ajuste autorizado de movimiento — 2026-11-10
 
+Corrección posterior al merge del PR #13: fallo intermitente en Staging `42813224189`, al medir tiempos antes de completarse la pausa CSS. Investigación y corrección de sincronización de prueba dentro de AP-10, sin cambio del producto ni de infraestructura; evidencia en `docs/review/motion-default/quality-pause.md`. Rama `fix/appearance-pause-check` desde staging `7ff37f0d7772fd9d168d272fb650bdb7c261fab5`. Estado global permanece En curso.
+
 Resultado de esta corrección: implementación comprobada con `npm run verify` completo (326 unitarias, 9 componentes, 78 E2E e integración modular); evidencia y limitaciones en `docs/review/motion-default/README.md`. No modifica el estado global En curso de CP-02 ni declara aceptación humana.
 
 El propietario solicita y autoriza que el movimiento decorativo comience siempre activo y solo se pause/reanude mediante su icono, que se sustituye por ondas con raya diagonal al pausar. Esta instrucción modifica expresamente la prioridad anterior de reduced-motion de ADR-MMA-018 para la identidad decorativa; no modifica la reducción de las microinteracciones de apariencia. La pausa continúa en memoria del documento y se reinicia al recargar. Se conserva la suspensión por pestaña oculta y elementos fuera de pantalla como ahorro de recursos, sin cambiar la elección del usuario. Actualización localizada dentro de CP-02; no requiere otro plan. Rama `feature/movimiento-activo` desde staging `9ab71c255af0e91acaeda3af59783787decaedc9` (PR #12 fusionado). Entrega mediante PR en borrador, sin merge ni despliegue.

@@ -249,12 +249,16 @@ test('rotates only on interaction, honors reduced motion and preserves CP-01 loo
     'true',
   );
   await page.locator('[data-motion-control]').click();
-  await page.evaluate(() => {
+  const paused = await page.evaluate(async () => {
     const hero = document.querySelector('.hero-art')!;
+    const animations = hero.getAnimations({ subtree: true });
+    // CSS can report playState=paused while its pause task is still pending.
+    // ready resolves after Chromium fixes the hold time on the next frame.
+    await Promise.all(animations.map((animation) => animation.ready));
     const state = {
       hero,
-      animations: hero.getAnimations({ subtree: true }),
-      times: hero.getAnimations({ subtree: true }).map((a) => a.currentTime),
+      animations,
+      times: animations.map((a) => a.currentTime),
       bounds: document
         .querySelector('.home-hero')!
         .getBoundingClientRect()
@@ -269,7 +273,10 @@ test('rotates only on interaction, honors reduced motion and preserves CP-01 loo
           .map((e) => (e as PerformanceEntry & { value: number }).value),
       ),
     ).observe({ type: 'layout-shift' });
+    return animations.map((a) => ({ state: a.playState, pending: a.pending }));
   });
+  expect(paused).toHaveLength(7);
+  paused.forEach((a) => expect(a).toEqual({ state: 'paused', pending: false }));
   // Execute click and inspect in the same task, before the short microinteraction ends.
   const iconMotion = await page
     .locator(option('dark'))
@@ -296,13 +303,18 @@ test('rotates only on interaction, honors reduced motion and preserves CP-01 loo
         };
       }
     ).appearanceTest;
+    const currentAnimations = state.hero.getAnimations({ subtree: true });
     return {
       node: state.hero === document.querySelector('.hero-art'),
-      animations: state.animations.every(
-        (a, i) =>
-          state.hero.getAnimations({ subtree: true }).includes(a) &&
-          a.currentTime === state.times[i],
-      ),
+      animations:
+        currentAnimations.length === state.animations.length &&
+        state.animations.every(
+          (a, i) =>
+            currentAnimations.includes(a) &&
+            a.currentTime === state.times[i] &&
+            a.playState === 'paused' &&
+            !a.pending,
+        ),
       bounds: state.bounds,
       current: document
         .querySelector('.home-hero')!
