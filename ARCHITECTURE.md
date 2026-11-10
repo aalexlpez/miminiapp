@@ -1,5 +1,7 @@
 # Arquitectura actual
 
+Actualización de movimiento autorizada el 2026-11-10 (enmienda ADR-MMA-018): `motion.ts` inicia el movimiento activo en cada documento; el botón de ondas de `MotionControl.astro` alterna pausa/reanudación y muestra raya diagonal al pausar. El sistema operativo ya no bloquea este control ni los SVG decorativos. La suspensión por visibilidad sigue siendo automática y temporal; no altera la pausa manual. Las microinteracciones de apariencia mantienen reduced-motion. Esta actualización sustituye las descripciones históricas de prioridad reduced-motion que aparecen más abajo.
+
 **Actualizado:** 2026-11-08. **I-01:** Aceptado y archivado por el propietario. **I-02:** Aceptado expresamente por el propietario el 2026-11-05 y archivado, tras aprobación del plan/ADR-MMA-011/016/017 y autorización expresa de ejecución.
 
 La base se mantiene en Astro 7.4.5 estático, React/DOM 19.3.1 cuando procede interacción, TypeScript 6.0.3 strict y Tailwind 4.3.4. Node 24.22.2, npm 11.19.1 y dependencias directas exactas con un único lockfile. I-02 no incorpora dependencias visuales o servicios externos.

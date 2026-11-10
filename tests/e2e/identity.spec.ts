@@ -13,6 +13,7 @@ for (const locale of ['es', 'en']) {
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(`/${locale}/`);
+    await page.locator('[data-motion-control]').click();
     const links = page.getByRole('link', { name: 'MiMiniApp', exact: true });
     await expect(links).toHaveCount(2);
     for (const link of await links.all()) {
@@ -69,16 +70,20 @@ for (const locale of ['es', 'en']) {
     expect(
       await page
         .locator('.site-container')
-        .evaluate((n) => n.getAnimations({ subtree: true }).length),
-    ).toBe(0);
+        .evaluate((n) =>
+          n
+            .getAnimations({ subtree: true })
+            .every((a) => a.playState === 'paused'),
+        ),
+    ).toBe(true);
     await expect(page.locator('script[type="module"]')).toHaveCount(1);
     await expect(page.locator('script[src]')).toHaveCount(0);
     await expect(
       page.getByRole('button', {
-        name: locale === 'es' ? 'Movimiento reducido' : 'Reduced motion',
+        name: locale === 'es' ? 'Reanudar animaciones' : 'Resume animations',
         exact: true,
       }),
-    ).toBeDisabled();
+    ).toBeEnabled();
     await links.last().focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(new RegExp(`/${locale}/$`));

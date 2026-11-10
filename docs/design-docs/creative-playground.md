@@ -1,5 +1,7 @@
 # Creative Playground — identidad y contrato técnico aprobados
 
+**Enmienda autorizada por el propietario, 2026-11-10:** según ADR-MMA-018 actualizado en el registro, el movimiento decorativo comienza activo aun con reduced-motion y se alterna únicamente desde el icono de ondas de cabecera, con raya al pausar. Sigue sin persistencia y conserva suspensión temporal por visibilidad. Esta instrucción sustituye hacia adelante la prioridad de reduced-motion descrita en el contrato histórico; la microinteracción de apariencia conserva su reducción independiente. Implementación y evidencia en CP-02.
+
 **Responsable:** propietario de MiMiniApp. **Actualizado:** 2026-11-08.
 
 **ADR-MMA-017, evolución visual:** `Aprobada` expresamente por el propietario el 2026-11-08, tras revisar `creative-playground-v2`. Sustituye hacia adelante la restricción de movimiento continuo de I-02 únicamente por los movimientos descritos aquí. La aceptación histórica de I-02 no cambia.

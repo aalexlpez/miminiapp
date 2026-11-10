@@ -31,7 +31,6 @@ export interface CommonCopy {
   motion: {
     pause: string;
     resume: string;
-    reduced: string;
     running: string;
     paused: string;
   };

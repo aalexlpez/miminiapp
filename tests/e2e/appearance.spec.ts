@@ -326,7 +326,11 @@ test('rotates only on interaction, honors reduced motion and preserves CP-01 loo
       .locator(option('light'))
       .evaluate((b) => b.querySelector('svg')!.getAnimations().length),
   ).toBe(0);
-  await expect(page.locator('[data-motion-control]')).toBeDisabled();
+  await expect(page.locator('[data-motion-control]')).toBeEnabled();
+  await expect(page.locator('[data-motion-control]')).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
 });
 
 test('keeps the same assembly objects when appearance changes during entry', async ({

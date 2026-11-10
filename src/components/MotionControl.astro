@@ -15,10 +15,10 @@ const copy = getCommon(Astro.props.locale).motion;
     hidden
     data-pause={copy.pause}
     data-resume={copy.resume}
-    data-reduced={copy.reduced}
     data-running={copy.running}
     data-paused={copy.paused}
     aria-label={copy.pause}
+    aria-pressed="false"
     title={copy.pause}
     aria-describedby="motion-state"
   >
@@ -34,8 +34,7 @@ const copy = getCommon(Astro.props.locale).motion;
       aria-hidden="true"
       focusable="false"
     >
-      <path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z" />
-      <path d="M20 2v4m-2-2h4" />
+      <path d="M2 8c3-5 5 5 8 0s5 5 8 0 4 0 4 0M2 16c3-5 5 5 8 0s5 5 8 0 4 0 4 0" />
       <path class="motion-icon-slash" d="M3 3 21 21" />
     </svg>
   </button>

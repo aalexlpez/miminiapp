@@ -219,42 +219,34 @@ for (const locale of ['es', 'en']) {
   });
 }
 
-test('prioritizes live reduced-motion over manual state and does not repeat entrances', async ({
+test('starts active even with reduced motion and only the icon changes manual pause', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1080 });
-  await page.goto('/es/');
-  await expect(page.locator('header .brand-wordmark')).toHaveAttribute(
-    'data-motion-seen',
-    'true',
-  );
-  await page
-    .getByRole('button', { name: 'Pausar animaciones', exact: true })
-    .click();
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  const button = page.getByRole('button', {
-    name: 'Movimiento reducido',
-    exact: true,
-  });
-  await expect(button).toBeDisabled();
-  expect(
-    await page
-      .locator('[data-motion]')
-      .evaluateAll((nodes) =>
-        nodes.reduce(
-          (sum, n) => sum + n.getAnimations({ subtree: true }).length,
-          0,
-        ),
+  await page.goto('/es/');
+  const button = page.locator('[data-motion-control]');
+  const hero = page.locator('.hero-art');
+  await expect(button).toBeEnabled();
+  await expect(button).toHaveAccessibleName('Pausar animaciones');
+  await expect(button).toHaveAttribute('aria-pressed', 'false');
+  await expect(hero).toHaveAttribute('data-motion-entered', 'true');
+  const ambient = hero.locator('[data-ambient]:not([data-ambient="dots"])');
+  expect(await ambient.count()).toBe(7);
+  const playing = () =>
+    ambient.evaluateAll((nodes) =>
+      nodes.every((n) =>
+        n.getAnimations().some((a) => a.playState === 'running'),
       ),
-  ).toBe(0);
-  for (const piece of await page.locator('.brand-piece').all())
-    expect(await piece.evaluate((n) => getComputedStyle(n).transform)).toBe(
-      'none',
     );
+  expect(await playing()).toBe(true);
+  await button.focus();
+  await page.keyboard.press('Space');
+  await expect(button).toHaveAttribute('aria-pressed', 'true');
+  await expect(button.locator('.motion-icon-slash')).toBeVisible();
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect(
-    page.getByRole('button', { name: 'Reanudar animaciones', exact: true }),
-  ).toBeEnabled();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(button).toHaveAccessibleName('Reanudar animaciones');
   expect(
     await page
       .locator('[data-motion]')
@@ -264,15 +256,20 @@ test('prioritizes live reduced-motion over manual state and does not repeat entr
           .every((a) => a.playState === 'paused'),
       ),
   ).toBe(true);
-  await page
-    .getByRole('button', { name: 'Reanudar animaciones', exact: true })
-    .click();
+  await page.keyboard.press('Enter');
+  await expect(button).toHaveAttribute('aria-pressed', 'false');
+  expect(await playing()).toBe(true);
   expect(
     await page
       .locator('header .brand-wordmark')
       .evaluate((n) => n.getAnimations({ subtree: true }).length),
   ).toBe(0);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await button.click();
+  await page.reload();
+  await expect(button).toHaveAccessibleName('Pausar animaciones');
+  await expect(button).toHaveAttribute('aria-pressed', 'false');
+  await expect(hero).toHaveAttribute('data-motion-entered', 'true');
+  expect(await playing()).toBe(true);
   expect(
     (
       await new AxeBuilder({ page })

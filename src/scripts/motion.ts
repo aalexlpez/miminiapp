@@ -5,7 +5,6 @@ if (!html.classList.contains('motion-ready')) {
   const controls = [
     ...document.querySelectorAll<HTMLButtonElement>('[data-motion-control]'),
   ];
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let manuallyPaused = false;
   let observer: IntersectionObserver | undefined;
 
@@ -16,30 +15,20 @@ if (!html.classList.contains('motion-ready')) {
   }
 
   function render() {
-    html.dataset.motionReduced = String(reduced.matches);
     html.dataset.motionPaused = String(manuallyPaused || document.hidden);
-    if (reduced.matches)
-      roots.filter((r) => r.dataset.motionSeen).forEach(settle);
     for (const button of controls) {
-      button.disabled = reduced.matches;
       const label =
-        (reduced.matches
-          ? button.dataset.reduced
-          : manuallyPaused
-            ? button.dataset.resume
-            : button.dataset.pause) ?? '';
+        (manuallyPaused ? button.dataset.resume : button.dataset.pause) ?? '';
       button.ariaLabel = label;
       button.title = label;
+      button.setAttribute('aria-pressed', String(manuallyPaused));
       const status = document.getElementById(
         button.getAttribute('aria-describedby') ?? '',
       );
       if (status)
         status.textContent =
-          (reduced.matches
-            ? button.dataset.reduced
-            : manuallyPaused
-              ? button.dataset.paused
-              : button.dataset.running) ?? '';
+          (manuallyPaused ? button.dataset.paused : button.dataset.running) ??
+          '';
     }
   }
 
@@ -50,7 +39,7 @@ if (!html.classList.contains('motion-ready')) {
           const root = target as SVGSVGElement;
           root.dataset.motionVisible = String(isIntersecting);
           if (isIntersecting && !root.dataset.motionSeen) {
-            if (reduced.matches || manuallyPaused) settle(root);
+            if (manuallyPaused) settle(root);
             root.dataset.motionSeen = 'true';
           }
         }
@@ -60,7 +49,7 @@ if (!html.classList.contains('motion-ready')) {
     roots.forEach((root) => observer!.observe(root));
     controls.forEach((button) =>
       button.addEventListener('click', () => {
-        if (!html.classList.contains('motion-ready') || reduced.matches) return;
+        if (!html.classList.contains('motion-ready')) return;
         manuallyPaused = !manuallyPaused;
         render();
       }),
@@ -88,7 +77,6 @@ if (!html.classList.contains('motion-ready')) {
     });
     document.addEventListener('pointerover', (event) => {
       if (
-        reduced.matches ||
         manuallyPaused ||
         document.hidden ||
         event.pointerType === 'touch' ||
@@ -111,7 +99,6 @@ if (!html.classList.contains('motion-ready')) {
       )
         root.dataset.motionHover = 'true';
     });
-    reduced.addEventListener('change', render);
     document.addEventListener('visibilitychange', render);
     window.addEventListener('pageshow', render);
     render();

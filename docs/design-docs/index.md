@@ -1,5 +1,7 @@
 # Decisiones técnicas
 
+**Enmienda aprobada de ADR-MMA-018 — 2026-11-10, propietario:** movimiento decorativo activo en cada carga, incluso con `prefers-reduced-motion: reduce`; solo el icono de movimiento cambia la pausa elegida por el usuario. Icono de ondas con raya al pausar, sin desplegable, pausa en memoria documental. Se conserva suspensión por visibilidad para ahorrar recursos. Esta petición expresa sustituye la prioridad anterior de reduced-motion para SVG decorativos y los criterios asociados de CP-01/CP-02 hacia adelante; las microinteracciones de apariencia siguen respetando reduced-motion. Implementación autorizada dentro de CP-02, sin infraestructura, merge o despliegue.
+
 ## Propósito
 
 Registrar las propuestas y decisiones técnicas duraderas que condicionan el proyecto. Las decisiones sobre el gobierno del template se registran en `docs/harness-decisions.md` y no forman parte de este índice. Los detalles locales o mecánicos cubiertos por decisiones existentes no necesitan registrarse aquí.

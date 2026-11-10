@@ -1,10 +1,16 @@
 # CP-02 — Apariencia clara, oscura y del sistema
 
+## Ajuste autorizado de movimiento — 2026-11-10
+
+Resultado de esta corrección: implementación comprobada con `npm run verify` completo (326 unitarias, 9 componentes, 78 E2E e integración modular); evidencia y limitaciones en `docs/review/motion-default/README.md`. No modifica el estado global En curso de CP-02 ni declara aceptación humana.
+
+El propietario solicita y autoriza que el movimiento decorativo comience siempre activo y solo se pause/reanude mediante su icono, que se sustituye por ondas con raya diagonal al pausar. Esta instrucción modifica expresamente la prioridad anterior de reduced-motion de ADR-MMA-018 para la identidad decorativa; no modifica la reducción de las microinteracciones de apariencia. La pausa continúa en memoria del documento y se reinicia al recargar. Se conserva la suspensión por pestaña oculta y elementos fuera de pantalla como ahorro de recursos, sin cambiar la elección del usuario. Actualización localizada dentro de CP-02; no requiere otro plan. Rama `feature/movimiento-activo` desde staging `9ab71c255af0e91acaeda3af59783787decaedc9` (PR #12 fusionado). Entrega mediante PR en borrador, sin merge ni despliegue.
+
 ## Control
 
 - **Estado:** `En curso`.
 - **Responsable de aprobación, autorización, aceptación y cancelación:** propietario de MiMiniApp.
-- **Creado / última actualización:** 2026-11-09 (Europe/Madrid).
+- **Creado / última actualización:** 2026-11-09 / 2026-11-10 (Europe/Madrid).
 - **Autorización actual:** propietario aprueba ADR-MMA-019 y CP-02 y autoriza expresamente implementación, commits, rama feature independiente y PR en borrador hacia staging, con ajustes vinculantes A/B/C: tarjeta/M original invariable, control por iconos y rotación suave respetando reduced-motion. No merge ni publicación.
 - **Dependencias / bloqueos de inicio:** CP-01 Aceptado en staging f26d97bb, I-01/I-02 Aceptados; I-03 En curso con hito staging Verificado. No depende de aceptar globalmente I-03 ni de activar producción/promoción/rollback. Revalidar fuentes/HEAD remoto antes de ejecutar; la rama local actual 73b8bd2 es anterior a CP-01.
 - **Base de ejecución:** `feature/cp02-apariencia` desde staging `f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f`, revalidado por fetch. Dossier y decisión aprobados con correcciones antes de implementar. Sin bloqueos de aprobación.
