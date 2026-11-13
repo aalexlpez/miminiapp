@@ -17,6 +17,8 @@ export interface DeploymentPolicy {
   repository: string;
   repositoryId: string;
   owner: string;
+  /** Extra GitHub logins allowed to merge and publish staging; never production. */
+  maintainers?: string[];
   cloudflareAccountIdSha256?: string;
   targets: Record<
     Target,
@@ -32,6 +34,35 @@ export interface DeploymentPolicy {
 export function assertTarget(value: unknown): asserts value is Target {
   if (value !== 'staging' && value !== 'production')
     throw new Error('An explicit staging or production target is required.');
+}
+
+const loginPattern = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/;
+
+function validMaintainers(policy: DeploymentPolicy) {
+  const { maintainers } = policy;
+  return (
+    maintainers === undefined ||
+    (Array.isArray(maintainers) &&
+      maintainers.every(
+        (login) => typeof login === 'string' && loginPattern.test(login),
+      ) &&
+      new Set(maintainers).size === maintainers.length &&
+      !maintainers.includes(policy.owner))
+  );
+}
+
+/**
+ * The owner may publish anywhere. A listed maintainer may only merge into and
+ * publish staging: production, promotion and rollback stay owner-only.
+ */
+export function mayPublish(
+  policy: DeploymentPolicy,
+  target: Target,
+  login: unknown,
+): boolean {
+  if (typeof login !== 'string' || login.length === 0) return false;
+  if (login === policy.owner) return true;
+  return target === 'staging' && (policy.maintainers ?? []).includes(login);
 }
 
 export function validatePolicy(
@@ -51,7 +82,8 @@ export function validatePolicy(
       typeof policy.rollbackEnabled !== 'boolean') ||
     policy.repository !== 'aalexlpez/miminiapp' ||
     !/^\d+$/.test(policy.repositoryId ?? '') ||
-    policy.owner !== 'aalexlpez'
+    policy.owner !== 'aalexlpez' ||
+    !validMaintainers(policy)
   )
     throw new Error('Invalid deployment policy.');
   const expected = {
@@ -130,8 +162,8 @@ export function assertPublicationContext(
     environment.GITHUB_REF !== `refs/heads/${policy.targets[target].branch}` ||
     environment.GITHUB_REPOSITORY !== policy.repository ||
     environment.GITHUB_REPOSITORY_ID !== policy.repositoryId ||
-    environment.GITHUB_ACTOR !== policy.owner ||
-    environment.GITHUB_TRIGGERING_ACTOR !== policy.owner ||
+    !mayPublish(policy, target, environment.GITHUB_ACTOR) ||
+    !mayPublish(policy, target, environment.GITHUB_TRIGGERING_ACTOR) ||
     !isCommit(environment.GITHUB_SHA) ||
     !/^[1-9]\d*$/.test(environment.GITHUB_RUN_ID ?? '') ||
     !/^[1-9]\d*$/.test(environment.GITHUB_RUN_ATTEMPT ?? '')
@@ -267,8 +299,8 @@ export function verifyMerge(
     !evidence ||
     evidence.repository !== policy.repository ||
     evidence.repositoryId !== policy.repositoryId ||
-    evidence.actor !== policy.owner ||
-    evidence.triggeringActor !== policy.owner ||
+    !mayPublish(policy, target, evidence.actor) ||
+    !mayPublish(policy, target, evidence.triggeringActor) ||
     evidence.eventName !== 'push' ||
     evidence.eventRef !== `refs/heads/${policy.targets[target].branch}` ||
     !isCommit(evidence.eventSha) ||
@@ -284,7 +316,7 @@ export function verifyMerge(
     !pr?.merged ||
     pr.base !== policy.targets[target].branch ||
     pr.headRepositoryId !== policy.repositoryId ||
-    pr.mergedBy !== policy.owner ||
+    !mayPublish(policy, target, pr.mergedBy) ||
     !isCommit(pr.headSha) ||
     evidence.checks?.quality !== 'success'
   )

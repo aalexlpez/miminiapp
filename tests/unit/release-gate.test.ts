@@ -6,6 +6,8 @@ import {
   publicationFlag,
   assertPromotionAuthorized,
   assertRollbackAuthorized,
+  mayPublish,
+  validatePolicy,
   verifyCandidate,
   verifyMerge,
   type CandidateProof,
@@ -347,5 +349,99 @@ describe('independent staging publication authority', () => {
   it('keeps promotion and rollback separately closed', () => {
     expect(() => assertPromotionAuthorized(policy)).toThrow('not authorized');
     expect(() => assertRollbackAuthorized(policy)).toThrow('not authorized');
+  });
+});
+
+describe('additional staging maintainers', () => {
+  const shared: DeploymentPolicy = { ...policy, maintainers: ['second-dev'] };
+  const stagingMerge: MergeEvidence = {
+    ...merge,
+    eventRef: 'refs/heads/staging',
+    pr: { ...merge.pr, base: 'staging', head: 'feature/tool' },
+    checks: { quality: 'success' },
+  };
+  const environment = {
+    GITHUB_ACTIONS: 'true',
+    GITHUB_EVENT_NAME: 'push',
+    GITHUB_REF: 'refs/heads/staging',
+    GITHUB_REPOSITORY: policy.repository,
+    GITHUB_REPOSITORY_ID: policy.repositoryId,
+    GITHUB_ACTOR: 'second-dev',
+    GITHUB_TRIGGERING_ACTOR: 'second-dev',
+    GITHUB_SHA: sha,
+    GITHUB_RUN_ID: '123',
+    GITHUB_RUN_ATTEMPT: '1',
+  };
+  const byMaintainer: MergeEvidence = {
+    ...stagingMerge,
+    actor: 'second-dev',
+    triggeringActor: 'second-dev',
+    pr: { ...stagingMerge.pr, mergedBy: 'second-dev' },
+  };
+
+  it('keeps the committed policy owner-only until a maintainer is listed', () => {
+    expect(policy.maintainers).toBeUndefined();
+    expect(mayPublish(policy, 'staging', policy.owner)).toBe(true);
+    expect(mayPublish(policy, 'production', policy.owner)).toBe(true);
+    expect(mayPublish(policy, 'staging', 'second-dev')).toBe(false);
+    expect(() => verifyMerge(stagingMerge, policy, 'staging')).not.toThrow();
+    expect(() => verifyMerge(byMaintainer, policy, 'staging')).toThrow();
+    expect(() =>
+      assertPublicationContext(policy, 'staging', environment),
+    ).toThrow('protected-branch push');
+  });
+
+  it('lets a listed maintainer merge and publish staging only', () => {
+    expect(mayPublish(shared, 'staging', 'second-dev')).toBe(true);
+    expect(mayPublish(shared, 'production', 'second-dev')).toBe(false);
+    expect(() => verifyMerge(byMaintainer, shared, 'staging')).not.toThrow();
+    expect(() =>
+      assertPublicationContext(shared, 'staging', environment),
+    ).not.toThrow();
+    expect(() =>
+      assertPublicationContext(shared, 'production', {
+        ...environment,
+        GITHUB_REF: 'refs/heads/main',
+      }),
+    ).toThrow('protected-branch push');
+    expect(() =>
+      verifyMerge(
+        {
+          ...merge,
+          actor: 'second-dev',
+          triggeringActor: 'second-dev',
+          pr: { ...merge.pr, mergedBy: 'second-dev' },
+        },
+        shared,
+        'production',
+      ),
+    ).toThrow();
+  });
+
+  it.each([
+    ['actor', { actor: 'other' }],
+    ['triggering actor', { triggeringActor: 'other' }],
+    ['merger', { pr: { ...byMaintainer.pr, mergedBy: 'other' } }],
+  ])('still rejects an unlisted %s on staging', (_name, change) => {
+    expect(() =>
+      verifyMerge({ ...byMaintainer, ...change }, shared, 'staging'),
+    ).toThrow();
+  });
+
+  it('never treats a missing or empty login as authorized', () => {
+    for (const login of [undefined, null, '', 0, ['second-dev']])
+      expect(mayPublish(shared, 'staging', login)).toBe(false);
+  });
+
+  it.each([
+    ['a non-array', 'second-dev'],
+    ['an invalid login', ['bad login']],
+    ['a non-string entry', [42]],
+    ['a duplicate', ['second-dev', 'second-dev']],
+    ['the owner repeated', ['aalexlpez']],
+  ])('rejects a policy whose maintainers are %s', (_name, maintainers) => {
+    expect(() => validatePolicy({ ...policy, maintainers })).toThrow(
+      'Invalid deployment policy.',
+    );
   });
 });

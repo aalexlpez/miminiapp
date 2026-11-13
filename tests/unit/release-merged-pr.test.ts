@@ -388,3 +388,38 @@ describe('merged pull request lookup with GitHub summary responses', () => {
     expect(fetcher).not.toHaveBeenCalled();
   });
 });
+
+describe('merged pull request by an additional staging maintainer', () => {
+  const second = { login: 'second-dev' };
+  const options = {
+    detail: { ...detail, merged_by: second },
+    environment: {
+      GITHUB_ACTOR: second.login,
+      GITHUB_TRIGGERING_ACTOR: second.login,
+    },
+  };
+
+  it('publishes staging only when the policy lists that maintainer', async () => {
+    await setup(options);
+    const result = await checkMerged(
+      { ...policy, maintainers: [second.login] },
+      'staging',
+    );
+    expect(result.evidence.pr.mergedBy).toBe(second.login);
+    expect(result.evidence.checks.quality).toBe('success');
+  });
+
+  it('rejects the same merge under the committed owner-only policy', async () => {
+    await setup(options);
+    await expect(checkMerged(policy, 'staging')).rejects.toThrow(
+      'Untrusted GitHub execution context.',
+    );
+  });
+
+  it('rejects an actor and merger that the policy does not list', async () => {
+    await setup({ ...options, detail: { ...detail, merged_by: actor } });
+    await expect(
+      checkMerged({ ...policy, maintainers: ['third-dev'] }, 'staging'),
+    ).rejects.toThrow('Untrusted GitHub execution context.');
+  });
+});
