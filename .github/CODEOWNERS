@@ -1,0 +1,4 @@
+# Default reviewer for every change. With a single maintainer this only
+# requests the review; it becomes a requirement once branch protection
+# enables code owner reviews (see CONTRIBUTING.md).
+* @aalexlpez
