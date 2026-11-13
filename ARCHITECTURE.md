@@ -1,95 +1,126 @@
 # Arquitectura actual
 
-Actualización de movimiento autorizada el 2026-11-10 (enmienda ADR-MMA-018): `motion.ts` inicia el movimiento activo en cada documento; el botón de ondas de `MotionControl.astro` alterna pausa/reanudación y muestra raya diagonal al pausar. El sistema operativo ya no bloquea este control ni los SVG decorativos. La suspensión por visibilidad sigue siendo automática y temporal; no altera la pausa manual. Las microinteracciones de apariencia mantienen reduced-motion. Esta actualización sustituye las descripciones históricas de prioridad reduced-motion que aparecen más abajo.
+**Actualizado:** 2026-11-13.
 
-**Actualizado:** 2026-11-08. **I-01:** Aceptado y archivado por el propietario. **I-02:** Aceptado expresamente por el propietario el 2026-11-05 y archivado, tras aprobación del plan/ADR-MMA-011/016/017 y autorización expresa de ejecución.
+Este documento describe lo que existe hoy en la rama `staging`. Las decisiones que lo justifican están en el [registro técnico](docs/design-docs/index.md); lo que todavía es intención, en la [arquitectura objetivo](docs/design-docs/architecture-target.md); la historia, en los [planes de ejecución](docs/exec-plans/). Si este documento y el código difieren, es un error que hay que corregir.
 
-La base se mantiene en Astro 7.4.5 estático, React/DOM 19.3.1 cuando procede interacción, TypeScript 6.0.3 strict y Tailwind 4.3.4. Node 24.22.2, npm 11.19.1 y dependencias directas exactas con un único lockfile. I-02 no incorpora dependencias visuales o servicios externos.
+## Resumen
 
-## Componentes implementados
+Sitio estático generado con Astro 7. No hay servidor de aplicación, base de datos, API externa, analítica ni cuentas. El build produce HTML, CSS, fuentes y SVG; el único JavaScript que cargan las páginas es inline: un inicializador de apariencia y un módulo que coordina apariencia y movimiento decorativo.
 
-* `src/layouts/SiteLayout.astro`: documento HTML por idioma, título/descripción, salto al contenido, cabecera y pie comunes. No necesita hidratación React para navegar.
-* `src/components/Home.astro`: hero y catálogo, con el mismo shell para cero o varias entradas. `EmptyCatalogue.astro` resuelve cero; `CatalogueCard.astro` presenta los metadatos recibidos cuando existen entradas publicadas.
-* `SiteHeader.astro`, `SiteFooter.astro`, `BrandMark.astro` y `LaboratoryArt.astro`: navegación visible, selector ES/EN y gráficos locales de la segunda composición aprobada.
-* `src/i18n/common/{es,en}.ts`: textos de plataforma separados de futuras traducciones de miniapps. `src/i18n/validation.ts` valida claves y texto obligatorio al importar los diccionarios durante prerender.
-* `src/styles/global.css`: Tailwind mediante `@tailwindcss/vite`, tokens de Laboratorio creativo moderno, reflujo mobile-first, foco y estados comunes.
-* `public/fonts/`: Space Grotesk y DM Sans variables autoalojadas en TTF, con sus avisos SIL OFL 1.1. No hay CDN de fuentes; no se añade una dependencia para convertirlas a WOFF2.
-* `src/components/EnvironmentFixture.tsx` y `src/lib/validation.ts`: fixture técnica de I-01 y lógica pura conservadas para regresiones. No constituyen una miniapp pública.
-* `src/lib/miniapp-registry.ts`: contrato discriminado, validación en runtime, proyección de metadatos publicados, tabla de rutas y resolución por id. `src/miniapps/registry.ts` contiene el registro público explícito vacío.
-* `src/lib/locales.ts`: locales admitidos, español predeterminado y constructores de enlaces equivalentes. `src/pages/[locale]/index.astro`, `src/pages/[locale]/apps/[slug].astro`, `src/pages/index.astro` y `src/pages/404.astro` conectan esos contratos con la generación estática.
+| Pieza | Tecnología |
+| --- | --- |
+| Generación | Astro 7.4.5, salida `static` |
+| Lenguaje | TypeScript 6.0.3 estricto |
+| Interacción de miniapps | React 19.3.1, hidratado solo donde una herramienta lo necesite |
+| Estilos | Tailwind 4.3.4 mediante `@tailwindcss/vite` |
+| Pruebas | Vitest, React Testing Library, Playwright con axe |
+| Alojamiento | Cloudflare Workers Static Assets |
+| Entrega | GitHub Actions |
+| Runtime | Node 24 (referencia 24.22.2) y npm 11, dependencias exactas y un solo lockfile |
 
-El [informe I-02](docs/i02-execution-report.md) registra pruebas y capturas reales. El build público contiene once archivos: cuatro HTML (`/`, ES, EN y 404), un CSS, un recurso genérico de integración React y cinco archivos de fuentes/avisos/documentación. Las portadas no solicitan ese JavaScript ni hidratan una isla; no hay miniapps públicas.
+## Mapa del código
 
-## Contrato modular y rutas de I-02
+```text
+src/
+  pages/          Rutas: raíz, [locale]/, [locale]/apps/[slug] y 404
+  layouts/        SiteLayout: documento HTML, cabecera y pie comunes
+  components/     Portada, catálogo, marca, apariencia y movimiento
+  miniapps/       registry.ts y, en el futuro, una carpeta por herramienta
+  lib/            Contrato del registro, locales y rutas
+  i18n/           Textos de plataforma ES/EN y validación de paridad
+  scripts/        Módulos de navegador: apariencia y movimiento
+  styles/         global.css, appearance.css y motion.css
+public/           Fuentes WOFF2, marca, favicon y _redirects
+scripts/release/  Gate, empaquetado y publicación usados por Actions
+deploy/           Configuración de Cloudflare y plantillas de ajustes de GitHub
+tests/            unit, components, e2e, integration, remote y visual
+```
 
-El contrato implementado separa descriptor puro (`id`, `slug`, estado y metadatos ES/EN) de la inscripción publicada con `loadEntry`, importación perezosa literal de `entry.astro`. Un borrador no admite loader. El catálogo consume únicamente la proyección de metadatos publicados. El registro público permanece vacío porque no se ha aprobado una miniapp real.
+## Rutas e idiomas
 
-La portada genérica genera `/es/` y `/en/`. La ruta `pages/[locale]/apps/[slug].astro` genera únicamente publicadas × idiomas y transmite un identificador simple a la fase de render; resuelve el adaptador Astro durante prerender. Cada futura miniapp podrá separar metadatos, adaptador, UI React si procede, dominio puro, traducciones y pruebas dentro de su carpeta, sin editar rutas comunes, layouts u otras herramientas.
+`src/lib/locales.ts` define los dos idiomas, `es` y `en`, con español por defecto. Las páginas se generan en build:
 
-`/` usa HTML estático con meta refresh inmediato y enlace a `/es/`; su respuesta local es HTTP 200, no un 301 del servidor. Las rutas/locales/slugs desconocidos devuelven un 404 real en el preview comprobado y recuperación bilingüe mediante `404.html`. La política HTTP y normalización definitivas del alojamiento se comprobarán en I-03, sin configuración de Cloudflare en I-02. No se inventan canónicas ni `hreflang` absolutos sin un origen público aprobado.
+* `/es/` y `/en/`: portada con catálogo.
+* `/es/apps/<slug>/` y `/en/apps/<slug>/`: una página por miniapp publicada e idioma.
+* `/`: redirige a `/es/`. En Cloudflare es un 301 definido en `public/_redirects`; en el preview local es una página con meta refresh.
+* Cualquier otra ruta devuelve un 404 real con recuperación bilingüe.
 
-Las fixtures sintéticas viven en `tests/integration/fixtures/`, con extensión de fuente de prueba `.fixture`, y el harness las materializa en un proyecto temporal que reutiliza los mismos contratos, rutas y layouts. El ensayo A+D → A+B+D pasó: dos y después cuatro rutas ES/EN; registro y carpeta B son el único delta de alta. Fuentes comunes, diccionarios y A conservan hashes; el HTML de A permanece idéntico salvo el `uid` interno de Astro derivado de la raíz temporal, normalizado solo en la comparación y conservando los hashes originales. Los once archivos del build público excluyen ids, marcas, rutas, HTML, assets y chunks sintéticos o de borrador. No hay una bandera para habilitarlas en el catálogo público.
+Los textos de plataforma viven en `src/i18n/common/`. `validateTranslationParity` se ejecuta al importarlos: si a un idioma le falta una clave o tiene un texto vacío, el build falla. No hay todavía URLs canónicas, `hreflang` ni sitemap.
 
-## Verificación y límites
+## Registro de miniapps
 
-Vitest conserva la cobertura técnica de I-01 y añade contratos de catálogo/idiomas; Playwright cubre la interfaz ES/EN, rutas, navegación, responsive y axe con Chromium 156.0.8078.4 / revisión 1248, fijado por Playwright 1.64.1. La validación incremental final pasa con 59 unitarias (14 de I-01, 32 del registro, 13 de i18n), 9 componentes y 26 E2E, incluidos 6 casos axe, además de check/lint/formato/build e integración aislada. El harness descubre 2→4 pruebas propias de los módulos, rechaza un build con traducción obligatoria vacía y ejecuta regresiones de navegador de I-01 en ambos perfiles y tres estados axe. No se atribuye exit 0 a una repetición completa de `verify`; se conserva el fallo inicial de accesibilidad y la repetición de comprobaciones afectadas.
+`src/lib/miniapp-registry.ts` define el contrato y `src/miniapps/registry.ts` es la lista explícita de herramientas, hoy vacía.
 
-`tests/visual/capture.ts` y `tests/visual/zoom.ts` generan las capturas reales y comprueban el zoom del navegador al 200 %. Se revisaron ES/EN en móvil, tablet y escritorio y ensayos 1080×1920 de la portada y scroll al catálogo. Los estados de una y dos tarjetas tienen doce capturas sintéticas separadas. El propietario revisó personalmente las capturas de escritorio/móvil y aceptó I-02 el 2026-11-05. Las superposiciones concretas de futuras grabaciones se conservan como comprobación editorial posterior, sin reabrir la aceptación.
+* Un **descriptor** es metadato puro: `id`, `slug`, `status` (`draft` o `published`), `category`, `tags` opcionales, `publishedAt` y título y descripción en ambos idiomas. Importarlo nunca carga interfaz.
+* Una entrada **publicada** añade `loadEntry`, que importa de forma perezosa el `entry.astro` de la herramienta. Un borrador no puede tener cargador.
+* `validateRegistry` se ejecuta en build y rechaza ids o slugs duplicados, categorías desconocidas, fechas inválidas, traducciones ausentes y borradores con cargador.
+* El catálogo consume solo los metadatos publicados. Los borradores no generan rutas ni dejan rastro en `dist/`.
 
-La base I-01 aceptada tiene evidencia histórica de 14 unitarias, 9 componentes y 8 E2E/axe, más revisión asistida de teclado/foco y seis capturas. El [informe I-01](docs/i01-execution-report.md), el [plan archivado](docs/exec-plans/completed/I-01-base-local-y-testing.md) y su [guía de continuación](docs/i01-handoff.md) conservan checkpoints, autorización de traslado, cierre y limitaciones.
+La [guía de miniapps](docs/miniapps.md) explica cómo añadir una. `npm run test:integration` demuestra el aislamiento: construye una copia con las herramientas sintéticas de `tests/integration/fixtures/` y comprueba que añadir una segunda no altera la primera ni los archivos comunes.
 
-No hay miniapp real, backend, base de datos, API externa, persistencia de usuario, analítica, CI remoto, Cloudflare ni despliegue. La primera miniapp, licencia general del proyecto, infraestructura, otros motores/dispositivos físicos y decisiones aún propuestas conservan sus pendientes. Se mantiene PEND-007 y el resto de la deuda documentada. El [objetivo de arquitectura](docs/design-docs/architecture-target.md) y los [ADR](docs/design-docs/index.md) conservan la distinción entre implementación local, contrato aprobado y propuestas futuras.
+## Interfaz de plataforma
 
-El propietario autoriza expresamente un commit local de cierre de I-02, sin pushes o despliegues. Solo se prepara el borrador de I-03; no se ejecuta. Su [ExecPlan aceptado y archivado](docs/exec-plans/completed/I-02-catalogo-responsive-e-i18n.md) es la fuente canónica del estado.
+* `SiteLayout.astro` compone el documento, el enlace de salto, `SiteHeader` y `SiteFooter`.
+* `Home.astro` muestra el hero y el catálogo. `EmptyCatalogue.astro` resuelve el caso de cero herramientas y `CatalogueCard.astro` el de una o varias.
+* `BrandInitial`, `BrandMark`, `Wordmark` y `LaboratoryArt` dibujan la identidad con SVG propios.
+* **Apariencia.** `AppearanceInit.astro` resuelve claro, oscuro o sistema antes de la primera pintura a partir de la clave `miminiapp.appearance` de `localStorage`, la única persistencia del sitio. `AppearanceControl.astro` es un botón con popover nativo. Sin JavaScript, el CSS sigue al sistema.
+* **Movimiento.** `motion.css` define el ensamblaje de la marca y los bucles del hero. `scripts/motion.ts` los inicia activos, los pausa con el botón de `MotionControl.astro` y los suspende cuando la página no es visible. La pausa no se guarda.
 
-Las decisiones de alojamiento/operación I-03 aprobaron Editor por Worker y strict nativo de main hasta demostrar y aprobar cualquier sustitución. Las autorizaciones posteriores permitieron preparar la infraestructura y el propietario administró Cloudflare; staging ya está publicado. El resto del alcance sigue pendiente, sin activarse mediante documentación.
+Las páginas de plataforma no hidratan React. `EnvironmentFixture.tsx` y `lib/validation.ts` son la fixture técnica de I-01: se conservan para las regresiones y no forman parte del catálogo.
 
-## Infraestructura I-03: staging verificado
+## Estilos
 
-Staging sirve la web estática de MiMiniApp en https://miminiapp-staging.miminiapp-lab.workers.dev. El propietario creó/administra el Worker y sus credenciales; GitHub Actions publicó el artefacto del merge `e1e3b6596f97b86ba7e2ff3d21aab1ac5e21e0c0` de PR #4. El [intento 4 del run 42305409224](https://github.com/aalexlpez/miminiapp/actions/runs/42305409224/attempts/4) completó prepare y remote-test; se confirmaron 12 archivos y 30 pruebas remotas. El [informe](docs/i03-staging-preparation-report.md) delimita evidencia y pendientes. I-03 sigue En curso; solo el hito staging está Verificado.
+`global.css` importa Tailwind y declara los tokens de diseño en `@theme`. Los componentes de plataforma usan clases semánticas definidas en `@layer components`, repartidas entre `global.css`, `appearance.css` y `motion.css`. La convención para código nuevo está en [FRONTEND.md](docs/FRONTEND.md#convención-de-estilos).
 
-`.github/workflows/ci.yml` verifica los PR a staging/main sin secretos Cloudflare. `staging.yml` exige push a la rama staging, repositorio y autorización específica; prepara y publica el artefacto probado, con Environment staging, bloqueo compartido, probe y revalidación. `production.yml` y `rollback.yml` conservan if:false; promotion falla explícitamente hasta otra autorización. La política permite solo staging: no se altera ningún mecanismo en esta actualización documental.
+Space Grotesk y DM Sans se sirven desde `public/fonts/` en WOFF2 variable, sin CDN. Su procedencia y licencia están en [public/fonts/README.md](public/fonts/README.md).
 
-`scripts/release/github.ts` confirma el PR fusionado mediante resumen y detalle; `pr-ci.ts` verifica identidad persistente por run-name/display_title, workflow fijado en head y merge, metadatos API y último intento/job quality. La persistencia posterior al merge ya se comprobó. El [contrato](docs/i03-pr-ci-identity.md) conserva el modelo de confianza y mantenimiento. Empaquetado, manifiesto, hashes, artefactos inmutables y recibo vinculan el contenido probado con lo servido.
+## Entrega
 
-`deploy/cloudflare/` contiene configuraciones de Static Assets sin SSR o backend. La de staging está publicada; la de producción permanece preparada y sin activación. El sitio conserva las rutas ES/EN, raíz 301, normalización de barras y 404 reales verificadas por las pruebas remotas. El preview local de Astro mantiene su comportamiento200 en la raíz. Los borradores/fixtures siguen excluidos del build público.
+```text
+feature/* ── PR ──> staging ── Actions ──> Worker miminiapp-staging
+                       │
+                       └── PR de promoción ──> main ── Actions ──> Worker miminiapp
+                           (bloqueado)                 (bloqueado)
+```
 
-El propietario administra token/Account ID en GitHub Environment staging; Codex no requiere conectividad o credenciales Cloudflare. El probe acreditó lectura de staging y 403 del otro Worker, sin ensayo de escritura. Producción, promoción, rollback, aislamiento de escritura y aceptación global siguen pendientes. Se conservan main strict=true, master predeterminada y límites administrativos de Fase A; este documento no modifica su configuración.
+| Workflow | Disparador | Estado |
+| --- | --- | --- |
+| `ci.yml` | PR a `staging` o `main` | Activo. Ejecuta `npm run verify` sin secretos. |
+| `staging.yml` | Push a `staging` | Activo. Verifica, empaqueta, publica y prueba el sitio desplegado. |
+| `promotion.yml` | PR a `main` | Falla siempre, a propósito, hasta que se autorice la promoción. |
+| `production.yml` | Push a `main` | Desactivado con `if: false`. |
+| `rollback.yml` | Manual | Desactivado. |
 
-El [informe de Fase A](docs/i03-phase-a-report.md) es histórico. La [guía operativa vigente](docs/i03-operations.md) describe feature → PR → CI → merge manual → Actions → Cloudflare → pruebas remotas, sin despliegues manuales semanales o ampliación de arquitectura.
+`scripts/release/` contiene la lógica que deciden los workflows:
 
+* `gate.ts` valida `.github/deployment-policy.json` y decide quién puede publicar. El propietario puede hacerlo en cualquier destino; las cuentas listadas en `maintainers` solo en staging.
+* `github.ts` y `pr-ci.ts` comprueban contra la API de GitHub que el push procede de un PR realmente fusionado y que su CI pasó. `ci.yml` está fijado por hash: cambiarlo exige actualizar `CI_WORKFLOW_BLOB_SHA`.
+* `manifest.ts` empaqueta `dist/` con hashes. Lo que se publica es exactamente el artefacto probado, sin reconstruirlo.
+* `cloudflare.ts` comprueba el acceso y publica con Wrangler.
 
-## CP-01 — Identidad estática en rama de trabajo
+Las credenciales de Cloudflare están en el Environment `staging` de GitHub y solo las reciben los pasos de publicación. `deploy/cloudflare/` describe los dos Workers como recursos estáticos sin script; `npm run validate:hosting` lo comprueba sin conectarse. Los JSON de `deploy/github/` son plantillas de los ajustes deseados del repositorio, no la configuración real.
 
-ADR-MMA-018 y CP-01 están aprobados formalmente por el propietario el 2026-11-08. Solo Iteración 1 está autorizada: identidad estática implementada en `feature/cp01-identidad-visual`, aceptada visualmente por el propietario el 2026-11-08 y pendiente de merge autorizado. Esta descripción de la rama no afirma que el staging publicado ya sirva la nueva marca.
+La operación diaria está en la [guía de staging](docs/i03-operations.md).
 
-`BrandInitial.astro` comparte las cuatro piezas SVG seleccionadas entre `Wordmark.astro` (contornos compactos exactos), `BrandMark.astro` (isotipo) y el centro de `LaboratoryArt.astro`. Cabecera y pie componen un solo nombre accesible MiMiniApp, sin M duplicada. El estado vacío usa el mismo isotipo conservando su estructura. `public/brand/` distribuye seis SVG seleccionados y `public/favicon.svg` sustituye el favicon vacío en layout/raíz. La editorial es un recurso de marca, sin selector de producto.
+## Pruebas
 
-La entrega estática de Iteración 1 conservaba HTML sin scripts/islas React ni runtime de movimiento; su evolución autorizada se describe después. Fuentes, tokens, navegación, rutas, registro y exclusión de fixtures/borradores se mantienen. El build ordinario tiene 19 archivos: los 12 anteriores más seis recursos de marca y favicon; ninguna referencia de docs, captura o prototipo se publica. El [informe CP-01](docs/cp01-execution-report.md) registra 314 unitarias, 9 componentes, 36 E2E/axe, integración modular, capturas ES/EN y zoom real al 200 %.
+| Carpeta | Herramienta | Cubre |
+| --- | --- | --- |
+| `tests/unit/` | Vitest (Node) | Registro, rutas, traducciones, apariencia y controles de publicación |
+| `tests/components/` | Vitest (jsdom) | Componentes React |
+| `tests/e2e/` | Playwright | Portada, catálogo, idiomas, 404, teclado, apariencia, movimiento y axe |
+| `tests/integration/` | Node y Playwright | Alta aislada de miniapps sintéticas |
+| `tests/remote/` | Playwright | El sitio desplegado; solo lo ejecuta Actions |
+| `tests/visual/` | Playwright | Capturas para revisión; no forman parte de `verify` |
 
-Ensamblaje, hover, ambiente B y flotación de la tarjeta central, coordinador mínimo y pausa están aprobados como contrato futuro; su ejecución fue autorizada posteriormente para Iteración 2. No se han cambiado workflows, infraestructura, credenciales, protecciones o configuración de despliegue. CP-01 queda Aceptado tras completar sus dos hitos y sus condiciones humanas; Iteración 1 queda Aceptada visualmente y el propietario autoriza posteriormente Iteración 2, cuyo resultado acepta después expresamente el 2026-11-08.
+Cada miniapp guarda sus propias pruebas en `src/miniapps/<slug>/tests/`: Vitest recoge los `*.test.ts(x)` y Playwright los `*.spec.ts`.
 
+El navegador de pruebas es el Chromium que fija Playwright 1.64.1, en perfiles de escritorio y de móvil emulado. No se han probado Firefox, WebKit ni dispositivos físicos.
 
-## CP-01 — Sistema de animaciones en la rama de trabajo
+## Límites conocidos
 
-Iteración 2 autorizada expresamente el 2026-11-08 tras aceptar el hito estático. `src/styles/motion.css` conserva geometrías y ritmos de las cuatro piezas y compone capas de entrada/ambiente. Hero B tiene sus seis bucles y flotación moderada de tarjeta/M. `src/scripts/motion.ts` coordina arranque, hover, pausa en memoria documental, reduced-motion y visibilidad; Astro lo integra inline (sin descargas de scripts externos o React). `Home.astro` reserva el espacio del botón ES/EN y no lo ofrece como operativo sin inicialización. La identidad final completa es el estado base de SSR/CSS.
-
-Las E2E comparan CSS/WAAPI y estados de pausa/fallback. El capturador `tests/visual/cp01-motion.ts` conserva la evidencia de Iteración 1 y añade grabaciones reales y `native-visibility.ts`: Chromium fijado con CDP sin emulaciones de foco, ventana privada, eventos nativos y BFCache. No son dependencias o código del producto. Presupuesto observado: 872 bytes gzip de JS y 1226 de CSS adicional; CLS 0 en las muestras. Batería local: 314 unitarias, 9 componentes, 52 E2E e integración modular.
-
-El build conserva 19 archivos; la lógica mínima está inline y no añade un bundle externo solicitado por la portada. Registro, rutas, dependencias y workflows no cambian; tampoco el staging publicado, la infraestructura o la rama predeterminada. La aceptación visual de intensidad/fidelidad de Iteración 2 y el merge/publicación no se sustituyen por las pruebas. Véase el [informe completo](docs/cp01-execution-report.md).
-
-Estado de CP-01: Aceptado y archivado, tras CI final 779b88b satisfactorio (run42519701947) y aceptación expresa del resultado animado por el propietario el 2026-11-08. El último check del PR #6 corresponde al cierre documental. No se afirma despliegue del candidato.
-
-## CP-02 — Apariencia en la rama feature (2026-11-09)
-
-ADR-MMA-019 y CP-02 aprobados y ejecución autorizada por el propietario, incluidos sus ajustes de tarjeta original, iconos y rotación. `AppearanceInit.astro` resuelve antes de la primera pintura una única clave `miminiapp.appearance`; `appearance.ts` mantiene light/dark/system, cambios del dispositivo, sincronización entre pestañas, pageshow y fallback en memoria ante almacenamiento bloqueado. `AppearanceControl.astro` muestra un botón con el icono activo; al pulsarlo abre un popover nativo anclado por CSS con tres opciones sol/luna/dispositivo. Nombres comunes ES/EN, aria-pressed y marca visible identifican la selección en el panel; seleccionar cierra y devuelve foco. Giro de 240 ms solo al elegir, cancelado con reduced-motion.
-
-`appearance.css` define la paleta nocturna y fallback del sistema sin JS, además del control responsive. No hay nuevo provider, dependencia ni hidratación React. El layout incluye un inicializador inline y un único módulo inline combinado de apariencia/movimiento; la raíz conserva redirección y cero scripts. El favicon sigue al dispositivo con CSS interno, pudiendo diferir de la elección explícita de la página.
-
-La tarjeta central del hero conserva siempre fondo #F7F5F0, borde #242136 y M #7950F2 de CP-01 mediante tokens invariantes. Los otros colores SVG consumen variables semánticas. No se alteran nodos, geometría, keyframes, coordinador ni estados de pausa del movimiento. La única excepción nueva de persistencia es apariencia; pausa y otros estados siguen efímeros. Esta implementación es local/en PR, sin nueva publicación. [Informe y límites](docs/cp02-execution-report.md).
-
-
-Actualización aprobada por el propietario, 2026-11-09: sustituir los tres iconos siempre visibles por **un solo icono activo** en un botón de 48×48 px sin marco. Al pulsarlo, popover nativo compacto con las tres opciones por iconos; selección cierra y devuelve foco, Escape/clic exterior cierran. El botón comunica nombre del modo y expansión en ES/EN. Giro de 240 ms en el icono del botón tras elegir, salvo reduced-motion. Se elimina la fila móvil extra que requería el grupo grande. El resto del contrato de CP-02 permanece vigente. Cambio solicitado y autorizado expresamente dentro de CP-02/PR #7.
-
-
-Ajuste autorizado por el propietario (2026-11-09): mover la pausa del hero a un solo icono de animaciones en la cabecera, junto a apariencia. Pulsación directa, sin desplegable; el mismo icono muestra una raya diagonal al pausar o con reduced-motion. Se conservan ciclo de vida, prioridad de reducción de movimiento, pausa en memoria, nombres/estado ES/EN y dianas de 48 px. ES / EN se compacta con texto de 13 px, separación y padding reducidos, preservando foco, enlaces equivalentes y áreas pulsables. Rama `feature/cp02-controles-cabecera` desde staging vigente, después del PR #11 fusionado por el propietario.
+* Producción, promoción y rollback no se han ejecutado nunca.
+* El aislamiento de escritura entre los dos Workers no está probado; solo el de lectura.
+* La rama por defecto de GitHub es `master`, que no participa en la entrega.
+* El resto de pendientes está en el [registro de deuda](docs/exec-plans/tech-debt-tracker.md).
