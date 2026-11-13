@@ -180,3 +180,21 @@ Revisión visual solicitada y autorizada por el propietario (2026-11-09): elimin
 
 
 Ajuste autorizado por el propietario (2026-11-09): mover la pausa del hero a un solo icono de animaciones en la cabecera, junto a apariencia. Pulsación directa, sin desplegable; el mismo icono muestra una raya diagonal al pausar o con reduced-motion. Se conservan ciclo de vida, prioridad de reducción de movimiento, pausa en memoria, nombres/estado ES/EN y dianas de 48 px. ES / EN se compacta con texto de 13 px, separación y padding reducidos, preservando foco, enlaces equivalentes y áreas pulsables. Rama `feature/cp02-controles-cabecera` desde staging vigente, después del PR #11 fusionado por el propietario.
+
+## Enmiendas propuestas el 2026-11-13 — MT-01
+
+**Estado:** `Propuesta`. El 2026-11-13, tras una auditoría del repositorio, el propietario indica «haz todas las mejoras que encontraste». Esa instrucción autoriza a preparar e implementar estos cambios en una rama; el detalle de cada enmienda lo concretó el agente después y el propietario aún no lo ha revisado. Las decisiones de la tabla del registro conservan su estado y su texto. Cada enmienda pasa a `Aprobada` cuando el propietario lo indique expresamente al revisar el [ExecPlan MT-01](../exec-plans/active/MT-01-mantenimiento-y-colaboracion.md); puede aceptarlas todas, algunas o pedir cambios.
+
+Ninguna incorpora tecnología, dependencia o servicio nuevos.
+
+| Decisión | Antes | Propuesta implementada en la rama | Motivo |
+| --- | --- | --- | --- |
+| ADR-MMA-015 | `engines` exigía exactamente Node 24.22.2 y npm 11.19.1. | `engines` acepta Node `>=24.22.1 <25` y npm `>=11.19.1 <12`. `.node-version` y los workflows siguen fijando 24.22.2 como referencia. | `npm ci` fallaba con `EBADENGINE` en cualquier máquina con otro parche de Node 24, incluido el 24.22.1 del entorno cloud. La reproducibilidad la dan el lockfile y CI, no el parche del runtime local. |
+| ADR-MMA-009 | El gate exigía que el propietario fuera actor, actor desencadenante y autor del merge. | `.github/deployment-policy.json` admite una lista opcional `maintainers`. Esas cuentas podrían fusionar y publicar en staging. Producción, promoción y rollback siguen siendo solo del propietario. La lista no se ha añadido a la política: hoy nadie más está autorizado. | El flujo de un solo desarrollador impide que el merge de otra persona se publique. Con la enmienda, añadir a alguien es un PR de una línea que revisa el propietario. |
+| ADR-MMA-011 | El descriptor tenía `id`, `slug`, `status` y `copy`. Playwright solo buscaba pruebas en `tests/e2e`. | El descriptor añade `category`, `tags` opcionales y `publishedAt`, obligatoria al publicar. Playwright recoge también `src/miniapps/*/tests/**/*.spec.ts`. | Categoría, etiquetas y fecha estaban previstas en la arquitectura objetivo y son más baratas de exigir antes de la primera miniapp. La interfaz del catálogo no las usa todavía. Cada herramienta guarda todas sus pruebas en su carpeta. |
+| ADR-MMA-003 | Sin convención escrita de estilos. | [Convención de estilos](../FRONTEND.md#convención-de-estilos): tokens en `@theme`, clases semánticas para la plataforma y estilos de cada miniapp dentro de su carpeta. | Evitar que los tres CSS globales se conviertan en foco de conflictos entre ramas y que una herramienta ignore el modo oscuro. |
+| ADR-MMA-017 | Fuentes TTF autoalojadas, 376840 bytes. | Las mismas fuentes en WOFF2, 138076 bytes, reempaquetadas sin pérdida. Detalle en [public/fonts/README.md](../../public/fonts/README.md). | Era la opción preferida desde I-02 y solo faltaba la herramienta. La conversión se hizo una vez, fuera del repositorio, sin añadir dependencias. |
+
+Las categorías propuestas (`calculator`, `productivity`, `everyday`, `science`, `game`, `experience`) proceden de los tipos de herramienta de la [definición del producto](../product-specs/index.md#propósito). Es una elección de producto que corresponde al propietario: puede cambiarlas antes de publicar la primera miniapp sin coste de migración.
+
+Quedan fuera de estas enmiendas y necesitan decisión propia: licencia (ADR-MMA-010), actualización automática de dependencias y rama por defecto. Véase [PEND-009](../exec-plans/tech-debt-tracker.md#pend-009--pasos-y-decisiones-del-propietario-tras-mt-01).

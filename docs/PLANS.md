@@ -25,13 +25,15 @@ El número de archivos o líneas modificadas no determina por sí solo la necesi
 
 **Vigencia:** adaptación documental H-002 aprobada expresamente por el propietario de MiMiniApp el 2026-11-04 para esta instancia. Se conservan H-001, la autoridad humana y las reglas y transiciones heredadas del resto de este documento. Su adopción no tiene efectos retroactivos.
 
+**Propuesta H-003, pendiente de ratificación:** las dos frases de este documento que citan H-003 (iteraciones en paralelo y registro de aprobaciones en GitHub) se prepararon el 2026-11-13 por instrucción del propietario y rigen solo desde que él las ratifique. Hasta entonces se aplica la regla anterior: se recomienda una sola iteración de implementación a la vez, no se comienza la siguiente hasta aceptar la anterior, y la indicación humana se registra en el plan con fecha y actor.
+
 Esta instancia organiza el trabajo en iteraciones pequeñas y secuenciales, con un resultado observable coherente por ExecPlan. El [roadmap](roadmap.md) orienta; no autoriza ejecución ni sustituye el estado de cada plan. La adaptación documental se registra en [H-002](harness-decisions.md#h-002--adaptación-documental-de-la-instancia-miminiapp).
 
 Cada iteración explicita dependencias, alcance y exclusiones, criterios de aceptación, verificaciones y evidencia. Si el resultado no puede abordarse en una sesión o secuencia corta razonable, debe dividirse antes de autorizarlo. Añade riesgos y rollback cuando afecte a datos, despliegues u operaciones con efectos persistentes.
 
 Las iteraciones de producto incluyen las pruebas automatizadas que deban crearse o actualizarse; una iteración exclusivamente documental puede verificarse mediante revisión de coherencia y enlaces, sin inventar pruebas de aplicación. Los comandos que todavía no existen se identifican como objetivos futuros.
 
-Se recomienda mantener una sola iteración de implementación autorizada o en curso a la vez. Pueden prepararse borradores futuros sin ejecutarlos. Al terminar, registra `Verificado` solo si se cumplen las condiciones canónicas y entrega la evidencia para aceptación humana. No comiences la siguiente iteración hasta que la anterior haya sido aceptada por el responsable; además, la siguiente requiere su propia aprobación y autorización. Si la anterior se cancela, el responsable debe revisar expresamente las dependencias y el alcance antes de autorizar cualquier continuación. Las correcciones locales dentro de la iteración siguen los criterios existentes y no necesitan planes redundantes.
+Varias iteraciones pueden estar autorizadas o en curso a la vez si son independientes y cada una tiene su propio plan y responsable ([H-003](harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos)). Dos iteraciones que modifican el mismo contrato, subsistema o decisión se ordenan o se coordinan antes de empezar. Pueden prepararse borradores futuros sin ejecutarlos. Al terminar, registra `Verificado` solo si se cumplen las condiciones canónicas y entrega la evidencia para aceptación humana. No comiences una iteración mientras dependa de otra que el responsable no haya aceptado; cada una requiere además su propia aprobación y autorización. Si la anterior se cancela, el responsable debe revisar expresamente las dependencias y el alcance antes de autorizar cualquier continuación. Las correcciones locales dentro de la iteración siguen los criterios existentes y no necesitan planes redundantes.
 
 ## Contenido de un plan
 
@@ -68,7 +70,7 @@ Todo ExecPlan debe mostrar un único estado actual entre los siguientes:
 
 El agente puede crear y modificar borradores, registrar el avance a `En curso` o `Verificado` cuando exista evidencia y reflejar los retornos de estado definidos más adelante. Solo el responsable identificado en el ExecPlan puede aprobarlo, autorizar su ejecución, aceptar el resultado o cancelarlo; el agente puede reflejar esos cambios de estado después de recibir una indicación explícita.
 
-La indicación humana puede originarse en una conversación, issue u otro canal, pero debe reflejarse en el ExecPlan con fecha y actor. El campo de estado actual del ExecPlan es la fuente canónica. No es necesario copiar la conversación ni crear un commit específico para que la transición sea válida.
+La indicación humana puede originarse en una conversación, issue u otro canal, pero debe reflejarse en el ExecPlan con fecha y actor. Cuando el proyecto tenga más de un mantenedor, esa indicación debe constar en GitHub, como revisión o comentario del responsable en el PR que registra la transición, y el plan enlaza ese PR ([H-003](harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos)). El campo de estado actual del ExecPlan es la fuente canónica. No es necesario copiar la conversación ni crear un commit específico para que la transición sea válida.
 
 La presencia de un archivo en `docs/exec-plans/active/` no implica que esté aprobado o autorizado. La aprobación tampoco implica autorización. Si aparece una decisión técnica nueva o un cambio de alcance durante la ejecución, debe solicitarse aprobación antes de continuar por ese camino.
 
