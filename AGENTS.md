@@ -17,6 +17,8 @@ La adaptación documental H-002 está `Aprobada` para esta instancia por indicac
 * `docs/exec-plans/_template.md`: estructura mínima para crear un ExecPlan sin duplicar sus reglas.
 * `docs/exec-plans/active/`: planes que todavía no han alcanzado un estado terminal.
 * `docs/exec-plans/completed/`: planes cerrados como `Aceptado` o `Cancelado`.
+* `CONTRIBUTING.md`: guía práctica de entorno, ramas, PR y evidencias; no sustituye a las fuentes anteriores.
+* `docs/miniapps.md`: procedimiento para añadir una miniapp conforme al contrato aprobado.
 * `docs/`: documentación específica que se consulta y completa solo cuando resulte aplicable.
 
 Cada ExecPlan es la fuente canónica de su propio estado y progreso. Un ExecPlan aplica la definición y las decisiones aprobadas, pero no puede redefinirlas; un cambio material debe actualizar primero la fuente del dominio afectado. `docs/design-docs/index.md` conserva la decisión técnica aprobada y `ARCHITECTURE.md` describe cómo está implementada actualmente. Una diferencia entre ambos es una inconsistencia que debe resolverse, no una autorización implícita para alterar uno de ellos.

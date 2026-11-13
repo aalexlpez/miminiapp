@@ -13,6 +13,7 @@ import { sha256, isCommit, type ReleaseManifest } from './manifest.ts';
 import {
   type CandidateProof,
   type DeploymentPolicy,
+  mayPublish,
   type MergeEvidence,
   type StagingReceipt,
   type Target,
@@ -170,12 +171,16 @@ export class GitHubReader {
   }
 }
 
-export async function githubContext(policy: DeploymentPolicy) {
+/** Without a target the context is owner-only, as promotion and rollback are. */
+export async function githubContext(
+  policy: DeploymentPolicy,
+  target: Target = 'production',
+) {
   if (
     process.env.GITHUB_REPOSITORY !== policy.repository ||
     process.env.GITHUB_REPOSITORY_ID !== policy.repositoryId ||
-    process.env.GITHUB_ACTOR !== policy.owner ||
-    process.env.GITHUB_TRIGGERING_ACTOR !== policy.owner ||
+    !mayPublish(policy, target, process.env.GITHUB_ACTOR) ||
+    !mayPublish(policy, target, process.env.GITHUB_TRIGGERING_ACTOR) ||
     !process.env.GITHUB_EVENT_PATH
   )
     throw new Error('Untrusted GitHub execution context.');
@@ -246,6 +251,8 @@ function trustedRun(
   branch: string,
   sha?: string,
 ) {
+  const runTarget: Target =
+    branch === policy.targets.staging.branch ? 'staging' : 'production';
   if (
     run.path !== path ||
     run.event !== 'push' ||
@@ -253,8 +260,8 @@ function trustedRun(
     (sha && run.head_sha !== sha) ||
     String(run.head_repository?.id) !== policy.repositoryId ||
     run.head_repository.full_name !== policy.repository ||
-    run.actor?.login !== policy.owner ||
-    run.triggering_actor?.login !== policy.owner ||
+    !mayPublish(policy, runTarget, run.actor?.login) ||
+    !mayPublish(policy, runTarget, run.triggering_actor?.login) ||
     run.status !== 'completed' ||
     run.conclusion !== 'success' ||
     !Number.isSafeInteger(run.run_attempt) ||
@@ -434,7 +441,7 @@ export async function checkPromotion(policy: DeploymentPolicy) {
 }
 
 export async function checkMerged(policy: DeploymentPolicy, target: Target) {
-  const { client, event } = await githubContext(policy);
+  const { client, event } = await githubContext(policy, target);
   const sha = process.env.GITHUB_SHA ?? '';
   const branch = policy.targets[target].branch;
   const [commit, currentRef, pulls] = await Promise.all([
