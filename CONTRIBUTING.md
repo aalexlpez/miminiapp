@@ -56,7 +56,7 @@ Un agente de IA no fusiona PR ni publica por iniciativa propia, aunque CI esté 
 | elige o cambia tecnología, dependencias, contratos compartidos, persistencia, seguridad o despliegue | Una decisión aprobada en [docs/design-docs/index.md](docs/design-docs/index.md) antes de implementar. |
 | afecta a varias partes, es arriesgado o difícil de revertir | Un ExecPlan aprobado y autorizado, según [docs/PLANS.md](docs/PLANS.md). |
 | cambia el alcance del producto | Actualizar primero [docs/product-specs/index.md](docs/product-specs/index.md). |
-| añade una miniapp | Su ficha funcional y la [guía de miniapps](docs/miniapps.md). |
+| añade una miniapp | Su ficha funcional y la [guía de miniapps](docs/guides/miniapps.md). |
 
 En caso de duda, pregunta antes de implementar.
 
@@ -95,7 +95,7 @@ No se omiten, desactivan ni debilitan pruebas para conseguir un verde. No hay un
 
 ## Evidencias
 
-La política completa está en [docs/QUALITY_SCORE.md](docs/QUALITY_SCORE.md#política-de-evidencias). En resumen:
+La política completa está en [docs/standards/QUALITY_SCORE.md](docs/standards/QUALITY_SCORE.md#política-de-evidencias). En resumen:
 
 * Los resultados de pruebas se citan por su ejecución de GitHub Actions, no por archivos locales.
 * `.local/` está ignorado por Git: nada de lo que hay ahí es evidencia para otra persona.
