@@ -58,7 +58,7 @@ En el ExecPlan correspondiente registrar ejecución real, resultado, versión/he
 
 ## Política de evidencias
 
-Propuesta el 2026-11-13, preparada por instrucción del propietario y pendiente de su ratificación con [MT-01](exec-plans/active/MT-01-mantenimiento-y-colaboracion.md). Se aplicaría al trabajo nuevo; la evidencia ya versionada de iteraciones anteriores se conserva como está.
+Aprobada por el propietario el 2026-11-15 ([MT-01](exec-plans/completed/MT-01-mantenimiento-y-colaboracion.md)). Se aplica al trabajo nuevo; la evidencia ya versionada de iteraciones anteriores se conserva como está.
 
 **Resultados de pruebas.** La evidencia de que una batería pasó es su ejecución en GitHub Actions: se cita el enlace al run y el commit. Un resultado obtenido solo en local se describe como tal, con comando, versión del runtime y del navegador, y recuentos.
 

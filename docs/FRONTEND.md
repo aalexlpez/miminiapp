@@ -11,7 +11,7 @@ La UI debe explicar brevemente para qué sirve cada herramienta y cómo usarla. 
 
 ## Convención de estilos
 
-Propuesta el 2026-11-13 como concreción de ADR-MMA-003, preparada por instrucción del propietario y pendiente de su ratificación con [MT-01](exec-plans/active/MT-01-mantenimiento-y-colaboracion.md). Describe la práctica ya existente y propone dónde va el código nuevo.
+Aprobada por el propietario el 2026-11-15 como concreción de ADR-MMA-003 ([MT-01](exec-plans/completed/MT-01-mantenimiento-y-colaboracion.md)). Describe la práctica ya existente y fija dónde va el código nuevo.
 
 | Capa | Dónde | Cómo |
 | --- | --- | --- |
