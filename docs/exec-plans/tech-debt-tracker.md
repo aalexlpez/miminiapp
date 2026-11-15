@@ -47,13 +47,12 @@ La base local está implementada y verificada. Los registros siguientes conserva
 
 ## PEND-009 — Pasos y decisiones del propietario tras MT-01
 
-Registrado el 2026-11-13. Son acciones que solo puede hacer el propietario o decisiones que le corresponden; [MT-01](active/MT-01-mantenimiento-y-colaboracion.md) no las ejecuta.
+Registrado el 2026-11-13. Son acciones que solo puede hacer el propietario o decisiones que le corresponden; [MT-01](completed/MT-01-mantenimiento-y-colaboracion.md) no las ejecuta.
 
 | Asunto | Qué falta |
 | --- | --- |
-| Rama por defecto | GitHub sigue usando `master` como rama por defecto. El propietario pidió igualarla con `staging`, pero la sesión no tenía permiso de escritura. Opciones: avanzar `master` hasta `staging` y mantenerlas iguales, o cambiar la rama por defecto a `staging` en los ajustes del repositorio. |
+| Rama por defecto | GitHub sigue usando `master` como rama por defecto. Se igualó con `staging` el 2026-11-13 y el 2026-11-15, pero se queda atrás con cada merge porque CI y la publicación cuelgan de `staging`. Falta decidir: cambiar la rama por defecto a `staging` en los ajustes del repositorio, o seguir igualándola a mano. |
 | Ramas fusionadas | Quedan en el remoto las ramas `feature/*`, `fix/*` y `docs/*` ya fusionadas o cerradas. Borrarlas y activar el borrado automático al fusionar. |
-| Ratificaciones | [H-003](../harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos), las [enmiendas del 2026-11-13](../design-docs/index.md#enmiendas-propuestas-el-2026-11-13--mt-01), la convención de estilos y la política de evidencias están en `Propuesta`. |
 | Licencia | ADR-MMA-010 sigue en `Propuesta`. Sin licencia el repositorio no puede aceptar contribuciones externas. |
 | Dependencias | No hay actualización automática. Activar Dependabot o Renovate es una automatización y requiere aprobación expresa; PEND-007 sigue abierto. |
 | Nombres heredados de I-03 | El disparador `feature/i03*` de `ci.yml`, el prefijo `I03 CI v1` del nombre de ejecución y las variables `I03_*` siguen en uso. Renombrarlos exige cambiar a la vez el hash fijado de `ci.yml`, las variables del repositorio en GitHub y las pruebas; un error detiene la publicación de staging. No se tocan sin un plan propio. |

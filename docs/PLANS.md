@@ -25,7 +25,7 @@ El número de archivos o líneas modificadas no determina por sí solo la necesi
 
 **Vigencia:** adaptación documental H-002 aprobada expresamente por el propietario de MiMiniApp el 2026-11-04 para esta instancia. Se conservan H-001, la autoridad humana y las reglas y transiciones heredadas del resto de este documento. Su adopción no tiene efectos retroactivos.
 
-**Propuesta H-003, pendiente de ratificación:** las dos frases de este documento que citan H-003 (iteraciones en paralelo y registro de aprobaciones en GitHub) se prepararon el 2026-11-13 por instrucción del propietario y rigen solo desde que él las ratifique. Hasta entonces se aplica la regla anterior: se recomienda una sola iteración de implementación a la vez, no se comienza la siguiente hasta aceptar la anterior, y la indicación humana se registra en el plan con fecha y actor.
+**H-003:** las reglas de este documento sobre iteraciones en paralelo y registro de aprobaciones en GitHub fueron aprobadas por el propietario el 2026-11-15 y rigen desde entonces.
 
 Esta instancia organiza el trabajo en iteraciones pequeñas y secuenciales, con un resultado observable coherente por ExecPlan. El [roadmap](roadmap.md) orienta; no autoriza ejecución ni sustituye el estado de cada plan. La adaptación documental se registra en [H-002](harness-decisions.md#h-002--adaptación-documental-de-la-instancia-miminiapp).
 

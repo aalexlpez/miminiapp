@@ -64,7 +64,7 @@ En caso de duda, pregunta antes de implementar.
 
 Cada artefacto nombra a su responsable. Solo esa persona lo aprueba, lo autoriza o acepta su resultado.
 
-Las dos reglas siguientes para más de un mantenedor, y la de iteraciones en paralelo, son la propuesta [H-003](docs/harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos). Rigen desde que el propietario la ratifique.
+Las reglas siguientes proceden de [H-003](docs/harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos), aprobada el 2026-11-15.
 
 * **Con un solo mantenedor**, una indicación expresa suya en cualquier canal es válida. Quien la recibe la registra en el artefacto con fecha y actor.
 * **Con más de un mantenedor**, la aprobación debe quedar en GitHub: una revisión aprobatoria o un comentario del responsable en el PR que cambia el estado del artefacto. El artefacto enlaza ese PR. Una cita transcrita de un chat ya no basta.

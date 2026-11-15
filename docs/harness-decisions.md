@@ -29,15 +29,15 @@ Registrar las decisiones duraderas sobre el gobierno y la evolución de este tem
 
 ### H-003 — Colaboración entre varias personas y documentos vivos
 
-* **Estado:** `Propuesta`. No está en vigor hasta que el propietario la ratifique expresamente.
-* **Origen:** 2026-11-13. El propietario, tras la auditoría del mismo día, indica «haz todas las mejoras que encontraste». Esa instrucción autoriza a preparar este texto; no lo aprueba, porque su redacción concreta es del agente y el propietario todavía no la ha leído.
+* **Estado:** `Aprobada`, para la instancia MiMiniApp, sin modificaciones.
+* **Aprobación:** 2026-11-15, propietario de MiMiniApp, mediante «si, está bien», tras leer el resumen de sus tres reglas. Efectiva desde esa indicación, sin efectos retroactivos.
+* **Origen:** 2026-11-13. Tras la auditoría de ese día, el propietario indica «haz todas las mejoras que encontraste». Esa instrucción autorizó a preparar el texto; la aprobación es la del 2026-11-15.
 * **Responsable de aprobación:** Propietario de MiMiniApp, por rol.
-* **Cómo se ratifica:** indicación expresa del propietario al revisar [MT-01](exec-plans/active/MT-01-mantenimiento-y-colaboracion.md). Entonces se cambia este estado a `Aprobada` con fecha y actor. Puede ratificarla entera, por puntos o con cambios.
 * **Motivo:** H-001 y H-002 se escribieron para una sola persona y un solo agente. Las aprobaciones se registraban como citas de conversación, las iteraciones eran estrictamente secuenciales y los documentos de orientación acumulaban historia hasta contradecirse.
-* **Propuesta:**
+* **Decisión:**
   1. **Registro de aprobaciones.** Con un solo mantenedor, una indicación expresa suya en cualquier canal sigue siendo válida y se registra con fecha y actor. Desde que haya más de un mantenedor, la aprobación, autorización o aceptación debe constar en GitHub, como revisión o comentario del responsable en el PR que cambia el estado del artefacto, y el artefacto enlaza ese PR.
   2. **Iteraciones en paralelo.** Pueden coexistir varias iteraciones autorizadas si son independientes y cada una tiene su plan y su responsable. Una iteración no empieza mientras dependa de otra sin aceptar.
   3. **Documentos vivos.** README, ARCHITECTURE, roadmap y las guías describen el presente y se reescriben cuando cambia. La historia permanece en los ExecPlans y en sus informes, que no se reescriben.
   4. **Agente genérico.** Los documentos vivos hablan de «el agente», no de una herramienta concreta. Los registros históricos conservan el actor real.
 * **Sin cambios:** estados, transiciones y atribuciones humanas de H-001 y H-002. Ningún agente aprueba, fusiona o publica por iniciativa propia.
-* **Texto preparado:** [PLANS.md](PLANS.md#iteraciones-de-miminiapp), [CONTRIBUTING.md](../CONTRIBUTING.md#aprobaciones) y la [plantilla de planes](exec-plans/_template.md) ya contienen la redacción propuesta, señalada como tal. `AGENTS.md` no cambia sus reglas de autoridad.
+* **Aplicación:** [PLANS.md](PLANS.md#iteraciones-de-miminiapp), [CONTRIBUTING.md](../CONTRIBUTING.md#aprobaciones) y la [plantilla de planes](exec-plans/_template.md). `AGENTS.md` no cambia sus reglas de autoridad.
