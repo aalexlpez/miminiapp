@@ -24,7 +24,7 @@ Registrar las decisiones duraderas sobre el gobierno y la evolución de este tem
 * **Adaptación adoptada:** Política compartida en `AGENTS.md`, imports mínimos para Claude Code y Gemini CLI, terminología genérica de agente, ruta explícita sin skills e iteraciones acotadas con aceptación propia. No se cambian los estados ni las atribuciones humanas. No se han instalado herramientas, hooks ni automatizaciones.
 * **Compatibilidad:** Codex ha consultado las fuentes del proyecto en esta sesión. Los imports se revisan documentalmente; Claude Code y Gemini CLI no están disponibles para verificar su carga efectiva. El propietario acepta expresamente esta limitación conocida para I-00 el 2026-11-04 y difiere su comprobación a una iteración posterior, registrada en PEND-002. No se declara compatibilidad efectiva verificada.
 * **Skills:** Aplazadas expresamente por el usuario en [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final). Su integración futura requerirá alcance, revisión y autorización propios.
-* **Aplicación:** [AGENTS.md](../AGENTS.md), [bootstrap](BOOTSTRAP.md), [iteraciones](PLANS.md#iteraciones-de-miminiapp), [plantilla](exec-plans/_template.md) y [auditoría](onboarding-audit.md).
+* **Aplicación:** [AGENTS.md](../AGENTS.md), [bootstrap](BOOTSTRAP.md), [iteraciones](PLANS.md#iteraciones-de-miminiapp), [plantilla](exec-plans/_template.md) y [auditoría](reports/i00/onboarding-audit.md).
 * **Límite:** Solo se modifica `aalexlpez/miminiapp`. No se ha modificado ni aprobado una nueva versión de `aalexlpez/harness-engineering`. El requisito de iteraciones (identificado como ADR-MMA-013 en el dossier) se recoge aquí y en `PLANS.md`, por ser gobierno del trabajo y no arquitectura del producto.
 
 ### H-003 — Colaboración entre varias personas y documentos vivos
@@ -41,3 +41,12 @@ Registrar las decisiones duraderas sobre el gobierno y la evolución de este tem
   4. **Agente genérico.** Los documentos vivos hablan de «el agente», no de una herramienta concreta. Los registros históricos conservan el actor real.
 * **Sin cambios:** estados, transiciones y atribuciones humanas de H-001 y H-002. Ningún agente aprueba, fusiona o publica por iniciativa propia.
 * **Aplicación:** [PLANS.md](PLANS.md#iteraciones-de-miminiapp), [CONTRIBUTING.md](../CONTRIBUTING.md#aprobaciones) y la [plantilla de planes](exec-plans/_template.md). `AGENTS.md` no cambia sus reglas de autoridad.
+
+### H-004 — Organización documental por función
+
+* **Estado:** `Aprobada`, para la instancia MiMiniApp.
+* **Fecha / aprobación:** 2026-11-15, propietario de MiMiniApp, mediante «vamos a aplicar esta mejora», tras revisar la propuesta de estructura, actualización de enlaces y migración MT-02.
+* **Responsable:** propietario de MiMiniApp.
+* **Decisión:** raíz de `docs/` con mapa documental, bootstrap, planificación, decisiones del harness y roadmap. Conservar `product-specs/`, `design-docs/`, `exec-plans/`, `review/` y `references/`; agrupar procedimientos en `guides/`, normas en `standards/` e informes en `reports/<iteración>/`. Actualizar enlaces y consumidores al mover archivos; retirar los dos placeholders vacíos sin uso operativo.
+* **Límite:** no cambia autoridad, estados, criterios de aceptación ni significado de las decisiones previas. Las referencias originales y el parche histórico se conservan íntegros; en informes y planes cerrados solo se reparan enlaces navegables, sin reescribir los hechos ni las rutas literales de su época. La migración no instala herramientas ni activa automatizaciones.
+* **Aplicación:** [mapa documental](README.md), [fuentes canónicas](../AGENTS.md#fuentes-canónicas) y [MT-02](exec-plans/active/MT-02-organizacion-documental.md). Los borradores de Plan B mantienen su estado pendiente.

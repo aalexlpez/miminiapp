@@ -29,7 +29,7 @@ En MiMiniApp las skills se dejan **para el final**, tras estabilizar el flujo: c
 
 No configures simultáneamente otra entrada que duplique la misma política. Si una versión no admite un comando o import, consulta su documentación oficial y registra la incompatibilidad; no supongas equivalencia por tener los archivos.
 
-En cada herramienta comprueba estos escenarios: un plan `Aprobado` no permite instalar el stack; una skill ausente no se crea por iniciativa propia; una API con clave privada exige decisión y autorización; un PR con checks verdes no se fusiona por iniciativa del agente; una aprobación histórica debe reflejarse en la fuente canónica antes de actuar. Registra herramienta, versión, respuesta y limitaciones en la [auditoría](onboarding-audit.md). No marques las pruebas de otros agentes como realizadas si no se ejecutaron.
+En cada herramienta comprueba estos escenarios: un plan `Aprobado` no permite instalar el stack; una skill ausente no se crea por iniciativa propia; una API con clave privada exige decisión y autorización; un PR con checks verdes no se fusiona por iniciativa del agente; una aprobación histórica debe reflejarse en la fuente canónica antes de actuar. Registra herramienta, versión, respuesta y limitaciones en la [auditoría](reports/i00/onboarding-audit.md). No marques las pruebas de otros agentes como realizadas si no se ejecutaron.
 
 ## 2. Definir el proyecto
 
@@ -94,4 +94,4 @@ Cuando el agente no pueda ejecutar, observar o verificar una tarea, identifica l
 
 Promueve una regla documental a una comprobación mecánica solo cuando sea un invariante aprobado y exista evidencia de que la automatización aporta valor. Las tareas recurrentes, revisiones automáticas, controles de arquitectura, publicación y despliegue permanecen desactivados hasta recibir aprobación expresa.
 
-Los Markdown orientan el comportamiento; las restricciones de merge, despliegue y secretos deben respaldarse con permisos mínimos y protecciones reales cuando se autorice la infraestructura. No supongas que esas barreras existen por estar descritas. El estado observado de esta instancia está en la [auditoría](onboarding-audit.md).
+Los Markdown orientan el comportamiento; las restricciones de merge, despliegue y secretos deben respaldarse con permisos mínimos y protecciones reales cuando se autorice la infraestructura. No supongas que esas barreras existen por estar descritas. El estado observado de esta instancia está en la [auditoría](reports/i00/onboarding-audit.md).

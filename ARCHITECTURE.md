@@ -2,7 +2,7 @@
 
 **Actualizado:** 2026-11-13.
 
-Este documento describe lo que existe hoy en la rama `staging`. Las decisiones que lo justifican están en el [registro técnico](docs/design-docs/index.md); lo que todavía es intención, en la [arquitectura objetivo](docs/design-docs/architecture-target.md); la historia, en los [planes de ejecución](docs/exec-plans/). Si este documento y el código difieren, es un error que hay que corregir.
+Este documento describe lo que existe hoy en la rama `staging`. Las decisiones que lo justifican están en el [registro técnico](docs/design-docs/index.md); lo que todavía es intención, en la [arquitectura objetivo](docs/design-docs/architecture-target.md); la historia, en los [planes de ejecución](docs/exec-plans). Si este documento y el código difieren, es un error que hay que corregir.
 
 ## Resumen
 
@@ -57,7 +57,7 @@ Los textos de plataforma viven en `src/i18n/common/`. `validateTranslationParity
 * `validateRegistry` se ejecuta en build y rechaza ids o slugs duplicados, categorías desconocidas, fechas inválidas, traducciones ausentes y borradores con cargador.
 * El catálogo consume solo los metadatos publicados. Los borradores no generan rutas ni dejan rastro en `dist/`.
 
-La [guía de miniapps](docs/miniapps.md) explica cómo añadir una. `npm run test:integration` demuestra el aislamiento: construye una copia con las herramientas sintéticas de `tests/integration/fixtures/` y comprueba que añadir una segunda no altera la primera ni los archivos comunes.
+La [guía de miniapps](docs/guides/miniapps.md) explica cómo añadir una. `npm run test:integration` demuestra el aislamiento: construye una copia con las herramientas sintéticas de `tests/integration/fixtures/` y comprueba que añadir una segunda no altera la primera ni los archivos comunes.
 
 ## Interfaz de plataforma
 
@@ -71,7 +71,7 @@ Las páginas de plataforma no hidratan React. `EnvironmentFixture.tsx` y `lib/va
 
 ## Estilos
 
-`global.css` importa Tailwind y declara los tokens de diseño en `@theme`. Los componentes de plataforma usan clases semánticas definidas en `@layer components`, repartidas entre `global.css`, `appearance.css` y `motion.css`. La convención para código nuevo está en [FRONTEND.md](docs/FRONTEND.md#convención-de-estilos).
+`global.css` importa Tailwind y declara los tokens de diseño en `@theme`. Los componentes de plataforma usan clases semánticas definidas en `@layer components`, repartidas entre `global.css`, `appearance.css` y `motion.css`. La convención para código nuevo está en [FRONTEND.md](docs/standards/FRONTEND.md#convención-de-estilos).
 
 Space Grotesk y DM Sans se sirven desde `public/fonts/` en WOFF2 variable, sin CDN. Su procedencia y licencia están en [public/fonts/README.md](public/fonts/README.md).
 
@@ -101,7 +101,7 @@ feature/* ── PR ──> staging ── Actions ──> Worker miminiapp-stag
 
 Las credenciales de Cloudflare están en el Environment `staging` de GitHub y solo las reciben los pasos de publicación. `deploy/cloudflare/` describe los dos Workers como recursos estáticos sin script; `npm run validate:hosting` lo comprueba sin conectarse. Los JSON de `deploy/github/` son plantillas de los ajustes deseados del repositorio, no la configuración real.
 
-La operación diaria está en la [guía de staging](docs/i03-operations.md).
+La operación diaria está en la [guía de staging](docs/guides/staging.md).
 
 ## Pruebas
 

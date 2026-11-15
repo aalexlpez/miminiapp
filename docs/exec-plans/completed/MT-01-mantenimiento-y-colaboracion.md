@@ -64,7 +64,7 @@ Se respetan todas las decisiones aprobadas. Lo que las modifica se registró com
 
 * [Enmiendas a ADR-MMA-003, 009, 011, 015 y 017](../../design-docs/index.md#enmiendas-del-2026-11-13--mt-01).
 * [H-003](../../harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos).
-* [Convención de estilos](../../FRONTEND.md#convención-de-estilos) y [política de evidencias](../../QUALITY_SCORE.md#política-de-evidencias).
+* [Convención de estilos](../../standards/FRONTEND.md#convención-de-estilos) y [política de evidencias](../../standards/QUALITY_SCORE.md#política-de-evidencias).
 
 ## Cuestiones resueltas por el propietario
 
