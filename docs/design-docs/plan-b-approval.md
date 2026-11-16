@@ -1,17 +1,17 @@
 # Plan B v06 — paquete para revisión del propietario
 
-**Estado:** Bloque C (plan PB-01) `Aprobado` el 2026-11-16 tras revisión solicitada por el propietario. Bloques A/B (producto/decisiones) y D (ejecución) pendientes. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; revisión por iteraciones en `docs/plan-b-iterations`, desde staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`.
+**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D autorizado para I1 el 2026-11-16 mediante la solicitud de comenzar la primera iteración tras el repaso documental. Bloque B (ADR-MMA-020/021) pendiente; I2–I6 no autorizadas. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; ejecución I1 en `feature/pb01-i1-base` desde staging `d3d8386e6077911d84ee85bcc16981177f3d3b1d`.
 
 ## Qué se entrega
 
 * [Ficha funcional v06](../product-specs/plan-b.md): definición autocontenida, textos ES/EN, comportamiento ante errores y doce criterios de aceptación.
 * [ADR-MMA-020/021](plan-b-contracts.md): propuestas de sesión temporal y exportaciones; estados canónicos en el [registro técnico](index.md).
-* Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) aprobado como planificación, sin ejecución autorizada, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
+* Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) aprobado y con I1 en ejecución, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
 * [v05 original](../references/plan-b-v05.md): antecedente aportado, con nota de procedencia. No se da por verificado que su v04 exista en Git.
 
-## Bloque A — definición de producto propuesta
+## Bloque A — definición de producto aprobada
 
-Seleccionar Plan B como primera miniapp real y aprobar la ficha v06, incluidos estos cambios respecto a v05:
+El propietario selecciona Plan B y solicita comenzar I1 conforme a la ficha v06 el 2026-11-16. Se registra esa aprobación del contrato funcional, con estos cambios respecto a v05; las decisiones técnicas del Bloque B conservan su estado independiente:
 
 | Tema | Propuesta concreta | Motivo |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ Seleccionar Plan B como primera miniapp real y aprobar la ficha v06, incluidos e
 | Texto y estado | Trim exterior; límites Unicode; sin reescribir. Cambiar idioma u obstáculo conserva frases; fallos de storage tienen aviso. | Evita pérdida silenciosa y diferencias entre salidas. |
 | PNG | Vertical fijo 1179×2556 en todos los dispositivos, con frase completa y pruebas bajo el reloj. | Evita fondos horizontales desde escritorio y simplifica memoria/layout. |
 | Tamaño | 50 KiB sin comprimir para código JS/CSS propio; informar también total real, incluidos runtimes. | El renderer de React actual por sí solo supera 50 KB sin comprimir y no lo descarga la portada. |
-| Entrega | Primera aceptación en staging; producción y dominio propio separados. | Producción/promoción siguen bloqueadas en la base actual. |
+| Entrega | Primera aceptación en staging; producción y dominio propio separados. | La producción existente se gestiona en otro repositorio; no forma parte de esta entrega. |
 
 Se conservan núcleo, ejemplo, imagen, tres pasos, sello, ES/EN y al menos una vía funcional de calendario en cada móvil. Si Google es la única vía de importación en alguno, se explica que requiere conexión; el archivo `.ics` sigue generándose offline. No se añaden analítica, cuentas, servicios, dependencias ni PWA. Los recortes permitidos siguen el orden acotado de la ficha.
 
@@ -77,7 +77,7 @@ Los bloqueos se localizan dentro del mismo plan: selección/ficha y autorizació
 
 ## Bloque D — autorización de ejecución y alcance operativo
 
-El Bloque C ya está aprobado; A/B mantienen sus decisiones pendientes. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
+Los Bloques A/C están aprobados y se autoriza I1. El Bloque B mantiene sus decisiones pendientes antes de I2/I3. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
 
 Esta autorización no permite al agente hacer merge, desplegar por fuera de Actions, habilitar producción/promoción/rollback, crear hosting/túneles, modificar secretos/protecciones o publicar un prototipo incompleto por eludir la verificación.
 
@@ -85,7 +85,7 @@ Esta autorización no permite al agente hacer merge, desplegar por fuera de Acti
 
 ## Cómo registrar la respuesta
 
-La aprobación del Bloque C ya consta en PB-01 por la indicación del propietario y la revisión del 2026-11-16. Una indicación posterior puede resolver A/B y autorizar D con su alcance real; las revisiones humanas, permisos operativos y aceptación final se registran expresamente. La aprobación de un bloque no completa ni autoriza los demás.
+La aprobación de A/C y la autorización parcial de D para I1 constan en ficha y PB-01. Una indicación posterior puede resolver B y ampliar D con su alcance real; las revisiones humanas, permisos operativos y aceptación final se registran expresamente. La aprobación de un bloque no completa ni autoriza los demás.
 
 Se registra fecha, actor y alcance en ficha, registro técnico y plan, sin atribuir aceptación de producto a la autorización. Si ya hay más de un mantenedor, la indicación debe constar además en el PR de GitHub correspondiente según H-003; no se presume el número de mantenedores a partir de una lista de despliegue vacía.
 
@@ -100,3 +100,7 @@ La comprobación de consolidación previa conservó seis iteraciones, 28 criteri
 ## Fuente de la separación entre preparación y desarrollo
 
 [AGENTS.md](../../AGENTS.md#estado-y-autorización) establece: «Si el proyecto está en definición, investigación o planificación, trabaja únicamente en esas actividades. No conviertas una propuesta en implementación». [PLANS.md](../PLANS.md#estados-y-autorización) distingue `Aprobado` de `Autorizado`. Por eso esta entrega prepara un paquete revisable antes de comenzar el código; no añade un ciclo de aprobación distinto al del repositorio.
+
+## Inicio de I1 — 2026-11-16
+
+El propietario solicita el repaso de la documentación y comenzar I1. Se registra selección/ficha y autorización de esta iteración; la entrega mediante commit, push y PR a staging sigue su instrucción previa de seguir el marco. Se conserva su merge manual. No se presupone aprobación de ADR-MMA-020/021 ni ejecución de otras iteraciones. El propietario indica que dispone por ahora de Chrome de escritorio: iPhone/Android y HTTPS de la candidata quedan pendientes para I4. Evidencia en el [informe único](../reports/pb01/execution.md).

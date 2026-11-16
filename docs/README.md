@@ -40,6 +40,7 @@ La raíz de `docs/` contiene este mapa, [BOOTSTRAP.md](BOOTSTRAP.md), [PLANS.md]
 | I-03 | [contrato vigente verificado](reports/i03/contract-verification-2026-11-16.md), [plan anterior archivado](reports/i03/legacy-plan-2026-11-16.md), [Fase A](reports/i03/phase-a.md), [preparación de staging](reports/i03/staging-preparation.md), [corrección del PR](reports/i03/merged-pr-correction.md), [primera publicación](reports/i03/staging-startup.md) y [parche histórico ya aplicado](reports/i03/staging-publication-activation.patch) |
 | CP-01 | [Ejecución de identidad y movimiento](reports/cp01/execution.md) |
 | CP-02 | [Implementación de apariencia](reports/cp02/execution.md) |
+| PB-01 | [Ejecución única de Plan B, I1–I6](reports/pb01/execution.md) |
 
 ## Mantener el orden
 

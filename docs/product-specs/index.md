@@ -1,11 +1,11 @@
 # MiMiniApp — definición del producto
 
 **Nombre:** MiMiniApp (provisional).
-**Fase:** Base local I-01 Aceptada y archivada el 2026-11-05; ExecPlan I-02 aprobado y posteriormente autorizado expresamente el 2026-11-05, Aceptado por el propietario el 2026-11-05, con sus 14 criterios conservados.
+**Fase:** plataforma y circuito I-03 aceptados; Plan B seleccionada, ficha aprobada y PB-01 en curso con ejecución parcial de I1.
 **Estado de la definición:** Aprobada.
 **Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
 **Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
-**Última actualización:** 2026-11-16 (programa de iteraciones de Plan B; sin modificar el alcance aprobado).
+**Última actualización:** 2026-11-16 (selección/ficha de Plan B aprobadas e inicio autorizado de I1).
 
 ## Procedencia y alcance de esta definición
 
@@ -25,7 +25,7 @@ Público general, con acceso móvil esperado desde redes sociales. El escritorio
 
 Un catálogo navegable en español e inglés, con URLs propias y compartibles para cada miniapp publicada. Cada herramienta debe ofrecer un resultado correcto, explicable y demostrable, con un ejemplo reproducible y restablecimiento rápido cuando proceda.
 
-Durante desarrollo el catálogo puede estar vacío, sin anunciar herramientas inexistentes. El objetivo de lanzamiento requiere al menos una miniapp real validada; su identidad y el número final de miniapps iniciales siguen abiertos. **No se selecciona ni se desarrolla aquí la primera miniapp.**
+Durante desarrollo el catálogo puede estar vacío, sin anunciar herramientas inexistentes. El objetivo de lanzamiento requiere al menos una miniapp real validada. El propietario selecciona Plan B el 2026-11-16; el número final de miniapps de lanzamiento sigue abierto. La autorización actual abarca I1, sin publicación.
 
 ## Alcance inicial
 
@@ -46,7 +46,7 @@ Requisitos trasladados del dossier y aprobados canónicamente por el propietario
 | PROD-11 | Sugerencias iniciales por comentarios en redes y gestión manual. |
 | PROD-12 | Posible evolución a monetización/SaaS, sin construir ahora esa infraestructura. |
 | PROD-13 | Lanzamiento condicionado por calidad; cantidad inicial sin cerrar. |
-| PROD-14 | Primera miniapp aplazada expresamente. |
+| PROD-14 | Primera miniapp aplazada en la base inicial; Plan B seleccionada el 2026-11-16, con ficha aprobada y ejecución de I1 autorizada. |
 
 El MVP aprobado comprende portada, catálogo, páginas por miniapp, contenido y metadatos ES/EN, selector de idioma, interfaz responsive, ejemplos de demostración y enlaces reales a redes/GitHub. Prefijos `/es/` y `/en/`, español predeterminado y slugs estables están aprobados en ADR-MMA-016 del [registro de decisiones](../design-docs/index.md), junto con la separación/validación de traducciones. Las canónicas/hreflang absolutas quedan diferidas hasta disponer de origen público aprobado; Cloudflare se verificará en I-03.
 
@@ -80,7 +80,7 @@ La política de pruebas local y los límites de seguridad aprobados, junto con l
 * La definición ya está aprobada por su responsable identificado por rol; cualquier cambio material posterior requiere nueva aprobación canónica.
 * Para I-01 los ADR y el plan están aprobados y la ejecución está autorizada; la validación requerida con Chromium 156 fijado está completada y el resultado fue Aceptado expresamente por el propietario el 2026-11-05 y el plan está archivado. Los restantes ADR/iteraciones conservan sus propios estados.
 * I-02 está Aceptado tras su ejecución autorizada y verificación; el [informe](../reports/i02/execution.md) traza sus 14 criterios y evidencias. El propietario registra su aceptación expresa el 2026-11-05, tras revisar personalmente las capturas reales de escritorio y móvil. No autoriza I-03, infraestructura, miniapps reales ni acciones de publicación.
-* Elegir más adelante la primera miniapp y la cantidad de lanzamiento; no bloquea el catálogo inicialmente vacío de I-02.
+* Plan B seleccionada como primera miniapp; la cantidad de lanzamiento sigue pendiente. No altera la aceptación del catálogo inicialmente vacío de I-02.
 * Resolver licencia y titularidad antes de presentar el producto como software con licencia abierta.
 * Confirmar marca, redes y dominio; compra y DNS requieren instrucción expresa.
 * Decidir si habrá analítica, qué datos trataría y sus implicaciones de privacidad; no activar trackers por defecto.
@@ -107,9 +107,9 @@ El propietario aprueba expresamente los bloques A/B/C del [paquete consolidado](
 
 Se ha contrastado el contenido actual con las decisiones de MiMiniApp trasladadas del dossier: se mantienen propósito, usuarios, ES/EN, client-first, móvil/escritorio, demo, ritmo flexible, alcance y exclusiones. No se elige una miniapp ni se incorpora una función nueva. Licencia, dominio, primera miniapp, analítica e infraestructura siguen diferidos expresamente; no bloquean la preparación de la base local. Aprobar la definición no autoriza por sí mismo su implementación.
 
-## Fichas de miniapps en preparación
+## Primera miniapp: Plan B
 
-El propietario solicita el 2026-11-15 contrastar Plan B con la base real y preparar una definición adaptada y su plan. La [ficha Plan B v06](plan-b.md) está en `Borrador`, propuesta como primera miniapp real; su selección y requisitos todavía no están aprobados. El [paquete de revisión](../design-docs/plan-b-approval.md#bloque-c--plan-único-con-seis-iteraciones) agrupa definición y propuestas técnicas pendientes con el único plan PB-01, `Aprobado` como planificación el 2026-11-16, con seis iteraciones internas y regresión global al final. La aprobación del plan conserva explícitos los bloqueos de ficha/decisiones y no autoriza ejecución o publicación. No cambia el alcance aprobado de la plataforma ni la cantidad de herramientas de lanzamiento. La referencia anterior a aplazar la primera miniapp describe la base aprobada; aprobar su planificación no sustituye la elección o aprobación de sus requisitos.
+El propietario selecciona Plan B y solicita comenzar su primera iteración el 2026-11-16, después de repasar la documentación. La [ficha v06](plan-b.md) queda aprobada como contrato funcional y se autoriza el desarrollo y pruebas locales de I1 del [único plan PB-01](../exec-plans/active/PB-01-plan-b.md). La aprobación del contrato funcional no aprueba por sí sola las decisiones técnicas ADR-MMA-020/021, que conservan Propuesta para I3/I2; no se autoriza ejecutar las iteraciones siguientes, publicar la miniapp ni ampliar la plataforma. Las referencias anteriores al aplazamiento de la primera herramienta describen la base previa a esta selección. El plan conserva seis iteraciones, con regresión global como última y una sola aceptación final.
 
 ## Estado de las decisiones
 

@@ -6,6 +6,8 @@ export default defineConfig({
   // Platform journeys live in tests/e2e; each tool keeps its own beside its code.
   testDir: '.',
   testMatch: ['tests/e2e/**/*.spec.ts', 'src/miniapps/*/tests/**/*.spec.ts'],
+  // Generated integration copies are evidence, never another test suite.
+  testIgnore: ['**/.local/**'],
   fullyParallel: true,
   forbidOnly: true,
   retries: 0,

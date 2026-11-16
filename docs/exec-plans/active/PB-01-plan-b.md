@@ -2,23 +2,23 @@
 
 ## Control
 
-* **Estado:** `Aprobado`.
+* **Estado:** `En curso`.
 * **Responsable de aprobación, autorización, aceptación y cancelación:** propietario de MiMiniApp (Alexander / Ale).
 * **Creado:** 2026-11-15. **Última actualización:** 2026-11-16.
 * **Base de planificación:** staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`. Registrar la base real al ejecutar y explicar sus diferencias.
 * **Rama de preparación:** `docs/plan-b-iterations`.
 * **Organización:** un único ExecPlan con seis iteraciones internas secuenciales I1 → I2 → I3 → I4 → I5 → I6. La última es siempre regresión y análisis global.
-* **Iteración actual:** ninguna; solo preparación documental, con todas las tareas pendientes.
+* **Iteración actual:** I1 completada y comprobada localmente; entrega a revisión por PR. Sin iniciar I2–I6, fuera de la autorización parcial vigente.
 * **Aprobación del plan:** 2026-11-16, propietario de MiMiniApp, mediante «los planes que están por confirmarse, quiero que analices si ya pasan los criterios de aceptación y pasalos a aprobados», condicionada a la revisión documentada abajo.
-* **Autorización actual:** aprobado como planificación; ejecución todavía no autorizada. Selección/ficha y ADR-MMA-020/021 mantienen sus estados pendientes. La aprobación del plan no aprueba automáticamente esos artefactos ni autoriza implementar, hacer commits/push/PR, fusionar o desplegar la miniapp.
+* **Autorización actual:** el propietario indica el 2026-11-16 «vamos a comenzar con la primera iteración», con repaso documental previo. Se registra selección/ficha v06 aprobadas y autorización de desarrollo y pruebas locales de I1 en `feature/pb01-i1-base`, desde staging `d3d8386e6077911d84ee85bcc16981177f3d3b1d`. ADR-MMA-020/021 permanecen propuestas. No se autoriza I2–I6, merge, publicación, infraestructura o cambios de controles. La entrega por commit, push y PR a staging sigue la instrucción previa del propietario de seguir el marco; el merge continúa siendo humano.
 
 ## Objetivo, alcance y decisiones
 
 Entregar Plan B integrada en MiMiniApp: propósito, obstáculo y frase si/entonces, ES/EN, ejemplo/reset, sesión temporal, calendario de cuatro semanas, PNG para fondo de bloqueo y enlace compartible, con privacidad, accesibilidad y resultados verificables. La [ficha v06](../../product-specs/plan-b.md) conserva el contrato funcional y los doce PB-AC; este plan describe cómo ejecutarlo y demostrarlo.
 
-Ya aprobadas: ADR-MMA-001/002/003/005/006/008/011/015/016/017/019 para stack, modularidad, client-first, pruebas, idiomas e identidad, y ADR-MMA-004/009/014 para el circuito de entrega existente. Requiere aprobación expresa de selección/ficha y de este plan antes de desarrollar; ADR-MMA-021 antes de implementar exportaciones en I2 y ADR-MMA-020 antes de persistencia en I3. Sus estados se consultan en el [registro técnico](../../design-docs/index.md), sin inferirlos de este archivo.
+Ya aprobadas: ADR-MMA-001/002/003/005/006/008/011/015/016/017/019 para stack, modularidad, client-first, pruebas, idiomas e identidad, y ADR-MMA-004/009/014 para el circuito de entrega existente. Selección/ficha y plan aprobados al comenzar I1; requiere ADR-MMA-021 antes de implementar exportaciones en I2 y ADR-MMA-020 antes de persistencia en I3. Sus estados se consultan en el [registro técnico](../../design-docs/index.md), sin inferirlos de este archivo.
 
-El código previsto vive en `src/miniapps/plan-b/`. El único cambio común de aplicación es su inscripción en el registro durante I5. Se permiten los ajustes de pruebas identificados en I5 para conservar cobertura del catálogo vacío y añadir el caso poblado. No se cambian rutas genéricas, layouts, estilos globales, dependencias/lockfile, workflows, credenciales o infraestructura. Producción, promoción, rollback remoto, APIs/OAuth, analítica, backend y PWA quedan fuera.
+El código previsto vive en `src/miniapps/plan-b/`. El único cambio común de aplicación es su inscripción en el registro durante I5. En I1 se acota mecánicamente el filtro de unitarias sintéticas de `tests/integration/modular-build.ts` a sus fixtures I-02: las pruebas reales nuevas de Plan B se ejecutan en test:unit, sin alterar los recuentos ni las aserciones de aquellas fixtures. Playwright excluye `.local/`, evitando redescubrir specs de esas copias; los tests reales del módulo siguen incluidos. Se permiten los ajustes de pruebas identificados en I5 para conservar cobertura del catálogo vacío y añadir el caso poblado. No se cambian rutas genéricas, layouts, estilos globales, dependencias/lockfile, workflows, credenciales o infraestructura. Producción, promoción, rollback remoto, APIs/OAuth, analítica, backend y PWA quedan fuera.
 
 El presupuesto del propietario se conserva: **6–12 h en 3–4 sesiones** de revisión/prueba. Las seis iteraciones acotan el trabajo de IA, no añaden seis sesiones humanas ni garantizan fecha. Si un problema desborda una unidad corta, documentar y revisar alcance antes de ampliarlo; la revisión global sigue siendo la última actividad.
 
@@ -55,7 +55,7 @@ Todos los resultados se registran en **un informe de ejecución**, `docs/reports
 
 **Resultado:** Una base pequeña y comprobable de Plan B: entradas y fechas narrativas correctas, descriptor todavía sin publicar y un build aislado que permita desarrollar sin filtrar borradores al catálogo real.
 
-**Archivos previstos:** `src/miniapps/plan-b/metadata.ts`, `domain/validation.ts`, `domain/narrative-date.ts`, `tests/domain.test.ts` y `tests/helpers/` para un build/preview aislado. No inscribir todavía Plan B en el registro real, no cambiar rutas, layouts o configuración.
+**Archivos previstos:** `src/miniapps/plan-b/metadata.ts`, `domain/validation.ts`, `domain/narrative-date.ts`, `tests/domain.test.ts` y `tests/helpers/` para un build/preview aislado. No inscribir todavía Plan B en el registro real ni cambiar rutas, layouts o configuración de aplicación/publicación. Ajuste mecánico de pruebas necesario: excluir las copias generadas de `.local/` del descubrimiento de Playwright, manteniendo todas las suites reales.
 
 ### Trabajo
 
@@ -326,11 +326,11 @@ La IA puede corregir defectos locales cubiertos y repetir las pruebas pertinente
 
 ## Progreso y reanudación
 
-**Situación actual:** planificación aprobada el 2026-11-16, ejecución pendiente de autorización. No se ha implementado Plan B ni ejecutado pruebas de sus funciones. Las verificaciones previas de MiMiniApp/MT-02 no acreditan este producto. Al reanudar, leer control, esta tabla, el último handoff y los cambios de staging; no reiniciar tareas ya comprobadas ni avanzar sin las condiciones de entrada.
+**Situación actual:** I1 completada el 2026-11-16, con referencia previa, dominio probado, descriptor draft y pruebas de build/preview aislados. Batería final: 412 unitarias, 9 componentes, 88 E2E e integración; build público idéntico a la referencia. [Informe único](../../reports/pb01/execution.md#i1--base-lógica-y-referencia). PB-01 sigue `En curso`; no se ejecuta I2 sin su decisión y autorización. Al reanudar, leer control, tabla, handoff y cambios de staging; no repetir trabajo comprobado ni atribuir a I1 la aceptación global.
 
 | Iteración interna | Tareas y salida comprobadas | Inicio | Fin | Evidencia / siguiente paso |
 | --- | --- | --- | --- | --- |
-| I1 — base | [ ] | — | — | Pendiente de autorización e inicio. |
+| I1 — base | [x] | 2026-11-16 | 2026-11-16 | PB-I1-01–04 comprobados localmente; informe y entrega por PR. I2 pendiente de autorización y ADR-MMA-021. |
 | I2 — calendario | [ ] | — | — | Depende de I1 y ADR-MMA-021. |
 | I3 — recorrido y estado | [ ] | — | — | Depende de I2 y ADR-MMA-020. |
 | I4 — imagen y exportaciones | [ ] | — | — | Depende de I3 y pruebas físicas/HTTPS. |
@@ -364,3 +364,7 @@ El plan global se creó el 2026-11-15. El 2026-11-16 se prepararon localmente se
 | 2026-11-16 | `Borrador` | Codex | Preparación local de una descomposición en seis archivos, sin ejecución. |
 | 2026-11-16 | `Borrador` | Codex, por instrucción del propietario | «Si, prefiero un unico plan con 6 iteraciones y que esté bien definido»: consolidación en PB-01, seis iteraciones secuenciales y una única aceptación final. |
 | 2026-11-16 | `Aprobado` | Propietario de MiMiniApp, tras revisión de Codex | Instrucción de aprobar los planes que superen la revisión. Responsable, alcance, seis iteraciones, criterios y verificaciones definidos; bloqueos explícitos. Solo aprobación de planificación, sin autorización de ejecución o aceptación funcional. |
+
+| 2026-11-16 | `Autorizado` → `En curso` | Propietario / Codex | Solicitud de comenzar I1 tras repaso documental; se registra selección/ficha aprobadas y se prepara base reproducible desde staging d3d8386. Alcance local de I1, sin ejecución de siguientes iteraciones. |
+
+| 2026-11-16 | `En curso` | Codex | I1 completada: 412 unitarias, 9 componentes, 88 E2E e integración satisfactorios; 19 archivos públicos idénticos a la referencia. Informe y límites registrados. El estado global no avanza a Verificado: I2–I6 pendientes y fuera de la autorización actual. |
