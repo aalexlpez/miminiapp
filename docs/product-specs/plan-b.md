@@ -1,12 +1,12 @@
 # Plan B · Bad Day Plan — ficha funcional v06
 
-* **Estado de esta definición:** `Borrador`, pendiente de aprobación del propietario de MiMiniApp (Alexander / Ale).
-* **Situación:** miniapp en definición; propuesta como primera herramienta real. No implementada ni publicada.
-* **Creada:** 2026-11-15. **Actualizada:** 2026-11-16 (descomposición del programa de ejecución; contrato funcional v06 conservado).
+* **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados.
+* **Situación:** Plan B seleccionada como primera miniapp real; I1 autorizada y completada localmente; PB-01 en curso. No publicada; decisiones ADR-MMA-020/021 pendientes antes de sus respectivas iteraciones.
+* **Creada:** 2026-11-15. **Actualizada:** 2026-11-16 (selección/ficha aprobadas e I1 ejecutada; contrato funcional v06 conservado).
 * **Origen:** [v05 aportada por el propietario](../references/plan-b-v05.md), contrastada con `staging` en `e203d73156a61a61138e9ff23de964a827221fad`.
 * **Categoría propuesta:** `everyday`. **ID / slug propuestos:** `plan-b`. Etiquetas opcionales omitidas inicialmente; `publishedAt` se fijará al publicar.
-* **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado como planificación el 2026-11-16 y sin ejecución autorizada, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones nuevas propuestas:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
-* **Revisión agrupada:** [paquete de aprobación](../design-docs/plan-b-approval.md). Preparar este borrador no aprueba requisitos ni autoriza código, commits, push, PR, merge o publicación.
+* **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con ejecución local de I1 autorizada, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones nuevas propuestas:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
+* **Revisión agrupada:** [paquete de aprobación](../design-docs/plan-b-approval.md). La solicitud de comenzar I1 autoriza desarrollo, pruebas y entrega por commit/push/PR según el marco indicado por el propietario; no autoriza I2–I6, merge, publicación, infraestructura ni las decisiones técnicas pendientes.
 
 ## 1. Propósito y alcance
 
@@ -234,7 +234,7 @@ Recortes, si hacen falta y se registran antes de aceptar: instrucciones de SO se
 
 ## 8. Pendientes y cambios respecto a v05
 
-Pendiente aprobación del propietario: selección de Plan B como primera miniapp, esta ficha y ADR-MMA-020/021. PB-01 quedó aprobado como planificación el 2026-11-16, con esos bloqueos declarados y sin autorización de ejecución; no acredita resultados funcionales. El paquete agrupa las propuestas para evitar decisiones dispersas. Las seis iteraciones internas avanzan secuencialmente según las condiciones del mismo plan y su alcance autorizado, con los puntos de revisión humana expresos; la sexta termina con regresión y análisis global. No se requiere cerrar I-03 completo ni CP-02 para trabajo modular independiente; antes de ejecutar se comprueba que sus cambios no alteren los contratos consumidos aquí.
+El propietario selecciona Plan B y aprueba esta ficha al pedir comenzar su primera iteración el 2026-11-16, después del repaso documental. Autoriza desarrollo y pruebas locales de I1; ADR-MMA-020/021 siguen pendientes para I3/I2 respectivamente. Esta autorización no acredita resultados funcionales ni autoriza las iteraciones siguientes. El paquete agrupa las propuestas para evitar decisiones dispersas. Las seis iteraciones internas avanzan secuencialmente según las condiciones del mismo plan y su alcance autorizado, con los puntos de revisión humana expresos; la sexta termina con regresión y análisis global. No se requiere cerrar I-03 completo ni CP-02 para trabajo modular independiente; antes de ejecutar se comprueba que sus cambios no alteren los contratos consumidos aquí.
 
 Cambios materiales propuestos: rutas reales con slug único; mes natural; calendario `COUNT` exacto; promesa offline acotada; almacenamiento con fallos y borrado explícito; consentimiento para URL Google/PNG; lienzo fijo también desde escritorio; presupuesto propio separado del total; aceptación inicial en staging. La iteración 1 inventaría la vía de acceso HTTPS; la iteración 4 la requiere comprobada para las pruebas de teléfonos. No se inventa un hosting o despliegue de pruebas.
 
@@ -242,3 +242,4 @@ Cambios materiales propuestos: rutas reales con slug único; mes natural; calend
 | --- | --- | --- | --- |
 | 2026-11-15 | `Borrador` | Codex, por solicitud del propietario «vamos a ello» | Preparación documental para revisión; sin aprobación ni ejecución de producto. |
 | 2026-11-16 | `Borrador` | Codex, por solicitud del propietario | Planificación consolidada en un único PB-01 con seis iteraciones internas y cierre global obligatorio por preferencia del propietario; requisitos de producto y ejecución siguen pendientes. |
+| 2026-11-16 | `Aprobada` | Propietario de MiMiniApp | «vamos a comenzar con la primera iteración», tras el repaso solicitado de la documentación: selección de Plan B y ejecución de I1 según ficha v06; decisiones ADR-MMA-020/021 y siguientes iteraciones no autorizadas. |

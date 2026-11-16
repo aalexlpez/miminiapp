@@ -180,6 +180,8 @@ async function testOwnModules(
       path.join(stageRoot, 'vitest.config.ts'),
       '--project',
       'unit',
+      // Count only the synthetic I-02 modules. Real tools run in test:unit.
+      'src/miniapps/i02-fixture-',
       '--reporter',
       'json',
       '--outputFile',

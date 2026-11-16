@@ -1,0 +1,14 @@
+---
+import type { Locale } from '../../lib/locales';
+import { captureNarrativeDate } from './domain/narrative-date';
+import { validateText } from './domain/validation';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const narrative = captureNarrativeDate(() => new Date(2026, 11, 31, 23, 59));
+const result = validateText('purpose', '  Caminar un poco  ');
+---
+<section data-testid="isolated-entry" data-fixture="PB_I1_ISOLATED_FIXTURE">
+  <h2>{locale === 'es' ? 'Prueba aislada de la base' : 'Isolated foundation test'}</h2>
+  <p data-testid="validated-text">{result.ok ? result.value : 'INVALID_FIXTURE'}</p>
+  <output aria-label={locale === 'es' ? 'Primer día del mes siguiente' : 'First day of next month'}> {`${narrative.nextMonth.year}-${narrative.nextMonth.month}-${narrative.nextMonth.day}`} </output>
+</section>
