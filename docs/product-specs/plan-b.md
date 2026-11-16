@@ -242,5 +242,4 @@ Cambios materiales propuestos: rutas reales con slug único; mes natural; calend
 | --- | --- | --- | --- |
 | 2026-11-15 | `Borrador` | Codex, por solicitud del propietario «vamos a ello» | Preparación documental para revisión; sin aprobación ni ejecución de producto. |
 | 2026-11-16 | `Borrador` | Codex, por solicitud del propietario | Planificación consolidada en un único PB-01 con seis iteraciones internas y cierre global obligatorio por preferencia del propietario; requisitos de producto y ejecución siguen pendientes. |
-
 | 2026-11-16 | `Aprobada` | Propietario de MiMiniApp | «vamos a comenzar con la primera iteración», tras el repaso solicitado de la documentación: selección de Plan B y ejecución de I1 según ficha v06; decisiones ADR-MMA-020/021 y siguientes iteraciones no autorizadas. |

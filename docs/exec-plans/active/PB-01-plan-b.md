@@ -364,7 +364,5 @@ El plan global se creó el 2026-11-15. El 2026-11-16 se prepararon localmente se
 | 2026-11-16 | `Borrador` | Codex | Preparación local de una descomposición en seis archivos, sin ejecución. |
 | 2026-11-16 | `Borrador` | Codex, por instrucción del propietario | «Si, prefiero un unico plan con 6 iteraciones y que esté bien definido»: consolidación en PB-01, seis iteraciones secuenciales y una única aceptación final. |
 | 2026-11-16 | `Aprobado` | Propietario de MiMiniApp, tras revisión de Codex | Instrucción de aprobar los planes que superen la revisión. Responsable, alcance, seis iteraciones, criterios y verificaciones definidos; bloqueos explícitos. Solo aprobación de planificación, sin autorización de ejecución o aceptación funcional. |
-
 | 2026-11-16 | `Autorizado` → `En curso` | Propietario / Codex | Solicitud de comenzar I1 tras repaso documental; se registra selección/ficha aprobadas y se prepara base reproducible desde staging d3d8386. Alcance local de I1, sin ejecución de siguientes iteraciones. |
-
 | 2026-11-16 | `En curso` | Codex | I1 completada: 412 unitarias, 9 componentes, 88 E2E e integración satisfactorios; 19 archivos públicos idénticos a la referencia. Informe y límites registrados. El estado global no avanza a Verificado: I2–I6 pendientes y fuera de la autorización actual. |
