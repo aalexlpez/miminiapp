@@ -57,7 +57,7 @@ Los textos de plataforma viven en `src/i18n/common/`. `validateTranslationParity
 * `validateRegistry` se ejecuta en build y rechaza ids o slugs duplicados, categorías desconocidas, fechas inválidas, traducciones ausentes y borradores con cargador.
 * El catálogo consume solo los metadatos publicados. Los borradores no generan rutas ni dejan rastro en `dist/`.
 
-Plan B cuenta con metadatos draft, validación y fecha narrativa en `src/miniapps/plan-b/`. No tiene entrada de producto ni inscripción en el registro real. Sus pruebas construyen copias temporales con una entrada sintética y previews propios; esas fixtures no forman parte del build público.
+Plan B cuenta con metadatos draft, validación, fecha narrativa y generadores puros de calendario `.ics`/URL Google en `src/miniapps/plan-b/`. No tiene entrada de producto ni inscripción en el registro real. Sus pruebas construyen copias temporales con una entrada sintética y previews propios; esas fixtures no forman parte del build público.
 
 La [guía de miniapps](docs/guides/miniapps.md) explica cómo añadir una. `npm run test:integration` demuestra el aislamiento: construye una copia con las herramientas sintéticas de `tests/integration/fixtures/` y comprueba que añadir una segunda no altera la primera ni los archivos comunes.
 
