@@ -1,12 +1,12 @@
 # Plan B v06 — paquete para revisión del propietario
 
-**Estado:** preparado para revisión, sin aprobación registrada. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Fecha:** 2026-11-15. **Rama documental:** `docs/plan-b-v06`, desde staging `e203d73156a61a61138e9ff23de964a827221fad`.
+**Estado:** Bloque C (plan PB-01) `Aprobado` el 2026-11-16 tras revisión solicitada por el propietario. Bloques A/B (producto/decisiones) y D (ejecución) pendientes. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; revisión por iteraciones en `docs/plan-b-iterations`, desde staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`.
 
 ## Qué se entrega
 
 * [Ficha funcional v06](../product-specs/plan-b.md): definición autocontenida, textos ES/EN, comportamiento ante errores y doce criterios de aceptación.
 * [ADR-MMA-020/021](plan-b-contracts.md): propuestas de sesión temporal y exportaciones; estados canónicos en el [registro técnico](index.md).
-* [PB-01](../exec-plans/active/PB-01-plan-b.md): plan en borrador, cuatro sesiones de Ale, compatibilidad móvil antes del acabado visual.
+* Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) aprobado como planificación, sin ejecución autorizada, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
 * [v05 original](../references/plan-b-v05.md): antecedente aportado, con nota de procedencia. No se da por verificado que su v04 exista en Git.
 
 ## Bloque A — definición de producto propuesta
@@ -33,28 +33,59 @@ Se conservan núcleo, ejemplo, imagen, tres pasos, sello, ES/EN y al menos una v
 
 Aprobar B exige cambiar a `Aprobada` las dos filas del registro técnico, con fecha y actor, y reflejar la indicación en sus documentos. La aprobación de A no sustituye esa decisión.
 
-## Bloque C — plan propuesto
+## Bloque C — plan único con seis iteraciones
 
-Aprobar PB-01 con estas etapas:
+PB-01 contiene el producto completo con seis iteraciones internas. Es el único archivo de planificación de Plan B en `active/`, con un solo estado, aprobación, autorización, historial y aceptación final. El avance de cada iteración se registra dentro de PB-01; esta tabla resume su orden, no crea seis planes ni seis aceptaciones.
 
-1. Lógica pura y muestras de calendario/PNG: pruebas de formato y primera revisión de importación en iPhone/Android.
-2. Recorrido funcional y APIs reales de descarga/compartir: requieren UI accesible por HTTPS desde ambos móviles.
-3. Acabado visual, accesibilidad, offline y pruebas ES/EN, tras comprobar las vías móviles.
-4. Correcciones, `verify`, CI, incorporación humana a staging y aceptación con evidencia.
+**Revisión del 2026-11-16:** el propietario solicita aprobar los planes que superen la revisión. PB-01 satisface la preparación exigida por PLANS.md: responsable, alcance, orden, criterios, verificaciones y bloqueos definidos. Queda `Aprobado` con los bloqueos declarados que la transición permite; no `Autorizado`, `Verificado` o `Aceptado`. Los PB-AC son criterios futuros de producto y todavía no se han ejecutado.
 
-Límite de Ale: 6–12 h, sin garantía de fecha. Las vías que no funcionan no se presentan como terminadas; si no cabe el núcleo, se revisa alcance. No se exige cerrar todo I-03 o CP-02 para ejecutar un módulo independiente.
+| Orden | Iteración interna de PB-01 | Entrada y salida específicas |
+| --- | --- | --- |
+| I1 | [Base lógica y referencia](../exec-plans/active/PB-01-plan-b.md#iteración-1--base-lógica-y-referencia) | Entradas/mes, descriptor no publicado y build aislado; referencia de plataforma, bytes y deuda antes de desarrollar. |
+| I2 | [Calendario](../exec-plans/active/PB-01-plan-b.md#iteración-2--calendario) | I1 completada y ADR-MMA-021 aprobada; fechas, .ics y URL Google con expectativas independientes y muestras sintéticas. |
+| I3 | [Recorrido y estado](../exec-plans/active/PB-01-plan-b.md#iteración-3--recorrido-y-estado) | I2 completada y ADR-MMA-020 aprobada; tres pasos, ejemplo, ES/EN, recuperación y reset probados en copia aislada. |
+| I4 | [Imagen y exportaciones](../exec-plans/active/PB-01-plan-b.md#iteración-4--imagen-y-exportaciones) | I3 completada y UI candidata accesible por HTTPS; PNG y botones reales de calendario/guardado verificados en iPhone y Android. |
+| I5 | [Identidad e integración](../exec-plans/active/PB-01-plan-b.md#iteración-5--identidad-e-integración) | I4 completada; visuales, accesibilidad, presupuesto y candidato de catálogo/rutas reales, con permiso de incorporación. |
+| I6, última | [Regresión y análisis global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global) | I1–I5 completadas; contraste del conjunto con la base, hallazgos/deuda, privacidad, accesibilidad, rendimiento y CI/staging autorizados sobre el candidato definitivo. |
+
+La ejecución es secuencial. Una vez autorizado el alcance, se avanza cuando estén comprobadas las condiciones de salida y disponibles las entradas de la siguiente iteración. Las revisiones humanas expresas —móviles, identidad visual, incorporación al catálogo, merge y aceptación final— se conservan; completar una iteración no exige por sí solo volver a aprobar todo el trabajo. Si la autorización es parcial, se respeta ese límite.
+
+Cada iteración incorpora regresión local y handoff; I6 revisa el conjunto. Cualquier corrección posterior exige revalidar el candidato final. Un fallo material, una degradación reproducible sin resolver o una prueba esencial pendiente impiden declarar el plan `Verificado`. La deuda previa se distingue de la introducida y la IA no acepta por su cuenta el residuo.
+
+Límite de Ale: 6–12 h en 3–4 sesiones, sin prometer fecha. Las seis iteraciones acotan el trabajo de IA, no añaden seis sesiones humanas. Se mantienen los recortes permitidos de la ficha; si no cabe el núcleo, se revisa el alcance. No se exige cerrar I-03/CP-02 completos para trabajo independiente.
+
+El inventario de código identifica dos adaptaciones necesarias en I5: `tests/unit/miniapp-registry.test.ts` exige registro vacío y `tests/e2e/catalogue.spec.ts` exige cero tarjetas. I1–I4 mantienen el registro real sin cambios y prueban en copia aislada. I5 conserva el caso vacío en fixture y añade el poblado real, sin borrar garantías para conseguir verde.
+
+### Cobertura del contrato y puntos de control
+
+| Criterio de ficha | Primera evidencia prevista | Confirmación del conjunto |
+| --- | --- | --- |
+| PB-AC-01 — rutas, catálogo e idiomas | I3 en copia aislada; I5 en candidato real | I6 |
+| PB-AC-02 — recorrido y validación | I1 dominio; I3 interfaz | I6 |
+| PB-AC-03 — mes natural y sesión narrativa | I1; I3 conservación en UI | I6 |
+| PB-AC-04 — persistencia y recuperación | I3 | I6 |
+| PB-AC-05 — serie de calendario | I2 lógica; I4 importación física | I6 |
+| PB-AC-06 — .ics, URL y consentimiento | I2 formatos; I4 botones/errores | I6 |
+| PB-AC-07 — imagen legible y guardable | I4; I5 tras acabado visual | I6 |
+| PB-AC-08 — compartir y texto intacto | I2 generadores; I3/I4 UI y destinos | I6 |
+| PB-AC-09 — modo avión | I4; I5 tras estilos finales | I6 |
+| PB-AC-10 — accesibilidad y temas | I3 base; I5 acabado completo | I6 |
+| PB-AC-11 — recursos y privacidad | I1 referencia; I4 red; I5 presupuesto | I6 |
+| PB-AC-12 — batería, CI y staging | I1–I5 verifican sus salidas; I5 entrega candidato | I6 |
+
+Los bloqueos se localizan dentro del mismo plan: selección/ficha y autorización antes de I1; ADR-MMA-021 antes de I2; ADR-MMA-020 antes de I3; teléfonos/HTTPS para I4; permiso de incorporación en I5; permiso operativo y validación remota para cerrar I6. Aprobar el formato de un plan único o la regla H-005 no aprueba los requisitos/decisiones ni ejecuta el producto.
 
 ## Bloque D — autorización de ejecución y alcance operativo
 
-Después de aprobar A/B/C, el propietario puede autorizar expresamente **desarrollo local de PB-01**, rama feature desde staging, pruebas y preparación de evidencia. Si quiere continuidad hacia revisión remota, puede incluir **commits, push y PR en borrador hacia staging**, conservando merge manual humano. Ninguno de esos permisos se deduce de este documento ni de la instrucción previa de preparar borradores.
+El Bloque C ya está aprobado; A/B mantienen sus decisiones pendientes. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
 
 Esta autorización no permite al agente hacer merge, desplegar por fuera de Actions, habilitar producción/promoción/rollback, crear hosting/túneles, modificar secretos/protecciones o publicar un prototipo incompleto por eludir la verificación.
 
-**Capacidad que falta comprobar:** acceso HTTPS al candidato desde iPhone y Android para validar descargas/compartir de la UI antes de pulir visuales. El staging vigente sirve la versión ya fusionada, no una rama feature. Primero se comprueba si existe una vista previa ya autorizada. Si no existe, el agente prepara una propuesta concreta de acceso y solicita la decisión correspondiente; aprobar PB-01 no la inventa. Mientras, puede ejecutar lógica y pruebas locales autorizadas. Las muestras descargables de la sesión 1 no certifican las APIs de Safari.
+**Capacidad que falta comprobar para I4:** acceso HTTPS al candidato desde iPhone y Android para validar los botones de descarga/compartir antes de pulir visuales. I1 inventaría esa capacidad y presenta una propuesta si falta. Staging sirve la versión fusionada, no la rama feature. Las muestras de I2 no certifican las APIs de Safari y aprobar el plan no crea hosting/túneles o un despliegue de prototipo.
 
 ## Cómo registrar la respuesta
 
-La respuesta puede aprobar o modificar A/B/C y autorizar D en la misma indicación. Ejemplo de alcance, para que el propietario decida: «Apruebo A, B y C. Autorizo D para desarrollo local, commits, push y PR en borrador a staging; mantengo el merge humano». Esto es una propuesta de respuesta, no evidencia de consentimiento.
+La aprobación del Bloque C ya consta en PB-01 por la indicación del propietario y la revisión del 2026-11-16. Una indicación posterior puede resolver A/B y autorizar D con su alcance real; las revisiones humanas, permisos operativos y aceptación final se registran expresamente. La aprobación de un bloque no completa ni autoriza los demás.
 
 Se registra fecha, actor y alcance en ficha, registro técnico y plan, sin atribuir aceptación de producto a la autorización. Si ya hay más de un mantenedor, la indicación debe constar además en el PR de GitHub correspondiente según H-003; no se presume el número de mantenedores a partir de una lista de despliegue vacía.
 
@@ -62,7 +93,9 @@ Se registra fecha, actor y alcance en ficha, registro técnico y plan, sin atrib
 
 El contraste previo usó código/documentación actualizados de staging. Comprobaciones locales previas: Astro check, 343 unitarias, 9 de componentes y build correctos; sin E2E, CI ni teléfonos. Esta tarea solo añade documentación y enlaces de navegación: no instala dependencias ni implementa Plan B. La revisión documental se registra al terminar en el progreso de PB-01.
 
-Revisión documental completada: enlaces y anchors válidos, textos ES/EN sin claves duplicadas ni parámetros distintos, doce criterios de aceptación y v05 original preservada. Los resultados locales detallados constan en PB-01; todos los estados propuestos siguen pendientes de aprobación.
+La revisión del 2026-11-15 comprobó enlaces, paridad de textos y doce criterios conservando la v05. El 2026-11-16 se preparó una descomposición local en seis archivos; el propietario prefiere un único plan. La consolidación conserva las tareas y 28 criterios de salida dentro de PB-01 y retira los cinco borradores adicionales sin ejecutarlos o archivarlos como aceptados. H-005 mantiene el cierre global y H-006 aclara el avance interno. En la revisión posterior de planes pendientes se aprueba PB-01 como planificación; producto, propuestas técnicas y autorización de ejecución siguen pendientes.
+
+La comprobación de consolidación previa conservó seis iteraciones, 28 criterios y 30 tareas numeradas, contrato funcional/textos y propuestas técnicas, con 485 enlaces locales válidos. La revisión de estados posterior mantiene PB-01 como único plan de Plan B, ahora `Aprobado`; MT-02 se archiva como `Aceptado`, dejando tres planes en active. No se atribuye a esta revisión documental una ejecución nueva de aplicación: se consulta el CI/staging satisfactorio de la PR #17 sobre el mismo código/configuración. Los cambios de estado se mantienen locales.
 
 ## Fuente de la separación entre preparación y desarrollo
 

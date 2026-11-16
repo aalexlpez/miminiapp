@@ -1,6 +1,6 @@
 # CP-02 — Informe de implementación para revisión
 
-**Fecha:** 2026-11-09 (Europe/Madrid). **Rama:** `feature/cp02-apariencia`, desde staging `f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f`. El propietario aprobó ADR-MMA-019 y CP-02 y autorizó expresamente implementación y PR en borrador, con los ajustes A/B/C registrados antes de editar src. Sin merge ni publicación. El estado canónico sigue en el [plan](../../exec-plans/active/CP-02-apariencia.md); no se atribuye aceptación humana al resultado.
+**Fecha:** 2026-11-09 (Europe/Madrid). **Rama:** `feature/cp02-apariencia`, desde staging `f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f`. El propietario aprobó ADR-MMA-019 y CP-02 y autorizó expresamente implementación y PR en borrador, con los ajustes A/B/C registrados antes de editar src. Sin merge ni publicación. El estado canónico sigue en el [plan](../../exec-plans/completed/CP-02-apariencia.md); no se atribuye aceptación humana al resultado.
 
 [PR #7 en borrador hacia staging](https://github.com/aalexlpez/miminiapp/pull/7). Commit de implementación `ec6ace36010a79740867828f226e52b260176c49`; cierre documental posterior sin cambios de aplicación.
 

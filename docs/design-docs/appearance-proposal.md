@@ -16,7 +16,7 @@ La paleta de tarjeta/ilustración de las siguientes capturas es **histórica y s
 
 # Apariencia — propuesta para revisión
 
-**Estado:** Propuesta; no aprobada ni implementada. **Fecha:** 2026-11-09 (Europe/Madrid). **Responsable de aprobación:** propietario de MiMiniApp. Decisión propuesta ADR-MMA-019; [ExecPlan en Borrador](../exec-plans/active/CP-02-apariencia.md).
+**Estado:** Propuesta; no aprobada ni implementada. **Fecha:** 2026-11-09 (Europe/Madrid). **Responsable de aprobación:** propietario de MiMiniApp. Decisión propuesta ADR-MMA-019; [ExecPlan en Borrador](../exec-plans/completed/CP-02-apariencia.md).
 
 ## Auditoría y base comprobada
 

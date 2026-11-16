@@ -32,7 +32,7 @@ Notas:
 | Rama | Papel |
 | --- | --- |
 | `staging` | Tronco de trabajo. Cada merge se publica en staging. |
-| `main` | Producción. Solo recibe promociones desde `staging`; hoy bloqueadas. |
+| `main` de `soycerobytes/miminiapp` | Producción independiente. Recibe snapshots por rama y PR; merge manual y Workers Builds. El main del repositorio de desarrollo no publica producción. |
 | `master` | Rama por defecto heredada. No participa en la entrega. |
 | `feature/*`, `fix/*`, `docs/*` | Trabajo. Nacen de `staging` y vuelven a él por PR. |
 
@@ -47,6 +47,8 @@ No se hace push directo, force push ni borrado sobre `staging` o `main`.
 5. El push del merge publica en staging y ejecuta las pruebas remotas. Comprueba el resultado en la URL.
 
 Un agente de IA no fusiona PR ni publica por iniciativa propia, aunque CI esté en verde.
+
+Para producción, el propietario selecciona el SHA completo publicado y validado en staging e inicia manualmente prepare-release en `soycerobytes/miminiapp`. Se sincroniza el proyecto completo con controles preservados y sin secretos, mediante commit propio y una única quality ligera. Después decide el merge manual a main; Workers Builds reconstruye y publica. Véase [fiabilidad](docs/standards/RELIABILITY.md).
 
 ## Cuándo hace falta algo más que un PR
 
@@ -69,7 +71,7 @@ Las reglas siguientes proceden de [H-003](docs/harness-decisions.md#h-003--colab
 * **Con un solo mantenedor**, una indicación expresa suya en cualquier canal es válida. Quien la recibe la registra en el artefacto con fecha y actor.
 * **Con más de un mantenedor**, la aprobación debe quedar en GitHub: una revisión aprobatoria o un comentario del responsable en el PR que cambia el estado del artefacto. El artefacto enlaza ese PR. Una cita transcrita de un chat ya no basta.
 
-Varias iteraciones pueden avanzar en paralelo si son independientes y cada una tiene su plan y su responsable. Dos iteraciones que tocan el mismo contrato se ordenan o se coordinan antes de empezar.
+Varios planes pueden avanzar en paralelo si son independientes y cada uno tiene su responsable. Un mismo ExecPlan puede contener iteraciones internas ordenadas, con un único estado y autorización; su avance sigue las condiciones y revisiones previstas en el plan. Los trabajos que tocan el mismo contrato se ordenan o se coordinan antes de empezar. Detalle en [PLANS.md](docs/PLANS.md#iteraciones-de-miminiapp).
 
 ## Incorporar a otra persona
 

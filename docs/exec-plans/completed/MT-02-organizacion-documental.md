@@ -2,9 +2,9 @@
 
 ## Control
 
-* **Estado:** `Verificado`.
+* **Estado:** `Aceptado`.
 * **Responsable de aprobación, autorización y aceptación:** propietario de MiMiniApp.
-* **Creado / actualizado:** 2026-11-15.
+* **Creado:** 2026-11-15. **Actualizado:** 2026-11-16.
 * **Base:** staging `e203d73156a61a61138e9ff23de964a827221fad`; rama local de ejecución `docs/mt02-organization`.
 * **Aprobación y autorización:** el propietario indica «vamos a aplicar esta mejora» tras revisar la estructura y el alcance propuestos. Autoriza esta migración local y su verificación; no se infiere aprobación o ejecución de Plan B, commit, push, PR, merge o publicación.
 * **Dependencias:** ninguna iteración previa pendiente bloquea este cambio de rutas. Los borradores locales de Plan B se conservan, con ajustes mecánicos de enlaces y sin cambiar sus estados.
@@ -78,17 +78,33 @@ Entregar resultado verificado para aceptación humana; no registrar `Aceptado` p
 
 ## Progreso
 
-Migración local terminada el 2026-11-15; pendiente de aceptación humana. Los siguientes resultados verifican MT02-01–05:
+Migración terminada y verificada localmente el 2026-11-15, incorporada a staging mediante PR #17 y aceptada el 2026-11-16 tras la revisión condicionada solicitada por el propietario. Los siguientes resultados originales verifican MT02-01–05:
 
 * **Organización:** 18 archivos reubicados, dos placeholders vacíos retirados y raíz de `docs/` reducida de 24 a cinco archivos. Mapa documental, enlaces de entrada y convención H-004 actualizados.
 * **Enlaces:** baseline de 60 Markdown / 422 enlaces locales sin fallos; resultado final de 59 Markdown / 460 enlaces locales sin destinos ni anchors ausentes. Las 14 fuentes de navegación vigente revisadas no contienen las rutas antiguas de los documentos movidos.
 * **Preservación:** diez informes históricos y seis planes cerrados conservan todo su contenido salvo destinos de enlaces; dos referencias originales y el parche conservan exactamente sus bytes. Los cuatro borradores de Plan B solo tienen ajustes de referencias y mantienen su estado; ADR-MMA-020/021 siguen en `Propuesta`.
 * **Ámbito:** 184 archivos de configuración, workflows, despliegue, scripts, activos, evidencias y puentes de agentes conservados byte a byte. El código solo cambia en el comentario de ubicación de la guía y en la ruta del parche que consume la prueba de seguridad. No se han instalado paquetes ni alterado el lockfile.
-* **Verificación local:** `npm run verify`, exit 0 con Node 24.22.2 / npm 11.19.1 y Chromium r1248. Astro check sin diagnósticos, lint, formato, validación de hosting, 343 unitarias, 9 componentes, 78 E2E y la integración modular satisfactorios. `git diff --check` correcto. No se han ejecutado CI, pruebas remotas o despliegues.
+* **Verificación local:** `npm run verify`, exit 0 con Node 24.22.2 / npm 11.19.1 y Chromium r1248. Astro check sin diagnósticos, lint, formato, validación de hosting, 343 unitarias, 9 componentes, 78 E2E y la integración modular satisfactorios. `git diff --check` correcto. En ese punto local todavía no se habían ejecutado CI, pruebas remotas o despliegues; la evidencia posterior se registra abajo.
 
 Los scripts y logs temporales sirven para el trabajo local y no son enlaces de evidencia compartida. Este resumen registra los resultados consultables de la iteración. Al terminar la verificación todavía no se habían hecho commits, pushes, PR ni publicaciones. La aceptación final corresponde al propietario.
 
 **Autorización posterior de entrega — 2026-11-15:** el propietario pide «puedes subir los cambios a la rama remota». Autoriza crear el commit de los cambios preparados, incluidos los borradores de Plan B, y subir `docs/mt02-organization` a `origin`. No cambia el estado `Verificado` de MT-02 ni aprueba los requisitos/ADR/ejecución de Plan B. No autoriza merge o despliegue.
+
+## Revisión y aceptación — 2026-11-16
+
+El propietario indica «los planes que están por confirmarse, quiero que analices si ya pasan los criterios de aceptación y pasalos a aprobados». Para un resultado ya ejecutado y `Verificado`, el cierre equivalente en PLANS.md es `Aceptado`; no se retrocede al estado previo a ejecución `Aprobado`. Se registra su aceptación condicionada después de comprobar MT02-01–05, sin inferirla solo del merge.
+
+Entregable evaluado: commit `401c434d3c3068b96c94850847b6599325e54031`, [PR #17 fusionada](https://github.com/aalexlpez/miminiapp/pull/17), merge de staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`. La revisión posterior de planificación de Plan B es trabajo distinto y no modifica retroactivamente lo entregado por MT-02.
+
+| Criterio | Evidencia contrastada | Resultado |
+| --- | --- | --- |
+| MT02-01 | Dieciocho destinos presentes, rutas anteriores retiradas, raíz de docs con cinco archivos; los dos placeholders eran vacíos en la base Git. | Cumple. |
+| MT02-02 | Navegación actual comprobada con 485 enlaces locales sin destinos/anchors ausentes, además de la revisión original de 460 enlaces del entregable. | Cumple. |
+| MT02-03 | Historial y estados preservados en la migración; referencias y parche conservados. El parche se compara de nuevo byte a byte con la base; los cambios posteriores de estado de Plan B se registran fuera de esta entrega. | Cumple. |
+| MT02-04 | Runtime/configuración actuales iguales al staging revisado; el diff original de código se limita al comentario de guía y ruta del parche en la prueba. | Cumple. |
+| MT02-05 | Revisión local original y [CI de PR #17](https://github.com/aalexlpez/miminiapp/actions/runs/43756074423) success. [Staging](https://github.com/aalexlpez/miminiapp/actions/runs/43756652514) success en el merge correcto, con verify, artefacto, publicación e identidad/pruebas remotas satisfactorios. | Cumple. |
+
+La verificación posterior utiliza evidencia de GitHub del contenido realmente integrado. No se atribuyen nuevas ejecuciones de aplicación a esta revisión documental ni se activan publicaciones. Sin hallazgos materiales abiertos de MT-02; se archiva como `Aceptado`. CP-02, I-03 y PB-01 conservan sus propios criterios y decisiones.
 
 ## Historial de estado
 
@@ -99,3 +115,4 @@ Los scripts y logs temporales sirven para el trabajo local y no son enlaces de e
 | 2026-11-15 | `Autorizado` | Propietario de MiMiniApp | La misma indicación autoriza aplicar y verificar la reorganización local. |
 | 2026-11-15 | `En curso` | Codex | Snapshot e inventario de enlaces completados; inicio de movimientos y actualización mecánica de referencias. |
 | 2026-11-15 | `Verificado` | Codex | MT02-01–05 comprobados localmente: organización, enlaces, preservación y `npm run verify` completos; pendiente aceptación humana. |
+| 2026-11-16 | `Aceptado` | Propietario de MiMiniApp, condicionada a la revisión de Codex | Instrucción de aprobar los planes que cumplan sus criterios; MT02-01–05 contrastados con entrega, CI y staging de PR #17. Resultado aceptado y archivado, sin cambiar otros planes o autorizar nuevas publicaciones. |

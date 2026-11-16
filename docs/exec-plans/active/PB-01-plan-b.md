@@ -1,104 +1,366 @@
-# PB-01 — Plan B / Bad Day Plan
+# PB-01 — Plan B / Bad Day Plan: seis iteraciones
 
 ## Control
 
-* **Estado:** `Borrador`.
+* **Estado:** `Aprobado`.
 * **Responsable de aprobación, autorización, aceptación y cancelación:** propietario de MiMiniApp (Alexander / Ale).
-* **Creado / última actualización:** 2026-11-15.
-* **Base contrastada:** `staging`, `e203d73156a61a61138e9ff23de964a827221fad`.
-* **Rama de preparación documental:** `docs/plan-b-v06`. La instrucción «vamos a ello» autoriza preparar el paquete previamente ofrecido; no se registra como autorización para desarrollar o publicar.
-* **Dependencias de inicio de implementación:** selección y [ficha v06](../../product-specs/plan-b.md) aprobadas, ADR-MMA-020/021 aprobadas en el [registro técnico](../../design-docs/index.md), este plan aprobado y ejecución expresamente autorizada.
-* **Dependencias de verificación:** Ale con iPhone/Safari y Android/Chrome; escritorio Safari, Firefox y Chrome; acceso a cuentas/calendarios de prueba; medio de abrir la UI por HTTPS en móviles para probar descarga/compartir. Ese acceso aún no se ha comprobado.
+* **Creado:** 2026-11-15. **Última actualización:** 2026-11-16.
+* **Base de planificación:** staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`. Registrar la base real al ejecutar y explicar sus diferencias.
+* **Rama de preparación:** `docs/plan-b-iterations`.
+* **Organización:** un único ExecPlan con seis iteraciones internas secuenciales I1 → I2 → I3 → I4 → I5 → I6. La última es siempre regresión y análisis global.
+* **Iteración actual:** ninguna; solo preparación documental, con todas las tareas pendientes.
+* **Aprobación del plan:** 2026-11-16, propietario de MiMiniApp, mediante «los planes que están por confirmarse, quiero que analices si ya pasan los criterios de aceptación y pasalos a aprobados», condicionada a la revisión documentada abajo.
+* **Autorización actual:** aprobado como planificación; ejecución todavía no autorizada. Selección/ficha y ADR-MMA-020/021 mantienen sus estados pendientes. La aprobación del plan no aprueba automáticamente esos artefactos ni autoriza implementar, hacer commits/push/PR, fusionar o desplegar la miniapp.
 
-## Objetivo y resultado esperado
+## Objetivo, alcance y decisiones
 
-Entregar una primera miniapp real con propósito, obstáculo, frase si/entonces, calendario de cuatro semanas, PNG y enlace compartible. ES/EN, procesamiento local y fallos recuperables, integrada con los contratos actuales. Aceptación de producto mediante los doce criterios PB-AC de la ficha, evidencia automatizada y física, y resultado revisable por el propietario.
+Entregar Plan B integrada en MiMiniApp: propósito, obstáculo y frase si/entonces, ES/EN, ejemplo/reset, sesión temporal, calendario de cuatro semanas, PNG para fondo de bloqueo y enlace compartible, con privacidad, accesibilidad y resultados verificables. La [ficha v06](../../product-specs/plan-b.md) conserva el contrato funcional y los doce PB-AC; este plan describe cómo ejecutarlo y demostrarlo.
 
-La incertidumbre móvil se investiga antes del acabado visual. El tiempo de Ale se limita a 3–4 sesiones de 2–3 horas; no se convierte en una promesa de desarrollo. Si la compatibilidad no permite entregar el núcleo, se documenta el resultado y se revisa el alcance antes de seguir por una alternativa incompatible.
+Ya aprobadas: ADR-MMA-001/002/003/005/006/008/011/015/016/017/019 para stack, modularidad, client-first, pruebas, idiomas e identidad, y ADR-MMA-004/009/014 para el circuito de entrega existente. Requiere aprobación expresa de selección/ficha y de este plan antes de desarrollar; ADR-MMA-021 antes de implementar exportaciones en I2 y ADR-MMA-020 antes de persistencia en I3. Sus estados se consultan en el [registro técnico](../../design-docs/index.md), sin inferirlos de este archivo.
 
-## Alcance y exclusiones
+El código previsto vive en `src/miniapps/plan-b/`. El único cambio común de aplicación es su inscripción en el registro durante I5. Se permiten los ajustes de pruebas identificados en I5 para conservar cobertura del catálogo vacío y añadir el caso poblado. No se cambian rutas genéricas, layouts, estilos globales, dependencias/lockfile, workflows, credenciales o infraestructura. Producción, promoción, rollback remoto, APIs/OAuth, analítica, backend y PWA quedan fuera.
 
-Incluye código futuro dentro de `src/miniapps/plan-b/`, inscripción en registro, tests colocados en su carpeta y documentación de evidencia. No se añaden dependencias, rutas especiales, layouts, estilos globales, servicios, secretos, workflows o recursos de alojamiento. No cambia la política de movimiento de plataforma. Una desviación de esos límites se propone antes de ejecutarla.
+El presupuesto del propietario se conserva: **6–12 h en 3–4 sesiones** de revisión/prueba. Las seis iteraciones acotan el trabajo de IA, no añaden seis sesiones humanas ni garantizan fecha. Si un problema desborda una unidad corta, documentar y revisar alcance antes de ampliarlo; la revisión global sigue siendo la última actividad.
 
-Preparar commits/push/PR se autorizará expresamente junto al alcance operativo cuando se apruebe este paquete. El merge será humano. La entrega pública de staging usa su circuito ya activo tras merge autorizado; este borrador no autoriza activarlo de otra forma. Producción, promoción, dominio propio, rollback remoto y cambios de permisos quedan fuera.
+## Orden, avance y puntos de revisión
 
-## Decisiones aplicables
+PB-01 tiene un solo estado canónico, historial y aceptación final. Las iteraciones internas usan tareas y evidencia, no otros ExecPlans ni estados de aprobación propios. Una vez autorizado el alcance, la IA puede avanzar secuencialmente cuando: (1) termina las tareas y criterios de salida de la iteración actual, (2) registra pruebas y diferencias, (3) la siguiente está dentro del alcance autorizado y (4) dispone de sus recursos/decisiones. No necesita pedir otra aprobación entre iteraciones por trámite.
 
-Ya aprobadas: ADR-MMA-001/002/003 (Astro/React/TS/Tailwind), 005/006 (local por defecto), 008/015 (calidad/toolchain), 011/016 (registro/rutas/idiomas), 017/019 (identidad y apariencia), 004/009/014 (entrega existente). Propuestas necesarias: ADR-MMA-020 (sesión temporal) y 021 (exportaciones y Google).
+Si el propietario autoriza solo una parte, parar en ese límite. Un cambio de alcance/decisión técnica o un criterio esencial fallido detiene el trabajo afectado. No dar por completada una iteración usando mocks en lugar de la función examinada, quitando aserciones o haciendo skip. Cada avance conserva regresión local y handoff: revisión examinada, cambios, pruebas, pendientes y siguiente paso.
 
-I-01/I-02 y MT-01 están aceptadas. I-03/CP-02 mantienen sus estados; no son dependencia completa de este módulo independiente. Antes de ejecutar, comparar los contratos consumidos con staging actualizado y coordinar cualquier cambio coincidente. No reabrir planes cerrados ni alterar arquitectura actual para describir una intención.
+| Iteración | Entrada adicional | Entrega y condición para avanzar |
+| --- | --- | --- |
+| I1 — base | Ficha/selección y PB-01 aprobados y ejecución autorizada | Dominio inicial, referencia reproducible y build aislado; criterios PB-I1 comprobados. |
+| I2 — calendario | I1 completada y ADR-MMA-021 aprobada | Generadores con expectativas independientes y muestras; criterios PB-I2 comprobados. |
+| I3 — recorrido | I2 completada y ADR-MMA-020 aprobada | UI real ES/EN, sesión/reset y E2E aislados; criterios PB-I3 comprobados. |
+| I4 — salidas | I3 completada; móviles y UI candidata accesible por HTTPS | Descargas, calendario y PNG verificados en ambos móviles; criterios PB-I4 comprobados. |
+| I5 — visual e integración | I4 completada; permiso de incorporación del candidato al catálogo | Candidato completo, identidad alineada y pruebas reales; criterios PB-I5 comprobados. |
+| I6 — regresión global | I1–I5 completadas; candidato y referencia identificados | Todo el contrato contrastado, sin hallazgos materiales pendientes y validación final CI/staging autorizada; criterios PB-I6 comprobados. |
 
-## Trabajo previsto
+**Participación humana prevista:** Ale valida las operaciones físicas de I4 y revisa la identidad/compatibilidad visual de I5; el propietario aprueba la incorporación al catálogo y decide los merges/publicaciones y la aceptación final. Si una aprobación o permiso concreto ya consta expresamente dentro de la autorización vigente, registrarlo y continuar sin volver a pedirlo. La IA no sustituye pruebas físicas con emulación ni realiza el merge por iniciativa propia.
 
-### Sesión 1 — lógica y pruebas tempranas de formatos
+**Capacidad a comprobar desde I1:** una vista previa HTTPS ya disponible y autorizada para ambos teléfonos. Staging sirve la versión fusionada, no una rama feature. Si falta la capacidad, preparar una propuesta concreta de acceso, coste y permisos; no crear hosting/túneles o publicar un prototipo para eludirlo. La lógica local autorizada puede continuar, pero I4 no se completa sin evidencia real. I-03/CP-02/MT-02 mantienen sus propios estados: solo bloquean este plan si aparece una dependencia concreta de sus contratos.
 
-1. Revisar aprobación/autoridad, obtener staging actual, crear rama feature independiente, comprobar runtime compatible y baseline. El npm observado en esta preparación fue 11.9.0, inferior al mínimo del proyecto 11.19.1: usar el runtime/npm fijado compatible antes de instalar o declarar `verify` completo. No cambiar `engines` o lockfile para adaptar el entorno.
-2. Preparar carpeta de la miniapp con descriptor borrador y dominio puro: entradas, mes, fechas/recurrencia, `.ics`, URL de Google y layout del PNG. Fecha y UID inyectables en pruebas.
-3. Generar `.ics`, PNG y enlace Google de prueba con datos sintéticos, incluyendo longitudes máximas, emoji y un día de semana. Ale importa el archivo y abre el enlace en ambos móviles; anota app, versión, zona, fechas y resultado. Esto prueba formatos/importación, no certifica aún la descarga desde la UI.
-4. Preparar un build aislado siguiendo el precedente de las fixtures de integración para poder probar el borrador sin cambiar su estado público ni filtrar borradores al `dist/` del producto. El mecanismo auxiliar pertenece a las pruebas de Plan B; no modifica el publicador ni añade rutas a producción.
+## Entorno, pruebas y evidencia comunes
 
-**Salida esperada:** pruebas de lógica y primeras evidencias de importación/legibilidad. Un calendario incorrecto o PNG ilegible se corrige antes de invertir en visuales. Los teléfonos y sus apps son requisito de evidencia; su ausencia se registra como pendiente, no como éxito.
+Usar Node 24.22.2 / npm 11.19.1 y Chromium r1248 como referencia fijada, comprobando su disponibilidad real. En este workspace puede establecerse `PATH=/workspace/.tools/node-v24.22.2-linux-x64/bin:$PATH`, `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright` y `ASTRO_TELEMETRY_DISABLED=1` para los comandos. No cambiar engines/lockfile o usar otro navegador para eludir un fallo.
 
-### Sesión 2 — recorrido funcional y comprobación de APIs móviles
+Comandos existentes: `npm run check`, `npm run lint`, `npm run format:check`, `npm run build`, `npm run test:unit`, `npm run test:components`, `npm run test:e2e`, `npm run test:integration` y `npm run verify`. Usar pruebas dirigidas durante implementación y `verify` sobre cada entregable comprobado; repetir si cambian código/tests o quedan fallos, sin repeticiones por trámite. Los helpers de preview/medición son trabajo futuro, no comandos ya disponibles. `test:remote` exige identidad/target aprobados y lo ejecuta Actions por el circuito existente.
 
-1. Construir portada, pasos, resultado, ES/EN, validaciones, sugerencias, ejemplo, Atrás y reset; reutilizar layout sin duplicar cabecera/h1.
-2. Integrar sesión y recuperación ante errores; cambiar idioma sin traducir el texto personal. Integrar exportaciones, consentimiento Google, compartir/copiar y errores/cancelaciones con APIs nativas.
-3. Con UI mínima en un **origen HTTPS accesible desde los móviles**, comprobar Blob/download, posibles variantes iOS, activación de usuario al compartir archivo, cancelaciones, popup y guardar PNG. No dar por probado Safari a partir de Chromium emulado.
+Todos los resultados se registran en **un informe de ejecución**, `docs/reports/pb01/execution.md`, con secciones I1–I6, creado cuando exista evidencia real. No se requieren seis informes. Incluir comando, entorno, commit/árbol, resultado y límites; enlazar CI por run/revisión. Aplicar la [política de evidencias](../../standards/QUALITY_SCORE.md#política-de-evidencias): capturas mínimas solo si hacen falta para aprobación, datos sintéticos, sin secretos/planes personales y logs temporales sin presentarlos como enlaces compartidos.
 
-**Acceso para esa prueba:** preferir una vista previa HTTPS ya disponible y autorizada, con datos sintéticos. Antes de usarla, comprobar identidad/origen, acceso en los dos teléfonos y ausencia de publicación automática de borradores. Si no existe tal capacidad, registrar el bloqueo y presentar la propuesta mínima para habilitarla; este plan no autoriza un túnel, proveedor o despliegue nuevo ni un bypass del flujo de staging. El desarrollo local independiente puede continuar, pero la validación móvil y el acabado de la sesión 3 quedan pendientes. Abrir archivos de ejemplo de la sesión 1 no sustituye esta prueba.
+## Iteración 1 — Base lógica y referencia
 
-**Salida esperada:** matriz de vías que realmente funcionan en ambos dispositivos. Si solo Google permite guardar el evento en uno de ellos, documentar su conexión obligatoria y mostrar el límite de la importación local como define la ficha. Sigue siendo obligatorio generar el `.ics` offline. Si falla toda vía en un móvil, no reducir el criterio esencial sin revisión del propietario.
+**Entrada:** Ficha/selección y plan aprobados, con ejecución de este alcance autorizada. No hay resultado previo de Plan B requerido.
 
-### Sesión 3 — visuales, accesibilidad y uso offline
+**Resultado:** Una base pequeña y comprobable de Plan B: entradas y fechas narrativas correctas, descriptor todavía sin publicar y un build aislado que permita desarrollar sin filtrar borradores al catálogo real.
 
-1. Implementar gris, sello y reduced-motion propios; claro/oscuro con tokens, reflujo/zoom y foco. Capturas mínimas para revisión visual y un clip solo si hace falta evaluar el movimiento.
-2. Completar pruebas de componentes y E2E ES/EN, errores de almacenamiento/exportación, red, cancelaciones, demo/reset y modo avión tras carga completa. Preparar las fuentes antes de pintar canvas.
-3. Ale recorre ejemplo en modo avión y coloca PNG como fondo en ambos teléfonos. Revisar Chrome/Safari/Firefox de escritorio con versiones identificadas. Prueba sin ayuda con 2–3 personas como observación de usabilidad, sin recoger planes personales ni convertir la duración de dos minutos en métrica ya demostrada.
-4. Medir JS/CSS propio y total de recursos solicitados, sin comprimir/gzip. Documentar runtime compartido y presupuestos, con el HTML/chunks del build real.
+**Archivos previstos:** `src/miniapps/plan-b/metadata.ts`, `domain/validation.ts`, `domain/narrative-date.ts`, `tests/domain.test.ts` y `tests/helpers/` para un build/preview aislado. No inscribir todavía Plan B en el registro real, no cambiar rutas, layouts o configuración.
 
-### Sesión 4 — correcciones, entrega y aceptación
+### Trabajo
 
-1. Resolver fallos materiales y ejecutar `npm run verify` con el entorno compatible. La inspección del build aislado debe demostrar que la entrada funciona y no altera otras miniapps/plataforma, además de la regresión sintética existente.
-2. Revisar candidato local con el propietario. Solo al aprobar su incorporación pública se fija `status: published`, `publishedAt` y el loader del registro. Volver a comprobar rutas reales, catálogo y el build final con los mismos escenarios, sin excluir pruebas por el cambio de estado.
-3. Con permiso operativo, preparar rama/commits/push/PR hacia staging y enlazar CI/commit. El propietario decide el merge; Actions publica por el circuito existente. Corroborar versión de staging y repetir allí los recorridos afectados, descargas y matriz manual relevante. No usar como evidencia una versión anterior.
-4. Registrar resultados, limitaciones y decisiones finales de compatibilidad; actualizar documentación que describa realidad implementada. Marcar `Verificado` únicamente cuando no falte ningún criterio material. Entregar para aceptación humana y archivar solo tras ella.
+1. Antes de codificar, guardar SHA/árbol del staging vigente, versiones, resultado completo de `npm run verify`, inventario de solicitudes/bytes de las portadas ES/EN y 404, capturas mínimas claro/oscuro y estado de deuda. Comparar con `07b95fd6b168b9b03150a48a9541ddbd3767748e`, última base conocida, y explicar cualquier delta. No fijar un recuento de tests como prueba de corrección.
+2. Definir tipos de entradas y validación conforme a la ficha: trim exterior, puntos de código, límites y rechazo de saltos; mes natural siguiente, año y fecha narrativa estable por sesión. Inyectar el reloj en las pruebas y mantener el dominio sin DOM, idiomas ni almacenamiento.
+3. Crear metadatos draft puros ES/EN sin loader; mantener el registro público intacto. Así las pruebas actuales que esperan catálogo vacío siguen siendo válidas hasta la integración final.
+4. Preparar un helper de pruebas que copie el proyecto a una ubicación temporal, sustituya solo el registro de esa copia y construya variantes vacía y publicada de prueba. El entry mínimo inicial es una fixture aislada; iteración 3 lo sustituirá por la interfaz real. No usar flags de build públicos para exponer borradores.
+5. Comprobar que futuras pruebas de módulo pueden arrancar su preview aislado y fijar su propio `baseURL` sin interferir con el preview de plataforma. Conservar el control de consola/red de `tests/e2e/fixtures.ts`, cerrar servidores y borrar temporales propios. Las pruebas de herramientas en draft no pueden pasar por omisión o `skip`.
+6. Inventariar disponibilidad de iPhone/Safari, Android/Chrome y acceso HTTPS al candidato para iteración 4. Si falta la vista previa, proponer una capacidad concreta con alcance, coste y permisos; no crear hosting/túneles. Este pendiente bloquea iteración 4, no la lógica independiente de iteración 1.
 
-## Entorno y herramientas
+### Criterios de salida y pruebas
 
-Node 24 compatible con `engines` y npm ≥11.19.1 <12; lockfile actual, Astro/React/TS/Tailwind ya presentes, Vitest/RTL/Playwright/axe y Chromium fijado. `npm ci` solo si es necesario con runtime correcto; no añadir paquetes por la preparación documental. `ASTRO_TELEMETRY_DISABLED=1` permite usar Astro sin crear configuración fuera del workspace en este entorno.
+| ID | Salida comprobable | Evidencia |
+| --- | --- | --- |
+| PB-I1-01 | Referencia inicial identificada y reproducible: fuentes, entorno, batería, solicitudes y deuda. | Resumen y métricas en `docs/reports/pb01/execution.md`, a crear al ejecutar; conservar datos comparables para iteración 6. |
+| PB-I1-02 | Validación sin reescritura y meses correctos en enero 31, bisiesto, diciembre/enero y sesión que cruza medianoche. | Expectativas independientes, entradas mínimas/máximas, espacios, saltos y emoji. |
+| PB-I1-03 | La copia aislada construye variantes vacía/publicada y no altera src, registro o dist del proyecto real. | Hashes anteriores/posteriores, rutas esperadas y exclusión de marcas de fixtures/borradores del build público. |
+| PB-I1-04 | El cambio está acotado y deja identificada la disponibilidad móvil/HTTPS. | Pruebas dirigidas y `npm run verify` sin desactivar las aserciones de catálogo vacío. |
 
-Comandos existentes: `npm run check`, `npm run lint`, `npm run format:check`, `npm run validate:hosting`, `npm run test:unit`, `npm run test:components`, `npm run test:e2e`, `npm run test:integration`, `npm run verify`. `npm run test:remote` tiene su propio contrato de target y lo ejecuta Actions; no improvisar una ejecución contra cualquier URL. El build aislado y medición de bundles de Plan B son trabajo previsto, no comandos existentes.
+**Cobertura de ficha:** PB-AC-03; validación de PB-AC-02; referencia para PB-AC-01/11/12. No acredita exportaciones, persistencia o compatibilidad móvil.
 
-## Criterios de aceptación y pruebas previstas
+### Regresión local y entrega
 
-Son vinculantes **PB-AC-01–12** de la [ficha](../../product-specs/plan-b.md#7-calidad-tiempo-y-aceptación); este plan no los redefine. Matriz de cobertura:
+Comparar el catálogo y las páginas existentes con la referencia: sus rutas, idioma, identidad, foco y solicitudes siguen funcionando. Buscar duplicación del contrato de validación, importaciones con efectos laterales y residuos de fixtures. Corregir cualquier modificación accidental del entregable público y repetir integración y batería afectada.
 
-| Nivel | Pruebas a crear / revisión |
+Dominio mínimo probado, metadatos fuera del registro real, helper de build/preview aislado y referencia reproducible para I6. Marcar las tareas de esta iteración solo con los criterios anteriores comprobados y registrar el handoff en el informe único antes de avanzar.
+
+## Iteración 2 — Calendario
+
+**Entrada:** I1 completada y evidencia disponible; ADR-MMA-021 aprobada. Mantener el registro real sin publicar.
+
+**Resultado:** Generar correctamente el evento, el archivo .ics y el enlace Google con datos sintéticos, separando la corrección del formato de la posterior compatibilidad del botón de descarga en móviles.
+
+**Archivos previstos:** `src/miniapps/plan-b/domain/calendar.ts`, `domain/icalendar.ts`, `domain/google-calendar.ts`, sus `tests/*.test.ts` y muestras sintéticas de prueba generadas localmente. Registro real sin cambios.
+
+### Trabajo
+
+1. Leer el handoff y el contrato comprobados en la iteración 1. Fijar entradas/fecha/UID en pruebas; compartir un único modelo de evento para .ics y Google, sin duplicar cálculos por formato.
+2. Implementar primer día seleccionado desde mañana, fin de 15 minutos con cruce de fecha y regla semanal de cuatro apariciones por día. Probar conjuntos de 1/5/7 días y el caso de exportación domingo 2026-11-15 → lunes 16, 20 eventos, última aparición viernes 2026-12-11.
+3. Serializar VCALENDAR/VEVENT/VALARM, UID y DTSTAMP, fechas locales flotantes, CRLF, escapes TEXT y plegado UTF-8 de 75 octetos con continuación. Rechazar entradas inválidas antes de serializar; no insertar propiedades nuevas a partir de saltos o texto con apariencia de iCalendar.
+4. Construir el enlace Google con APIs URL, parámetros codificados y la misma serie. No abrir Google ni hacer peticiones desde el generador o la suite automática.
+5. Producir muestras .ics y enlaces sintéticos para importación posterior. Una primera importación manual puede adelantar hallazgos, pero no acredita las APIs de descarga; la verificación física obligatoria corresponde a iteración 4.
+6. Documentar límites de hora flotante, DST, zona del dispositivo/calendario, UID nuevo e importaciones repetidas. No resolver un problema de compatibilidad introduciendo zonas o librerías fuera de la decisión aprobada.
+
+### Criterios de salida y pruebas
+
+| ID | Salida comprobable | Evidencia |
+| --- | --- | --- |
+| PB-I2-01 | Fechas, duración y número de apariciones cumplen la ficha. | Tablas de expectativas independientes y enumeración del intervalo de 28 días; casos de medianoche, cambio de año y DST sin convertirlo en hora UTC fija. |
+| PB-I2-02 | .ics válido y texto preservado, sin inyección o UTF-8 partido. | Fixtures de comas, punto y coma, barras, CRLF y emoji justo en el límite de plegado; reconstrucción de valores independiente del serializador. |
+| PB-I2-03 | Google y .ics representan el mismo evento y recurrencia. | Decodificar parámetros con valores esperados, incluidas tildes, &, #, ?, emoji y texto parecido a HTML; cero llamadas externas. |
+| PB-I2-04 | iteración 1 sigue pasando y no cambia la plataforma. | Pruebas de dominio y `npm run verify`; revisión del diff y del modelo compartido. |
+
+**Cobertura de ficha:** PB-AC-05/06 en lógica y formato; PB-AC-08 en preservación textual. Consentimiento, importación física y descarga aún no se acreditan.
+
+### Regresión local y entrega
+
+Repetir validación y fechas de iteración 1. Revisar que el reloj se consulta en el límite correcto y que UI, Google y .ics no divergen por duplicación, zona o formateo. Las muestras generadas no pueden acabar en el catálogo, bundle o documentación con datos personales.
+
+Generadores puros con pruebas independientes y muestras reproducibles. Registrar resultado en `docs/reports/pb01/execution.md`; cualquier prueba física adelantada se identifica con app/versiones y no sustituye iteración 4. Marcar las tareas de esta iteración solo con los criterios anteriores comprobados y registrar el handoff en el informe único antes de avanzar.
+
+## Iteración 3 — Recorrido y estado
+
+**Entrada:** I2 completada y ADR-MMA-020 aprobada. La interfaz usa el dominio comprobado y el build aislado.
+
+**Resultado:** Completar el recorrido desde portada hasta plan en pantalla, con ejemplo, sugerencias, validaciones, navegación, recuperación y reset en ambos idiomas, dentro del build aislado.
+
+**Archivos previstos:** `src/miniapps/plan-b/entry.astro`, `App.tsx`, componentes internos, `i18n/es.ts`, `i18n/en.ts`, adaptación de `browser/session.ts` y `tests/` del módulo. La lógica pura conserva su separación del DOM; registro real sin cambios.
+
+### Trabajo
+
+1. Conectar la interfaz real al helper de iteración 1 y al dominio de iteraciones 1 y 2. Mantener una sola fuente para entradas validadas y frases; los generadores no se invocan con estados parciales inválidos.
+2. Implementar portada, tres pasos y resultado con plan; sugerencias que sustituyen solo su campo, Otro, hora/días opcionales, Atrás y foco al título. Los botones de exportación se incorporan en iteración 4; no simular éxito de funciones pendientes.
+3. Cargar textos y metadatos ES/EN con paridad y placeholders iguales. Usar los tokens y fuentes existentes desde el primer componente, sin duplicar título principal, cabecera o pie. El acabado de gris/sello corresponde a iteración 5.
+4. Implementar almacenamiento versionado y validado, memoria ante fallo, restauración, reset y avisos. Probar lecturas, escrituras y borrados rechazados; no tocar claves ajenas ni ocultar un fallo de borrado.
+5. Implementar ejemplo con etiqueta hasta la primera edición y fecha narrativa estable. Cambiar idioma conserva literalmente entradas/ejemplo si hay sessionStorage; con memoria sola se avisa antes de la navegación, sin modificar la cabecera compartida.
+6. Crear E2E del módulo contra su preview aislado con servidor/baseURL propios. La suite normal debe ejecutarlos, nunca saltarlos porque la herramienta sea draft; la portada pública mantiene su catálogo vigente.
+
+### Criterios de salida y pruebas
+
+| ID | Salida comprobable | Evidencia |
+| --- | --- | --- |
+| PB-I3-01 | Recorrido y validaciones completos en ES/EN, incluido volver y editar. | Componentes y E2E: límites, Otro, hora inválida, todos los días desmarcados y sugerencias; foco y errores asociados. |
+| PB-I3-02 | Ejemplo, reset y cambio de idioma preservan el contrato. | Ejemplo sin editar/tras editar, cambio de mes y lengua, reset y retorno al catálogo; texto de aspecto HTML sigue siendo texto. |
+| PB-I3-03 | Persistencia correcta y degradación en memoria explícita. | Reload online; esquema corrupto/incompatible; acceso denegado en lectura, escritura y borrado; ausencia de cambios en apariencia. |
+| PB-I3-04 | Módulo draft probado sin interferir con el sitio. | Batería del módulo y `npm run verify`; aislamiento de servidores, recursos y archivos temporales. |
+
+**Cobertura de ficha:** PB-AC-02/04; PB-AC-01 en build aislado y PB-AC-03/08 en UI. No acredita aún salidas móviles, acabado visual o publicación.
+
+### Regresión local y entrega
+
+Repetir dominio y calendario, y comparar cabecera, pie, selector y apariencia con la referencia. Revisar listeners duplicados al montar/restaurar, validación repetida en varias capas, importaciones de UI desde metadata y fugas de texto a URL, consola o recursos.
+
+Recorrido real probado y recuperable, accesible con teclado, con UI todavía fuera del catálogo público. Registrar `docs/reports/pb01/execution.md` y entradas/estados que iteración 4 debe consumir sin reescribir. Marcar las tareas de esta iteración solo con los criterios anteriores comprobados y registrar el handoff en el informe único antes de avanzar.
+
+## Iteración 4 — Imagen y exportaciones
+
+**Entrada:** I3 completada y acceso HTTPS/dispositivos disponibles. No completar esta iteración sin la matriz física requerida.
+
+**Resultado:** Conectar las salidas al recorrido y demostrar en iPhone y Android una vía real de calendario y guardado del PNG, antes de invertir en el acabado visual.
+
+**Archivos previstos:** `src/miniapps/plan-b/browser/` para canvas, archivos, share/clipboard y apertura Google; componentes del resultado/consentimiento y `tests/` del módulo. Registro real y plataforma sin cambios.
+
+### Trabajo
+
+1. Confirmar antes de las pruebas físicas que ambos móviles abren la UI candidata por HTTPS y registrar su commit/árbol. Usar una vista previa existente y autorizada; si no existe, preparar la propuesta concreta de acceso. No publicar un prototipo incompleto en staging para eludir este requisito. Sin acceso o dispositivos, conservar pendientes las pruebas afectadas y no declarar la iteración Verificada.
+2. Generar PNG 1179×2556 con fuentes locales listas, tokens del tema, zona segura, frase íntegra y ajuste de palabras/grafemas. Probar longitudes máximas, palabras sin espacios, tildes y emojis compuestos; no truncar ni reducir por debajo del mínimo para conseguir que pase.
+3. Conectar descarga .ics, vista/descarga PNG y compartir archivos manteniendo activación de usuario. Detectar capacidades, gestionar cancelación, fallos de Blob/toBlob y liberar URLs/recursos. Una variante iOS se conserva solo si está comprobada.
+4. Conectar confirmación Google, apertura desde el gesto, Cancelar sin envío y error de popup; compartir herramienta solo con enlace limpio, Clipboard y copia manual como alternativa. Las APIs se simulan en pruebas automáticas y no envían texto real a servicios.
+5. Validar offline tras cargar UI/estilos/fuentes: pasos, ejemplo, resultado y generación .ics/PNG. No prometer recarga o cambio de idioma offline; abrir el menú nativo no equivale a que cualquier destino externo funcione sin conexión.
+6. Ale comprueba en iPhone/Safari y Android/Chrome el botón real de descarga, importación, serie/hora/descripcion, guardado del PNG y colocación bajo el reloj; cancela y repite acciones. Registrar SO, navegador, app, zona y resultado. Si solo Google importa el evento en un móvil, mostrar su conexión obligatoria; si no hay ninguna vía válida, corregir o detener el alcance afectado.
+
+### Criterios de salida y pruebas
+
+| ID | Salida comprobable | Evidencia |
+| --- | --- | --- |
+| PB-I4-01 | PNG íntegro, legible y guardable en los dos teléfonos. | Casos máximos automáticos y fondo colocado físicamente bajo el reloj; cancelación y alternativa local sin éxito falso. |
+| PB-I4-02 | Al menos una vía de incorporación al calendario en cada móvil, con texto y cuatro semanas correctos. | Resultado físico del botón real, no solo un .ics copiado desde otro equipo; identificar vías descartadas y su motivo. |
+| PB-I4-03 | Consentimiento, enlace compartido y fallos respetan privacidad y estado. | Texto centinela en E2E con red/APIs interceptadas; Cancelar y clipboard/share no compatibles; ninguna petición de usuario sin gesto/aviso definidos. |
+| PB-I4-04 | Ejemplo y generación de archivos funcionan offline tras carga completa. | Prueba automática desconectada y modo avión en ambos dispositivos; declarar límites de destinos externos. |
+| PB-I4-05 | Los recorridos previos siguen funcionando sin acumulación de recursos. | Repetición de exportar/reset y volver, listeners/URLs revisados; `npm run verify` y casos de iteraciones 1–3 afectados. |
+
+**Cobertura de ficha:** PB-AC-05/06/07/08/09 con integración física. Contraste y reflujo definitivos se vuelven a verificar en iteración 5/06.
+
+### Regresión local y entrega
+
+Volver a ejecutar ejemplo, recuperación, idioma y calendario desde la UI. Revisar permisos, URLs temporales, canvas reutilizado, handlers async que pierden el gesto y peticiones inesperadas. Una exportación fallida/cancelada conserva el plan; la repetición no puede crear listeners o URLs sin liberar.
+
+Matriz real de compatibilidad y salidas funcionales; informe `docs/reports/pb01/execution.md` con datos sintéticos y sin planes personales. La iteración 5 no empieza sin esta evidencia física y los criterios de salida comprobados; una muestra importada fuera de la UI no cierra PB-I4-02. Marcar las tareas de esta iteración solo con los criterios anteriores comprobados y registrar el handoff en el informe único antes de avanzar.
+
+## Iteración 5 — Identidad e integración
+
+**Entrada:** I4 completada y compatibilidad acreditada. La incorporación pública del candidato requiere permiso expreso, que puede estar incluido en la autorización del plan.
+
+**Resultado:** Terminar el acabado de Plan B alineado con MiMiniApp y preparar un candidato completo con rutas, catálogo y pruebas reales, listo para la revisión global final.
+
+**Archivos previstos:** Estilos/componentes/i18n/tests de `src/miniapps/plan-b/`; `src/miniapps/registry.ts` para la incorporación acordada. Ajustes acotados de `tests/unit/miniapp-registry.test.ts`, `tests/e2e/catalogue.spec.ts` y pruebas de integración para cubrir el primer catálogo poblado. Revisar `tests/remote/platform.spec.ts` (ya deriva tarjetas del registro) y añadir escenarios en `tests/remote/plan-b.spec.ts` si hacen falta para el recorrido crítico remoto, reutilizando su identidad/target existentes. No editar layouts, rutas genéricas, estilos globales, dependencias, workflows o políticas de publicación.
+
+### Trabajo
+
+1. Implementar gris, recuperación de color y sello con la paleta/fuentes/tokens existentes. Revisar claro/oscuro/sistema, fondo exportado, reduced-motion, teclado, foco, dialogs, reflujo 320/393/768/1280/1440 y zoom 200 %. No tapar el plan ni usar color como única señal.
+2. Completar textos visibles, accesibles, metadatos y errores ES/EN. Revisar capturas frente a la web existente y vídeo breve solo si es necesario para aprobar movimiento. Repetir en móviles las operaciones afectadas por los visuales y comprobar el recorrido en Chrome/Safari/Firefox de escritorio, con versiones identificadas, antes de la repetición global de iteración 6.
+3. Actualizar las pruebas que hoy imponen catálogo vacío: `miniapp-registry.test.ts` exige registro [], y `catalogue.spec.ts` exige cero tarjetas/enlaces. Conservar sus aserciones de vacío en la copia aislada vacía y añadir el caso poblado real con navegación a Plan B. No borrar esas garantías, omitir tests o quitar controles de red para obtener verde.
+4. Con aprobación expresa de incorporación pública del candidato por el propietario, registrar Plan B con loader, status published y fecha de primera publicación prevista. Ese cambio ocurre en la rama candidata; no significa que ya se haya desplegado ni que el plan completo esté aceptado. Si esa aprobación falta, conservar draft y el trabajo de integración como pendiente.
+5. Construir el candidato real y probar rutas directas ES/EN, catálogo, metadatos, idioma equivalente, 404 y exclusión de fixtures. La suite remota ya deriva tarjetas del registro; extenderla solo si falta un escenario real. La comprobación de identidad remota y sus variables de confianza se mantienen.
+6. Medir bytes propios y totales, solicitudes de portada/miniapp, tiempos locales comparables y recursos de exportación; corregir duplicaciones y cargas accidentales antes de congelar el candidato. Preparar el diff completo respecto a la base iteración 1 y un listado de diferencias intencionales para iteración 6.
+
+### Criterios de salida y pruebas
+
+| ID | Salida comprobable | Evidencia |
+| --- | --- | --- |
+| PB-I5-01 | Identidad alineada y criterios de accesibilidad/visual satisfechos. | axe y revisión manual de foco/contraste/zoom/temas y reduced-motion; capturas mínimas referenciadas y revisión del propietario. |
+| PB-I5-02 | Catálogo vacío sigue cubierto en fixture y el catálogo real poblado funciona. | Pruebas de registro, navegador e integración; títulos/enlaces ES/EN y 404 real, sin exclusiones por estado. |
+| PB-I5-03 | Candidato publicado en su rama con incorporación expresamente autorizada y sin despliegue implícito. | Descriptor/registro real validados; commit/árbol y fecha identificados; `npm run verify` completo. |
+| PB-I5-04 | Presupuesto propio ≤50 KiB y total real informado; portada no carga JS de Plan B/React por mostrar la tarjeta. | Inventario del build y recursos solicitados; cualquier crecimiento de CSS generado por Tailwind se cuantifica y explica, no se oculta. |
+| PB-I5-05 | No quedan placeholders, fallos funcionales conocidos ni pruebas previas obligatorias pendientes en el candidato. | Informe y lista de cambios intencionales; requisitos de iteraciones 1–5 con evidencia. Solo la revisión global, CI final y validación del staging definitivo quedan explícitamente para iteración 6 y no bloquean esta salida por circularidad. |
+
+**Cobertura de ficha:** PB-AC-01/07/09/10/11 y preparación de PB-AC-12; el cumplimiento global y las pruebas de staging corresponden a iteración 6.
+
+### Regresión local y entrega
+
+Repetir los recorridos y exportaciones afectados por CSS/foco. Comparar la portada, 404, identidad, preferencias y movimiento con la base. Revisar scopes de CSS, importaciones, duplicación de utilidades y tests dependientes de catálogo vacío. Corregir fallos y repetir `verify` antes de entregar.
+
+Candidato funcional identificado por commit/árbol, sin nuevas funciones pendientes, evidencia visual/manual y métricas para iteración 6 en `docs/reports/pb01/execution.md`. No fusionar ni publicar por iniciativa del agente. Marcar las tareas de esta iteración solo con los criterios anteriores comprobados y registrar el handoff en el informe único antes de avanzar.
+
+## Iteración 6 — Regresión y análisis global
+
+**Entrada:** I1–I5 completadas, sus criterios documentados y un candidato definitivo identificado. Es la última iteración interna de PB-01; ninguna implementación posterior conserva una revisión final anterior como suficiente.
+
+**Resultado:** revisar el conjunto frente al sistema previo, corregir defectos del contrato aprobado y producir evidencia para aceptación humana. Se aplica la [regla de cierre obligatorio](../../PLANS.md#cierre-obligatorio-de-regresión-y-análisis). No se añaden funciones nuevas ni se concluye solo a partir del número de pruebas verdes.
+
+### Bases de comparación y entradas obligatorias
+
+1. **Base anterior al producto:** SHA/árbol, runtime/navegador, solicitudes, bytes, capturas mínimas, batería y deuda registrados en [iteración 1](#iteración-1--base-lógica-y-referencia). `07b95fd6b168b9b03150a48a9541ddbd3767748e` es la base conocida de planificación, no una sustitución de ese registro de ejecución.
+2. **Candidato completo:** commit/árbol de iteración 5, descriptor y registro que realmente generan las rutas de Plan B; lista de cambios intencionales y evidencia de iteraciones 1–5.
+3. **Staging vigente:** SHA remoto y diferencias respecto a la base/candidato. Si hubo trabajo paralelo, integrar de forma autorizada y volver a comprobar el candidato real, sin force push ni asumir que un CI de otra revisión lo cubre.
+4. **Fuentes canónicas:** [ficha v06](../../product-specs/plan-b.md), [registro técnico](../../design-docs/index.md), [arquitectura actual](../../../ARCHITECTURE.md), [calidad](../../standards/QUALITY_SCORE.md), [frontend](../../standards/FRONTEND.md), [seguridad](../../standards/SECURITY.md) y [fiabilidad](../../standards/RELIABILITY.md).
+
+Sin referencia reproducible, no declarar «sin regresiones». Recuperar datos anteriores desde el commit/base disponible cuando sea posible y distinguir mediciones reconstruidas de evidencia tomada antes del desarrollo.
+
+### Alcance, archivos y decisiones
+
+ADR-MMA-001/002/003/005/006/008/011/015/016/017/019 y las aprobaciones específicas de Plan B. Conserva publicación, credenciales y aislamiento de ADR-MMA-004/009/014, sin cambiar sus mecanismos.
+
+Revisar todo el diff del programa, no solo el último commit: `src/miniapps/plan-b/`, registro, pruebas de plataforma/integración/remote y documentación afectada. Se permiten correcciones locales de defectos respecto al contrato aprobado y pruebas que cubran hallazgos reales. No se autorizan refactors transversales por preferencia, nuevas dependencias, APIs, estilos globales, cambios de arquitectura o workflows. Una solución que requiera alterar esos límites se propone antes de ejecutarse.
+
+Informe final previsto: `docs/reports/pb01/execution.md`. No crearlo como evidencia satisfactoria hasta ejecutar las comprobaciones. Conservar solo capturas necesarias, con datos sintéticos y manifiesto cuando sean material de aprobación.
+
+### Trabajo previsto
+
+#### 1. Congelar e inspeccionar el candidato
+
+Registrar SHA/árbol y estado de archivos; identificar cada diferencia intencional. Revisar arquitectura y contratos: metadata pura, UI perezosa, dominio sin DOM/textos, estilos propios, traducciones y rutas genéricas, tests sin omisiones. Buscar código muerto, duplicación, listeners/recursos sin liberar, mensajes provisionales y documentación que afirme una capacidad inexistente.
+
+Reconciliar las secciones I1–I5 del informe único con código y criterios: una comprobación previa no excusa un fallo detectado ahora. Leer el registro de deuda de base, clasificar asuntos previos, introducidos y recién descubiertos; no borrar o cerrar pendientes ajenos sin evidencia y autorización.
+
+#### 2. Regresión funcional y de plataforma
+
+Ejecutar `npm run verify` completo sobre el candidato, con Node/npm compatibles y Chromium fijado; mantener tipos, lint, formato, hosting, unitarias, componentes, E2E e integración. Repetir los casos de límite y error de Plan B con datos sintéticos.
+
+Comparar portada ES/EN, catálogo vacío en fixture y poblado real, tarjetas/rutas estables, selector de idioma equivalente, 404, cabecera/pie, fuentes, claro/oscuro/sistema, apariencia persistida, logo/hero y control de movimiento. Revisar también el entorno aislado y la exclusión de fixtures/borradores del build entregable. La portada no debe hidratar la UI de Plan B por mostrar su tarjeta.
+
+#### 3. Privacidad, accesibilidad y compatibilidad
+
+Repetir consentimiento Google, Cancelar, URL limpia al compartir herramienta, archivo PNG con su aviso y red interceptada con texto centinela. Inspeccionar recursos, consola, storage, query y fragmentos: ningún texto personal sale por un camino no autorizado. Verificar inyección/escapes .ics, renderizado de texto, fallos y borrado de sesión; no transmitir planes reales a servicios para demostrarlo.
+
+Comprobar teclado/foco, etiquetas/errores/dialogs, contraste también en gris, temas, reduced-motion propio, reflujo a 320 px y zoom 200 %. axe es una ayuda y no una certificación. Volver a probar en Safari iPhone y Chrome Android las descargas, importación de calendario, guardado/colocación del fondo y modo avión tras carga completa, con versiones/zona y candidato identificados. Chrome/Safari/Firefox de escritorio completan la matriz. Los mocks o Chromium emulado no sustituyen esas operaciones físicas.
+
+#### 4. Rendimiento, recursos y deuda
+
+Medir base y candidato con el mismo entorno, navegador, viewport, condiciones y rutas. Separar caché fría/caliente; realizar cinco pasadas por perfil, informar mediana/rango y distinguir ruido de una degradación reproducible. Si falta una herramienta, usar capacidades existentes del navegador/Playwright o proponerla; no instalar un servicio o dependencia sin decisión.
+
+* Inventariar JS/CSS propio de Plan B sin comprimir: límite de la ficha ≤50 KiB. Informar también JS/CSS total solicitado, incluyendo React/DOM/Astro y CSS compartido, sin esconder el runtime bajo el presupuesto propio.
+* Comparar solicitudes y bytes de portada/404 con la referencia; cuantificar y justificar el cambio de catálogo y cualquier CSS adicional generado por Tailwind. Comprobar que la portada no carga los chunks de interacción de Plan B ni recursos de terceros.
+* Medir carga, respuesta a interacciones y cambios de layout. Mantener como referencias LCP ≤2,5 s, INP ≤200 ms y CLS ≤0,1, distinguiendo mediciones locales de objetivos de campo. Cinco pasadas de laboratorio no demuestran percentil 75 real ni una medición aislada demuestra ausencia de regresión.
+* Revisar coste del canvas, generación de archivos y liberación de recursos durante diez ciclos de exportación/reset/navegación interna. Registrar URLs Blob/listeners/canvas retenidos y, si está disponible, memoria, sin presentar fluctuaciones del recolector como fugas demostradas. Corregir retenciones reproducibles o bloqueos de interacción materiales.
+* Comparar dependencias/lockfile, avisos de seguridad y deuda de base con los finales. Un aviso recién publicado con lockfile idéntico se distingue de una dependencia vulnerable nueva; ambos se evalúan por impacto, sin `audit fix --force` o cambios de versión automáticos.
+
+Toda degradación material reproducible requiere corrección o una decisión explícita de alcance antes de cerrar; describirla en una tabla no la resuelve.
+
+#### 5. Hallazgos y correcciones acotadas
+
+| Campo de cada hallazgo | Contenido requerido |
 | --- | --- |
-| Dominio `tests/*.test.ts` | Mes natural, cambio anual/bisiesto; validación Unicode; primer día desde mañana; 4/20/28 eventos sin quinta semana; fin a medianoche; formato flotante/DST; `.ics` con comas, barras, CRLF y emoji en límite de 75 octetos; URL con `&`, `#`, `?` y texto de aspecto HTML. Expectativas independientes. |
-| Componente `tests/*.test.tsx` | Pasos y errores, ejemplo sin editar/tras edición, conservación de texto, todos los días desmarcados, hora opcional, recuperación y reset con errores de storage, confirmación/cancelación Google, fallos de APIs. |
-| Navegador `tests/*.spec.ts` | Rutas reales ES/EN, selector, catálogo, teclado/foco/axe, claro/oscuro/320 px/zoom, reduced-motion, reload online, modo avión tras carga, descargas/PNG y portapapeles/share simulados, ausencia de datos en recursos/URL propias. Interceptar Google al probar el consentimiento; no abrirlo realmente desde la suite. |
-| Integración / regresión | Compilar miniapp publicada solo en copia aislada mientras sea draft; verificar aislamiento del build original y del catálogo. Después probar el candidato published real. Conservar batería común sin debilitarla. |
-| Físico | Safari iPhone y Chrome Android: formato, vía real de importación, descargas, guardar fondo, legibilidad bajo reloj y offline; Chrome/Safari/Firefox escritorio: recorrido, calendario, descargas y copia. Registrar SO/navegador/app/versión/zona, fecha, target y resultado por caso. |
+| Identificación | ID, área, criterio de ficha y revisión examinada. |
+| Evidencia | Caso reproducible, resultado esperado/real y referencia a prueba o medición. |
+| Impacto y origen | Material/no esencial con justificación; previo, introducido o recién descubierto. |
+| Acción | Corrección concreta o propuesta necesaria; responsable, prioridad y condición de cierre. |
+| Verificación | Revisión corregida, comandos/casos repetidos y resultado. |
+| Residuo | Limitación o deuda restante y aceptación humana si es admisible. |
 
-## Evidencia y recuperación
+Pérdida/corrupción de datos, envío no consentido, resultado de calendario incorrecto, fallo de una función esencial, regresión de plataforma, accesibilidad material o degradación relevante sin resolver bloquean el cierre. No se ocultan como deuda ni se cambian aserciones para obtener verde.
 
-Aplicar [política de evidencias](../../standards/QUALITY_SCORE.md#política-de-evidencias): comandos y resultados locales descritos como locales; CI con enlace al run/commit; capturas mínimas en `docs/review/pb01/` con manifest si se necesitan para aprobación. No versionar reportes completos, fotos con planes personales ni secretos. En el informe futuro separar aprobado, fallido, omitido y no ejecutado. En modo offline no se trata como defecto una petición externa intencional bloqueada que el test haya interceptado y comprobado expresamente; no se desactiva el control general de red.
+Corregir defectos locales cubiertos por requisitos/decisiones y volver a ejecutar las pruebas afectadas. Si falta una función del alcance ya aprobado, implementarla como corrección solo si sigue siendo una unidad corta; si requiere una iteración adicional, situarla antes del cierre global, revisar autorización y repetir iteración 6. Conservar la evidencia de las iteraciones anteriores y registrar los nuevos hallazgos/correcciones con sus fechas y revisiones.
 
-Riesgos principales: importación `.ics`/Google, descargas iOS, acceso HTTPS de pruebas, límites de storage, hora/zona y ajuste de texto en PNG. Mantener estado visible ante error, liberar URLs Blob y repetir solo verificaciones afectadas tras corregir. Recortes permitidos son únicamente los de la ficha y se registran; un requisito esencial incumplido mantiene el plan `En curso`.
+#### 6. Última etapa — revalidación del conjunto y conclusión
 
-Antes de merge, corregir o retirar el cambio en la rama feature; no force push ni tocar ramas protegidas. Después de una publicación autorizada de staging, una reversión se prepara por PR con el propietario; no se usa el workflow de rollback bloqueado ni se modifica producción.
+Después de toda corrección, identificar el nuevo candidato y ejecutar de nuevo la batería completa pertinente. Si no cambió código/tests desde la pasada completa y no quedan dudas abiertas, citar esa pasada sin repetirla por trámite. Un cambio de runtime, prueba o descriptor después de la revisión requiere revalidar lo afectado; si es material, repetir el conjunto. No construir una conclusión mezclando evidencia de candidatos distintos.
 
-## Progreso y punto de parada
+Con permiso operativo para commits/push/PR, comprobar CI del head final contra staging. El propietario decide el merge; Actions publica el mismo artefacto probado y verifica identidad y aplicación. Confirmar source SHA/árbol y payload desde el run/manifiesto, con `prepare` y `remote-test` satisfactorios. Sin autorización de publicación o sin ejecución remota, registrar explícitamente lo local verificado, manteniendo pendiente PB-AC-12 y el cierre global.
 
-Solo preparación documental realizada. No se ha escrito código de Plan B ni ejecutado pruebas del producto. Las comprobaciones de la base durante la revisión previa fueron locales: Astro check (82 archivos, cero diagnósticos), 343 unitarias, 9 de componentes y build correctos; no equivalen a `verify`, CI actual o compatibilidad física. Runtime observado: Node 24.22.1 / npm 11.9.0. Los documentos nuevos se verificarán por coherencia, enlaces y diff.
+Comprobar las rutas/operaciones afectadas en la versión efectivamente servida; no atribuir a staging la evidencia de un preview distinto. Las pruebas remotas usan las variables de identidad y target del flujo existente, sin desactivar sus guards ni escoger una URL arbitraria. Los registros documentales posteriores de evidencia no cambian el runtime auditado; una corrección funcional posterior vuelve a abrir las verificaciones correspondientes de iteración 6.
 
-Revisión documental local del 2026-11-15 completada: siete archivos, 86 enlaces relativos y 16 destinos con anchor válidos; 98 claves ES/EN sin duplicados ni diferencias de parámetros; doce criterios consecutivos; v05 preservada literalmente tras su nota de procedencia. La definición de recurrencia se contrastó en 889 combinaciones de días seleccionados y día de exportación. Es revisión de la especificación, no una prueba de un generador implementado. Sin pruebas de aplicación nuevas por tratarse de documentación. Se conserva el estado `Borrador`.
+Entregar matriz PB-AC-01–12 con pasado/fallido/omitido/no ejecutado, mapa de cambios frente a la base, mediciones comparadas, hallazgos y sus cierres, y riesgos/deuda residual. Concluir si el resultado puede aceptarse y por qué, sin atribuir al agente la aceptación del propietario.
 
-El punto de parada actual es entregar el [paquete concreto](../../design-docs/plan-b-approval.md) para revisión. Aprobar requisitos y decisiones no autoriza por sí solo implementación. En ejecución futura, detener solo trabajo dependiente de una decisión/capacidad que falte; no declarar aceptado por terminar una sesión o por CI verde.
+### Criterios de salida de I6
 
-## Historial de estado
+| ID | Condición de cierre |
+| --- | --- |
+| PB-I6-01 | Se han contrastado los doce PB-AC con el candidato definitivo; cada uno tiene evidencia real y ninguna comprobación esencial falta. |
+| PB-I6-02 | Base y candidato son reproducibles; portada, catálogo, rutas, idiomas, temas, identidad y restantes contratos de plataforma conservan su comportamiento esperado. |
+| PB-I6-03 | No quedan defectos materiales, transmisiones no consentidas, fallos de accesibilidad esenciales o degradaciones reproducibles sin resolver. Las correcciones tienen pruebas repetidas. |
+| PB-I6-04 | Presupuesto propio y costes totales medidos; recursos y dependencias revisados; deuda previa/nueva diferenciada y residuo no esencial justificado para aceptación humana. |
+| PB-I6-05 | `npm run verify`, CI del candidato y publicación/pruebas remotas autorizadas satisfactorios; mismo contenido funcional y versión servida identificados. Una comprobación local no sustituye CI o dispositivos. |
+| PB-I6-06 | Informe final coherente con código, decisiones y pruebas; fuentes vivas actualizadas solo por realidad implementada. No hay nuevas funciones después de la revisión sin revalidación. |
+
+## Criterios de cierre del plan
+
+El resultado completo cumple los doce PB-AC de la ficha, los 28 criterios PB-I1–PB-I6 y las condiciones de revisión humana identificadas. La matriz de trazabilidad del paquete de revisión enlaza cada requisito con las iteraciones que aportan evidencia; I6 confirma todo sobre el candidato definitivo. Una tarea interna completada no equivale a aceptación del plan.
+
+## Tratamiento de bloqueos, cierre y recuperación
+
+Un fallo de salida mantiene la iteración actual abierta y el plan `En curso`; continuar solo con trabajo independiente ya autorizado. Registrar hallazgo, origen previo/nuevo, impacto, corrección y comprobación repetida. No usar el registro de deuda para aceptar un incumplimiento. Un cambio de alcance/decisión se resuelve en su fuente antes de seguir; una deuda residual no esencial necesita justificación y aceptación expresa del propietario.
+
+Pasar PB-01 a `Verificado` únicamente cuando I1–I6 y PB-AC-01–12 estén comprobados sobre el candidato definitivo, incluida la evidencia remota autorizada. Si solo existe validación local, describirla como tal y conservar el cierre global pendiente. La aceptación final del plan/producto es humana, no se deduce de un merge. Al aceptarlo o cancelarlo, archivar este único plan y actualizar sus enlaces entrantes.
+
+La IA puede corregir defectos locales cubiertos y repetir las pruebas pertinentes. No force push, reset/clean que pierda trabajo ni cambios de permisos/publicador para conseguir evidencia. Los commits/push/PR necesitan el permiso operativo correspondiente; el merge es humano y un eventual revert se prepara por PR. Producción, promoción y rollback bloqueados conservan sus límites.
+
+## Progreso y reanudación
+
+**Situación actual:** planificación aprobada el 2026-11-16, ejecución pendiente de autorización. No se ha implementado Plan B ni ejecutado pruebas de sus funciones. Las verificaciones previas de MiMiniApp/MT-02 no acreditan este producto. Al reanudar, leer control, esta tabla, el último handoff y los cambios de staging; no reiniciar tareas ya comprobadas ni avanzar sin las condiciones de entrada.
+
+| Iteración interna | Tareas y salida comprobadas | Inicio | Fin | Evidencia / siguiente paso |
+| --- | --- | --- | --- | --- |
+| I1 — base | [ ] | — | — | Pendiente de autorización e inicio. |
+| I2 — calendario | [ ] | — | — | Depende de I1 y ADR-MMA-021. |
+| I3 — recorrido y estado | [ ] | — | — | Depende de I2 y ADR-MMA-020. |
+| I4 — imagen y exportaciones | [ ] | — | — | Depende de I3 y pruebas físicas/HTTPS. |
+| I5 — identidad e integración | [ ] | — | — | Depende de I4 y permiso de incorporación. |
+| I6 — regresión y análisis global | [ ] | — | — | Depende de I1–I5 y candidato definitivo. |
+
+La tabla refleja tareas/evidencia, no seis estados canónicos ni seis aceptaciones independientes. Durante la ejecución, anotar fechas reales, revisión, comprobaciones fallidas/no ejecutadas y condición concreta para avanzar. Solo el control de PB-01 declara el estado global.
+
+## Revisión para aprobación — 2026-11-16
+
+Se aplica la condición `Borrador` → `Aprobado` de PLANS.md. Es aprobación del plan y sus condiciones, no aceptación de un producto todavía inexistente. La instrucción del propietario autoriza registrar esta transición una vez contrastada la preparación.
+
+| Aspecto revisado | Resultado |
+| --- | --- |
+| Responsable, objetivo y alcance | Identificados; resultado de producto único, límites de código/plataforma y exclusiones expresos. |
+| Trabajo y orden | Seis iteraciones internas secuenciales, 30 tareas de I1–I5 y análisis detallado I6; entradas, salidas, archivos y puntos de revisión definidos. |
+| Criterios y verificación | 28 criterios internos trazados a los doce PB-AC de la ficha; comandos existentes separados de helpers futuros; CI, dispositivos y staging distinguidos de prueba local. |
+| Regresión, recursos y deuda | Referencia reproducible en I1, cierre global I6, comparaciones de rendimiento/privacidad/accesibilidad, hallazgos y revalidación tras correcciones. |
+| Bloqueos | Selección/ficha, ADR-MMA-020/021 y ejecución aún pendientes; HTTPS/dispositivos, incorporación al catálogo y permisos de entrega identificados por iteración. No se presumen resueltos. |
+| Coherencia documental | Un solo plan de Plan B en active, enlaces/anchors válidos y contrato funcional/textos conservados. Código y configuración iguales al staging `07b95fd`. |
+
+La regla canónica permite aprobar un plan con bloqueos declarados, manteniendo impedido el inicio afectado. Por tanto PB-01 pasa a `Aprobado`, sin avanzar a `Autorizado`, `Verificado` o `Aceptado`. Ninguna casilla de implementación se marca completada.
+
+## Procedencia e historial de estado
+
+El plan global se creó el 2026-11-15. El 2026-11-16 se prepararon localmente seis borradores separados, todavía sin ejecutar ni subir; por preferencia expresa del propietario se consolidan aquí, conservando tareas, criterios y análisis útiles. Los cinco borradores adicionales se retiran de `active/`, sin fingir aceptaciones o cancelaciones. La forma de un único plan con iteraciones internas se registra en H-006 y no aprueba su contenido ni autoriza desarrollo.
 
 | Fecha | Estado | Actor | Evidencia o motivo |
 | --- | --- | --- | --- |
-| 2026-11-15 | `Borrador` | Codex | El propietario pide preparar la v06 y el plan tras el contraste con staging. Sin autorización de implementación. |
+| 2026-11-15 | `Borrador` | Codex | Preparación del plan global de Plan B; sin autorización de implementación. |
+| 2026-11-16 | `Borrador` | Codex | Preparación local de una descomposición en seis archivos, sin ejecución. |
+| 2026-11-16 | `Borrador` | Codex, por instrucción del propietario | «Si, prefiero un unico plan con 6 iteraciones y que esté bien definido»: consolidación en PB-01, seis iteraciones secuenciales y una única aceptación final. |
+| 2026-11-16 | `Aprobado` | Propietario de MiMiniApp, tras revisión de Codex | Instrucción de aprobar los planes que superen la revisión. Responsable, alcance, seis iteraciones, criterios y verificaciones definidos; bloqueos explícitos. Solo aprobación de planificación, sin autorización de ejecución o aceptación funcional. |
