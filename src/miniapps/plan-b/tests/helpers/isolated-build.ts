@@ -21,6 +21,7 @@ export const projectRoot = fileURLToPath(
   new URL('../../../../../', import.meta.url),
 );
 export type IsolatedVariant = 'draft' | 'published';
+export type EntryKind = 'fixture' | 'app';
 
 export async function fileHashes(
   directory: string,
@@ -50,7 +51,10 @@ export async function protectedHashes() {
 }
 
 /** Only the temporary copy gets a registry replacement and a fixture entry. */
-export async function createIsolatedBuild(variant: IsolatedVariant) {
+export async function createIsolatedBuild(
+  variant: IsolatedVariant,
+  entryKind: EntryKind = 'fixture',
+) {
   const root = await mkdtemp(path.join(tmpdir(), 'miminiapp-plan-b-'));
   let server: Promise<PreviewServer> | undefined;
   try {
@@ -71,10 +75,11 @@ export async function createIsolatedBuild(variant: IsolatedVariant) {
     );
     const entry = path.join(root, 'src/miniapps/plan-b/entry.astro');
     await mkdir(path.dirname(entry), { recursive: true });
-    await cp(
-      new URL('../fixtures/entry.astro.fixture', import.meta.url),
-      entry,
-    );
+    if (entryKind === 'fixture')
+      await cp(
+        new URL('../fixtures/entry.astro.fixture', import.meta.url),
+        entry,
+      );
     await writeFile(
       path.join(root, 'src/miniapps/registry.ts'),
       `

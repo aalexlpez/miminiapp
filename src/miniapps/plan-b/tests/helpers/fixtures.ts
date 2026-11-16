@@ -8,21 +8,26 @@ import {
   protectedHashes,
   type IsolatedBuild,
   type IsolatedVariant,
+  type EntryKind,
 } from './isolated-build';
 
 export const test = base.extend<
   { variant: IsolatedVariant },
-  { isolatedBuilds: Record<IsolatedVariant, IsolatedBuild> }
+  {
+    isolatedBuilds: Record<IsolatedVariant, IsolatedBuild>;
+    entryKind: EntryKind;
+  }
 >({
   variant: ['published', { option: true }],
+  entryKind: ['fixture', { option: true, scope: 'worker' }],
   isolatedBuilds: [
-    async ({ browserName }, provide) => {
+    async ({ browserName, entryKind }, provide) => {
       const before = await protectedHashes();
       const owned: IsolatedBuild[] = [];
       try {
-        const draft = await createIsolatedBuild('draft');
+        const draft = await createIsolatedBuild('draft', entryKind);
         owned.push(draft);
-        const published = await createIsolatedBuild('published');
+        const published = await createIsolatedBuild('published', entryKind);
         owned.push(published);
         const simultaneous = await Promise.all([
           published.startPreview(),
@@ -32,17 +37,32 @@ export const test = base.extend<
         for (const build of owned) {
           const copiedSource = await fileHashes(path.join(build.root, 'src'));
           for (const [filename, hash] of Object.entries(before.source)) {
-            if (filename === 'miniapps/registry.ts') continue;
+            if (
+              filename === 'miniapps/registry.ts' ||
+              filename === 'miniapps/plan-b/entry.astro'
+            )
+              continue;
             expect(
               copiedSource[filename],
               `Source changed in copy: ${filename}`,
             ).toBe(hash);
           }
+          expect(copiedSource['miniapps/plan-b/entry.astro']).toBe(
+            before.source[
+              entryKind === 'fixture'
+                ? 'miniapps/plan-b/tests/fixtures/entry.astro.fixture'
+                : 'miniapps/plan-b/entry.astro'
+            ],
+          );
           expect(
             Object.keys(copiedSource).filter(
               (filename) => !(filename in before.source),
             ),
-          ).toEqual(['miniapps/plan-b/entry.astro']);
+          ).toEqual(
+            before.source['miniapps/plan-b/entry.astro']
+              ? []
+              : ['miniapps/plan-b/entry.astro'],
+          );
         }
         for (const filename of Object.keys(before.output)) {
           const text = (

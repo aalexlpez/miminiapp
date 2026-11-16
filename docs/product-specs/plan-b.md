@@ -1,12 +1,12 @@
 # Plan B · Bad Day Plan — ficha funcional v06
 
 * **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados.
-* **Situación:** Plan B seleccionada como primera miniapp real; I1 integrada en staging; I2 autorizada y completada localmente. No publicada; ADR-MMA-021 aprobada y ADR-MMA-020 pendiente antes de I3.
-* **Creada:** 2026-11-15. **Actualizada:** 2026-11-16 (selección/ficha aprobadas e I1 ejecutada; contrato funcional v06 conservado).
+* **Situación:** Plan B seleccionada como primera miniapp real; I1/I2 integradas en staging; I3 autorizada y comprobada localmente en copia aislada. No publicada; ADR-MMA-020/021 aprobadas.
+* **Creada:** 2026-11-15. **Actualizada:** 2026-11-16 (recorrido y sesión de I3; contrato funcional v06 conservado).
 * **Origen:** [v05 aportada por el propietario](../references/plan-b-v05.md), contrastada con `staging` en `e203d73156a61a61138e9ff23de964a827221fad`.
 * **Categoría propuesta:** `everyday`. **ID / slug propuestos:** `plan-b`. Etiquetas opcionales omitidas inicialmente; `publishedAt` se fijará al publicar.
-* **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1 completada e I2 autorizada, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
-* **Revisión agrupada:** [paquete de aprobación](../design-docs/plan-b-approval.md). La autorización vigente abarca I2 y su entrega por commit/push/PR según el marco indicado por el propietario; no autoriza I3–I6, merge, publicación, infraestructura o persistencia pendiente.
+* **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1/I2 integradas e I3 autorizada, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
+* **Revisión agrupada:** [paquete de aprobación](../design-docs/plan-b-approval.md). La autorización vigente abarca I3 y su entrega por commit/push/PR en la rama estable según el marco indicado por el propietario; no autoriza I4–I6, merge, publicación o infraestructura.
 
 ## 1. Propósito y alcance
 
@@ -44,7 +44,7 @@ Solo se retiran espacios exteriores al validar y generar salidas; no se conjuga,
 
 Estado: portada / propósito / obstáculo / plan / resultado, valores de entradas, indicador de ejemplo y fecha narrativa. Sin datos del usuario en rutas, query, fragmentos, títulos de documento, logs, telemetría ni peticiones de recursos. La UI trata todo como texto y valida también lo recuperado de almacenamiento.
 
-Propuesta de persistencia: `sessionStorage` bajo `miminiapp.plan-b.v1`, con esquema versionado y solo los datos anteriores. Recargar conserva estado cuando el almacenamiento y la carga de página están disponibles. Si falla el acceso se continúa en memoria y se avisa; si los datos son corruptos, incompatibles o inválidos se descartan y se vuelve a portada con explicación. Cerrar una pestaña no se anuncia como garantía de borrado: el navegador puede restaurarla. «Empezar otra vez» limpia memoria, clave propia y recursos temporales; no toca `miminiapp.appearance`. Si el borrado falla, se informa y no se promete que se haya eliminado la copia guardada.
+Persistencia aprobada (ADR-MMA-020): `sessionStorage` bajo `miminiapp.plan-b.v1`, con esquema versionado y solo los datos anteriores. Recargar conserva estado cuando el almacenamiento y la carga de página están disponibles. Si falla el acceso se continúa en memoria y se avisa; si los datos son corruptos, incompatibles o inválidos se descartan y se vuelve a portada con explicación. Cerrar una pestaña no se anuncia como garantía de borrado: el navegador puede restaurarla. «Empezar otra vez» limpia memoria, clave propia y recursos temporales; no toca `miminiapp.appearance`. Si el borrado falla, se informa y no se promete que se haya eliminado la copia guardada.
 
 Cambiar ES/EN conserva entradas, paso, hora y días mediante esa clave; los textos personales nunca se traducen. Si solo existe memoria porque el almacenamiento está bloqueado, se avisa antes de navegar que el cambio de idioma perderá el progreso. No se modifica el selector común. Cambiar propósito u obstáculo conserva situación/acción y cambia únicamente las sugerencias disponibles. Elegir una sugerencia sustituye solo su campo.
 
@@ -234,7 +234,7 @@ Recortes, si hacen falta y se registran antes de aceptar: instrucciones de SO se
 
 ## 8. Pendientes y cambios respecto a v05
 
-El propietario selecciona Plan B y aprueba esta ficha al comenzar I1 el 2026-11-16. Tras fusionar PR #19 autoriza avanzar a I2 y aprueba ADR-MMA-021. I2 queda completada localmente; ADR-MMA-020 e I3–I6 siguen pendientes de sus decisiones/autorizaciones. Las condiciones de las iteraciones y las revisiones humanas permanecen; la última revisión sigue siendo I6. No se atribuye compatibilidad física o aceptación del producto a sus generadores de calendario.
+El propietario selecciona Plan B y aprueba esta ficha al comenzar I1 el 2026-11-16. Tras fusionar PR #19 autoriza avanzar a I2 y aprueba ADR-MMA-021. I1/I2 quedan integradas. Tras confirmar la consolidación en una rama, autoriza I3 y aprueba ADR-MMA-020 el 2026-11-16. Recorrido y sesión quedan comprobados localmente; I4–I6 conservan sus condiciones y autorización pendiente. Las condiciones de las iteraciones y las revisiones humanas permanecen; la última revisión sigue siendo I6. No se atribuye compatibilidad física o aceptación del producto a sus generadores de calendario.
 
 Cambios materiales propuestos: rutas reales con slug único; mes natural; calendario `COUNT` exacto; promesa offline acotada; almacenamiento con fallos y borrado explícito; consentimiento para URL Google/PNG; lienzo fijo también desde escritorio; presupuesto propio separado del total; aceptación inicial en staging. La iteración 1 inventaría la vía de acceso HTTPS; la iteración 4 la requiere comprobada para las pruebas de teléfonos. No se inventa un hosting o despliegue de pruebas.
 
@@ -244,3 +244,4 @@ Cambios materiales propuestos: rutas reales con slug único; mes natural; calend
 | 2026-11-16 | `Borrador` | Codex, por solicitud del propietario | Planificación consolidada en un único PB-01 con seis iteraciones internas y cierre global obligatorio por preferencia del propietario; requisitos de producto y ejecución siguen pendientes. |
 | 2026-11-16 | `Aprobada` | Propietario de MiMiniApp | «vamos a comenzar con la primera iteración», tras el repaso solicitado de la documentación: selección de Plan B y ejecución de I1 según ficha v06; decisiones ADR-MMA-020/021 y siguientes iteraciones no autorizadas. |
 | 2026-11-16 | `Aprobada` | Propietario de MiMiniApp | Confirma merge de PR #19 y pide avanzar: I2 y ADR-MMA-021 aprobadas; ADR-MMA-020 y ejecución de I3–I6 pendientes. |
+| 2026-11-16 | `Aprobada` | Propietario de MiMiniApp | Confirma integración de I1/I2 en la rama del plan y pide continuar: I3 y ADR-MMA-020 aprobadas; I4–I6 sin autorizar. |
