@@ -6,7 +6,7 @@ Este documento orienta. No aprueba ni autoriza nada: el estado canónico de cada
 
 ## Iteraciones
 
-Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md). Las `CP-xx` (Creative Playground) son trabajo de identidad y apariencia añadido después. `MT-xx` es mantenimiento transversal. `PB-01` contiene seis iteraciones internas para Plan B, con regresión global como última iteración.
+Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md). Las `CP-xx` (Creative Playground) son trabajo de identidad y apariencia añadido después. `MT-xx` es mantenimiento transversal. `PB-01` contiene seis iteraciones internas para Plan B, con regresión global como última iteración. Cada ExecPlan tiene una rama estable y commits por iteración, según H-007 de PLANS.md.
 
 | Iteración | Resultado | Estado |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Ini
 | [MT-01](exec-plans/completed/MT-01-mantenimiento-y-colaboracion.md) | Documentación al día y preparación para varios colaboradores | Aceptado, 2026-11-15 |
 | [MT-02](exec-plans/completed/MT-02-organizacion-documental.md) | Organización documental, enlaces y mapa de navegación | Aceptado y archivado el 2026-11-16 tras contrastar criterios, CI y staging |
 | I-05 | Flujo de contribución pública | Sin plan. Depende de decidir la licencia |
-| [I-06 / PB-01](exec-plans/active/PB-01-plan-b.md) | Plan B propuesta como primera miniapp real: base, calendario, recorrido, salidas, visuales/integración y regresión global | En curso: I1 integrada mediante PR #19; I2 completada localmente y ADR-MMA-021 aprobada. ADR-MMA-020 e I3–I6 pendientes |
+| [I-06 / PB-01](exec-plans/active/PB-01-plan-b.md) | Plan B propuesta como primera miniapp real: base, calendario, recorrido, salidas, visuales/integración y regresión global | En curso: I1 integrada mediante PR #19; I2 integrada mediante PR #20 y ADR-MMA-021 aprobada. ADR-MMA-020 e I3–I6 pendientes |
 
 I-04 quedó sin alcance propio: producción y el gate de promoción se incorporaron a I-03 el 2026-11-05.
 

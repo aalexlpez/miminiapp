@@ -29,13 +29,23 @@ El número de archivos o líneas modificadas no determina por sí solo la necesi
 
 Esta instancia organiza el trabajo en iteraciones pequeñas y secuenciales, con un resultado observable coherente por ExecPlan. El [roadmap](roadmap.md) orienta; no autoriza ejecución ni sustituye el estado de cada plan. La adaptación documental se registra en [H-002](harness-decisions.md#h-002--adaptación-documental-de-la-instancia-miminiapp).
 
-Un ExecPlan puede contener varias **iteraciones internas** que persiguen ese mismo resultado; no se exige un archivo por iteración. Según la aclaración [H-006](harness-decisions.md#h-006--un-plan-con-iteraciones-internas), mantiene un solo responsable, estado canónico, aprobación, autorización e historial. Cada iteración interna define entrada, trabajo, pruebas, salida y evidencia. Su progreso se registra mediante tareas o tabla de avance dentro del plan, sin crear estados de aprobación paralelos. La ejecución puede pasar a la siguiente iteración cuando cumpla sus condiciones de salida y siga dentro del alcance autorizado; solo se detiene para las revisiones humanas, decisiones o permisos que el plan identifique expresamente.
+Cada ExecPlan se organiza en **iteraciones internas** numeradas I1, I2, etc., que persiguen ese mismo resultado; se conserva un único archivo de plan. [H-006](harness-decisions.md#h-006--un-plan-con-iteraciones-internas) establece esa organización y [H-007](harness-decisions.md#h-007--una-rama-por-execplan-y-commits-por-iteración) la aplica al trabajo nuevo de esta instancia. Mantiene un solo responsable, estado canónico, aprobación, autorización e historial. Cada iteración interna define entrada, trabajo, pruebas, salida y evidencia. Su progreso se registra mediante tareas o tabla de avance dentro del plan, sin crear estados de aprobación paralelos. La ejecución puede pasar a la siguiente iteración cuando cumpla sus condiciones de salida y siga dentro del alcance autorizado; solo se detiene para las revisiones humanas, decisiones o permisos que el plan identifique expresamente.
 
 Crear ExecPlans separados cuando existan resultados independientes, responsables o autorizaciones distintos, o una separación de alcance/riesgo que lo justifique. Cada uno declara sus dependencias y espera la aceptación de los otros planes que necesite. La numeración identifica; las dependencias determinan el orden y el historial con evidencia acredita la ejecución real.
 
 Cada iteración explicita dependencias, alcance y exclusiones, criterios de aceptación, verificaciones y evidencia. Si el resultado no puede abordarse en una sesión o secuencia corta razonable, debe dividirse antes de autorizarlo. Añade riesgos y rollback cuando afecte a datos, despliegues u operaciones con efectos persistentes.
 
 Las iteraciones de producto incluyen las pruebas automatizadas que deban crearse o actualizarse; una iteración exclusivamente documental puede verificarse mediante revisión de coherencia y enlaces, sin inventar pruebas de aplicación. Los comandos que todavía no existen se identifican como objetivos futuros.
+
+### Rama e identificación de commits por plan
+
+Por instrucción del propietario del 2026-11-16, registrada en H-007, **cada ExecPlan tiene una única rama de trabajo estable**, identificada en su sección Control. Se crea desde staging actualizado y se reutiliza durante todas sus iteraciones, hasta aceptar o cancelar el plan. No se abre una rama por iteración ni se comparten ramas de ejecución entre planes independientes. Elegir una rama o preparar el plan no autoriza implementar sus propuestas.
+
+Cada commit nuevo de trabajo identifica el plan y la iteración a la que corresponde en su título: `tipo(ID-PLAN/Ix): descripción en inglés`, por ejemplo `feat(PB-01/I3): implement the plan flow`. Los ajustes y la sincronización se asignan a la iteración a la que sirven; no se agrupan trabajos independientes de iteraciones distintas en un mismo commit. El plan mantiene una trazabilidad de sus iteraciones, entregas y evidencia.
+
+Una PR puede acumular varias iteraciones o entregar una parte comprobada; su número no tiene que coincidir con el número de iteraciones. Todas las entregas del mismo plan usan su rama estable. Tras un merge parcial, actualizar esa misma rama desde staging antes de continuar, mediante fast-forward cuando sea posible o un merge identificado con la iteración correspondiente. Conservar los commits publicados; no reescribirlos para ajustar sus títulos. El título de la PR identifica plan e iteraciones de la entrega y permite conservar esa referencia en el mensaje de merge generado por GitHub.
+
+Mantener la rama durante el plan. Si un cierre parcial provoca su borrado, restaurar el mismo nombre desde el último contenido integrado antes de reanudar, sin abrir otra rama por iteración. Las ramas previas a H-007 se registran como procedencia; sus commits y aceptaciones no se reescriben. Retirar referencias históricas solo después de comprobar que están totalmente integradas y no tienen PR abiertas. La regla no modifica protecciones, configuración de borrado automático, permisos o publicación; el merge sigue siendo humano.
 
 ### Cierre obligatorio de regresión y análisis
 
@@ -55,6 +65,7 @@ Un plan no trivial debe indicar:
 
 * Responsable de aprobación.
 * Fecha de creación y última actualización.
+* Identificador del plan, rama de trabajo estable e iteración actual.
 * Objetivo y resultado esperado.
 * Alcance y exclusiones relevantes.
 * Decisiones aprobadas que debe respetar.

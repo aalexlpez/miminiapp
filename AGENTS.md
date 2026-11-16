@@ -22,7 +22,7 @@ La adaptación documental H-002 está `Aprobada` para esta instancia por indicac
 * `docs/README.md`: mapa documental por función, con guías, normas e informes por iteración; organización adoptada en H-004.
 * `docs/`: documentación específica que se consulta y completa solo cuando resulte aplicable.
 
-Cada ExecPlan es la fuente canónica de su propio estado y progreso. Un ExecPlan aplica la definición y las decisiones aprobadas, pero no puede redefinirlas; un cambio material debe actualizar primero la fuente del dominio afectado. `docs/design-docs/index.md` conserva la decisión técnica aprobada y `ARCHITECTURE.md` describe cómo está implementada actualmente. Una diferencia entre ambos es una inconsistencia que debe resolverse, no una autorización implícita para alterar uno de ellos.
+Cada ExecPlan es la fuente canónica de su propio estado y progreso. Se divide en iteraciones internas y registra una única rama estable; los commits identifican plan e iteración según `docs/PLANS.md`, H-007. Un ExecPlan aplica la definición y las decisiones aprobadas, pero no puede redefinirlas; un cambio material debe actualizar primero la fuente del dominio afectado. `docs/design-docs/index.md` conserva la decisión técnica aprobada y `ARCHITECTURE.md` describe cómo está implementada actualmente. Una diferencia entre ambos es una inconsistencia que debe resolverse, no una autorización implícita para alterar uno de ellos.
 
 `README.md` orienta y `docs/BOOTSTRAP.md` ordena la activación; ninguno modifica los estados, autorizaciones o decisiones definidos en las fuentes anteriores. Este archivo establece la autoridad general y dirige hacia la fuente especializada. Si un resumen difiere de la fuente canónica de su dominio, prevalece esta última.
 

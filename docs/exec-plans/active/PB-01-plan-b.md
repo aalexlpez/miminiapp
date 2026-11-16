@@ -6,11 +6,12 @@
 * **Responsable de aprobación, autorización, aceptación y cancelación:** propietario de MiMiniApp (Alexander / Ale).
 * **Creado:** 2026-11-15. **Última actualización:** 2026-11-16.
 * **Base de planificación:** staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`. Registrar la base real al ejecutar y explicar sus diferencias.
-* **Rama de preparación:** `docs/plan-b-iterations`.
+* **Rama de trabajo estable:** `feature/pb01-plan-b`, única para las iteraciones restantes y ajustes de PB-01, según [H-007](../../harness-decisions.md#h-007--una-rama-por-execplan-y-commits-por-iteración). Se sincroniza desde staging tras cada entrega parcial.
+* **Commits:** `tipo(PB-01/Ix): descripción en inglés`; el ajuste actual de trazabilidad pertenece a I2. Ramas anteriores de planificación/I1/I2 conservadas como procedencia en el historial y el informe, sin reescribir commits.
 * **Organización:** un único ExecPlan con seis iteraciones internas secuenciales I1 → I2 → I3 → I4 → I5 → I6. La última es siempre regresión y análisis global.
-* **Iteración actual:** I2 completada y comprobada localmente; entrega a revisión por PR. I1 fusionada mediante PR #19 en staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`; CI y staging satisfactorios. I3–I6 no iniciadas.
+* **Iteración actual:** I2 completada e integrada mediante PR #20 en staging `e4c956e46a57fadcb7cecaf187df2aba592bad19`; I1 integrada mediante PR #19. Consolidación documental de I2 y de H-007; I3–I6 no iniciadas.
 * **Aprobación del plan:** 2026-11-16, propietario de MiMiniApp, mediante «los planes que están por confirmarse, quiero que analices si ya pasan los criterios de aceptación y pasalos a aprobados», condicionada a la revisión documentada abajo.
-* **Autorización actual:** el propietario confirma el merge de PR #19 y pide «Avanza con la siguiente iteración» el 2026-11-16. Se registra ADR-MMA-021 aprobada y autorización de I2 en `feature/pb01-i2-calendar`, desde staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`. Incluye desarrollo, pruebas y entrega por commit/push/PR según el marco; merge humano. ADR-MMA-020 sigue propuesta y no se autoriza I3–I6, llamadas reales a Google, publicación, infraestructura o controles.
+* **Autorización actual:** el propietario confirma el merge de PR #19 y pide «Avanza con la siguiente iteración» el 2026-11-16. Se registra ADR-MMA-021 aprobada y autorización de I2 originalmente en `feature/pb01-i2-calendar`, desde staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`. Incluye desarrollo, pruebas y entrega por commit/push/PR según el marco; merge humano. ADR-MMA-020 sigue propuesta y no se autoriza I3–I6, llamadas reales a Google, publicación, infraestructura o controles. La instrucción posterior de una rama por ExecPlan autoriza registrar H-007 y adoptar `feature/pb01-plan-b`; no amplía el alcance de producto a I3.
 
 ## Objetivo, alcance y decisiones
 
@@ -318,6 +319,8 @@ El resultado completo cumple los doce PB-AC de la ficha, los 28 criterios PB-I1�
 
 ## Tratamiento de bloqueos, cierre y recuperación
 
+Las seis iteraciones reutilizan la rama de Control y sus commits identifican PB-01/Ix. Las entregas parciales no crean otra rama ni otro ExecPlan; los commits publicados de I1/I2 se conservan.
+
 Un fallo de salida mantiene la iteración actual abierta y el plan `En curso`; continuar solo con trabajo independiente ya autorizado. Registrar hallazgo, origen previo/nuevo, impacto, corrección y comprobación repetida. No usar el registro de deuda para aceptar un incumplimiento. Un cambio de alcance/decisión se resuelve en su fuente antes de seguir; una deuda residual no esencial necesita justificación y aceptación expresa del propietario.
 
 Pasar PB-01 a `Verificado` únicamente cuando I1–I6 y PB-AC-01–12 estén comprobados sobre el candidato definitivo, incluida la evidencia remota autorizada. Si solo existe validación local, describirla como tal y conservar el cierre global pendiente. La aceptación final del plan/producto es humana, no se deduce de un merge. Al aceptarlo o cancelarlo, archivar este único plan y actualizar sus enlaces entrantes.
@@ -326,12 +329,12 @@ La IA puede corregir defectos locales cubiertos y repetir las pruebas pertinente
 
 ## Progreso y reanudación
 
-**Situación actual:** I1 integrada mediante PR #19 e I2 completada el 2026-11-16. Calendario y salidas `.ics`/URL Google probados; batería final de 464 unitarias, 9 componentes, 88 E2E e integración. Build público idéntico a la referencia de I1; [informe y handoff](../../reports/pb01/execution.md#i2--calendario). PB-01 sigue `En curso`: I3–I6 sin iniciar, fuera de la autorización vigente. No confundir el formato con compatibilidad física o consentimiento, reservados a I4.
+**Situación actual:** I1 integrada mediante PR #19 e I2 completada e integrada mediante PR #20 el 2026-11-16. Rama estable del plan `feature/pb01-plan-b`; los nuevos commits identifican plan/iteración según H-007. Calendario y salidas `.ics`/URL Google probados; batería final de 464 unitarias, 9 componentes, 88 E2E e integración. Build público idéntico a la referencia de I1; [informe y handoff](../../reports/pb01/execution.md#i2--calendario). PB-01 sigue `En curso`: I3–I6 sin iniciar, fuera de la autorización vigente. No confundir el formato con compatibilidad física o consentimiento, reservados a I4.
 
 | Iteración interna | Tareas y salida comprobadas | Inicio | Fin | Evidencia / siguiente paso |
 | --- | --- | --- | --- | --- |
 | I1 — base | [x] | 2026-11-16 | 2026-11-16 | PB-I1-01–04 comprobados localmente; informe y entrega por PR. I2 pendiente de autorización y ADR-MMA-021. |
-| I2 — calendario | [x] | 2026-11-16 | 2026-11-16 | PB-I2-01–04 comprobados localmente; muestras e informe. I3 pendiente de autorización y ADR-MMA-020. |
+| I2 — calendario | [x] | 2026-11-16 | 2026-11-16 | PB-I2-01–04 comprobados; commit 62add4d y PR #20 integrada en e4c956e. Muestras e informe. I3 pendiente de autorización y ADR-MMA-020. |
 | I3 — recorrido y estado | [ ] | — | — | Depende de I2 y ADR-MMA-020. |
 | I4 — imagen y exportaciones | [ ] | — | — | Depende de I3 y pruebas físicas/HTTPS. |
 | I5 — identidad e integración | [ ] | — | — | Depende de I4 y permiso de incorporación. |
@@ -368,3 +371,4 @@ El plan global se creó el 2026-11-15. El 2026-11-16 se prepararon localmente se
 | 2026-11-16 | `En curso` | Codex | I1 completada: 412 unitarias, 9 componentes, 88 E2E e integración satisfactorios; 19 archivos públicos idénticos a la referencia. Informe y límites registrados. El estado global no avanza a Verificado: I2–I6 pendientes y fuera de la autorización actual. |
 | 2026-11-16 | `En curso` | Propietario / Codex | PR #19 fusionada y autorización expresa de avanzar a I2; ADR-MMA-021 aprobada en el registro. Modelo y formatos de calendario, sin I3 ni operaciones de navegador. |
 | 2026-11-16 | `En curso` | Codex | I2 completada: 464 unitarias, 9 componentes, 88 E2E e integración; 121 unitarias en dos zonas adicionales y build público idéntico. No avanza a Verificado global ni se inicia I3. |
+| 2026-11-16 | `En curso` | Propietario / Codex | H-007 aprobada: una rama estable por ExecPlan y commits identificados por iteración. PB-01 adopta feature/pb01-plan-b desde staging e4c956e; PR #20 ya integrada y ramas I1/I2 retiradas tras verificar ascendencia y PR cerradas. Historial conservado; I3 no autorizada por este ajuste. |

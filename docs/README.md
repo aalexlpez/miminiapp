@@ -13,7 +13,7 @@ Este mapa dirige a las fuentes del proyecto. La autoridad y los estados se defin
 | Añadir una miniapp | [Guía de miniapps](guides/miniapps.md) y [ficha funcional](product-specs/miniapp-template.md) |
 | Operar staging | [Guía de staging](guides/staging.md) |
 | Consultar trabajo y pendientes | [Roadmap](roadmap.md), [planes activos](exec-plans/active/) y [deuda](exec-plans/tech-debt-tracker.md) |
-| Revisar la propuesta de Plan B | [Ficha v06](product-specs/plan-b.md) en borrador y [PB-01](exec-plans/active/PB-01-plan-b.md) aprobado como planificación, sin ejecución autorizada; su [iteración 6](exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global) cierra con regresión y análisis global |
+| Revisar Plan B | [Ficha v06](product-specs/plan-b.md) aprobada y [PB-01](exec-plans/active/PB-01-plan-b.md) en curso: I1/I2 integradas, una rama estable para el plan y commits por iteración; su [iteración 6](exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global) cierra con regresión y análisis global |
 
 ## Dónde vive cada tipo de documento
 

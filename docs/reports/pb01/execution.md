@@ -135,6 +135,18 @@ Se contrastaron plegado, valores TEXT, tiempos flotantes y componentes con [RFC 
 
 **Handoff para I3:** conservar APIs puras y un solo modelo de calendario; la fecha narrativa sigue siendo la de inicio de sesión y la del evento se toma al exportar. Extender los diccionarios existentes sin duplicar las claves de calendario o sus placeholders. Las acciones de descarga, UID aleatorio por exportación, consentimiento y APIs de navegador pertenecen a I4. ADR-MMA-020 continúa Propuesta y se requiere aprobarla/autorizar I3 antes de persistir o desarrollar su recorrido. Solo Chrome de escritorio disponible por ahora; matriz física y HTTPS de candidata mantienen sus pendientes para I4.
 
+## Consolidación de I2 — rama estable y trazabilidad
+
+El 2026-11-16 el propietario solicita una rama por ExecPlan, planes divididos en iteraciones y commits identificados por la iteración respectiva. Se registra [H-007](../../harness-decisions.md#h-007--una-rama-por-execplan-y-commits-por-iteración) y se aplica a PB-01 sin iniciar I3.
+
+La API confirma [PR #20](https://github.com/aalexlpez/miminiapp/pull/20) fusionada en staging `e4c956e46a57fadcb7cecaf187df2aba592bad19`. El head integrado de I2 es `62add4d3be73a22452a2663a269172fdf7f4080c`; [CI 43900237824](https://github.com/aalexlpez/miminiapp/actions/runs/43900237824) satisfactorio. El merge tiene ese head como segundo padre y no altera sus archivos.
+
+Rama estable adoptada: `feature/pb01-plan-b`. Los heads históricos de `feature/pb01-i1-base` (`c1231be2a0fed9069a69b0915019a8afd02b584c`) y `feature/pb01-i2-calendar` (`62add4d3be73a22452a2663a269172fdf7f4080c`) son ancestros de staging y sus PR #19/#20 están cerradas y fusionadas. Se retiran las referencias de esas dos ramas al publicar la rama estable, conservando todos los commits y la evidencia por SHA. El estado previo de las secciones I1/I2 describe su ejecución original.
+
+La actualización actual es documentación de entrega/trazabilidad de I2, con commit `docs(PB-01/I2): ...`. Las siguientes iteraciones reutilizarán esta misma rama; si hay entregas parciales se sincroniza desde staging, sin reescribir commits. No se cambia configuración de GitHub, CI, aplicación o dependencias.
+
+Revisión final: coherencia entre AGENTS, PLANS, plantilla, guía, decisión H-007 y control de PB-01; enlaces locales y diff; ascendencia de los heads retirados, conservación del historial y rama estable publicada. No se atribuye una nueva batería funcional local a este ajuste documental. La PR de entrega incorpora la verificación remota del candidato definitivo.
+
 ## I3–I6
 
 Sin comenzar. La autorización actual se limita a I2, además de I1 ya completada. I3 necesita ADR-MMA-020 aprobada y su autorización; I4–I6 conservan sus recursos y revisiones expresas. I6 permanece como cierre global de todo el producto.

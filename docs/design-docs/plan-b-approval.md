@@ -1,12 +1,12 @@
 # Plan B v06 — paquete para revisión del propietario
 
-**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D ampliado a I2 el 2026-11-16 tras el merge de PR #19. Del Bloque B, ADR-MMA-021 aprobada y ADR-MMA-020 pendiente; I3–I6 no autorizadas. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; I1 integrada mediante PR #19; ejecución I2 en `feature/pb01-i2-calendar` desde staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`.
+**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D ampliado a I2 el 2026-11-16 tras el merge de PR #19. Del Bloque B, ADR-MMA-021 aprobada y ADR-MMA-020 pendiente; I3–I6 no autorizadas. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; I1/I2 integradas mediante PR #19/#20. Rama estable de PB-01: `feature/pb01-plan-b`, sincronizada desde staging `e4c956e46a57fadcb7cecaf187df2aba592bad19`, según H-007.
 
 ## Qué se entrega
 
 * [Ficha funcional v06](../product-specs/plan-b.md): definición autocontenida, textos ES/EN, comportamiento ante errores y doce criterios de aceptación.
 * [ADR-MMA-020/021](plan-b-contracts.md): propuestas de sesión temporal y exportaciones; estados canónicos en el [registro técnico](index.md).
-* Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) aprobado y con I1 en ejecución, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
+* Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) en curso, con I1/I2 integradas, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
 * [v05 original](../references/plan-b-v05.md): antecedente aportado, con nota de procedencia. No se da por verificado que su v04 exista en Git.
 
 ## Bloque A — definición de producto aprobada
@@ -108,3 +108,7 @@ El propietario solicita el repaso de la documentación y comenzar I1. Se registr
 ## Avance a I2 — 2026-11-16
 
 El propietario confirma PR #19 fusionada y pide avanzar a la siguiente iteración: ADR-MMA-021 queda Aprobada y se autoriza I2. Se mantiene la entrega por commit/push/PR, el merge humano y los límites de importación física, consentimiento y dispositivos de I4. No se autoriza I3, persistencia, llamadas reales a Google o publicación.
+
+## Rama y commits del plan — H-007
+
+El propietario establece una única rama por ExecPlan, iteraciones internas y commits que identifican cada iteración. PB-01 continúa en `feature/pb01-plan-b` con títulos como `feat(PB-01/I3): implement the plan flow`; I1/I2 conservan su historia integrada. Las entregas por PR usan esa misma rama. Esta decisión organizativa no autoriza I3 ni cambia la aceptación final o los puntos de revisión humana.
