@@ -9,7 +9,7 @@ Colección pública de miniapps bilingües (ES/EN): calculadoras, utilidades, ex
 | Área | Situación |
 | --- | --- |
 | Plataforma | Portada y catálogo ES/EN, identidad animada y apariencia clara/oscura/sistema. |
-| Miniapps | Ninguna publicada: catálogo vacío. Plan B seleccionada, con su primera iteración en desarrollo. |
+| Miniapps | Ninguna publicada: catálogo vacío. Plan B en desarrollo: base integrada y generadores de calendario implementados, todavía sin interfaz pública. |
 | Staging | Publicado automáticamente con cada merge a `staging`. |
 | Producción | Publicada desde `soycerobytes/miminiapp` mediante Workers Builds tras merge manual; promoción por snapshot del SHA validado en staging. |
 | Licencia | Sin decidir (`UNLICENSED`). El código no es todavía software libre. |

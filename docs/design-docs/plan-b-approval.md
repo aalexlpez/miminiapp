@@ -1,6 +1,6 @@
 # Plan B v06 — paquete para revisión del propietario
 
-**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D autorizado para I1 el 2026-11-16 mediante la solicitud de comenzar la primera iteración tras el repaso documental. Bloque B (ADR-MMA-020/021) pendiente; I2–I6 no autorizadas. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; ejecución I1 en `feature/pb01-i1-base` desde staging `d3d8386e6077911d84ee85bcc16981177f3d3b1d`.
+**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D ampliado a I2 el 2026-11-16 tras el merge de PR #19. Del Bloque B, ADR-MMA-021 aprobada y ADR-MMA-020 pendiente; I3–I6 no autorizadas. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; I1 integrada mediante PR #19; ejecución I2 en `feature/pb01-i2-calendar` desde staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`.
 
 ## Qué se entrega
 
@@ -26,12 +26,12 @@ El propietario selecciona Plan B y solicita comenzar I1 conforme a la ficha v06 
 
 Se conservan núcleo, ejemplo, imagen, tres pasos, sello, ES/EN y al menos una vía funcional de calendario en cada móvil. Si Google es la única vía de importación en alguno, se explica que requiere conexión; el archivo `.ics` sigue generándose offline. No se añaden analítica, cuentas, servicios, dependencias ni PWA. Los recortes permitidos siguen el orden acotado de la ficha.
 
-## Bloque B — decisiones técnicas propuestas
+## Bloque B — decisiones técnicas de Plan B
 
 * **ADR-MMA-020:** `sessionStorage` versionado y validado, memoria ante fallo, reset explícito. Cerrar pestaña no garantiza borrado; no se toca la preferencia de apariencia.
-* **ADR-MMA-021:** `.ics` y PNG locales; Google solo tras aviso/confirmación, con texto en su URL. Compartir la herramienta lleva URL limpia; compartir PNG puede entregar el plan al destino elegido. Sin API, OAuth o backend.
+* **ADR-MMA-021, aprobada al autorizar I2:** `.ics` y PNG locales; Google solo tras aviso/confirmación, con texto en su URL. Compartir la herramienta lleva URL limpia; compartir PNG puede entregar el plan al destino elegido. Sin API, OAuth o backend.
 
-Aprobar B exige cambiar a `Aprobada` las dos filas del registro técnico, con fecha y actor, y reflejar la indicación en sus documentos. La aprobación de A no sustituye esa decisión.
+Las decisiones se aprueban individualmente en el registro técnico. ADR-MMA-021 ya está Aprobada; ADR-MMA-020 sigue Propuesta y condiciona I3. La aprobación de A no sustituye esas decisiones.
 
 ## Bloque C — plan único con seis iteraciones
 
@@ -77,7 +77,7 @@ Los bloqueos se localizan dentro del mismo plan: selección/ficha y autorizació
 
 ## Bloque D — autorización de ejecución y alcance operativo
 
-Los Bloques A/C están aprobados y se autoriza I1. El Bloque B mantiene sus decisiones pendientes antes de I2/I3. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
+Los Bloques A/C están aprobados e I1 integrada. Ahora se autoriza I2 con ADR-MMA-021 aprobada; ADR-MMA-020 sigue pendiente antes de I3. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
 
 Esta autorización no permite al agente hacer merge, desplegar por fuera de Actions, habilitar producción/promoción/rollback, crear hosting/túneles, modificar secretos/protecciones o publicar un prototipo incompleto por eludir la verificación.
 
@@ -85,7 +85,7 @@ Esta autorización no permite al agente hacer merge, desplegar por fuera de Acti
 
 ## Cómo registrar la respuesta
 
-La aprobación de A/C y la autorización parcial de D para I1 constan en ficha y PB-01. Una indicación posterior puede resolver B y ampliar D con su alcance real; las revisiones humanas, permisos operativos y aceptación final se registran expresamente. La aprobación de un bloque no completa ni autoriza los demás.
+La aprobación de A/C, la de ADR-MMA-021 y la autorización parcial de D hasta I2 constan en ficha, registro técnico y PB-01. Una indicación posterior puede resolver ADR-MMA-020 y ampliar D con su alcance real; las revisiones humanas, permisos operativos y aceptación final se registran expresamente. La aprobación de un bloque no completa ni autoriza los demás.
 
 Se registra fecha, actor y alcance en ficha, registro técnico y plan, sin atribuir aceptación de producto a la autorización. Si ya hay más de un mantenedor, la indicación debe constar además en el PR de GitHub correspondiente según H-003; no se presume el número de mantenedores a partir de una lista de despliegue vacía.
 
@@ -104,3 +104,7 @@ La comprobación de consolidación previa conservó seis iteraciones, 28 criteri
 ## Inicio de I1 — 2026-11-16
 
 El propietario solicita el repaso de la documentación y comenzar I1. Se registra selección/ficha y autorización de esta iteración; la entrega mediante commit, push y PR a staging sigue su instrucción previa de seguir el marco. Se conserva su merge manual. No se presupone aprobación de ADR-MMA-020/021 ni ejecución de otras iteraciones. El propietario indica que dispone por ahora de Chrome de escritorio: iPhone/Android y HTTPS de la candidata quedan pendientes para I4. Evidencia en el [informe único](../reports/pb01/execution.md).
+
+## Avance a I2 — 2026-11-16
+
+El propietario confirma PR #19 fusionada y pide avanzar a la siguiente iteración: ADR-MMA-021 queda Aprobada y se autoriza I2. Se mantiene la entrega por commit/push/PR, el merge humano y los límites de importación física, consentimiento y dispositivos de I4. No se autoriza I3, persistencia, llamadas reales a Google o publicación.

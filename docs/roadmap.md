@@ -19,7 +19,7 @@ Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Ini
 | [MT-01](exec-plans/completed/MT-01-mantenimiento-y-colaboracion.md) | Documentación al día y preparación para varios colaboradores | Aceptado, 2026-11-15 |
 | [MT-02](exec-plans/completed/MT-02-organizacion-documental.md) | Organización documental, enlaces y mapa de navegación | Aceptado y archivado el 2026-11-16 tras contrastar criterios, CI y staging |
 | I-05 | Flujo de contribución pública | Sin plan. Depende de decidir la licencia |
-| [I-06 / PB-01](exec-plans/active/PB-01-plan-b.md) | Plan B propuesta como primera miniapp real: base, calendario, recorrido, salidas, visuales/integración y regresión global | En curso: I1 completada localmente el 2026-11-16; ficha/selección aprobadas. ADR-MMA-020/021 y ejecución de I2–I6 pendientes |
+| [I-06 / PB-01](exec-plans/active/PB-01-plan-b.md) | Plan B propuesta como primera miniapp real: base, calendario, recorrido, salidas, visuales/integración y regresión global | En curso: I1 integrada mediante PR #19; I2 completada localmente y ADR-MMA-021 aprobada. ADR-MMA-020 e I3–I6 pendientes |
 
 I-04 quedó sin alcance propio: producción y el gate de promoción se incorporaron a I-03 el 2026-11-05.
 
@@ -35,8 +35,8 @@ La prioridad declarada es el producto: elegir y construir la primera miniapp. El
 
 Antes de I-06 conviene resolver:
 
-* las decisiones ADR-MMA-021/020 antes de calendario y persistencia de Plan B; selección y [ficha](product-specs/plan-b.md) ya aprobadas;
+* ADR-MMA-020 antes de persistencia en I3; selección, [ficha](product-specs/plan-b.md) y ADR-MMA-021 ya aprobadas;
 * la licencia (ADR-MMA-010), si el repositorio va a aceptar contribuciones externas;
-* la autorización de las iteraciones siguientes; I1 de Plan B ya está autorizada e I-03 aceptado.
+* la autorización de las iteraciones siguientes; I2 de Plan B ya está autorizada e I-03 aceptado.
 
 Las skills opcionales siguen aplazadas al final, en [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final).

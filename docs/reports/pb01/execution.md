@@ -76,6 +76,65 @@ La comparación posterior da los **19 archivos públicos idénticos byte a byte*
 
 No quedan fallos materiales abiertos de I1; las limitaciones físicas y de HTTPS son entradas futuras identificadas, sin pruebas sustitutivas. No hay nuevas dependencias, persistencia, exportaciones, cambios de plataforma o publicación.
 
-## I2–I6
+### Integración posterior de I1
 
-Sin comenzar. La autorización actual se limita a I1. I2 necesita ADR-MMA-021 aprobada, I3 ADR-MMA-020 y las restantes iteraciones sus recursos/revisiones expresas. I6 permanece como cierre global de todo el producto.
+PR [#19](https://github.com/aalexlpez/miminiapp/pull/19) fusionada por el propietario en staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`. [CI 43888635919](https://github.com/aalexlpez/miminiapp/actions/runs/43888635919) satisfactorio sobre el head `c1231be2a0fed9069a69b0915019a8afd02b584c`; [staging 43893827682](https://github.com/aalexlpez/miminiapp/actions/runs/43893827682) satisfactorio sobre el merge. No significa que Plan B esté publicada: el registro real sigue vacío.
+
+## I2 — Calendario
+
+### Base y autorización
+
+Después de confirmar el merge, el propietario pide «Avanza con la siguiente iteración». Se registra ADR-MMA-021 Aprobada y ejecución parcial de I2. Rama `feature/pb01-i2-calendar`, base `782cdd4035e9698dbb59cf57f577b99659f91e5f`, árbol `3305be5122016931b596d5798ad53c188ed790d5`. Se reutilizan dominio, descriptor y helpers de I1; el merge no altera el contenido de I1. No se repite una batería previa sin cambios: su CI/staging ya acreditan la base y la nueva batería final incluye ambos dominios.
+
+### Implementación y límites
+
+* `domain/calendar.ts`: un modelo inmutable compartido con inicio/fin, días ordenados MO–SU, COUNT=4×n, UID, DTSTAMP y texto validado. La fecha local se lee del argumento de exportación, excluye hoy y busca desde mañana. Suma 15 minutos de reloj con cambio de fecha. La aritmética de días usa etiquetas gregorianas con UTC como herramienta interna; nunca convierte la hora flotante de los eventos a UTC.
+* `domain/icalendar.ts`: VCALENDAR/VEVENT/VALARM, UID/DTSTAMP UTC, DTSTART/DTEND flotantes, regla semanal sin UNTIL, alarma DISPLAY al inicio. Escapa TEXT, escribe CRLF y pliega a 75 octetos UTF-8, contando el espacio de continuación y sin partir caracteres.
+* `domain/google-calendar.ts`: devuelve una URL de plantilla con action/text/details/dates/recur, codificados con URLSearchParams. Consume el mismo modelo y texto que `.ics`; no abre Google ni ejecuta peticiones.
+* `i18n/es.ts`, `en.ts` y `calendar-copy.ts`: subconjunto de textos de calendario de la ficha, con claves/placeholders equivalentes y sustitución literal en una sola pasada. No se vuelve a interpretar un placeholder que ya venía dentro de una frase personal; la lógica de dominio no importa traducciones.
+* Helper `tests/helpers/calendar-samples.ts`: produce dos archivos de calendario y un JSON de enlaces con datos sintéticos. No utiliza almacenamiento, llama al navegador o instala dependencias.
+
+`createCalendarEvent` recibe el reloj ya leído y el UID. El futuro adaptador de I4 debe proporcionar un UID nuevo mediante la API local al iniciar cada exportación y reutilizar el modelo al elegir un formato. No se presenta la inyección de un UID fijo de prueba como generación aleatoria de producción. Reimportar puede duplicar eventos; el futuro aviso de la ficha se conserva.
+
+Se revalidan el modelo y los textos antes de serializar, evitando identidad, fechas, duración, recurrencia o entradas alteradas. Caracteres de control o sustitutos Unicode aislados que el formato no puede representar provocan error; nunca se eliminan o sustituyen en silencio. El adaptador de I4 debe conservar el plan y presentar el error recuperable. Los límites implementados son años 0001–9999 y un intervalo completo representable.
+
+Los horarios flotantes conservan las etiquetas de hora, incluso en fechas con cambio horario. No garantizan la interpretación de horas ambiguas/inexistentes por cada cliente ni una zona fija al viajar. Google puede interpretar el horario según su configuración; construir el enlace no prueba importación, consentimiento, popup o guardado.
+
+### Pruebas y contraste
+
+**52 pruebas nuevas** de calendario, incluidas **889 combinaciones** dentro de una prueba exhaustiva (127 conjuntos no vacíos × siete días de exportación). Expectativas independientes del escritor: enumeración de fechas, lectura del subconjunto de propiedades emitido por componente, reconstrucción de TEXT y recuento de octetos. Ese lector de pruebas no es un validador general de todo iCalendar ni sustituye la importación en aplicaciones reales.
+
+Casos: selección de 1/5/7 días y conjuntos intercalados, hoy antes de su hora, medianoche, febrero bisiesto/no bisiesto y diciembre/enero; series alrededor de DST sin normalizar 02:30. Ejemplo de ficha: exportar el 2026-11-15, lunes–viernes a las 20:00, produce inicio 16 de noviembre, fin 20:15, 20 eventos y última aparición 11 de diciembre. Ambas salidas conservan fechas, regla y texto validado.
+
+Se prueban comas, punto y coma, barras, CRLF de las descripciones, acentos, emoji, secuencias compuestas y fronteras de plegado. Textos con aspecto de propiedades se mantienen como datos; identidades y entradas que intentan introducir saltos se rechazan. URLs con &, #, ?, %, +, llaves o texto de aspecto HTML se decodifican al valor literal esperado, sin parámetros nuevos. La prueba de ausencia de comunicación bloquea fetch antes de ejecutar el modelo y los dos generadores.
+
+El primer lector de pruebas confundía DESCRIPTION del evento con DESCRIPTION de la alarma. Se corrigió el ámbito por componente y se mantienen las aserciones de unicidad dentro de cada componente, ambas propiedades y todos los controles negativos; no se eliminó la alarma ni se relajó el formato.
+
+**Resultado final local:** `npm run verify`, código 0, Node 24.22.2/npm 11.19.1/Chromium r1248: tipos sin diagnósticos, lint, formato, hosting offline, **464 unitarias**, **9 componentes**, **88 E2E** e integración modular satisfactorios. I1+I2 pasan también con **121 unitarias en cada zona**, `America/New_York` y `Pacific/Kiritimati`. Los fixtures de integración conservan sus 2/4 pruebas propias y la exclusión de sus copias del descubrimiento.
+
+El build público conserva sus **19 archivos idénticos byte a byte** a la referencia de I1. No se altera registro, rutas, layouts, estilos, plataforma, dependencias/lockfile, workflows o infraestructura. Sin nuevas solicitudes de recursos de Plan B y sin archivos de muestra en el catálogo o bundle público. La evidencia de CI para el SHA definitivo se adjunta en la PR de entrega, separada de estos resultados locales.
+
+### Muestras reproducibles y fuente técnica
+
+Comando existente y probado con Node fijado:
+
+```sh
+TZ=UTC node src/miniapps/plan-b/tests/helpers/calendar-samples.ts .local/verification/plan-b/i2
+```
+
+Genera `plan-b.ics`, `bad-day-plan.ics`, `calendar-urls.json` y una nota de límites, con el ejemplo sintético ES/EN de la ficha, fecha 2026-11-15 y UIDs fijos solo para pruebas. Los archivos son locales e ignorados: no se enlazan como evidencia compartida; el helper versionado permite regenerarlos. No se abrieron enlaces ni se importó la muestra en un calendario. La prueba física de los botones de I4 sigue pendiente.
+
+Se contrastaron plegado, valores TEXT, tiempos flotantes y componentes con [RFC 5545](https://www.rfc-editor.org/rfc/rfc5545), §§3.1, 3.3.5, 3.3.11, 3.6.1 y 3.6.6. No se añade un servicio o biblioteca de calendario ni se atribuye compatibilidad de un cliente a la validez del archivo.
+
+| Criterio | Resultado |
+| --- | --- |
+| PB-I2-01 | Fechas, 15 minutos y cuatro apariciones por día contrastados mediante tablas y enumeración independiente. Cumple. |
+| PB-I2-02 | Estructura emitida, escapes, CRLF, límites UTF-8 y rechazo de entradas inválidas contrastados, sin alterar texto silenciosamente. Cumple. |
+| PB-I2-03 | Datos de ambos formatos equivalentes, texto ES/EN intacto y cero comunicaciones del generador. Cumple. |
+| PB-I2-04 | Dominio I1, plataforma e integración siguen pasando; build público idéntico. Cumple. |
+
+**Handoff para I3:** conservar APIs puras y un solo modelo de calendario; la fecha narrativa sigue siendo la de inicio de sesión y la del evento se toma al exportar. Extender los diccionarios existentes sin duplicar las claves de calendario o sus placeholders. Las acciones de descarga, UID aleatorio por exportación, consentimiento y APIs de navegador pertenecen a I4. ADR-MMA-020 continúa Propuesta y se requiere aprobarla/autorizar I3 antes de persistir o desarrollar su recorrido. Solo Chrome de escritorio disponible por ahora; matriz física y HTTPS de candidata mantienen sus pendientes para I4.
+
+## I3–I6
+
+Sin comenzar. La autorización actual se limita a I2, además de I1 ya completada. I3 necesita ADR-MMA-020 aprobada y su autorización; I4–I6 conservan sus recursos y revisiones expresas. I6 permanece como cierre global de todo el producto.

@@ -8,9 +8,9 @@
 * **Base de planificación:** staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`. Registrar la base real al ejecutar y explicar sus diferencias.
 * **Rama de preparación:** `docs/plan-b-iterations`.
 * **Organización:** un único ExecPlan con seis iteraciones internas secuenciales I1 → I2 → I3 → I4 → I5 → I6. La última es siempre regresión y análisis global.
-* **Iteración actual:** I1 completada y comprobada localmente; entrega a revisión por PR. Sin iniciar I2–I6, fuera de la autorización parcial vigente.
+* **Iteración actual:** I2 completada y comprobada localmente; entrega a revisión por PR. I1 fusionada mediante PR #19 en staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`; CI y staging satisfactorios. I3–I6 no iniciadas.
 * **Aprobación del plan:** 2026-11-16, propietario de MiMiniApp, mediante «los planes que están por confirmarse, quiero que analices si ya pasan los criterios de aceptación y pasalos a aprobados», condicionada a la revisión documentada abajo.
-* **Autorización actual:** el propietario indica el 2026-11-16 «vamos a comenzar con la primera iteración», con repaso documental previo. Se registra selección/ficha v06 aprobadas y autorización de desarrollo y pruebas locales de I1 en `feature/pb01-i1-base`, desde staging `d3d8386e6077911d84ee85bcc16981177f3d3b1d`. ADR-MMA-020/021 permanecen propuestas. No se autoriza I2–I6, merge, publicación, infraestructura o cambios de controles. La entrega por commit, push y PR a staging sigue la instrucción previa del propietario de seguir el marco; el merge continúa siendo humano.
+* **Autorización actual:** el propietario confirma el merge de PR #19 y pide «Avanza con la siguiente iteración» el 2026-11-16. Se registra ADR-MMA-021 aprobada y autorización de I2 en `feature/pb01-i2-calendar`, desde staging `782cdd4035e9698dbb59cf57f577b99659f91e5f`. Incluye desarrollo, pruebas y entrega por commit/push/PR según el marco; merge humano. ADR-MMA-020 sigue propuesta y no se autoriza I3–I6, llamadas reales a Google, publicación, infraestructura o controles.
 
 ## Objetivo, alcance y decisiones
 
@@ -45,7 +45,7 @@ Si el propietario autoriza solo una parte, parar en ese límite. Un cambio de al
 
 Usar Node 24.22.2 / npm 11.19.1 y Chromium r1248 como referencia fijada, comprobando su disponibilidad real. En este workspace puede establecerse `PATH=/workspace/.tools/node-v24.22.2-linux-x64/bin:$PATH`, `PLAYWRIGHT_BROWSERS_PATH=/workspace/.cache/ms-playwright` y `ASTRO_TELEMETRY_DISABLED=1` para los comandos. No cambiar engines/lockfile o usar otro navegador para eludir un fallo.
 
-Comandos existentes: `npm run check`, `npm run lint`, `npm run format:check`, `npm run build`, `npm run test:unit`, `npm run test:components`, `npm run test:e2e`, `npm run test:integration` y `npm run verify`. Usar pruebas dirigidas durante implementación y `verify` sobre cada entregable comprobado; repetir si cambian código/tests o quedan fallos, sin repeticiones por trámite. Los helpers de preview/medición son trabajo futuro, no comandos ya disponibles. `test:remote` exige identidad/target aprobados y lo ejecuta Actions por el circuito existente.
+Comandos existentes: `npm run check`, `npm run lint`, `npm run format:check`, `npm run build`, `npm run test:unit`, `npm run test:components`, `npm run test:e2e`, `npm run test:integration` y `npm run verify`. Usar pruebas dirigidas durante implementación y `verify` sobre cada entregable comprobado; repetir si cambian código/tests o quedan fallos, sin repeticiones por trámite. Los helpers de build/preview aislados de I1 están disponibles dentro del módulo; las mediciones locales se registran en el informe sin introducir comandos ficticios. `test:remote` exige identidad/target aprobados y lo ejecuta Actions por el circuito existente.
 
 Todos los resultados se registran en **un informe de ejecución**, `docs/reports/pb01/execution.md`, con secciones I1–I6, creado cuando exista evidencia real. No se requieren seis informes. Incluir comando, entorno, commit/árbol, resultado y límites; enlazar CI por run/revisión. Aplicar la [política de evidencias](../../standards/QUALITY_SCORE.md#política-de-evidencias): capturas mínimas solo si hacen falta para aprobación, datos sintéticos, sin secretos/planes personales y logs temporales sin presentarlos como enlaces compartidos.
 
@@ -326,12 +326,12 @@ La IA puede corregir defectos locales cubiertos y repetir las pruebas pertinente
 
 ## Progreso y reanudación
 
-**Situación actual:** I1 completada el 2026-11-16, con referencia previa, dominio probado, descriptor draft y pruebas de build/preview aislados. Batería final: 412 unitarias, 9 componentes, 88 E2E e integración; build público idéntico a la referencia. [Informe único](../../reports/pb01/execution.md#i1--base-lógica-y-referencia). PB-01 sigue `En curso`; no se ejecuta I2 sin su decisión y autorización. Al reanudar, leer control, tabla, handoff y cambios de staging; no repetir trabajo comprobado ni atribuir a I1 la aceptación global.
+**Situación actual:** I1 integrada mediante PR #19 e I2 completada el 2026-11-16. Calendario y salidas `.ics`/URL Google probados; batería final de 464 unitarias, 9 componentes, 88 E2E e integración. Build público idéntico a la referencia de I1; [informe y handoff](../../reports/pb01/execution.md#i2--calendario). PB-01 sigue `En curso`: I3–I6 sin iniciar, fuera de la autorización vigente. No confundir el formato con compatibilidad física o consentimiento, reservados a I4.
 
 | Iteración interna | Tareas y salida comprobadas | Inicio | Fin | Evidencia / siguiente paso |
 | --- | --- | --- | --- | --- |
 | I1 — base | [x] | 2026-11-16 | 2026-11-16 | PB-I1-01–04 comprobados localmente; informe y entrega por PR. I2 pendiente de autorización y ADR-MMA-021. |
-| I2 — calendario | [ ] | — | — | Depende de I1 y ADR-MMA-021. |
+| I2 — calendario | [x] | 2026-11-16 | 2026-11-16 | PB-I2-01–04 comprobados localmente; muestras e informe. I3 pendiente de autorización y ADR-MMA-020. |
 | I3 — recorrido y estado | [ ] | — | — | Depende de I2 y ADR-MMA-020. |
 | I4 — imagen y exportaciones | [ ] | — | — | Depende de I3 y pruebas físicas/HTTPS. |
 | I5 — identidad e integración | [ ] | — | — | Depende de I4 y permiso de incorporación. |
@@ -339,7 +339,7 @@ La IA puede corregir defectos locales cubiertos y repetir las pruebas pertinente
 
 La tabla refleja tareas/evidencia, no seis estados canónicos ni seis aceptaciones independientes. Durante la ejecución, anotar fechas reales, revisión, comprobaciones fallidas/no ejecutadas y condición concreta para avanzar. Solo el control de PB-01 declara el estado global.
 
-## Revisión para aprobación — 2026-11-16
+## Revisión para aprobación — 2026-11-16 (previa al inicio de I1)
 
 Se aplica la condición `Borrador` → `Aprobado` de PLANS.md. Es aprobación del plan y sus condiciones, no aceptación de un producto todavía inexistente. La instrucción del propietario autoriza registrar esta transición una vez contrastada la preparación.
 
@@ -366,3 +366,5 @@ El plan global se creó el 2026-11-15. El 2026-11-16 se prepararon localmente se
 | 2026-11-16 | `Aprobado` | Propietario de MiMiniApp, tras revisión de Codex | Instrucción de aprobar los planes que superen la revisión. Responsable, alcance, seis iteraciones, criterios y verificaciones definidos; bloqueos explícitos. Solo aprobación de planificación, sin autorización de ejecución o aceptación funcional. |
 | 2026-11-16 | `Autorizado` → `En curso` | Propietario / Codex | Solicitud de comenzar I1 tras repaso documental; se registra selección/ficha aprobadas y se prepara base reproducible desde staging d3d8386. Alcance local de I1, sin ejecución de siguientes iteraciones. |
 | 2026-11-16 | `En curso` | Codex | I1 completada: 412 unitarias, 9 componentes, 88 E2E e integración satisfactorios; 19 archivos públicos idénticos a la referencia. Informe y límites registrados. El estado global no avanza a Verificado: I2–I6 pendientes y fuera de la autorización actual. |
+| 2026-11-16 | `En curso` | Propietario / Codex | PR #19 fusionada y autorización expresa de avanzar a I2; ADR-MMA-021 aprobada en el registro. Modelo y formatos de calendario, sin I3 ni operaciones de navegador. |
+| 2026-11-16 | `En curso` | Codex | I2 completada: 464 unitarias, 9 componentes, 88 E2E e integración; 121 unitarias en dos zonas adicionales y build público idéntico. No avanza a Verificado global ni se inicia I3. |
