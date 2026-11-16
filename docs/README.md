@@ -1,6 +1,6 @@
 # Documentación de MiMiniApp
 
-Este mapa dirige a las fuentes del proyecto. La autoridad y los estados se definen en [AGENTS.md](../AGENTS.md); un documento de orientación no sustituye a su fuente canónica. Organización aplicada en [MT-02](exec-plans/active/MT-02-organizacion-documental.md), por indicación del propietario del 2026-11-15.
+Este mapa dirige a las fuentes del proyecto. La autoridad y los estados se definen en [AGENTS.md](../AGENTS.md); un documento de orientación no sustituye a su fuente canónica. Organización aplicada en [MT-02](exec-plans/completed/MT-02-organizacion-documental.md), por indicación del propietario del 2026-11-15.
 
 ## Por dónde empezar
 
@@ -13,7 +13,7 @@ Este mapa dirige a las fuentes del proyecto. La autoridad y los estados se defin
 | Añadir una miniapp | [Guía de miniapps](guides/miniapps.md) y [ficha funcional](product-specs/miniapp-template.md) |
 | Operar staging | [Guía de staging](guides/staging.md) |
 | Consultar trabajo y pendientes | [Roadmap](roadmap.md), [planes activos](exec-plans/active/) y [deuda](exec-plans/tech-debt-tracker.md) |
-| Revisar la propuesta de Plan B | [Ficha v06](product-specs/plan-b.md) y [paquete de revisión](design-docs/plan-b-approval.md), todavía en borrador |
+| Revisar la propuesta de Plan B | [Ficha v06](product-specs/plan-b.md) en borrador y [PB-01](exec-plans/active/PB-01-plan-b.md) aprobado como planificación, sin ejecución autorizada; su [iteración 6](exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global) cierra con regresión y análisis global |
 
 ## Dónde vive cada tipo de documento
 
@@ -37,7 +37,7 @@ La raíz de `docs/` contiene este mapa, [BOOTSTRAP.md](BOOTSTRAP.md), [PLANS.md]
 | I-00 | [Auditoría inicial](reports/i00/onboarding-audit.md) |
 | I-01 | [Ejecución](reports/i01/execution.md) y [traspaso histórico](reports/i01/handoff.md) |
 | I-02 | [Ejecución](reports/i02/execution.md) |
-| I-03 | [Fase A](reports/i03/phase-a.md), [preparación de staging](reports/i03/staging-preparation.md), [corrección del PR](reports/i03/merged-pr-correction.md), [primera publicación](reports/i03/staging-startup.md) y [parche histórico ya aplicado](reports/i03/staging-publication-activation.patch) |
+| I-03 | [contrato vigente verificado](reports/i03/contract-verification-2026-11-16.md), [plan anterior archivado](reports/i03/legacy-plan-2026-11-16.md), [Fase A](reports/i03/phase-a.md), [preparación de staging](reports/i03/staging-preparation.md), [corrección del PR](reports/i03/merged-pr-correction.md), [primera publicación](reports/i03/staging-startup.md) y [parche histórico ya aplicado](reports/i03/staging-publication-activation.patch) |
 | CP-01 | [Ejecución de identidad y movimiento](reports/cp01/execution.md) |
 | CP-02 | [Implementación de apariencia](reports/cp02/execution.md) |
 

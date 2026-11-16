@@ -49,4 +49,22 @@ Registrar las decisiones duraderas sobre el gobierno y la evolución de este tem
 * **Responsable:** propietario de MiMiniApp.
 * **Decisión:** raíz de `docs/` con mapa documental, bootstrap, planificación, decisiones del harness y roadmap. Conservar `product-specs/`, `design-docs/`, `exec-plans/`, `review/` y `references/`; agrupar procedimientos en `guides/`, normas en `standards/` e informes en `reports/<iteración>/`. Actualizar enlaces y consumidores al mover archivos; retirar los dos placeholders vacíos sin uso operativo.
 * **Límite:** no cambia autoridad, estados, criterios de aceptación ni significado de las decisiones previas. Las referencias originales y el parche histórico se conservan íntegros; en informes y planes cerrados solo se reparan enlaces navegables, sin reescribir los hechos ni las rutas literales de su época. La migración no instala herramientas ni activa automatizaciones.
-* **Aplicación:** [mapa documental](README.md), [fuentes canónicas](../AGENTS.md#fuentes-canónicas) y [MT-02](exec-plans/active/MT-02-organizacion-documental.md). Los borradores de Plan B mantienen su estado pendiente.
+* **Aplicación:** [mapa documental](README.md), [fuentes canónicas](../AGENTS.md#fuentes-canónicas) y [MT-02](exec-plans/completed/MT-02-organizacion-documental.md). Los borradores de Plan B mantienen su estado pendiente.
+
+### H-005 — Cierre obligatorio de regresión y análisis
+
+* **Estado:** `Aprobada`, para la instancia MiMiniApp.
+* **Fecha / responsable:** 2026-11-16, propietario de MiMiniApp.
+* **Instrucción:** «La ultima iteración deberá se siempre una iteración de regresión y análsis, evaluar todo lo hecho y contrastarlo con lo que ya hay para saber que no se introdujo errores, deuda, problemas, malos rendimientos, etc etc».
+* **Decisión:** todo trabajo nuevo planificado termina con regresión y análisis adecuados a su alcance; si se divide en varios ExecPlans, la última iteración revisa el conjunto sobre una base reproducible. Se comprueban errores, integración, deuda y mantenibilidad y, cuando corresponda, seguridad, privacidad, accesibilidad y rendimiento. Las correcciones se revalidan sobre el candidato final. Añadir implementación desplaza la revisión global al nuevo final.
+* **Límite:** la instrucción autoriza incorporar esta regla y preparar la descomposición de Plan B. No aprueba por sí misma sus requisitos, propuestas técnicas o ejecución. No cambia la autoridad humana, los estados, la política de publicación ni las aceptaciones anteriores; no instala herramientas, activa automatizaciones o exige subagentes. La verificación reduce riesgo, sin prometer ausencia absoluta de defectos.
+* **Aplicación:** [PLANS.md](PLANS.md#cierre-obligatorio-de-regresión-y-análisis), [plantilla](exec-plans/_template.md) y [última iteración de PB-01](exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). El borrador inicial se consolidó en un único plan por H-006.
+
+### H-006 — Un plan con iteraciones internas
+
+* **Estado:** `Aprobada`, para la forma de organización de Plan B y su aclaración en la planificación de esta instancia.
+* **Fecha / responsable:** 2026-11-16, propietario de MiMiniApp.
+* **Instrucción:** «Si, prefiero un unico plan con 6 iteraciones y que esté bien definido».
+* **Decisión:** consolidar Plan B en PB-01 con seis iteraciones internas secuenciales. Un solo estado, aprobación, autorización e historial pertenecen al plan; las condiciones de entrada/salida, tareas y evidencia permiten seguir cada iteración sin multiplicar archivos ni ciclos de aprobación. Avanzar dentro del alcance autorizado cuando se cumplan esas condiciones, respetando los puntos de revisión humana explícitos. Mantener planes separados para resultados independientes o límites de responsabilidad, autorización o riesgo que lo justifiquen.
+* **Límite:** esa indicación autorizó consolidar la preparación documental, no desarrollar el producto; en ese momento la ficha, ADR-MMA-020/021 y PB-01 seguían pendientes de aprobación/autorización. Sus estados posteriores se consultan en las fuentes correspondientes. La aceptación del plan completo es humana; los demás planes dependientes siguen esperando su aceptación. No cambia aceptaciones históricas, permisos externos, decisiones técnicas, infraestructura ni la última iteración obligatoria de regresión de H-005.
+* **Aplicación:** [PLANS.md](PLANS.md#iteraciones-de-miminiapp), [plantilla](exec-plans/_template.md), [CONTRIBUTING.md](../CONTRIBUTING.md#aprobaciones) y [PB-01](exec-plans/active/PB-01-plan-b.md). Los cinco borradores adicionales, locales y sin ejecutar, se retiran de `active/` tras trasladar su contenido útil; no se archivan como trabajo aceptado o cancelado.

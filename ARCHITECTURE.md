@@ -1,6 +1,6 @@
 # Arquitectura actual
 
-**Actualizado:** 2026-11-13.
+**Actualizado:** 2026-11-16.
 
 Este documento describe lo que existe hoy en la rama `staging`. Las decisiones que lo justifican están en el [registro técnico](docs/design-docs/index.md); lo que todavía es intención, en la [arquitectura objetivo](docs/design-docs/architecture-target.md); la historia, en los [planes de ejecución](docs/exec-plans). Si este documento y el código difieren, es un error que hay que corregir.
 
@@ -16,7 +16,7 @@ Sitio estático generado con Astro 7. No hay servidor de aplicación, base de da
 | Estilos | Tailwind 4.3.4 mediante `@tailwindcss/vite` |
 | Pruebas | Vitest, React Testing Library, Playwright con axe |
 | Alojamiento | Cloudflare Workers Static Assets |
-| Entrega | GitHub Actions |
+| Entrega | Actions para staging; promoción por snapshot entre repositorios; Workers Builds para producción |
 | Runtime | Node 24 (referencia 24.22.2) y npm 11, dependencias exactas y un solo lockfile |
 
 ## Mapa del código
@@ -78,11 +78,15 @@ Space Grotesk y DM Sans se sirven desde `public/fonts/` en WOFF2 variable, sin C
 ## Entrega
 
 ```text
-feature/* ── PR ──> staging ── Actions ──> Worker miminiapp-staging
-                       │
-                       └── PR de promoción ──> main ── Actions ──> Worker miminiapp
-                           (bloqueado)                 (bloqueado)
+aalexlpez/miminiapp: feature → PR → staging → Actions → miminiapp-staging
+                                      │ SHA completo validado
+                                      ↓ dispatch manual
+soycerobytes/miminiapp: snapshot → commit propio → rama/PR → quality
+                                                        ↓ merge manual a main
+                                               Workers Builds → miminiapp
 ```
+
+Las filas siguientes describen solo los workflows del repositorio de desarrollo. Sus stubs de producción no son el publicador vigente. El [informe de contraste](docs/reports/i03/contract-verification-2026-11-16.md) acredita la implementación en el repositorio de producción, su PR #7 y la publicación satisfactoria.
 
 | Workflow | Disparador | Estado |
 | --- | --- | --- |
@@ -96,7 +100,7 @@ feature/* ── PR ──> staging ── Actions ──> Worker miminiapp-stag
 
 * `gate.ts` valida `.github/deployment-policy.json` y decide quién puede publicar. El propietario puede hacerlo en cualquier destino; las cuentas listadas en `maintainers` solo en staging.
 * `github.ts` y `pr-ci.ts` comprueban contra la API de GitHub que el push procede de un PR realmente fusionado y que su CI pasó. `ci.yml` está fijado por hash: cambiarlo exige actualizar `CI_WORKFLOW_BLOB_SHA`.
-* `manifest.ts` empaqueta `dist/` con hashes. Lo que se publica es exactamente el artefacto probado, sin reconstruirlo.
+* `manifest.ts` empaqueta `dist/` con hashes. Staging publica exactamente el artefacto probado. Producción sincroniza fuentes y Workers Builds reconstruye; no se exige equivalencia binaria.
 * `cloudflare.ts` comprueba el acceso y publica con Wrangler.
 
 Las credenciales de Cloudflare están en el Environment `staging` de GitHub y solo las reciben los pasos de publicación. `deploy/cloudflare/` describe los dos Workers como recursos estáticos sin script; `npm run validate:hosting` lo comprueba sin conectarse. Los JSON de `deploy/github/` son plantillas de los ajustes deseados del repositorio, no la configuración real.
@@ -120,7 +124,8 @@ El navegador de pruebas es el Chromium que fija Playwright 1.64.1, en perfiles d
 
 ## Límites conocidos
 
-* Producción, promoción y rollback no se han ejecutado nunca.
+* Promoción y producción verificadas en el repositorio independiente `soycerobytes/miminiapp`; rollback antiguo de Actions no ensayado ni activado.
+* quality de producción pasó, pero el ruleset observado no lo exige como check obligatorio; la revisión y el merge siguen siendo manuales.
 * El aislamiento de escritura entre los dos Workers no está probado; solo el de lectura.
 * La rama por defecto de GitHub es `master`, que no participa en la entrega.
 * El resto de pendientes está en el [registro de deuda](docs/exec-plans/tech-debt-tracker.md).

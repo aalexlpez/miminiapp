@@ -29,11 +29,25 @@ El número de archivos o líneas modificadas no determina por sí solo la necesi
 
 Esta instancia organiza el trabajo en iteraciones pequeñas y secuenciales, con un resultado observable coherente por ExecPlan. El [roadmap](roadmap.md) orienta; no autoriza ejecución ni sustituye el estado de cada plan. La adaptación documental se registra en [H-002](harness-decisions.md#h-002--adaptación-documental-de-la-instancia-miminiapp).
 
+Un ExecPlan puede contener varias **iteraciones internas** que persiguen ese mismo resultado; no se exige un archivo por iteración. Según la aclaración [H-006](harness-decisions.md#h-006--un-plan-con-iteraciones-internas), mantiene un solo responsable, estado canónico, aprobación, autorización e historial. Cada iteración interna define entrada, trabajo, pruebas, salida y evidencia. Su progreso se registra mediante tareas o tabla de avance dentro del plan, sin crear estados de aprobación paralelos. La ejecución puede pasar a la siguiente iteración cuando cumpla sus condiciones de salida y siga dentro del alcance autorizado; solo se detiene para las revisiones humanas, decisiones o permisos que el plan identifique expresamente.
+
+Crear ExecPlans separados cuando existan resultados independientes, responsables o autorizaciones distintos, o una separación de alcance/riesgo que lo justifique. Cada uno declara sus dependencias y espera la aceptación de los otros planes que necesite. La numeración identifica; las dependencias determinan el orden y el historial con evidencia acredita la ejecución real.
+
 Cada iteración explicita dependencias, alcance y exclusiones, criterios de aceptación, verificaciones y evidencia. Si el resultado no puede abordarse en una sesión o secuencia corta razonable, debe dividirse antes de autorizarlo. Añade riesgos y rollback cuando afecte a datos, despliegues u operaciones con efectos persistentes.
 
 Las iteraciones de producto incluyen las pruebas automatizadas que deban crearse o actualizarse; una iteración exclusivamente documental puede verificarse mediante revisión de coherencia y enlaces, sin inventar pruebas de aplicación. Los comandos que todavía no existen se identifican como objetivos futuros.
 
-Varias iteraciones pueden estar autorizadas o en curso a la vez si son independientes y cada una tiene su propio plan y responsable ([H-003](harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos)). Dos iteraciones que modifican el mismo contrato, subsistema o decisión se ordenan o se coordinan antes de empezar. Pueden prepararse borradores futuros sin ejecutarlos. Al terminar, registra `Verificado` solo si se cumplen las condiciones canónicas y entrega la evidencia para aceptación humana. No comiences una iteración mientras dependa de otra que el responsable no haya aceptado; cada una requiere además su propia aprobación y autorización. Si la anterior se cancela, el responsable debe revisar expresamente las dependencias y el alcance antes de autorizar cualquier continuación. Las correcciones locales dentro de la iteración siguen los criterios existentes y no necesitan planes redundantes.
+### Cierre obligatorio de regresión y análisis
+
+Por instrucción expresa del propietario del 2026-11-16, registrada en [H-005](harness-decisions.md#h-005--cierre-obligatorio-de-regresión-y-análisis), todo trabajo nuevo planificado termina con una etapa de regresión y análisis. Cuando un resultado se divide en varias iteraciones con ExecPlans propios, la **última iteración** se dedica a revisar el conjunto y contrastarlo con el sistema anterior; cada iteración previa conserva además su verificación local. Las comprobaciones se ajustan al dominio: en un cambio documental se revisan contenido, estados, enlaces y consumidores, sin exigir pruebas de aplicación que no resulten pertinentes.
+
+Antes de implementar, identificar una base reproducible, los comportamientos que se conservan, los cambios esperados y la evidencia necesaria. La última iteración comprueba requisitos, integración, regresiones, mantenibilidad y deuda; cuando corresponda, incluye seguridad/privacidad, accesibilidad, rendimiento y recursos. La deuda previa se distingue de la introducida: un registro de deuda no convierte por sí mismo un incumplimiento en aceptable.
+
+El análisis final produce hallazgos con evidencia, impacto, acción y resultado. Corrige los defectos cubiertos por el alcance autorizado y repite las verificaciones afectadas; un cambio material se decide primero en su fuente canónica. Si se añade una iteración de implementación, la regresión global se coloca después de ella y vuelve a ejecutarse sobre el candidato definitivo. No se desarrollan funciones nuevas después de una revisión final sin revalidar el resultado. El propio plan de revisión termina consolidando sus comprobaciones; no genera una cadena infinita de planes de revisión.
+
+Una prueba material fallida, una degradación reproducible sin resolver o una comprobación esencial pendiente impiden declarar el trabajo `Verificado`. Las limitaciones no esenciales y la deuda residual requieren justificación y aceptación expresa del responsable. La aceptación final sigue siendo humana; una revisión no garantiza ausencia absoluta de defectos. Esta regla rige hacia adelante y no reabre iteraciones aceptadas.
+
+Varios ExecPlans pueden estar autorizados o en curso a la vez si son independientes y cada uno tiene su responsable ([H-003](harness-decisions.md#h-003--colaboración-entre-varias-personas-y-documentos-vivos)). Los trabajos que modifican el mismo contrato, subsistema o decisión se ordenan o se coordinan antes de empezar. Pueden prepararse borradores futuros sin ejecutarlos. Al terminar un plan, registra `Verificado` solo si se cumplen las condiciones canónicas y entrega la evidencia para aceptación humana. No comiences un ExecPlan mientras dependa de otro sin aceptar; cada plan requiere su propia aprobación y autorización. Si una dependencia se cancela, el responsable debe revisar expresamente las dependencias y el alcance antes de autorizar la continuación. Las iteraciones internas siguen las condiciones del mismo plan; las correcciones locales cubiertas no necesitan planes redundantes.
 
 ## Contenido de un plan
 
@@ -49,6 +63,7 @@ Un plan no trivial debe indicar:
 * Entorno y herramientas necesarios para preparar, ejecutar, observar, verificar y restablecer el sistema.
 * Criterios de aceptación.
 * Verificaciones previstas.
+* Base de comparación, última etapa de regresión/análisis y tratamiento de hallazgos, según el alcance.
 * Estado conforme al ciclo definido en este documento.
 * Historial breve de los cambios de estado, con fecha y actor.
 

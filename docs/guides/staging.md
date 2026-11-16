@@ -1,6 +1,6 @@
 # Operación I-03 — staging mediante GitHub Actions
 
-**Actualizado:** 2026-11-13. **Staging:** `Verificado` el 2026-11-07. **I-03:** `En curso`, sin aceptación global. Ningún agente fusiona, despliega o cambia infraestructura por iniciativa propia.
+**Actualizado:** 2026-11-16. **Staging:** `Verificado` el 2026-11-07. **I-03:** `Aceptado` por el propietario el 2026-11-16 contra los nueve criterios actuales, con limitaciones registradas. Ningún agente fusiona, despliega o cambia infraestructura por iniciativa propia.
 
 ## Resultado comprobado
 
@@ -39,7 +39,7 @@ PR obligatorio, cero approvals, strict=true y prohibiciones de bypass/force/dele
 
 ## Pendientes y recuperación
 
-Producción, promoción y rollback permanecen bloqueados y no se ejecutan. También quedan pendientes el ensayo de aislamiento de escritura, las verificaciones completas entre entornos, los casos de timeout/estado activo e IDs Cloudflare no documentados, y la aceptación global de I-03. No se cambia la rama predeterminada.
+Los workflows antiguos de producción/promoción/rollback de este repositorio permanecen bloqueados. Producción ya opera desde `soycerobytes/miminiapp`: dispatch manual por SHA completo validado, sincronización del snapshot, commit propio y PR con quality ligera; merge manual del propietario y publicación exclusiva mediante Workers Builds. No se exige reutilizar el binario de staging. Véanse [contrato y evidencia actuales](../exec-plans/completed/I-03-github-actions-y-cloudflare.md) y [fiabilidad](../standards/RELIABILITY.md). El aislamiento de escritura y el rollback antiguo no se declaran ensayados; no son criterios de cierre de los nueve indicados ahora.
 
 Ante un fallo de prepare/probe, no forzar el gate ni sustituir credenciales por permisos generales. Ante error o timeout de Wrangler, no asumir ausencia de efectos: el propietario comprueba el estado servido antes de decidir. Un fallo de pruebas remotas no se convierte en éxito y no dispara rollback automático. El ensayo manual excepcional de rollback requiere su autorización; master no contiene su dispatch y no se promete un botón operativo.
 

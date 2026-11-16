@@ -1,13 +1,19 @@
+# Contrato anterior de I-03 — archivo histórico
+
+**Archivado:** 2026-11-16. Esta copia conserva el plan y la evaluación anteriores a la aclaración del propietario. Sus estados, pendientes y doce criterios no son el contrato vigente. Véase el [plan actual](../../exec-plans/completed/I-03-github-actions-y-cloudflare.md) y su [verificación](contract-verification-2026-11-16.md).
+
+---
+
 # I-03 — GitHub Actions y Cloudflare: staging, producción y promoción por PR
 
 ## Control
 
-* **Estado:** `En curso`. I-03 no está Verificado ni Aceptado en su totalidad.
+* **Estado:** `En curso`. I-03 no está Verificado ni Aceptado en su totalidad. Revisión de cierre: 2026-11-16, sin alterar el alcance autorizado.
 * **Hito de staging:** `Verificado` el 2026-11-07 (Europe/Madrid): PR #4 fusionado, primera publicación real de MiMiniApp y pruebas remotas satisfactorias en run42305409224, intento4. Producción, promoción, rollback y ensayo de aislamiento de escritura siguen pendientes.
 * **Responsable de aprobación, autorización y aceptación:** propietario de MiMiniApp.
-* **Creado:** 2026-11-05. **Última actualización:** 2026-11-07.
-* **Dependencia satisfecha:** [I-02 aceptado y archivado](../completed/I-02-catalogo-responsive-e-i18n.md).
-* **Base aceptada conservada:** `567b394583140d1710034f4798d0cf8dbb29e387` (I-02), ancestro del staging publicado. Informe actual: [staging](../../reports/i03/staging-preparation.md); [Fase A](../../reports/i03/phase-a.md) conserva la preparación histórica.
+* **Creado:** 2026-11-05. **Última actualización:** 2026-11-16 (revisión de cierre; alcance operativo conservado).
+* **Dependencia satisfecha:** [I-02 aceptado y archivado](../../exec-plans/completed/I-02-catalogo-responsive-e-i18n.md).
+* **Base aceptada conservada:** `567b394583140d1710034f4798d0cf8dbb29e387` (I-02), ancestro del staging publicado. Informe actual: [staging](staging-preparation.md); [Fase A](phase-a.md) conserva la preparación histórica.
 * **Autorización actual:** el 2026-11-07 el propietario confirma el despliegue satisfactorio y autoriza exclusivamente un PR documental hacia staging para registrar evidencias, verificar el hito y actualizar la operación/referencias. No fusionar el PR ni cambiar código, mecanismos, infraestructura, credenciales, protecciones o predeterminada. Después se presentarán tres propuestas de primera miniherramienta, sin seleccionar o implementar ninguna. La prioridad pasa al producto; no se amplía infraestructura.
 * **Aprobación formal:** 2026-11-05, propietario de MiMiniApp: «Apruebo formalmente el ExecPlan I-03 — GitHub Actions y Cloudflare: staging, producción y promoción por PR», incluidos sus 12 criterios de aceptación; ratifica los ADR correspondientes. La misma instrucción declara que todavía no autoriza su ejecución ni crear recursos, tokens o ramas, hacer commits, pushes, merges o despliegues.
 * **Límites vigentes:** staging ya se publicó por Actions; este trabajo documental no publica ni modifica controles. Staging exige quality y main quality+promotion de GitHub Actions para todos. Se conservan las limitaciones403 de lectura administrativa completa y los ensayos negativos no realizados; no se infiere una nueva auditoría de secretos o protecciones. Main mantiene strict=true y master predeterminada. El probe acreditó lectura de staging y denegación de otro Worker403; no acredita aislamiento de escritura. Producción, promoción, rollback, ese ensayo y aceptación global de I-03 siguen pendientes. No ampliar permisos como alternativa automática. I-01/I-02 permanecen cerrados.
@@ -25,6 +31,23 @@ Implementar CI y workflows de staging/promoción/producción con publicadores **
 La recuperación del entorno se verificó en Codex Cloud: pwd y git status operativos, HEAD567b394 e I01aceptado0288de5 íntegros, código/build I02 idénticos al manifiesto y planificación sin commit presente. No se modificó historia para recuperar acceso.
 
 Parada Fase A: entregar inventario de cambios, commits/ramas/configuración, pruebas y límites, pasos personales GitHub/Cloudflare y solicitar autorización antes de activar despliegues. I-03 permanece En curso hasta satisfacer fases/AC; no se declarará Verificado por preparar únicamente Fase A.
+
+## Revisión de criterios pendientes — 2026-11-16
+
+El propietario pide revisar y aprobar los planes que cumplan sus criterios. I-03 ya estaba aprobado y tiene ejecución parcial autorizada: se evalúa su posible cierre, sin retrocederlo a `Aprobado` ni ampliar infraestructura.
+
+La [PR #17](https://github.com/aalexlpez/miminiapp/pull/17) está fusionada en staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`; el [run 43756652514](https://github.com/aalexlpez/miminiapp/actions/runs/43756652514) terminó success con verify, empaquetado, publicación y prueba de identidad/aplicación reales. Es evidencia adicional de I03-AC2/6/7 y del circuito ordinario de staging, no de todos los criterios.
+
+| Criterios | Resultado de cierre |
+| --- | --- |
+| I03-AC4 | La denegación de **escritura** de staging contra producción sigue sin acreditar; un probe GET/403 no demuestra ese aislamiento. No se ensaya escribiendo en producción durante esta revisión. |
+| I03-AC5 | Staging se publica; la preservación/aislamiento de un candidato de producción no se acredita como comprobación integral entre ambos Workers. |
+| I03-AC8 | Faltan los ensayos reales y dos promociones válidas que permitirían sustituir strict nativo. Se mantiene la protección; no se rebaja para cerrar el plan. |
+| I03-AC9/10 | Producción/promoción siguen deshabilitadas en la política actual; sin promoción real del mismo artefacto ni smoke de producción. |
+| I03-AC11 | Rollback y su ensayo autorizado siguen sin completar; el workflow permanece bloqueado. |
+| I03-AC1/3/12 | Se conserva la evidencia administrativa/operativa y sus limitaciones documentadas; no se convierte falta de acceso o una declaración histórica en ensayo negativo nuevo. La aceptación global no procede con los criterios anteriores pendientes. |
+
+Se mantiene `En curso`, con hito staging verificado. La instrucción de aprobar resultados conformes no habilita producción, ensayos de modificación, credenciales, promoción, rollback o cambios de protección; esta revisión solo deja contrastada la falta de evidencia para el cierre global.
 
 ## Objetivo, alcance y exclusiones
 
@@ -276,7 +299,7 @@ Si el propietario prefiere delegar los ajustes iniciales, necesitará autorizar 
 
 ## Seguridad, errores y recuperación
 
-* **Fallo de CI o revisión:** no merge/publicación. Artefactos y logs suficientes para diagnosticar, sin secretos; mantener [PEND-007](../tech-debt-tracker.md#pend-007--seguimiento-de-incidencias-moderadas-de-lint).
+* **Fallo de CI o revisión:** no merge/publicación. Artefactos y logs suficientes para diagnosticar, sin secretos; mantener [PEND-007](../../exec-plans/tech-debt-tracker.md#pend-007--seguimiento-de-incidencias-moderadas-de-lint).
 * **Fallo o timeout de deploy:** registrar versión anterior y respuesta del proveedor; consultar la versión realmente activa, porque un timeout no demuestra que no haya publicado. Bloquear promoción y comprobar staging/producción independientemente.
 * **Fallo de pruebas remotas en staging:** no se habilita el PR de promoción; se corrige y se vuelve a validar otro candidato.
 * **Fallo de smoke de producción:** release fallida; detener promociones y registrar el incidente. El propietario decide y ejecuta el rollback manual al último artefacto/versión validado mediante el procedimiento restringido. No hay recuperación automática ni un deployment de reemplazo sin su acción. Es una excepción de incidente, no un despliegue semanal manual.
@@ -352,10 +375,11 @@ Las entradas fechadas siguientes conservan autorizaciones y snapshots de cada mo
 | 2026-11-06 | `Autorizado` | Propietario de MiMiniApp | Autorización expresa únicamente Fase A: preparación técnica, CI y configuración segura; commits/pushes técnicos y ramas/protecciones permitidos solo sin publicaciones. Main strict=true; sin promociones ni cambio de predeterminada antes de verificar controles. Sin Worker o contenido público, Fase B, I-04 o miniapps reales. |
 | 2026-11-06 | `En curso` | Codex | Comienza efectivamente Fase A tras recuperar el entorno y verificar la integridad local: implementación de CI/workflows inactivos, release gate/artefactos y configuración estática/pruebas remotas. Sin publicación, promoción o Fase B. |
 | 2026-11-07 | `En curso` | Propietario / Codex | El propietario confirma la primera publicación real y autoriza registrar el hito staging `Verificado`: PR #4, merge e1e3b659, run42305409224 intento4 success, prepare/remote-test success. No es aceptación global de I-03; solo se prepara PR documental, sin fusionarlo o modificar infraestructura. |
+| 2026-11-16 | `En curso` | Codex, por instrucción del propietario | Revisión de cierre: staging de PR #17 success; faltan aislamiento de escritura, promoción/producción y rollback reales. No se acepta globalmente ni se amplía la autorización. |
 
 ## Evidencia incremental de Fase A — 2026-11-06
 
-El [informe](../../reports/i03/phase-a.md) registra recuperación del entorno, integridad del historial, archivos implementados, batería local, bloqueos API/bootstrap y límites. La [guía operativa](../../guides/staging.md) conserva el procedimiento revisable. Los 12 AC se mantienen sin rebajarlos: las pruebas locales de gates/artefactos no sustituyen pruebas reales de GitHub/Cloudflare ni habilitan strict=false. Fase A no permite declarar I-03 Verificado.
+El [informe](phase-a.md) registra recuperación del entorno, integridad del historial, archivos implementados, batería local, bloqueos API/bootstrap y límites. La [guía operativa](../../guides/staging.md) conserva el procedimiento revisable. Los 12 AC se mantienen sin rebajarlos: las pruebas locales de gates/artefactos no sustituyen pruebas reales de GitHub/Cloudflare ni habilitan strict=false. Fase A no permite declarar I-03 Verificado.
 
 Preparación local al cierre: verify completo satisfactorio, 185 unitarias finales, 9 componentes, 26 E2E más integración/regresión I-01. Empaquetado/verificación reales pasan con Node24 nativo; ningún despliegue. Commits de preparación `79f31a3`, integración de ascendencia `4690c27`, regresión `b9ecd19` y corrección nativa `a49c705`; posteriores ajustes mecánicos/evidencia se consultan en el historial de la rama técnica. La creación remota de staging/main se mantiene pendiente de API y aprobación del bootstrap, sin modificar los 12 AC.
 
@@ -437,7 +461,7 @@ Implementados aislamiento de autorización por destino, flag específico, pin de
 
 Verificación local completa exit0: 226 unitarias, 9 componentes, 26 E2E y pruebas de integración. El parche futuro de activación se valida además en una copia temporal con las 226 unitarias; no se aplica a la rama. Cuenta/destino y secreto no se usan contra Cloudflare desde Codex. Permisos y contenido real del Worker siguen con la declaración del propietario hasta el run futuro de Actions autorizado. El informe separa403 de lectura,404 inconcluso y aislamiento de escritura no probado, sin solicitar permisos generales como alternativa.
 
-Evidencias y procedimiento: [informe de preparación](../../reports/i03/staging-preparation.md), [puesta en marcha](../../reports/i03/staging-startup.md), parche revisable sin aplicar en docs/staging-publication-activation.patch. Preparación en feature/i03-staging-first-release para PR a staging, sin fusionar. I-03 sigue En curso; antes de la primera publicación se requiere autorización expresa del propietario y revisión del diff final.
+Evidencias y procedimiento: [informe de preparación](staging-preparation.md), [puesta en marcha](staging-startup.md), parche revisable sin aplicar en docs/staging-publication-activation.patch. Preparación en feature/i03-staging-first-release para PR a staging, sin fusionar. I-03 sigue En curso; antes de la primera publicación se requiere autorización expresa del propietario y revisión del diff final.
 
 PR de preparación #3 abierto en borrador hacia staging, sin merge. Primer CI de código8e82227 success: run42259685654, quality/app15368, evento pull_request. Comprobación adicional de226 unitarias en copia de activación con contexto simulado de push protegido, sin red Cloudflare. El ajuste del test nativo no cambia los bloqueos; el resultado del último head se registra en la descripción/entrega del PR. No se configura la variable de publicación ni se aplica su parche.
 
@@ -450,7 +474,7 @@ Se aplica el parche sobre f667890 en feature/i03-staging-first-release: polític
 
 GitHub confirma PR#3 abierto/borrador/sin merge, main y staging en73b8bd2 con quality+promotion/quality de app15368 para todos; master214a3c1 intacto y predeterminado; solo merge commits. Environments exactos staging/main sin reviewers/espera y deployments vacío. No se modifica ninguna configuración remota ni se afirman comprobaciones administrativas que la integración no permite leer.
 
-La parada obligatoria es entregar diff, commit, CI y riesgos para revisión; esperar otra autorización expresa antes de variable o merge. I-03 sigue En curso, con las limitaciones anteriores. Evidencias y resultados en el [informe actualizado de staging](../../reports/i03/staging-preparation.md) y el [procedimiento](../../reports/i03/staging-startup.md).
+La parada obligatoria es entregar diff, commit, CI y riesgos para revisión; esperar otra autorización expresa antes de variable o merge. I-03 sigue En curso, con las limitaciones anteriores. Evidencias y resultados en el [informe actualizado de staging](staging-preparation.md) y el [procedimiento](staging-startup.md).
 
 Verificación de esta actualización: npm run verify exit0 tras corregir formato de una prueba nueva; 240 unitarias, 9 componentes, 26 E2E e integración modular/I-01 satisfactorias con Chromium156.0.8078.4/r1248 fijado. Tipos61 archivos sin errores/warnings/hints, lint/formato/hosting y git diff --check correctos. Se comprueba byte a byte que política y staging.yml coinciden con el parche y que los otros tres workflows no cambian. No se realiza ninguna petición Cloudflare, cambio de variable, merge o despliegue.
 
@@ -463,7 +487,7 @@ La API confirma PR#3 fusionado por el propietario con merge21b2a20, prepare fail
 
 Se separan tipos de resumen y detalle y se conserva exactamente un candidato, con confirmación detallada explícita de merge/identidad/procedencia antes de los checks. No se modifica verifyMerge ni el contrato de CI. Se observa además pull_requests vacío en el CI del PR3 después del merge, tanto listado como detalle: la comprobación de vínculo exacto se mantiene y ese bloqueo adicional queda documentado, sin introducir un fallback o cambiar el contrato de procedencia por inferencia. Antes de otra publicación debe resolverse con evidencia compatible o aprobación del propietario para un cambio material.
 
-Estado En curso; alcance,12AC y limitaciones Cloudflare anteriores intactos. Informe/evidencias de esta corrección en [corrección del gate](../../reports/i03/merged-pr-correction.md), sin declarar el circuito de despliegue Verificado.
+Estado En curso; alcance,12AC y limitaciones Cloudflare anteriores intactos. Informe/evidencias de esta corrección en [corrección del gate](merged-pr-correction.md), sin declarar el circuito de despliegue Verificado.
 
 Verificación local completa de la corrección: npm run verify exit0, tipos62 archivos sin errores/warnings/hints, lint/formato/hosting correctos,272 unitarias (32 nuevas),9 componentes,26 E2E e integración modular/regresión I-01 con Chromium156.0.8078.4/r1248 fijado. git diff --check correcto. No se modifica ningún workflow, política, permiso, dependencia o frontend. Nuevo PR se entrega en borrador para revisión con su CI, sin merge ni reintento de publicación.
 
@@ -487,7 +511,7 @@ El propietario confirma la primera publicación real satisfactoria y autoriza ex
 
 Evidencia: PR #4 fusionado por aalexlpez en `e1e3b6596f97b86ba7e2ff3d21aab1ac5e21e0c0`; [run 42305409224, intento 4](https://github.com/aalexlpez/miminiapp/actions/runs/42305409224/attempts/4), push de staging, prepare y remote-test success. La API corrobora jobs/pasos y los artefactos de candidato, acceso y validación del intento 4. El propietario confirma 12 archivos publicados, 30 pruebas remotas correctas e identidad/ES/EN/rutas/responsive/accesibilidad verificados. Solo ese intento se presenta como satisfactorio.
 
-El probe comprobó lectura de staging y denegación de lectura del otro Worker (403); no se probó aislamiento de escritura. La identidad del CI de PR #4 permanece en display_title tras su merge con pull_requests vacío, corroborado por API. El [informe existente](../../reports/i03/staging-preparation.md) distingue fuentes, IDs/digests y límites de lectura de logs; no se inventan IDs de versión Cloudflare.
+El probe comprobó lectura de staging y denegación de lectura del otro Worker (403); no se probó aislamiento de escritura. La identidad del CI de PR #4 permanece en display_title tras su merge con pull_requests vacío, corroborado por API. El [informe existente](staging-preparation.md) distingue fuentes, IDs/digests y límites de lectura de logs; no se inventan IDs de versión Cloudflare.
 
 Flujo operativo demostrado: feature → PR a staging → CI → revisión/merge manual del propietario → Actions → Cloudflare → pruebas remotas/recibo. El propietario administra credenciales en GitHub Environment; Codex prepara código/pruebas/PR y no necesita conectarse a Cloudflare. Las [guías](../../guides/staging.md) describen la publicación ordinaria sin Wrangler manual semanal.
 

@@ -1,6 +1,6 @@
 # CP-02 — Apariencia clara, oscura y del sistema
 
-## Ajuste autorizado de movimiento — 2026-11-10
+## Ajuste autorizado de movimiento — 2026-11-10 (histórico)
 
 Corrección posterior al merge del PR #13: fallo intermitente en Staging `42813224189`, al medir tiempos antes de completarse la pausa CSS. Investigación y corrección de sincronización de prueba dentro de AP-10, sin cambio del producto ni de infraestructura; evidencia en `docs/review/motion-default/quality-pause.md`. Rama `fix/appearance-pause-check` desde staging `7ff37f0d7772fd9d168d272fb650bdb7c261fab5`. Estado global permanece En curso.
 
@@ -10,12 +10,33 @@ El propietario solicita y autoriza que el movimiento decorativo comience siempre
 
 ## Control
 
-- **Estado:** `En curso`.
+- **Estado:** `Aceptado`.
 - **Responsable de aprobación, autorización, aceptación y cancelación:** propietario de MiMiniApp.
-- **Creado / última actualización:** 2026-11-09 / 2026-11-10 (Europe/Madrid).
+- **Creado / última actualización:** 2026-11-09 / 2026-11-16 (Europe/Madrid; revisión de cierre, sin cambio de alcance).
 - **Autorización actual:** propietario aprueba ADR-MMA-019 y CP-02 y autoriza expresamente implementación, commits, rama feature independiente y PR en borrador hacia staging, con ajustes vinculantes A/B/C: tarjeta/M original invariable, control por iconos y rotación suave respetando reduced-motion. No merge ni publicación.
 - **Dependencias / bloqueos de inicio:** CP-01 Aceptado en staging f26d97bb, I-01/I-02 Aceptados; I-03 En curso con hito staging Verificado. No depende de aceptar globalmente I-03 ni de activar producción/promoción/rollback. Revalidar fuentes/HEAD remoto antes de ejecutar; la rama local actual 73b8bd2 es anterior a CP-01.
 - **Base de ejecución:** `feature/cp02-apariencia` desde staging `f26d97bb0b6dc1e65cfbb429ec302a45753f8b6f`, revalidado por fetch. Dossier y decisión aprobados con correcciones antes de implementar. Sin bloqueos de aprobación.
+
+## Aceptación del propietario — 2026-11-16
+
+Después de la revisión de cierre y sus limitaciones, el propietario indica expresamente «CP-02 está aprobado». En este contexto de cierre se registra como aceptación del resultado y se archiva el plan. Se acepta la entrega con las limitaciones comunicadas: no se realizó la prueba con lector de pantalla real, persiste el destello de la raíz del preview local y no hay evidencia de una revisión visual manual final adicional. Estas comprobaciones no se declaran ejecutadas ni satisfactorias; la aceptación no equivale a una garantía de accesibilidad o ausencia de destello en preview.
+
+Esta decisión sustituye el bloqueo de cierre de la revisión siguiente; AP-05/AP-11 conservan sus hallazgos como limitaciones aceptadas de esta entrega. No autoriza cambios adicionales, publicaciones o ejecución de otros planes. La enmienda de movimiento del 2026-11-10 continúa vigente.
+
+## Revisión de criterios pendientes — 2026-11-16 (anterior a la aceptación)
+
+Por la instrucción del propietario de revisar y aprobar los planes que cumplan sus criterios, se contrasta el resultado con el [informe](../../reports/cp02/execution.md), los ajustes autorizados, el código actual y [CI/staging del merge 07b95fd](https://github.com/aalexlpez/miminiapp/actions/runs/43756652514). El código/configuración local coincide con ese staging; sus jobs `prepare` y `remote-test` terminaron success. La revisión de documentación no se presenta como una nueva ejecución física o de tecnología asistiva.
+
+| Criterios | Resultado de la revisión |
+| --- | --- |
+| AP-01–04, AP-06 | Enum, sistema, persistencia/fallos y ES/EN cuentan con pruebas automatizadas y evidencia existente, conservadas en la batería satisfactoria. |
+| AP-05 | **Pendiente esencial:** el informe declara que no se ha probado con lector de pantalla real (Orca no disponible). Nombres/roles/teclado/axe no sustituyen esa prueba. No se encuentra evidencia posterior que la cierre. |
+| AP-07–09 | Evidencia de contraste, reflujo/zoom, temas, rutas y capturas disponible. La revisión visual final del propietario figuraba pendiente; no se afirma realizada por el simple merge o CI. |
+| AP-10 | Aplicar la enmienda autorizada del 2026-11-10: movimiento decorativo activo al cargar; solo el icono lo pausa. La microinteracción de apariencia conserva reduced-motion. La antigua prioridad de movimiento de la fila original no se usa para rechazar una evolución expresamente aprobada. |
+| AP-11 | **Hallazgo abierto:** destello del documento de redirección en el preview local, documentado en el informe. La raíz 301 de staging evita renderizar ese documento, pero no resuelve ni autoriza retirar el requisito de preview. Requiere corrección cubierta o decisión expresa sobre el criterio. |
+| AP-12–14 | Inventarios/aislamiento, fallback sin JS, BFCache y suite completa tienen evidencia existente; los checks actuales pasan. Eso no cubre las comprobaciones humanas anteriores. |
+
+El plan ya estaba aprobado y autorizado antes de ejecutarse. No corresponde retrocederlo a `Aprobado` ni aceptar el resultado mientras falten AP-05/AP-11 y las revisiones manuales identificadas. Se conserva `En curso`, sin modificar criterios, rebajarlos a deuda o atribuir al propietario una dispensa no expresada. No se instalan lectores, cambian hosting o ejecutan correcciones de producto bajo esta revisión.
 
 ## Objetivo y resultado esperado
 
@@ -97,11 +118,11 @@ La investigación actual usó copia temporal de staging y prototipo ignorado; el
 - Colores heredados o SVG externos: inventario estático + estilos computados/axe/capturas; no dar por válida una inversión global.
 - Recuperación antes de merge: corregir/revertir commits de la futura rama feature conservando pruebas; no force push ni cambios a ramas protegidas. Si después se autoriza publicación y aparece regresión, presentar reversión por PR con el propietario; no ejecutar rollback/publicación bajo esta autorización.
 
-## Punto de parada
+## Punto de parada histórico
 
 Entregar implementación y evidencia para aceptación humana, con PR en borrador hacia staging. No merge, despliegue ni siguiente iteración. La aprobación y autorización expresas del propietario ya cubren esta ejecución; solo la aceptación del resultado queda reservada al propietario.
 
-## Progreso
+## Progreso histórico
 
 Implementación terminada en feature/cp02-apariencia; `npm run verify` final exit 0 (326 unitarias, 9 componentes, 78 E2E e integración modular ambos temas). Capturas reales de los ocho casos, vídeo y contrastes medidos en el [informe](../../reports/cp02/execution.md). Los ajustes aprobados de tarjeta, iconos y rotación están implementados; no se han tocado infraestructura, workflows, lockfile ni publicación. No se declara Verificado porque queda revisión real con lector de pantalla y decisión sobre AP-11: la raíz del preview pinta brevemente su documento de redirección en tema del dispositivo antes del tema guardado. Staging responde 301 sin renderizarlo. Conforme al plan, no añadir scripts a la raíz ni cambiar hosting sin revisar esa decisión. BFCache nativo sí comprobado: persisted=true, nodo original, nueva preferencia recuperada y pausa conservada. PR en borrador para revisión, sin merge. La aceptación final sigue reservada al propietario.
 
@@ -113,6 +134,7 @@ Implementación terminada en feature/cp02-apariencia; `npm run verify` final exi
 | 2026-11-09 | `Aprobado`   | Propietario | Aprueba formalmente ADR-MMA-019 y CP-02 con correcciones A/B/C de tarjeta, iconos y rotación.                                                                          |
 | 2026-11-09 | `Autorizado` | Propietario | Autoriza expresamente ejecución en rama feature desde staging y PR en borrador; sin merge ni publicación.                                                              |
 | 2026-11-09 | `En curso`   | Agente      | Rama creada desde f26d97bb; contrato y plan actualizados antes de implementar.                                                                                         |
+| 2026-11-16 | `En curso` | Codex, por instrucción del propietario | Revisión de cierre: CI/staging actuales correctos, pero AP-05 (lector real), AP-11 (preview) y revisión visual final no acreditados; no se acepta el resultado ni se rebajan criterios. |
 
 | 2026-11-09 | `En curso` | Agente | Implementación ec6ace3, verify local satisfactorio y [PR #7 en borrador](https://github.com/aalexlpez/miminiapp/pull/7). Pendientes lector de pantalla y decisión AP-11 del preview local. |
 
@@ -127,3 +149,8 @@ Revisión visual solicitada y autorizada por el propietario (2026-11-09): elimin
 Último ajuste solicitado por el propietario (2026-11-09): añadir al panel un borde real de 1 px con `--color-decorative-line`, sutil en claro/oscuro. Se mantienen ancho, iconos pequeños y selección discreta. Sustituye la anterior ausencia de borde; las capturas y mediciones previas sin borde son históricas. Rama `feature/cp02-borde-sutil` desde staging vigente, tras PR #10 ya fusionado por el propietario.
 
 Ajuste autorizado por el propietario (2026-11-09): mover la pausa del hero a un solo icono de animaciones en la cabecera, junto a apariencia. Pulsación directa, sin desplegable; el mismo icono muestra una raya diagonal al pausar o con reduced-motion. Se conservan ciclo de vida, prioridad de reducción de movimiento, pausa en memoria, nombres/estado ES/EN y dianas de 48 px. ES / EN se compacta con texto de 13 px, separación y padding reducidos, preservando foco, enlaces equivalentes y áreas pulsables. Rama `feature/cp02-controles-cabecera` desde staging vigente, después del PR #11 fusionado por el propietario.
+
+
+## Cierre registrado
+
+2026-11-16 — Propietario: acepta expresamente el resultado después de conocer la revisión y sus límites. Agente: registra `Aceptado` y traslada el archivo a completed. No se inventa una ejecución de las pruebas manuales pendientes. Las afirmaciones anteriores de estado En curso describen etapas previas a esta aceptación.

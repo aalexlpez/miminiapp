@@ -1,6 +1,6 @@
 # Plan B — propuestas de persistencia y exportación
 
-**Fecha:** 2026-11-15. **Responsable de aprobación:** propietario de MiMiniApp (Alexander / Ale). **Estado de ambas decisiones:** `Propuesta`. El [registro técnico](index.md) es la fuente canónica de su aprobación. Aplicación propuesta únicamente a [Plan B v06](../product-specs/plan-b.md), dentro de [PB-01](../exec-plans/active/PB-01-plan-b.md).
+**Fecha:** 2026-11-15. **Actualización de referencias:** 2026-11-16. **Responsable de aprobación:** propietario de MiMiniApp (Alexander / Ale). **Estado de ambas decisiones:** `Propuesta`. El [registro técnico](index.md) es la fuente canónica de su aprobación. Aplicación propuesta únicamente a [Plan B v06](../product-specs/plan-b.md), dentro del [plan único PB-01](../exec-plans/active/PB-01-plan-b.md) con seis iteraciones internas. La consolidación no cambia el contenido o aprobación de estas propuestas.
 
 El stack, las rutas genéricas, el registro modular, los temas y el alojamiento existentes ya están cubiertos por ADR-MMA-001/002/003/004/005/006/008/009/011/014/015/016/017/019. No se reabren para añadir esta herramienta. Las decisiones siguientes concretan persistencia y un contrato externo que la base no había aprobado para Plan B.
 

@@ -5,7 +5,7 @@
 **Estado de la definición:** Aprobada.
 **Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
 **Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
-**Última actualización:** 2026-11-15 (entrada de preparación de Plan B; sin modificar el alcance aprobado).
+**Última actualización:** 2026-11-16 (programa de iteraciones de Plan B; sin modificar el alcance aprobado).
 
 ## Procedencia y alcance de esta definición
 
@@ -109,7 +109,7 @@ Se ha contrastado el contenido actual con las decisiones de MiMiniApp trasladada
 
 ## Fichas de miniapps en preparación
 
-El propietario solicita el 2026-11-15 contrastar Plan B con la base real y preparar una definición adaptada y su plan. La [ficha Plan B v06](plan-b.md) está en `Borrador`, propuesta como primera miniapp real; su selección y requisitos todavía no están aprobados. El [paquete de revisión](../design-docs/plan-b-approval.md) agrupa definición, propuestas técnicas y [PB-01](../exec-plans/active/PB-01-plan-b.md), también en `Borrador`. Esta preparación no cambia el alcance aprobado de la plataforma, no determina el número de herramientas de lanzamiento ni autoriza implementación o publicación. La referencia anterior a aplazar la primera miniapp describe la base aprobada; esta nueva propuesta no la sustituye hasta decisión expresa del propietario.
+El propietario solicita el 2026-11-15 contrastar Plan B con la base real y preparar una definición adaptada y su plan. La [ficha Plan B v06](plan-b.md) está en `Borrador`, propuesta como primera miniapp real; su selección y requisitos todavía no están aprobados. El [paquete de revisión](../design-docs/plan-b-approval.md#bloque-c--plan-único-con-seis-iteraciones) agrupa definición y propuestas técnicas pendientes con el único plan PB-01, `Aprobado` como planificación el 2026-11-16, con seis iteraciones internas y regresión global al final. La aprobación del plan conserva explícitos los bloqueos de ficha/decisiones y no autoriza ejecución o publicación. No cambia el alcance aprobado de la plataforma ni la cantidad de herramientas de lanzamiento. La referencia anterior a aplazar la primera miniapp describe la base aprobada; aprobar su planificación no sustituye la elección o aprobación de sus requisitos.
 
 ## Estado de las decisiones
 
