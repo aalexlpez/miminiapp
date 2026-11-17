@@ -232,3 +232,24 @@ it('keeps example/date across navigation and clears its tag only for an effectiv
   controller.begin();
   expect(controller.getSnapshot().session.narrative?.startedOn.month).toBe(2);
 });
+
+it('refreshes the home month after reset while keeping the active story stable', () => {
+  const port = storage();
+  let now = date();
+  const controller = createPlanController(
+    createSessionStore(() => port),
+    () => now,
+  );
+  controller.initialize();
+  controller.begin(example);
+  now = new Date(2026, 1, 1, 12);
+  controller.go('result');
+  expect(controller.getSnapshot().session.narrative?.nextMonth.month).toBe(2);
+  controller.reset();
+  expect(controller.getSnapshot().previewDate?.nextMonth).toEqual({
+    year: 2026,
+    month: 3,
+    day: 1,
+  });
+  expect(port.data.has(sessionKey)).toBe(false);
+});

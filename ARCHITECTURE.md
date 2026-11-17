@@ -1,6 +1,6 @@
 # Arquitectura actual
 
-**Actualizado:** 2026-11-16.
+**Actualizado:** 2026-11-17.
 
 Este documento describe lo que existe hoy en la rama `staging`. Las decisiones que lo justifican están en el [registro técnico](docs/design-docs/index.md); lo que todavía es intención, en la [arquitectura objetivo](docs/design-docs/architecture-target.md); la historia, en los [planes de ejecución](docs/exec-plans). Si este documento y el código difieren, es un error que hay que corregir.
 
@@ -50,16 +50,16 @@ Los textos de plataforma viven en `src/i18n/common/`. `validateTranslationParity
 
 ## Registro de miniapps
 
-`src/lib/miniapp-registry.ts` define el contrato y `src/miniapps/registry.ts` es la lista explícita de herramientas, con Plan B incorporada en la rama candidata por autorización del propietario el 2026-11-17.
+`src/lib/miniapp-registry.ts` define el contrato y `src/miniapps/registry.ts` es la lista explícita de herramientas, con Plan B incorporada por autorización del propietario el 2026-11-17 e integrada en staging mediante PR #24.
 
 * Un **descriptor** es metadato puro: `id`, `slug`, `status` (`draft` o `published`), `category`, `tags` opcionales, `publishedAt` y título y descripción en ambos idiomas. Importarlo nunca carga interfaz.
 * Una entrada **publicada** añade `loadEntry`, que importa de forma perezosa el `entry.astro` de la herramienta. Un borrador no puede tener cargador.
 * `validateRegistry` se ejecuta en build y rechaza ids o slugs duplicados, categorías desconocidas, fechas inválidas, traducciones ausentes y borradores con cargador.
 * El catálogo consume solo los metadatos publicados. Los borradores no generan rutas ni dejan rastro en `dist/`.
 
-Plan B se registra con descriptor `published`, categoría `everyday`, fecha prevista de primera incorporación `2026-11-17` y loader perezoso de `src/miniapps/plan-b/entry.astro`. El build genera tarjeta y rutas `/es/apps/plan-b/` y `/en/apps/plan-b/`; la portada usa metadatos sin hidratar React/Plan B. Esa inscripción autorizada en la candidata no implica que ya se haya desplegado o aceptado el producto.
+Plan B se registra con descriptor `published`, categoría `everyday`, fecha prevista de primera incorporación `2026-11-17` y loader perezoso de `src/miniapps/plan-b/entry.astro`. El build genera tarjeta y rutas `/es/apps/plan-b/` y `/en/apps/plan-b/`; la portada usa metadatos sin hidratar React/Plan B. Staging sirve esa integración, identificada por `3d28184f3c90db44fe57a7592e23a5e71c071f23` y Actions 44060190659. I6 entrega dos correcciones locales para su siguiente integración y validación; la aceptación del producto sigue pendiente.
 
-Su dominio mantiene validación, fecha narrativa y generadores puros de calendario `.ics`/URL Google, sin navegador o traducciones. La UI Astro/React ES/EN comparte el formateo de frase y mantiene entradas/paso/ejemplo con sesión temporal versionada/validada, memoria y avisos ante fallo; reset solo afecta a su clave.
+Su dominio mantiene validación, fecha narrativa y generadores puros de calendario `.ics`/URL Google, sin navegador o traducciones. La UI Astro/React ES/EN comparte el formateo de frase y mantiene entradas/paso/ejemplo con sesión temporal versionada/validada, memoria y avisos ante fallo; reset solo afecta a su clave y recaptura la fecha de portada, conservando estable la narrativa de una sesión activa. La validación de hora comprueba también el estado nativo badInput para no aceptar una edición incompleta como hora omitida.
 
 `ExportPanel.tsx` prepara PNG con canvas y fuentes locales, ajuste por palabras/grafemas y tokens del tema; conserva activación para compartir y libera canvas/URLs al volver/reset. `.ics` local, Google con consentimiento y ventana detectable sin opener/referrer, compartir/copia de enlace limpio. No hay API ni llamadas previas a Google. CSS de gris/color y sello limitado al módulo, con reglas propias de reduced-motion.
 
@@ -72,7 +72,7 @@ La [guía de miniapps](docs/guides/miniapps.md) explica cómo añadir una. `npm 
 * `SiteLayout.astro` compone el documento, el enlace de salto, `SiteHeader` y `SiteFooter`.
 * `Home.astro` muestra el hero y el catálogo. `EmptyCatalogue.astro` resuelve el caso de cero herramientas y `CatalogueCard.astro` el de una o varias.
 * `BrandInitial`, `BrandMark`, `Wordmark` y `LaboratoryArt` dibujan la identidad con SVG propios.
-* **Apariencia.** `AppearanceInit.astro` resuelve claro, oscuro o sistema antes de la primera pintura a partir de la clave `miminiapp.appearance` de `localStorage`, la única persistencia del sitio. `AppearanceControl.astro` es un botón con popover nativo. Sin JavaScript, el CSS sigue al sistema.
+* **Apariencia.** `AppearanceInit.astro` resuelve claro, oscuro o sistema antes de la primera pintura a partir de la clave `miminiapp.appearance` de `localStorage`, la preferencia persistente de plataforma; Plan B usa además su sesión temporal aprobada en ADR-MMA-020. `AppearanceControl.astro` es un botón con popover nativo. Sin JavaScript, el CSS sigue al sistema.
 * **Movimiento.** `motion.css` define el ensamblaje de la marca y los bucles del hero. `scripts/motion.ts` los inicia activos, los pausa con el botón de `MotionControl.astro` y los suspende cuando la página no es visible. La pausa no se guarda.
 
 Las páginas de plataforma no hidratan React. `EnvironmentFixture.tsx` y `lib/validation.ts` son la fixture técnica de I-01: se conservan para las regresiones y no forman parte del catálogo.

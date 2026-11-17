@@ -352,6 +352,143 @@ Los recursos totales incluyen HTML, runtime, CSS y fuentes; no se presenta el pr
 
 Entrega de preparación por commit `feat(PB-01/I5): ...`, push y PR en borrador desde la misma rama. PB-01 En curso e I4/I5 sin marcar completadas. La incorporación cuenta ya con permiso expreso y pruebas reales. Se entrega otro commit PB-01/I5 en la misma PR; no se crea infraestructura ni se cambia el contrato de aceptación por ausencia de dispositivos.
 
-## I6
+## I6 — Regresión y análisis global
 
-Sin comenzar ni autorizar. Permanece como regresión y análisis global del producto completo, después de resolver los criterios abiertos y congelar la candidata definitiva.
+### Autorización, revisiones y alcance
+
+El 2026-11-17 el propietario confirma la integración de PR #24 y solicita «listo la ultima iteración, continua». Se realiza I6 técnica en la misma rama feature/pb01-plan-b, con correcciones locales cubiertas por el contrato, commit/push/PR y merge humano. La indicación permite esta revisión aunque I4/I5 conserven evidencia física/manual pendiente; no la da por ejecutada ni acepta el producto. PB-01 continúa En curso.
+
+| Referencia | Identidad y uso |
+| --- | --- |
+| Base real anterior a Plan B | SHA d3d8386e6077911d84ee85bcc16981177f3d3b1d; árbol 5136a7fa29ebbcaab95f8a53df08b8038483965e. Los 19 archivos reconstruidos coinciden por hash con el manifiesto conservado de I1; no se usa la base de planificación como sustituto. |
+| Staging integrado / entrada I6 | SHA 3d28184f3c90db44fe57a7592e23a5e71c071f23; árbol b87a726f794591a0a28ac606bf0d8bd453cd5332, PR #24 integrada. La rama estable se sincroniza desde esa revisión, sin reescribir historia. |
+| Candidato corregido | Base integrada anterior más dos correcciones locales, una prueba unitaria y tres casos E2E ejecutados en ambos proyectos. El commit PB-01/I6 y el head de su PR identifican el entregable; no se atribuyen esas correcciones al staging de entrada. |
+| Entorno de verificación local | Node 24.22.2, npm 11.19.1, Chromium 156.0.8078.4 / r1248, Playwright 1.64.1, misma máquina y configuración en base/candidato. |
+
+Se revisa el diff completo desde la base I1: dominio, traducciones, UI, sesión, calendario, canvas, navegador, metadatos, estilos y pruebas de Plan B; registro explícito de I5; adaptaciones de pruebas de catálogo vacío/poblado, integración/fixtures y recorrido remoto; documentación e historial de autorizaciones H-007. El único cambio común de aplicación sigue siendo el registro aprobado. Rutas/layouts/estilos globales, package/lockfile, workflows, credenciales y publicación no cambian en I6. No se añaden funciones, servicios o dependencias. Se conservan casos vacíos/draft, aislamiento y guards remotos.
+
+### Hallazgos, correcciones y revalidación
+
+| ID / criterio | Evidencia e impacto / origen | Acción y comprobación / residuo |
+| --- | --- | --- |
+| I6-F01 / PB-AC-02 | El editor nativo de hora con teclado permite una hora parcial visible con value vacío y validity.badInput=true. El formulario noValidate la interpretaba como hora opcional omitida y avanzaba al resultado sin calendario. Introducido en I3; defecto funcional material del contrato. Reproducido antes de corregir. | App.tsx consulta badInput al enviar y muestra el error localizado, conserva la pantalla y enfoca la hora. Nuevo E2E usa el editor nativo real, escribe una parte, comprueba el estado inválido y luego completa 21:30 y avanza. Perfil explícito Desktop Chrome dentro de ambos proyectos: el picker táctil no expone esa edición parcial. Sin mock de badInput ni skips. Corrección local comprobada; pendiente servirla y validarla tras merge. |
+| I6-F02 / PB-AC-03 | Una sesión comenzada el 31 de enero mantiene correctamente febrero como mes narrativo; tras pasar a 1 de febrero y reset, la portada seguía anunciando febrero en lugar de marzo. El previewDate no se recapturaba. Introducido en I3; resultado de fecha incorrecto en portada. Reproducido con reloj controlado. | controller.reset recaptura solo la fecha de portada después de borrar su clave, sin volver a guardar ni alterar la narrativa activa. Una unitaria y E2E ES/EN comprueban sello febrero antes de reset y portada marzo después. El borrado fallido conserva su aviso. Corrección local comprobada; pendiente staging corregido. |
+| I6-F03 / coherencia de documentación | SECURITY/QUALITY conservaban como estado vigente la ausencia de CI/staging y la fixture I-01 sin sesión/exportaciones. Inconsistencia previa, relacionada con PEND-010; no un permiso nuevo ni fallo del runtime. | Se distingue historia de estado actual y se describen los contratos ya aprobados ADR-MMA-020/021, I-03, auditoría actual y límites. No se cambian políticas, permisos ni se cierra PEND-010 globalmente. |
+| I6-F04 / PB-AC-05/07/08/09/10/12 | Faltan dispositivos/importaciones/destinos/fondo/modo avión y revisiones humanas/motores reales. Pendiente esencial conocido desde I4/I5; no se resuelve con emulación o un merge. | La HTTPS de staging ya está disponible para la versión integrada I5, con identidad y pruebas remotas reales abajo. Quedan matriz física/humana y revalidar las correcciones tras merge; propietario y circuito existente completan esas evidencias. Impide cierre, no se rebaja a deuda admisible. |
+
+La batería inicial anterior a estos hallazgos pasó 503/19/140: no se usa su recuento como prueba suficiente del contrato. Tras corregir, npm run verify termina con exit 0: check sin errores/advertencias/hints, lint, formato, build/hosting offline, **504 unitarias, 19 componentes, 146 E2E e integración modular (fixtures 2/4)**. Los seis E2E nuevos pasan sin omisiones. La suite de fechas/calendario/sesión/layout dirigida pasa además **160 casos en America/New_York y 160 en Pacific/Kiritimati**, conservando el reloj local y casos DST/medianoche.
+
+Antes de desconectarse el entorno se comprobaron los 23 hashes del build final contra el runtime auditado: todos coinciden; no hubo cambios funcionales tras la batería completa y mediciones. El chequeo documental local anterior a esa desconexión validó 62 Markdown y 531 enlaces locales, y diff --check pasó. Los logs, JSON de medición y scripts auxiliares quedaron fuera del repo, con datos sintéticos; este informe conserva los resultados auditables sin presentar rutas locales como evidencia compartida.
+
+### Identidad y prueba remota realmente observadas
+
+Staging aprobado: https://miminiapp-staging.miminiapp-lab.workers.dev. GET /release-manifest.json devuelve schemaVersion 1, repository aalexlpez/miminiapp, repositoryId 1445849027, sourceSha **3d28184f3c90db44fe57a7592e23a5e71c071f23**, sourceTree **b87a726f794591a0a28ac606bf0d8bd453cd5332** y payloadSha256 **c4c0a15886c0855765d415f75e83522ba7986931bbb47f50b113cad063feca6d**.
+
+[Staging run 44060190659](https://github.com/aalexlpez/miminiapp/actions/runs/44060190659) satisfactorio sobre ese SHA: [prepare 133959759963](https://github.com/aalexlpez/miminiapp/actions/runs/44060190659/job/133959759963) verifica y empaqueta el build probado; [remote-test 133961753400](https://github.com/aalexlpez/miminiapp/actions/runs/44060190659/job/133961753400) verifica artefacto/guards, publica staging y ejecuta identidad y recorrido remoto de plataforma/Plan B satisfactoriamente. La subida de evidencias de fallo se omite por no haber fallo; no es un test omitido.
+
+Esta evidencia pertenece a **I5 integrada, antes de las dos correcciones I6**. No permite dar por probada remotamente la nueva revisión. Tras el merge manual de la PR I6, comprobar prepare/remote-test de su SHA, releer manifest y contrastar SHA/árbol/payload. Se conserva el circuito existente y sus variables de identidad/target, sin desactivar guards ni derivar expectativas confiables de una URL arbitraria.
+
+### Bytes, cachés y rendimiento comparado
+
+Base reconstruida: 19 archivos idénticos por hash al manifiesto I1. Candidato: 23 archivos, sin fixtures/borradores. Bundle propio **42903 B / 41,90 KiB**: App.DZmHqTrM.js **39560 B** y CSS inline **3343 B**, dentro de 50 KiB; +113 B JS respecto a I5. Runtime compartido client.Cd-EeyjT.js 212836 B y react.CvnImTBr.js 7909 B, total **220745 B**; CSS común global.BPX5XG5M.css **34923 B**. La portada no hidrata React ni solicita JS de Plan B; Astro sí incluye 3343 B de CSS del módulo en su HTML al registrar la herramienta. Ese coste se informa y no se cambia el pipeline global para esconderlo.
+
+| Ruta | Peticiones frías base → candidato | Bytes brutos base → candidato | Suma gzip estimada base → candidato |
+| --- | --- | --- | --- |
+| Portada ES | 4 → 4 | 196432 → 199557 | 151480 → 152594 |
+| Portada EN | 4 → 4 | 196345 → 199472 | 151419 → 152525 |
+| 404 | 4 → 4 | 193761 → 193888 | 150986 → 151012 |
+| Plan B ES, solo candidato | 7 | 472242 | 239920 |
+
+Incrementos desde base: ES +3125 B, EN +3127 B (tarjeta y CSS inline), 404 +127 B (tokens aprobados/conservados de I3, ya explicados). Frente a I5 las portadas/404 no cambian. Cero recursos externos. El presupuesto propio no representa el total solicitado por la app.
+
+Se realizan **140 observaciones**: cinco parejas fría/caliente por ruta y perfil, base/candidato intercalados; app solo candidato. Chromium fijado, perfiles 393×851 y 1440×1000, fuentes listas, reduced-motion, sin throttle artificial de CPU/red y después de finalizar la batería para reducir contención. En caliente se limpia únicamente la sesión propia para conservar la misma pantalla inicial, manteniendo la caché HTTP. Se excluyen cuerpos 304 del cómputo de payload; bytes brutos/gzip corresponden a respuestas frías. TransferSize describe transferencia observada con cabeceras/revalidaciones, no coste TCP o producción.
+
+| Perfil / ruta | LCP frío base, mediana (rango) ms | LCP frío candidato | LCP caliente base | LCP caliente candidato |
+| --- | --- | --- | --- | --- |
+| 393 / ES | 64 (52–132) | 60 (44–68) | 32 (28–44) | 40 (32–52) |
+| 393 / EN | 52 (52–60) | 56 (56–104) | 28 (24–36) | 32 (24–48) |
+| 393 / 404 | 44 (40–52) | 44 (40–52) | 28 (24–32) | 36 (32–40) |
+| 1440 / ES | 92 (64–104) | 56 (52–80) | 56 (32–68) | 48 (32–72) |
+| 1440 / EN | 68 (56–68) | 60 (48–64) | 32 (28–56) | 28 (28–32) |
+| 1440 / 404 | 60 (44–68) | 48 (40–56) | 28 (24–32) | 32 (24–48) |
+| 393 / Plan B | — | 60 (48–60) | — | 36 (28–44) |
+| 1440 / Plan B | — | 64 (56–72) | — | 32 (28–32) |
+
+CLS portada/404 0; Plan B 0,03 en 393 y 0,01 en 1440. En Plan B, clic → dos frames: 393 frío 24,6 (17,6–26,1) ms, caliente 28,4 (27,2–29); 1440 frío 27 (13,2–28,8), caliente 29,9 (26,3–31,6). Es una observación sintética de respuesta/pintura, **no INP**. No se atribuye p75 de campo a cinco pasadas locales.
+
+| Ruta candidata | TransferSize frío → caliente, B (ambos perfiles) |
+| --- | --- |
+| ES | 154034 → 1200 |
+| EN | 153965 → 1200 |
+| 404 | 152452 → 6248 |
+| Plan B | 242260 → 2100 |
+
+La navegación caliente revalida; no significa cero red o soporte de recarga offline. Las diferencias temporales pequeñas quedan dentro de la variabilidad observada. No se detecta degradación material reproducible en estas muestras; no se afirma ausencia absoluta de regresiones, métricas de teléfonos ni rendimientos de producción.
+
+### Canvas, recursos y memoria
+
+Una vuelta de calentamiento y **diez ciclos reales**: ejemplo → resultado → .ics/PNG descargados y completados → Atrás → resultado → reset. Inspección con instrumentación temporal fuera del producto; no se incorporan listeners de medición al runtime.
+
+| Punto del ciclo | URLs Blob | Observadores de tema propios | Listeners media totales | document click | Canvas activo tras codificación |
+| --- | --- | --- | --- | --- | --- |
+| Resultado con exportaciones | 3 | 1 | 3 | 1 | 0 |
+| Cada Atrás y cada reset | 0 | 0 | 2 de plataforma | 1 de selector de idioma | 0 |
+
+El backstore se pone a cero tras toBlob; superficie RGBA teórica 1179×2556×4 = **12054096 B**, sin equipararla a memoria GPU medida. No quedan URLs/listeners propios entre ciclos. Los contadores de plataforma se mantienen constantes.
+
+Heap JS tras calentamiento **2856992 → 3477688 B** tras diez ciclos y GC; embedder **1414456 → 1700648 B**; backingStorage **272998 → 273749 B**. La primera inspección retenía referencias de canvas/media para contar y elevaba embedder a 6635656 B; al liberar referencias exclusivas de la medición antes del GC final bajó a 1700648 B. Se distingue el sesgo de instrumentación del producto. No se deduce una fuga de una variación aislada del heap, ni se promete crecimiento cero o memoria GPU nula. Con los contadores y diez ciclos no se detecta retención material reproducible; las cifras conservan sus límites.
+
+Coste real canvas desde getContext hasta callback toBlob con fuentes disponibles, cinco generaciones por caso, layout/dibujo/PNG incluidos:
+
+| Caso sintético | Mediana (rango), ms |
+| --- | --- |
+| Ejemplo | 37,1 (22,8–54,9) |
+| Dos palabras W de 90 caracteres | 75,1 (72,6–85) |
+| CJK | 37,4 (31,9–154,8) |
+| Emoji compuesto | 39,2 (21,5–55,2) |
+
+El rango incluye primer uso de glifos/fallback; no se presenta como INP ni garantía física en móviles. Las pruebas verifican contenido, dimensiones, límites, ajuste por grafema, temas, fallo y liberación; legibilidad bajo reloj/recorte exige el fondo real guardado.
+
+### Dependencias y deuda
+
+Package.json y package-lock.json son idénticos a la base anterior al producto. npm audit de candidato y base, ejecutados el mismo día contra el mismo registro, dan **14 moderadas de desarrollo, 0 altas y 0 críticas**; omit=dev da **0 vulnerabilidades**. El recuento histórico de 11 en I-01 no es el actual ni convierte avisos posteriores en dependencias introducidas por Plan B.
+
+Minimatch GHSA-g3hv-75wg-m249 afecta patrones de herramientas de lint; no recibe texto de usuario de Plan B. Astro GHSA-r3h5-4585-7x3w afecta el endpoint de imágenes de @astrojs/node; el adaptador no está instalado/desplegado y Workers sirve assets estáticos. No se cambian versiones ni se ejecuta audit fix. PEND-007 sigue abierto con impacto y seguimiento; no se eliminan PEND-001/002/004/009/010 ni se dan por resueltos por este análisis. Los dos defectos nuevos del producto se corrigen y no se trasladan a deuda.
+
+### Matriz final PB-AC-01–12
+
+Los estados describen evidencia observada; un éxito automatizado con operación esencial física pendiente no equivale a criterio completo. No hay tests omitidos para obtener verde; lo no ejecutado se identifica expresamente.
+
+| Criterio | Resultado observado | Límite / condición de cierre |
+| --- | --- | --- |
+| PB-AC-01 | Pasado local: rutas/metadatos/catálogo ES/EN, slug, casos vacío/draft/publicado e integración modular. Recorrido remoto I5 pasado con identidad. | Revalidar el candidato corregido servido tras merge; no atribuirle el run de I5. |
+| PB-AC-02 | Pasado local: recorrido/validación/sugerencias/Atrás/ejemplo/reset ES/EN; hora parcial corregida con teclado nativo y regresión. | Corrección todavía por servir; no se inventa revisión manual de navegadores faltantes. |
+| PB-AC-03 | Pasado local: mes natural, bisiesto/año, narrativa estable y cambio de mes tras reset corregido, reloj controlado ES/EN. | Corrección todavía por validar en staging. |
+| PB-AC-04 | Pasado local: esquema/versión, restauración, idioma, storage corrupto/bloqueado/fallo de borrado y aislamiento de apariencia. | No prometer borrado irreversible al cerrar pestaña; depende del navegador. |
+| PB-AC-05 | Parcial: expectativas independientes para inicio mañana, 15 min, cuatro apariciones por día; 1/5/7 días, medianoche y DST, dos zonas adicionales. | No ejecutada importación real en cada vía conservada y ambos móviles. |
+| PB-AC-06 | Pasado automatizado: UTF-8, escapes/plegado/emoji/inyección, URL Google segura, consentimiento/Cancelar/fallos y red interceptada. | No se llama a Google automáticamente; importación real pendiente en PB-AC-05/12. |
+| PB-AC-07 | Parcial: PNG 1179×2556, texto íntegro, máximos/palabras largas/grafemas/tema/fallo y descarga comprobados localmente. | No ejecutados guardado/colocación real y legibilidad bajo reloj/recorte en ambos teléfonos. |
+| PB-AC-08 | Parcial: enlace limpio, texto centinela preservado, recuperación clipboard/compartir y APIs controladas comprobados. | No ejecutada comprobación física de destinos nativos. |
+| PB-AC-09 | Parcial: con página completamente cargada y abierta, ejemplo + .ics/PNG pasan en E2E desconectado. | No ejecutado modo avión físico en iPhone/Android; sin promesa de reload offline. |
+| PB-AC-10 | Parcial: axe, contraste, teclado/foco/errores/dialogs, reflujo, temas y reduced-motion en batería local; zoom nativo I5 documentado sin cambio CSS posterior. | Revisión visual humana y Safari/Firefox reales pendientes. |
+| PB-AC-11 | Pasado técnico local: bytes propios/totales, red consentida, storage y recursos auditados; límites de caché/memoria/performance explícitos. | Revalidar contenido servido corregido y conservar las limitaciones físicas; no afirmar datos de campo. |
+| PB-AC-12 | Parcial: verify local final satisfactorio; run/prepare/remote-test e identidad reales de I5 confirmados. | CI del nuevo head y staging corregido por validar; matriz manual completa no ejecutada. |
+
+### Criterios internos I6 y conclusión
+
+| Criterio | Evaluación técnica / condición pendiente |
+| --- | --- |
+| PB-I6-01 | Doce PB-AC contrastados arriba; no cerrado: faltan comprobaciones esenciales físicas/manuales y revisión servida corregida. |
+| PB-I6-02 | Referencia y candidato reproducibles, contratos de plataforma contrastados, bytes intencionales explicados; no se extrapola a motores ausentes. |
+| PB-I6-03 | Dos defectos materiales encontrados y corregidos/reprobados localmente; sin transmisión no consentida o degradación material reproducible detectada. Compatibilidad física esencial sigue sin comprobar. |
+| PB-I6-04 | Presupuesto/totales/cachés/canvas/recursos y auditoría comparados; deuda previa diferenciada, sin autoaceptar residuos. |
+| PB-I6-05 | Verify final pasado y staging I5 acreditado; no cerrado hasta CI del head corregido, merge humano, nueva identidad/pruebas remotas y matriz física. |
+| PB-I6-06 | Informe y fuentes vivas actualizados; ninguna función nueva después de la revisión. La entrega alternativa descrita abajo requiere validar su commit exacto mediante CI. |
+
+**Resultado:** revisión técnica y dos correcciones listas para entrega; **no procede declarar PB-01 Verificado/Aceptado ni completar I4/I5/I6**. Quedan operaciones físicas/humanas esenciales y validación remota del runtime corregido después de su merge manual. I6 sigue siendo la última etapa; cualquier cambio funcional posterior requiere revalidar lo afectado y el conjunto cuando corresponda. No se crean planes adicionales ni se rebajan los criterios por falta de dispositivos.
+
+### Entrega y continuidad ante desconexión
+
+El entorno de ejecución se desconectó después de terminar la batería, mediciones, reporte local y comprobación de los 23 hashes, antes de poder ejecutar commit/push. GitHub conservaba todavía feature/pb01-plan-b en 61705e20532160519291e7519c3a72be05470097, cuyo árbol coincide con el staging integrado de entrada. No se presenta ese intento fallido como push.
+
+Para conservar el trabajo revisable se prepara la entrega mediante el conector GitHub: mismo código de las dos correcciones y pruebas, documentación reconstruida desde la base integrada con los resultados anteriores. El nuevo commit tiene como padre el staging integrado 3d28184f3c90db44fe57a7592e23a5e71c071f23 y se actualiza la rama estable por fast-forward, con expected SHA y sin force. La PR identifica el commit resultante; su CI comprobará el contenido exacto entregado. La validación documental local citada arriba corresponde a los archivos previos a la desconexión; los enlaces de esta reconstrucción se revisan de nuevo antes de entregar: 62 Markdown y 537 enlaces locales válidos, contrastados contra el árbol y los anchors de los documentos. El workspace desconectado conserva cambios locales que deberán reconciliarse mediante diff al recuperarlo; no usar reset/clean ni descartar trabajo a ciegas.

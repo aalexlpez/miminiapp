@@ -1,12 +1,12 @@
 # Plan B v06 — paquete para revisión del propietario
 
-**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D con preparación local de I5 solicitada el 2026-11-17 tras integrar I4; adelanta el acabado aislado, sin cerrar sus criterios físicos. Bloque B con ADR-MMA-020/021 aprobadas; I4 sin cerrar por matriz física/HTTPS; registro de I5 autorizado en la candidata; revisiones de cierre e I6 pendientes. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-17. Preparación original en `docs/plan-b-v06`; I1–I4 integradas mediante PR #19/#20/#22/#23. Rama estable de PB-01: `feature/pb01-plan-b`, sincronizada desde staging `beed90cbb418e0c0f9525353c806ca9582ee7226`, según H-007.
+**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque B con ADR-MMA-020/021 aprobadas. Bloque D: I1–I5 integradas e I6 autorizada/revisada técnicamente el 2026-11-17; dos correcciones locales para integración. Matriz física y revisión humana pendientes; staging de I5 validado, correcciones por validar tras merge. PB-01 En curso. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-17. Preparación original en `docs/plan-b-v06`; PR #19/#20/#22/#23/#24 integradas. Rama estable: `feature/pb01-plan-b`, sincronizada desde staging `3d28184f3c90db44fe57a7592e23a5e71c071f23`, según H-007.
 
 ## Qué se entrega
 
 * [Ficha funcional v06](../product-specs/plan-b.md): definición autocontenida, textos ES/EN, comportamiento ante errores y doce criterios de aceptación.
 * [ADR-MMA-020/021](plan-b-contracts.md): contratos aprobados de sesión temporal y exportaciones; estados canónicos en el [registro técnico](index.md).
-* Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) en curso, con I1–I4 integradas e I5 en preparación local, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
+* Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) en curso, con I1–I5 integradas e I6 autorizada/revisada técnicamente, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
 * [v05 original](../references/plan-b-v05.md): antecedente aportado, con nota de procedencia. No se da por verificado que su v04 exista en Git.
 
 ## Bloque A — definición de producto aprobada
@@ -123,8 +123,12 @@ El propietario confirma el merge de PR #22 y solicita continuar. Se autoriza des
 
 ## Preparación local de I5 — 2026-11-17
 
-El propietario confirma el merge de PR #23 y solicita comenzar la siguiente iteración. Se adelanta el acabado/revisión aislados de I5 en la misma rama, con commits PB-01/I5 y entrega por PR. Esta indicación no se registra como prueba física ni aceptación de I4. La tarea 4 queda autorizada después mediante «Autorizar el registro en la rama candidata». Se aplican registro/rutas reales, fecha prevista 2026-11-17 y pruebas conservando el caso vacío; capturas y evidencia están en el [informe I5](../reports/pb01/execution.md#i5--identidad-e-integración). I6 sin iniciar.
+El propietario confirma el merge de PR #23 y solicita comenzar la siguiente iteración. Se adelanta el acabado/revisión aislados de I5 en la misma rama, con commits PB-01/I5 y entrega por PR. Esta indicación no se registra como prueba física ni aceptación de I4. La tarea 4 queda autorizada después mediante «Autorizar el registro en la rama candidata». Se aplican registro/rutas reales, fecha prevista 2026-11-17 y pruebas conservando el caso vacío; capturas y evidencia están en el [informe I5](../reports/pb01/execution.md#i5--identidad-e-integración). I6 se autoriza posteriormente tras integrar PR #24; revisión técnica y correcciones registradas en su informe, con criterios físicos/humanos aún pendientes.
 
 ## Incorporación autorizada de I5 — 2026-11-17
 
 Tras revisar la propuesta concreta de PR #24, el propietario responde «Autorizar el registro en la rama candidata». Queda satisfecho el permiso de I5/tarea 4: descriptor published con fecha prevista 2026-11-17 y loader perezoso, catálogo/rutas reales ES/EN y pruebas/mediciones del build. Se mantienen el merge manual, las pruebas físicas de I4, revisión visual/manual y cierre global I6. No es autorización de despliegue por el agente o de infraestructura nueva.
+
+## Revisión global I6 — 2026-11-17
+
+El propietario confirma la integración de PR #24 y solicita «listo la ultima iteración, continua». Se registra autorización de I6 para revisión global, regresión, mediciones, correcciones locales y entrega por commit/push/PR en la misma rama. [Informe y matriz PB-AC](../reports/pb01/execution.md#i6--regresión-y-análisis-global). Staging acredita I5; las dos correcciones necesitan su integración y validación remota. Las pruebas físicas, revisiones humanas y aceptación final siguen pendientes; el contrato de producto y las decisiones aprobadas se conservan.
