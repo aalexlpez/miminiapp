@@ -1,11 +1,14 @@
 # ADR-MMA-023 — Recorrido y composición de Plan B
 
-**Estado:** `Propuesta`, preparada en FE-01/I3 el 2026-11-17. **Responsable de
-aprobación:** propietario de MiMiniApp (Alexander / Ale). Preparar y probar el
-prototipo está autorizado; esta dirección, los cambios de ficha y la presentación
-compartida todavía no están aprobados. No se implementan en la miniapp pública.
+**Estado:** `Aprobada` el 2026-11-17 por el propietario de MiMiniApp
+(Alexander / Ale), mediante «Vale, si, la apruebo», al preguntarle si aprobaba la
+dirección y el contrato para pasar a I4. Se aprueba el paquete completo presentado:
+recorrido, composición/PNG, restauración v1 y presentación focused opcional. I3
+completada; I4 autorizada. El producto se implementa y verifica por iteraciones;
+la aprobación del prototipo no acepta anticipadamente esa implementación.
 
-Fuentes: [ficha v06 vigente](../product-specs/plan-b.md),
+
+Fuentes: [ficha v07 vigente](../product-specs/plan-b.md),
 [estándar aprobado](../standards/FRONTEND.md), [contratos ADR-020/021](plan-b-contracts.md),
 [FE-01](../exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md).
 [Prototipo y capturas de revisión](../review/fe01/README.md).
@@ -31,7 +34,7 @@ no dos implementaciones de producto ni una selección pública de skins.
 
 ## Cambios exactos frente a v06
 
-| Elemento | Vigente | Propuesta a aprobar |
+| Elemento | Vigente | Contrato aprobado |
 | --- | --- | --- |
 | Primera visita | Portada y después propósito | Mostrar directamente la pregunta del propósito, utilidad breve y ejemplo de una frase. Sin pantalla introductoria obligatoria. |
 | Secuencia visible | Tres pasos; situación/acción/horario juntos en el tercero | Cuatro decisiones: propósito → obstáculo → situación → acción → resultado. Progreso 1–4, sin contarlo en el resultado. |
@@ -46,7 +49,7 @@ no dos implementaciones de producto ni una selección pública de skins.
 | PNG | Fondo uniforme, etiqueta y texto centrados | Composición alineada a la izquierda, misma tipografía/paleta local, línea de continuidad y geometría fuera de la zona de texto. Una única dirección estática. |
 
 Los textos completos propuestos ES/EN están en el prototipo, identificados como
-copy de propuesta. No sustituyen los diccionarios ni la ficha hasta la aprobación.
+copy de propuesta. Definen el contrato de copy aprobado; I4/I5 los trasladarán a sus diccionarios conforme a su alcance.
 
 ## Estados y navegación
 
@@ -86,7 +89,7 @@ clave ni persistencia del estado visual. Los generadores de calendario permanece
 | result válida | Resultado con las frases/horario y fecha narrativa conservados. |
 | Inválida/corrupta | Política vigente: primera pregunta con explicación, sin tratar contenido inválido como plan válido. |
 
-Esta restauración determinista de las dos vistas de plan debe aprobarse: recargar
+Esta restauración determinista de las dos vistas de plan queda aprobada: recargar
 puede abrir acción si situación ya era válida, aunque se estuviera revisando esta
 última. No hay pérdida de texto. En navegación sin recarga se conserva la vista
 elegida; en ES/EN se aplica la misma tabla y nunca se traducen entradas personales.
@@ -166,11 +169,11 @@ miniapp. I4/I5 reutilizarán dominio/exportaciones y componentes existentes. El
 presupuesto propio **≤50 KiB** sigue vigente; se medirá cada entrega de runtime.
 El peso del prototipo no acredita el presupuesto del futuro producto.
 
-La aprobación del propietario basta: recorrer inicio→resultado, revisar Atrás y
+Revisión aprobada por el propietario: recorrer inicio→resultado, revisar Atrás y
 edición, ES/EN/temas, calendario opcional/consentimiento y un PNG real normal/máximo.
 Decidir sobre **(1)** dirección y cuatro preguntas, **(2)** cambios concretos de
 ficha/restauración/horario, **(3)** extensión focused del marco. Puede aprobar el
-paquete o pedir correcciones; no necesita probar con otras personas. Solo entonces
-actualizar v06 a v07 Aprobada, marcar esta ADR Aprobada y cerrar FE-I3-01/02/03.
-I4/I5 permanecen pendientes de esa aprobación. La aceptación del prototipo no
+paquete o pedir correcciones; no necesita probar con otras personas. La respuesta del propietario registra la aprobación del paquete, actualiza
+la ficha a v07 y cierra FE-I3-01/02/03. I4 comienza con esa autorización; I5
+conserva sus condiciones de entrada y la entrega continúa local. La aceptación del prototipo no
 acepta por anticipado la implementación, rendimiento, pruebas físicas o FE-01.

@@ -378,3 +378,12 @@ I3 queda preparada **pendiente de aprobación de dirección/contrato**, con FE-I
 propuesto al propietario. FE-I3-01/02 no se marcan satisfechos antes de su revisión;
 I4/I5 no iniciadas. FE-01 sigue En curso; misma rama y commits por iteración,
 sin push, nueva PR, merge o acciones de publicación.
+
+### Aprobación y cierre de I3
+
+El propietario responde «Vale, si, la apruebo» después de presentar prototipo,
+capturas y contrato y preguntarle si aprobaba la dirección y el paso a I4. Se
+registra aprobación completa del paquete ADR-MMA-023, incluida restauración v1
+y focused opcional, actualización de ficha a v07 y cierre FE-I3-01/02/03. La misma
+respuesta autoriza I4 en el contexto de esa pregunta. No acepta implementación
+por adelantado, pruebas físicas, FE-01 o PB-01. La entrega sigue solo local.

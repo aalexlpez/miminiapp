@@ -1,7 +1,7 @@
 {
   "format": 1,
   "date": "2026-11-17",
-  "status": "proposal-awaiting-owner-approval",
+  "status": "owner-approved-direction-and-contract",
   "baseCommit": "ef14beca7f3e638f86725ae15c529fe8a9ae6ab2",
   "direction": "El plan toma forma",
   "method": "Explicit Impeccable/Vercel; single context, not independent critique",
@@ -320,5 +320,10 @@
     "localReferences": 762,
     "actualBrokenLinks": 0,
     "knownParserFalsePositive": ".agents/skills/impeccable/reference/document.md: oklch(...) template interpreted as a link"
+  },
+  "ownerApproval": {
+    "date": "2026-11-17",
+    "evidence": "Vale, si, la apruebo",
+    "scope": "Direction, ADR-MMA-023 contract, I3 closure and I4 execution; not future implementation acceptance"
   }
 }

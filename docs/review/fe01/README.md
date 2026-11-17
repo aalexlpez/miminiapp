@@ -1,6 +1,6 @@
 # FE-01/I3 — Revisión de Plan B
 
-**Propuesta pendiente de aprobación.** Dirección «El plan toma forma», preparada
+**Dirección y contrato aprobados el 2026-11-17.** Dirección «El plan toma forma», preparada
 con uso explícito de Impeccable/Vercel. El [contrato propuesto](../../design-docs/plan-b-frontend-proposal.md)
 identifica cambios, estados, sesión v1, movimiento y presentación focused.
 La miniapp pública conserva su comportamiento actual. La cabecera/pie son
@@ -57,11 +57,11 @@ share-file nativo, reloj/recorte del SO, persistencia y zoom nativo 200 % no se
 acreditan mediante este prototipo. El HTML autónomo se prueba offline desde file://;
 la URL anterior pertenece solo al entorno de quien ejecute el servidor.
 
-## Decisión solicitada
+## Decisión registrada
 
-Aprobar o corregir la dirección visible y su contrato: cuatro preguntas, calendario
+El propietario aprueba la dirección visible y su contrato mediante «Vale, si, la apruebo»: cuatro preguntas, calendario
 después del resultado, nueva composición PNG, restauración compatible de sesión
 v1 y presentación focused del marco solo por opción explícita. No requiere
-participantes externos. Al aprobar, se actualizarán ficha/ADR y se cerrará I3;
+participantes externos. Se actualizan ficha/ADR y se cierra I3;
 I4 implementará el recorrido en el código del producto y I5 el resultado/PNG.
 La aprobación visual no sustituye sus pruebas o la regresión final I7.
