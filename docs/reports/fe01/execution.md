@@ -251,3 +251,17 @@ entrega local del propietario.
 
 I3–I7 no se han iniciado. FE-01 permanece En curso y todo el nuevo trabajo queda
 local, con el bloqueo y la comprobación siguiente explícitos.
+
+### Cierre posterior de I2 con alcance explícito aceptado
+
+Después de explicar que las copias y el motor están instalados/probados pero el
+cliente no los descubre automáticamente, se propone cerrar I2 con uso manual
+explícito y registrar esa limitación. El propietario pide identificar las skills;
+se concretan Impeccable 4.9.2 y Web Design Guidelines de Vercel. Responde «vale,
+usalas para continuar con la iteraicón 3». Se registra su aceptación de ese
+alcance alternativo y autorización de preparar I3. H-008 y el plan actualizan
+FE-I2-01/FE-AC-02; el bloqueo anterior queda resuelto para el perfil aceptado,
+sin declarar carga automática ni compatibilidad de otros clientes. FE-I2-01/02/03
+comprobados en ese alcance; I2 completada. PEND-001 se resuelve para el uso
+explícito de estas dos ayudas. Las restricciones de red, caché, permisos y
+entrega local permanecen, y la futura dirección de I3 sigue pendiente de revisión.

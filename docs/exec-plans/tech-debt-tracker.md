@@ -4,13 +4,11 @@ Este registro conserva tareas pendientes; no equivale a un ExecPlan aprobado ni 
 
 ## PEND-001 — Skills opcionales al final
 
-* **Estado:** Selección/configuración aprobadas en H-008 y estándar aprobado en ADR-MMA-022 el 2026-11-17. Perfil local y revisión manual incorporados; carga nativa todavía pendiente; aplazamiento inicial del 2026-11-04 conservado como antecedente.
+* **Estado:** Resuelto para el perfil manual explícito aceptado por el propietario el 2026-11-17 al solicitar usar Impeccable/Vercel y continuar con I3, después de explicar la limitación nativa y proponer ese ajuste.
 * **Responsable:** Propietario de MiMiniApp.
-* **Momento actual:** FE-01/I1 completada; I2 autorizada e iniciada localmente, sin entregar al remoto hasta terminar el plan. Se conserva la ruta de trabajo sin skills.
-* **Trabajo pendiente:** Completar FE-I2-01: verificar descubrimiento/carga nativa y selección pertinente en el cliente elegido durante FE-01/I2; documentar límites reales y conservar las fuentes canónicas y la ruta sin skills.
-* **Criterios de cierre:** Utilidad justificada; alcance y permisos mínimos aprobados; integración autorizada; ausencia de duplicación de normas; carga y funcionamiento comprobados en los clientes que se vayan a utilizar; ruta sin skills conservada. Ninguna skill fusiona ni publica por iniciativa propia.
-* **Situación actual:** [Investigación y comparación](../reports/pb01/frontend-skills-review.md) realizadas; selección aprobada de Impeccable y Vercel con versiones/configuración y límites en H-008. [Perfil instalado](../guides/frontend-skills.md), motor Linux x64/checksum/telemetría/red y revisión manual comprobados. skills.list del executor devuelve lista vacía; la comprobación adicional de Codex CLI no arranca por estado de solo lectura. La carga nativa efectiva sigue pendiente. No se atribuye funcionalidad a otros clientes sin comprobarla.
-* **Planificación:** [FE-01](active/FE-01-estandar-frontend-y-piloto-plan-b.md) conserva siete iteraciones. I1 completada con ADR-MMA-022/H-008 aprobadas y criterio de aceptación humana ajustado por el propietario: no se requieren participantes externos. I2 no se cierra mientras FE-I2-01 siga pendiente, ni PEND-001 por copiar archivos o aplicar instrucciones manualmente.
+* **Evidencia:** [FE-01/I2](../reports/fe01/execution.md#cierre-posterior-de-i2-con-alcance-explícito-aceptado): instalación local fijada, licencias/manifiesto, motor/checksum/red, aplicación manual real y aceptación del alcance. [H-008](../harness-decisions.md#h-008--skills-frontend-locales-y-uso-manual-contextualizado) conserva permisos y enmienda.
+* **Límite:** Descubrimiento nativo no acreditado; deja de ser criterio de cierre por decisión del propietario. [Guía de uso](../guides/frontend-skills.md). No se atribuye compatibilidad a otros clientes; su comprobación sigue en PEND-002 cuando proceda.
+* **Planificación:** I2 completada con FE-I2-01/02/03 en el alcance explícito actualizado. I3 autorizada para preparar diseño/contrato, con revisión humana antes de implementar. Sin nueva entrega remota hasta terminar el plan local.
 
 ## Otros pendientes
 

@@ -21,8 +21,10 @@ El siguiente ensayo concreto es abrir una sesión cuyo proyecto/cwd sea la raíz
 de este repo y comprobar su lista de skills con recarga, si existe. Verificar
 invocación pertinente de diseño, revisión técnica y no activación en una tarea
 ajena. Es una comprobación pendiente, no una garantía de que reiniciar lo resuelva.
-Si esa capacidad no existe, el propietario puede decidir expresamente conservar
-uso manual como alcance alternativo, actualizando FE-I2-01; no darlo por aprobado.
+El propietario acepta después el uso explícito comprobado y solicita continuar
+con I3. FE-I2-01/FE-AC-02 se actualizan en el plan: I2 queda completada para ese
+perfil; la detección automática se conserva como limitación, sin exigir resolverla
+para avanzar. Abrir otro cliente/sesión es una comprobación opcional futura.
 No se exige instalar otro cliente ni se atribuye compatibilidad a Claude/Gemini.
 
 ## Uso y contexto
