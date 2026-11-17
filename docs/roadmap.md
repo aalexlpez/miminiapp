@@ -6,7 +6,7 @@ Este documento orienta. No aprueba ni autoriza nada: el estado canónico de cada
 
 ## Iteraciones
 
-Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md). Las `CP-xx` (Creative Playground) son trabajo de identidad y apariencia añadido después. `MT-xx` es mantenimiento transversal. `PB-01` contiene seis iteraciones internas para Plan B, con regresión global como última iteración. Cada ExecPlan tiene una rama estable y commits por iteración, según H-007 de PLANS.md.
+Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md). Las `CP-xx` (Creative Playground) son trabajo de identidad y apariencia añadido después. `MT-xx` es mantenimiento transversal. `PB-01` contiene seis iteraciones internas para Plan B. `FE-01` propone adoptar un estándar frontend y skills, con Plan B como piloto, en siete iteraciones internas. Cada plan termina con regresión global y tiene una rama estable y commits por iteración, según H-005/007 de PLANS.md.
 
 | Iteración | Resultado | Estado |
 | --- | --- | --- |
@@ -22,6 +22,10 @@ Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Ini
 | [I-06 / PB-01](exec-plans/active/PB-01-plan-b.md) | Plan B como primera miniapp real: base, calendario, recorrido, salidas, visuales/integración y regresión global | En curso: I1–I5 integradas mediante PR #19/#20/#22/#23/#24. I6 autorizada y revisada técnicamente con dos correcciones; staging I5 validado. Pendientes pruebas físicas, revisión humana y staging del candidato corregido; I4/I5/I6 abiertas |
 
 I-04 quedó sin alcance propio: producción y el gate de promoción se incorporaron a I-03 el 2026-11-05.
+
+| Plan frontend | Resultado | Estado y relación |
+| --- | --- | --- |
+| [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md) | Estándar frontend propio, skills integradas y revisión UX/UI de Plan B como piloto | En curso, I1 autorizada el 2026-11-17. Rama propia feature/fe01-frontend-quality desde staging integrado de PR #25. Un archivo y siete iteraciones, última de regresión/análisis. I1 prepara referencia y propuesta revisable del estándar/skills; no instala herramientas ni implementa aún el piloto. Conserva los pendientes de PB-01 y ordena el trabajo de UI. |
 
 ## Cierres recientes
 
@@ -39,4 +43,4 @@ Para las siguientes iteraciones de PB-01 quedan:
 * la licencia (ADR-MMA-010), si el repositorio va a aceptar contribuciones externas;
 * completar las pruebas físicas de I4 y revisiones humanas de I5, integrar las correcciones I6 mediante merge humano y validar su identidad/recorrido en staging; I6 está autorizada y revisada técnicamente, sin aceptación global. I-03 permanece aceptado.
 
-Las skills opcionales siguen aplazadas al final, en [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final).
+La investigación de skills se retoma por solicitud del propietario y se planifica en FE-01. Su incorporación permanece pendiente de selección/aprobación/autorización y carga comprobada, según [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final). Aprobar la planificación y comenzar su ejecución son pasos distintos; el estado de cada plan es canónico.

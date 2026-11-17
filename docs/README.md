@@ -14,6 +14,7 @@ Este mapa dirige a las fuentes del proyecto. La autoridad y los estados se defin
 | Operar staging | [Guía de staging](guides/staging.md) |
 | Consultar trabajo y pendientes | [Roadmap](roadmap.md), [planes activos](exec-plans/active/) y [deuda](exec-plans/tech-debt-tracker.md) |
 | Revisar Plan B | [Ficha v06](product-specs/plan-b.md) aprobada y [PB-01](exec-plans/active/PB-01-plan-b.md) en curso: I1–I5 integradas en staging e I6 revisada técnicamente; pruebas físicas/revisión y staging de las correcciones pendientes, una rama estable y commits por iteración; su [iteración 6](exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global) cierra con regresión y análisis global |
+| Adoptar el estándar frontend y mejorar la UX | [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), plan en curso, I1 autorizada: estándar, skills, diseño, recorrido, resultado/PNG, prueba de uso y regresión final; siete iteraciones y relación explícita con PB-01 |
 
 ## Dónde vive cada tipo de documento
 
@@ -40,7 +41,8 @@ La raíz de `docs/` contiene este mapa, [BOOTSTRAP.md](BOOTSTRAP.md), [PLANS.md]
 | I-03 | [contrato vigente verificado](reports/i03/contract-verification-2026-11-16.md), [plan anterior archivado](reports/i03/legacy-plan-2026-11-16.md), [Fase A](reports/i03/phase-a.md), [preparación de staging](reports/i03/staging-preparation.md), [corrección del PR](reports/i03/merged-pr-correction.md), [primera publicación](reports/i03/staging-startup.md) y [parche histórico ya aplicado](reports/i03/staging-publication-activation.patch) |
 | CP-01 | [Ejecución de identidad y movimiento](reports/cp01/execution.md) |
 | CP-02 | [Implementación de apariencia](reports/cp02/execution.md) |
-| PB-01 | [Ejecución única de Plan B, I1–I6](reports/pb01/execution.md) |
+| PB-01 | [Ejecución única de Plan B, I1–I6](reports/pb01/execution.md) e [investigación de skills y revisión UX](reports/pb01/frontend-skills-review.md) |
+| FE-01 | [Ejecución única del estándar/skills y piloto frontend](reports/fe01/execution.md), con [referencia I1 reproducible](reports/fe01/i1-baseline.json) |
 
 ## Mantener el orden
 
