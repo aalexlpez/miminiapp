@@ -1,6 +1,6 @@
 # Plan B v06 — paquete para revisión del propietario
 
-**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D con preparación local de I5 solicitada el 2026-11-17 tras integrar I4; adelanta el acabado aislado, sin cerrar sus criterios físicos. Bloque B con ADR-MMA-020/021 aprobadas; I4 sin cerrar por matriz física/HTTPS; incorporación de I5 al catálogo e I6 pendientes. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-17. Preparación original en `docs/plan-b-v06`; I1–I4 integradas mediante PR #19/#20/#22/#23. Rama estable de PB-01: `feature/pb01-plan-b`, sincronizada desde staging `beed90cbb418e0c0f9525353c806ca9582ee7226`, según H-007.
+**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D con preparación local de I5 solicitada el 2026-11-17 tras integrar I4; adelanta el acabado aislado, sin cerrar sus criterios físicos. Bloque B con ADR-MMA-020/021 aprobadas; I4 sin cerrar por matriz física/HTTPS; registro de I5 autorizado en la candidata; revisiones de cierre e I6 pendientes. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-17. Preparación original en `docs/plan-b-v06`; I1–I4 integradas mediante PR #19/#20/#22/#23. Rama estable de PB-01: `feature/pb01-plan-b`, sincronizada desde staging `beed90cbb418e0c0f9525353c806ca9582ee7226`, según H-007.
 
 ## Qué se entrega
 
@@ -77,7 +77,7 @@ Los bloqueos se localizan dentro del mismo plan: selección/ficha y autorizació
 
 ## Bloque D — autorización de ejecución y alcance operativo
 
-Los Bloques A/C están aprobados e I1–I4 integradas. El propietario solicita comenzar I5: se prepara el acabado y candidato aislado con ADR-MMA-020/021 aprobadas. I4 conserva sus requisitos físicos y la incorporación al catálogo necesita autorización expresa. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
+Los Bloques A/C están aprobados e I1–I4 integradas. El propietario solicita comenzar I5: se prepara el acabado y candidato aislado con ADR-MMA-020/021 aprobadas. I4 conserva sus requisitos físicos; el propietario autoriza expresamente la incorporación al catálogo de la candidata en la respuesta a la propuesta de PR #24. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
 
 Esta autorización no permite al agente hacer merge, desplegar por fuera de Actions, habilitar producción/promoción/rollback, crear hosting/túneles, modificar secretos/protecciones o publicar un prototipo incompleto por eludir la verificación.
 
@@ -123,4 +123,8 @@ El propietario confirma el merge de PR #22 y solicita continuar. Se autoriza des
 
 ## Preparación local de I5 — 2026-11-17
 
-El propietario confirma el merge de PR #23 y solicita comenzar la siguiente iteración. Se adelanta el acabado/revisión aislados de I5 en la misma rama, con commits PB-01/I5 y entrega por PR. Esta indicación no se registra como prueba física ni aceptación de I4. La incorporación real al catálogo se mantiene pendiente del permiso expreso requerido por la tarea 4; la propuesta concreta y las capturas están en el [informe I5](../reports/pb01/execution.md#i5--identidad-y-preparación-local-de-integración). I6 sin iniciar.
+El propietario confirma el merge de PR #23 y solicita comenzar la siguiente iteración. Se adelanta el acabado/revisión aislados de I5 en la misma rama, con commits PB-01/I5 y entrega por PR. Esta indicación no se registra como prueba física ni aceptación de I4. La tarea 4 queda autorizada después mediante «Autorizar el registro en la rama candidata». Se aplican registro/rutas reales, fecha prevista 2026-11-17 y pruebas conservando el caso vacío; capturas y evidencia están en el [informe I5](../reports/pb01/execution.md#i5--identidad-e-integración). I6 sin iniciar.
+
+## Incorporación autorizada de I5 — 2026-11-17
+
+Tras revisar la propuesta concreta de PR #24, el propietario responde «Autorizar el registro en la rama candidata». Queda satisfecho el permiso de I5/tarea 4: descriptor published con fecha prevista 2026-11-17 y loader perezoso, catálogo/rutas reales ES/EN y pruebas/mediciones del build. Se mantienen el merge manual, las pruebas físicas de I4, revisión visual/manual y cierre global I6. No es autorización de despliegue por el agente o de infraestructura nueva.

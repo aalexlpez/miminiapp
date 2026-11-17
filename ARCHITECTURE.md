@@ -50,14 +50,20 @@ Los textos de plataforma viven en `src/i18n/common/`. `validateTranslationParity
 
 ## Registro de miniapps
 
-`src/lib/miniapp-registry.ts` define el contrato y `src/miniapps/registry.ts` es la lista explícita de herramientas, hoy vacía.
+`src/lib/miniapp-registry.ts` define el contrato y `src/miniapps/registry.ts` es la lista explícita de herramientas, con Plan B incorporada en la rama candidata por autorización del propietario el 2026-11-17.
 
 * Un **descriptor** es metadato puro: `id`, `slug`, `status` (`draft` o `published`), `category`, `tags` opcionales, `publishedAt` y título y descripción en ambos idiomas. Importarlo nunca carga interfaz.
 * Una entrada **publicada** añade `loadEntry`, que importa de forma perezosa el `entry.astro` de la herramienta. Un borrador no puede tener cargador.
 * `validateRegistry` se ejecuta en build y rechaza ids o slugs duplicados, categorías desconocidas, fechas inválidas, traducciones ausentes y borradores con cargador.
 * El catálogo consume solo los metadatos publicados. Los borradores no generan rutas ni dejan rastro en `dist/`.
 
-Plan B cuenta con metadatos draft, validación, fecha narrativa, generadores puros de calendario `.ics`/URL Google y entrada Astro/React ES/EN en `src/miniapps/plan-b/`. El recorrido mantiene entradas, paso y ejemplo mediante sesión temporal versionada y validada, con memoria y avisos ante fallos de almacenamiento; reset solo afecta a su clave. El dominio no importa navegador ni traducciones. La entrada importa sus estilos propios y comparte el formateo de la frase con calendario. Sigue sin inscripción en el registro real: sus pruebas construyen copias temporales con entrada sintética o UI real y previews propios; ninguna se incorpora al build público. I4 incorpora `ExportPanel.tsx`, PNG de canvas con fuentes locales y ajuste puro por palabras/grafemas, descargas `.ics`, consentimiento Google y compartir/copia de URL limpia. El PNG se prepara antes del gesto de compartir, se regenera al cambiar el tema y libera canvas/URLs; las descargas revocan sus URLs de forma diferida y al desmontar. Google abre una ventana vacía detectable, anula su opener y navega mediante enlace sin referrer solo al confirmar. No hay API ni llamadas previas a Google. La compatibilidad/importación y guardado físicos de I4 siguen pendientes; no se presentan mocks ni Chromium emulado como validación móvil. La preparación local de I5 añade gris limitado al módulo según paso/validez, recuperación de color y sello en espacio reservado, con reglas propias para reduced-motion. Su contraste, reflujo y catálogo poblado se prueban en copias; el registro real conserva el catálogo vacío hasta autorizar su incorporación.
+Plan B se registra con descriptor `published`, categoría `everyday`, fecha prevista de primera incorporación `2026-11-17` y loader perezoso de `src/miniapps/plan-b/entry.astro`. El build genera tarjeta y rutas `/es/apps/plan-b/` y `/en/apps/plan-b/`; la portada usa metadatos sin hidratar React/Plan B. Esa inscripción autorizada en la candidata no implica que ya se haya desplegado o aceptado el producto.
+
+Su dominio mantiene validación, fecha narrativa y generadores puros de calendario `.ics`/URL Google, sin navegador o traducciones. La UI Astro/React ES/EN comparte el formateo de frase y mantiene entradas/paso/ejemplo con sesión temporal versionada/validada, memoria y avisos ante fallo; reset solo afecta a su clave.
+
+`ExportPanel.tsx` prepara PNG con canvas y fuentes locales, ajuste por palabras/grafemas y tokens del tema; conserva activación para compartir y libera canvas/URLs al volver/reset. `.ics` local, Google con consentimiento y ventana detectable sin opener/referrer, compartir/copia de enlace limpio. No hay API ni llamadas previas a Google. CSS de gris/color y sello limitado al módulo, con reglas propias de reduced-motion.
+
+Las pruebas conservan copias vacías/draft/publicadas y verifican el recorrido real registrado. La suite remota de Plan B comprueba identidad antes de ejecutar ese mismo recorrido crítico. Compatibilidad/importación/guardado físicos de I4 y revisiones manuales de I5 siguen pendientes; no se presentan mocks ni Chromium emulado como aceptación móvil.
 
 La [guía de miniapps](docs/guides/miniapps.md) explica cómo añadir una. `npm run test:integration` demuestra el aislamiento: construye una copia con las herramientas sintéticas de `tests/integration/fixtures/` y comprueba que añadir una segunda no altera la primera ni los archivos comunes.
 

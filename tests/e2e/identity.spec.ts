@@ -53,8 +53,9 @@ for (const locale of ['es', 'en']) {
     }, compactReference);
     expect(geometry.marks).toHaveLength(2);
     geometry.marks.forEach((mark) => expect(mark).toEqual(geometry.expected));
-    // Header, footer, empty catalogue and hero all share the selected four pieces.
-    expect(geometry.initials).toHaveLength(4);
+    // Header, footer and hero remain; the published card replaces the empty tile.
+    // The fourth initial and its geometry are retained in the empty-build fixture.
+    expect(geometry.initials).toHaveLength(3);
     geometry.initials.forEach((pieces) =>
       expect(pieces).toEqual(geometry.expected.pieces),
     );

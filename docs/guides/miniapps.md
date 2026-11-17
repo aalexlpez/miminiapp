@@ -47,7 +47,7 @@ export const metadata = {
 | --- | --- |
 | `id` | Identificador estable en minúsculas ASCII. Único. |
 | `slug` | Minúsculas, dígitos y guiones. Único. Es la URL: `/es/apps/<slug>/`. |
-| `status` | `draft` mientras se construye; `published` cuando se acepta. |
+| `status` | `draft` mientras se construye; `published` al autorizar expresamente su incorporación al catálogo. En rama candidata no implica aceptación final, merge o despliegue. |
 | `category` | Una de `calculator`, `productivity`, `everyday`, `science`, `game`, `experience`. |
 | `tags` | Opcional. Palabras clave estables con forma de slug, sin repetir. No son texto traducido. |
 | `publishedAt` | Fecha `AAAA-MM-DD` de la primera publicación. Obligatoria al publicar. |
