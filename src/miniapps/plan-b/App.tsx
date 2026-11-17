@@ -25,6 +25,7 @@ import {
 } from './domain/validation';
 import { fill, type PlanCopy } from './i18n/copy';
 import { formatPlanText } from './i18n/calendar-copy';
+import ExportPanel from './ExportPanel';
 
 export default function App({
   locale,
@@ -511,6 +512,7 @@ export default function App({
                 </button>
               </>
             )}
+            <ExportPanel plan={validation.value} locale={locale} copy={copy} />
             <div className="pb-actions">
               <button
                 type="button"

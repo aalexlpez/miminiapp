@@ -1,6 +1,6 @@
 # PB-01 — Ejecución de Plan B
 
-**Actualizado:** 2026-11-16. **Responsable:** propietario de MiMiniApp. **Plan canónico:** [PB-01](../../exec-plans/active/PB-01-plan-b.md). Un solo informe para I1–I6; las secciones futuras se completarán con evidencia real.
+**Actualizado:** 2026-11-17. **Responsable:** propietario de MiMiniApp. **Plan canónico:** [PB-01](../../exec-plans/active/PB-01-plan-b.md). Un solo informe para I1–I6; las secciones futuras se completarán con evidencia real.
 
 ## I1 — Base lógica y referencia
 
@@ -201,6 +201,61 @@ Medición con el entorno/viewport/procedimiento de I1, ambos temas y contexto fr
 
 PB-01 permanece `En curso`; cumplir I3 no acepta el producto ni autoriza I4. La entrega por commit `feat(PB-01/I3): ...`, push y PR usa la misma rama estable. El CI del head y la PR se enlazan en la entrega; el propietario conserva el merge manual.
 
-## I4–I6
+## I4 — Imagen y exportaciones
 
-Sin comenzar ni autorizar. I4 requiere I3 completada y preparación HTTPS/dispositivos; I5 conserva aprobación de incorporación y acabado; I6 permanece como cierre global de todo el producto.
+### Alcance autorizado y base
+
+El 2026-11-17 el propietario confirma el merge de I3 y pide continuar. Se autoriza implementar/probar localmente I4 y entregar mediante commit/push/PR, conservando la rama estable y merge humano. Base staging `8a22fb37c8baf5dd1f399ce28c09031beb2aeb61`, árbol `6784d884f131680daa29ec1e35c35a617102707d`; fast-forward de `feature/pb01-plan-b` desde PR #22. Mismo contenido funcional de I3, sin reinterpretar su evidencia como validación de exportaciones.
+
+**I4 permanece abierta.** Solo consta Chrome de escritorio disponible. La implementación local puede avanzar según la autorización, pero no acredita la importación, guardado, recorte del fondo o modo avión físicos de iPhone/Safari y Android/Chrome. Tampoco hay vista previa HTTPS de candidata autorizada. Se conserva la propuesta de Worker temporal de I1, sin crear recursos, activar túneles ni publicar un prototipo. No se incorpora el descriptor al registro ni se inicia I5.
+
+### Implementación y límites
+
+* `ExportPanel.tsx` monta las salidas únicamente en resultado. Mantiene el plan ante errores/cancelaciones y muestra acciones en orden: calendario, imagen y enlace de la herramienta. Avisos ES/EN, diálogo nativo etiquetado, foco inicial en Cancelar y retorno al botón de origen. No anuncia que un calendario ya guardó/importó un evento.
+* `.ics` usa el modelo/formateador de I2, fecha leída al exportar y `crypto.randomUUID()` nuevo por exportación. Descarga Blob con nombre ES/EN; avisa de duplicados. Las URLs de descarga se revocan a los 60 segundos para permitir su consumo, antes si se abandona resultado. No añade una variante iOS sin evidencia física.
+* Google solo tras confirmación, sin petición ni URL personal previa. Comprueba la señal offline, abre una ventana vacía desde el gesto y comprueba que exista; anula su opener antes de adjuntar datos y navega con enlace `noopener noreferrer`/`no-referrer`. Esta secuencia permite detectar bloqueo sin confundir el retorno null normal de `window.open` con noopener con un error. Cancelar/Escape no exportan; fallo de ventana conserva plan y `.ics`. La prueba intercepta la navegación: no se envía texto real a Google ni se afirma compatibilidad del servicio.
+* `domain/wallpaper-layout.ts` ajusta palabras/grafemas mediante `Intl.Segmenter`, conservando caracteres y separadores. PNG fijo 1179×2556, márgenes 10 %, bloque entre 32–72 %, etiqueta y frase íntegra, fuente desde 7 % hasta mínimo 4 % del ancho (47,16 px). Si no cabe o falla canvas/codificación, muestra error y reintento; no trunca ni usa elipsis.
+* `browser/wallpaper.ts` espera fuentes locales, resuelve tokens del tema y libera el respaldo del canvas tras codificar. El PNG se prepara antes del clic para conservar la activación al compartir; se regenera al cambiar tema/sistema y descarta generaciones obsoletas. Vista previa, descarga o compartir archivo según capacidad; nota de que el destino puede recibir la imagen. Cancelación voluntaria sin éxito falso ni mensaje alarmante; fallo mantiene Abrir imagen como alternativa manual. Instrucciones genéricas sin prometer una opción de SO aún no comprobada.
+* Compartir herramienta entrega únicamente texto promocional y URL limpia del origen/idioma actual. Copiar enlace confirma solo al resolver Clipboard; si falla, muestra URL seleccionable. Sin plan/hora/días en URL, títulos, logs o destinos no consentidos.
+* Recursos vinculados al montaje del resultado: retirada del observador/media listener, invalidación de generación pendiente y revocación de previews/descargas al reset/volver. No se cambian plataforma, dependencias, configuración ni workflows.
+
+### Verificación local
+
+`npm run verify` final, código 0, después del ajuste de CSS: tipos sin diagnósticos, lint, formato, hosting offline, **502 unitarias**, **19 componentes**, **120 E2E** e integración modular satisfactorios. Se mantienen las 2/4 pruebas sintéticas de integración y todos los escenarios de I1–I3. Node 24.22.2/npm 11.19.1/Chromium 156.0.8078.4 r1248, mismo entorno fijado. Revisión documental: 62 Markdown y 523 enlaces locales válidos. CI del head final y PR se enlazan en la entrega; no se atribuye validación física a esa batería.
+
+Ocho escenarios E2E nuevos por perfil Chromium escritorio/móvil emulado, sin sustituir teléfonos: descarga real `.ics` y PNG ES/EN offline; inicio 2026-11-18 desde reloj 2026-11-17, hora/duración/COUNT y UID nuevo; dimensiones PNG leídas del archivo. Continúa el ejemplo y vuelve a generar imagen tras desconectar, sin recargar. Comprueba Google offline y conservación del plan.
+
+Consentimiento con Cancelar/Escape y foco, sin apertura previa; confirmación inspecciona el URL codificado, opener anulado y enlace sin referrer, bloqueando la navegación real. Compartir inspecciona payload limpio y activación al entregar el archivo ya preparado; fallos/cancelación/Clipboard denegado no producen éxito falso. PNG imposible de codificar puede reintentarse. Diez ciclos reales de generación/descarga/reset por perfil dejan **cero URLs Blob pendientes** tras cada reset. No es una medición total de heap ni una prueba de los destinos externos del menú nativo.
+
+Textos máximos de 90+90 puntos de código, palabras sin espacios, CJK, tildes, combinaciones y emojis compuestos: unitarias conservan texto/grafemas; E2E registra llamadas reales de canvas, fuentes ≥47,16 px, ancho ≤943,2 px y posiciones dentro de la zona. Los colores corresponden al tema resuelto. axe del consentimiento claro/oscuro sin infracciones detectadas. Inspección asistida de PNG y diálogo con datos sintéticos; no es revisión visual humana ni aceptación de recortes bajo relojes reales. Reflujo de resultado a 320 px comprobado en ambos temas.
+
+Hallazgos corregidos durante desarrollo: cancelación `AbortError` de otro contexto no reconocida mediante `instanceof Error` (ahora se comprueba el nombre sin depender del contexto); ajuste del centrado del diálogo tras inspección; entorno JSDOM sin matchMedia modelado en pruebas, sin omitir escenarios. No se alteran controles globales de consola/red ni aserciones anteriores para obtener verde.
+
+### Regresión de plataforma y recursos
+
+Build público **idéntico byte a byte a I3**, 19 archivos. Portadas ES/EN y 404, ambos temas, mismas cuatro peticiones y bytes/gzip de la tabla I3, cero externas y ningún chunk de UI en portada. El registro real sigue vacío; previews y archivos de diagnóstico no forman parte del entregable.
+
+Inventario provisional de copia aislada: chunk propio `App` 39284 bytes sin comprimir; runtime separado `client` 212836 + `react` 7909 bytes. CSS fuente del módulo final 3015 bytes; estas cifras separan costes y no sustituyen el presupuesto final de JS/CSS entregado ni la medición total de I5/I6. No hay nuevas dependencias. El CSS fuente ya incluye el ajuste final del diálogo; el presupuesto entregado se vuelve a medir sobre el candidato de integración, sin ocultar runtime o CSS común bajo el presupuesto propio.
+
+### Criterios y pendientes para cerrar
+
+| Criterio | Evidencia local | Pendiente material |
+| --- | --- | --- |
+| PB-I4-01 | PNG íntegro/dimensiones/límites, fallback y error recuperable comprobados. | Guardado y fondo colocado bajo el reloj en ambos teléfonos; recorte real. |
+| PB-I4-02 | `.ics` descargado y modelo/recurrencia/UID comprobados; consentimiento Google inspeccionado sin envío. | Incorporación real desde los botones en ambos móviles, serie/hora/descripción, zona y apps/versiones. |
+| PB-I4-03 | Consentimiento, enlace limpio, cancelación y fallos de compartir/Clipboard comprobados. | Repetición de vías admitidas en dispositivos reales; no se afirma éxito externo. |
+| PB-I4-04 | Recorrido, ejemplo y generación offline comprobados tras carga completa. | Modo avión y guardado/importación admitidos en ambos teléfonos, distinguiendo conexión de Google. |
+| PB-I4-05 | Regresión I1–I3/plataforma y diez ciclos sin URLs pendientes. | Repetición física de las operaciones que dependan de SO/navegador. |
+
+| Dispositivo requerido | SO/navegador/app/zona | Candidato HTTPS SHA/árbol | Importación/PNG/modo avión |
+| --- | --- | --- | --- |
+| iPhone / Safari | Pendiente; no disponible | Pendiente de capacidad autorizada | No ejecutado |
+| Android / Chrome | Pendiente; no disponible | Pendiente de capacidad autorizada | No ejecutado |
+
+Para la sesión manual: identificar dispositivo/versiones/zona y candidato; abrir por HTTPS; descargar/importar desde el botón real y revisar primera/última aparición y duración; guardar PNG y colocarlo bajo el reloj; cancelar y repetir; desconectar tras carga completa y repetir las acciones locales, sin presentar Google como offline. Registrar una vía real válida por móvil y sus límites. Si solo funciona Google, documentar la conexión obligatoria y ajustar el mensaje según evidencia. Si no funciona ninguna vía, corregir o revisar alcance antes del cierre.
+
+**Entrega parcial de I4:** mismo nombre de rama, commit `feat(PB-01/I4): ...`, push y PR en borrador con evidencia local y bloqueos explícitos. Mantener PB-01 En curso e I4 sin marcar completada; merge humano no sustituye matriz física ni autoriza I5. HTTPS/dispositivos son condiciones del [plan](../../exec-plans/active/PB-01-plan-b.md#iteración-4--imagen-y-exportaciones), no una exigencia nueva de esta implementación.
+
+## I5–I6
+
+Sin comenzar ni autorizar. I5 conserva entrada de I4 completa y permiso de incorporación; I6 permanece como regresión y análisis global del producto.

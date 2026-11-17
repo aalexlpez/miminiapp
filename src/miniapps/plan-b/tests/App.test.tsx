@@ -7,10 +7,20 @@ import { sessionKey } from '../browser/session';
 
 beforeEach(() => {
   vi.restoreAllMocks();
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn(() => ({
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })),
+  );
   window.sessionStorage.clear();
   window.localStorage.clear();
 });
-afterEach(() => vi.restoreAllMocks());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
 async function start(locale: 'es' | 'en' = 'es') {
   const user = userEvent.setup();
   render(<App locale={locale} copy={getPlanCopy(locale)} />);
