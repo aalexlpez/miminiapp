@@ -10,6 +10,11 @@
 
 ## 1. Propósito y alcance
 
+**Rediseño en revisión:** [FE-01/I3 y ADR-MMA-023](../design-docs/plan-b-frontend-proposal.md)
+proponen cuatro preguntas visibles, horario desde resultado y nuevo PNG, con
+sesión v1 compatible. Es una propuesta con [prototipo separado](../review/fe01/README.md),
+pendiente de aprobación; la ficha v06 y el producto actual siguen vigentes.
+
 «Dime tu propósito, dime qué te hará dejarlo y prepara un plan B para ese día».
 
 Miniapp de una sola sesión y unos dos minutos para público general, móvil y escritorio, en ES/EN. Nombre ES: **Plan B**, subtítulo «para tu propósito». Nombre EN: **Bad Day Plan**; los nombres de archivo y textos ingleses usan ese nombre. Se inspira en planes «si… entonces» y contraste mental; no promete eficacia clínica ni se presenta como implementación completa o certificada de WOOP.

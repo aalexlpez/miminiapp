@@ -265,3 +265,116 @@ sin declarar carga automática ni compatibilidad de otros clientes. FE-I2-01/02/
 comprobados en ese alcance; I2 completada. PEND-001 se resuelve para el uso
 explícito de estas dos ayudas. Las restricciones de red, caché, permisos y
 entrega local permanecen, y la futura dirección de I3 sigue pendiente de revisión.
+
+## I3 — Dirección, recorrido y contrato para revisión
+
+### Propuesta y alcance
+
+El propietario solicita «vale, usalas para continuar con la iteraicón 3» tras
+identificar las dos skills y resolver el alcance explícito de I2. Se aplica
+Impeccable 4.9.2 de forma manual, leyendo su adaptación, Operate, shape/new-work
+y craft-floor; el motor context/engine-probe verificado responde. Vercel aplica
+el snapshot 434b7f91364665f2f733b310ec54809bf8f37937 y la matriz contextualizada.
+Método de un solo contexto, sin subagentes o crítica independiente atribuida.
+Las preguntas de propósito/alcance ya están resueltas por el usuario y FE-01;
+la dirección se presenta para su aprobación al terminar esta preparación.
+No se ejecutan las fases upstream de catálogo, generación, delegación o creación
+de PRODUCT.md/DESIGN.md; prevalecen H-008, ADR-MMA-022 y la entrega concreta de I3.
+
+[ADR-MMA-023 Propuesta](../../design-docs/plan-b-frontend-proposal.md) especifica
+«El plan toma forma»: propósito → obstáculo → situación → acción → resultado;
+primera pregunta directa, sugerencias contextuales, vista previa lateral en
+escritorio y compacta en estrecho, calendario posterior al resultado, movimiento
+de estado breve y nueva composición PNG estática. Se conservan identidad, ES/EN,
+temas, textos literales, generadores y presupuesto de 50 KiB del futuro producto.
+
+Se prepara la decisión material con estados, excepciones, copia ES/EN en el
+prototipo, restauración determinista conservando esquema/clave v1, calendario
+con borrador local y confirmación válida, y presentation focused opcional/default
+standard para el marco compartido. Esta última no se añade al descriptor ni a
+las rutas durante I3. La ficha v06 sigue Aprobada y vigente; solo enlaza la
+propuesta pendiente. La nueva dirección requiere aprobar los cambios de copia,
+gris/sello, recorrido, composición y restauración antes de implementar I4/I5.
+
+### Entregable visible
+
+[Índice de revisión](../../review/fe01/README.md), con prototipo de fuentes
+separadas y HTML autónomo de un único archivo. Este último incorpora fuentes,
+SVG de marca y avisos OFL, y funciona offline desde file://. Se genera con
+build-standalone.mjs de forma manual, sin dependencias, hooks o publicación.
+Se conservan seis imágenes mínimas: inicio/resultado en escritorio ES claro y
+estrecho EN oscuro, PNG real normal claro y máximo oscuro. El manifiesto identifica
+base, hashes de fuentes/capturas, condiciones y pruebas; los logs/matriz completa
+permanecen fuera del repo. La cabecera/pie son representativos: no se propone
+retirar navegación global o controles; I4 integrará el componente real.
+
+El prototipo permite escribir, sugerencias, Otro, Atrás, editar, cambiar idioma/
+tema, máximo y reset, generar/descargar PNG, abrir calendario, validar hora/días,
+ver consentimiento/Cancelar/Escape y previsualizar compartir. Las acciones de
+calendario/compartir se identifican como propuesta: no generan .ics, abren Google,
+copian enlaces o envían datos. No hay persistencia. No se usa como prueba de
+sesiones reales, share-file nativo, móvil físico, recorte/reloj o importación.
+
+Se consulta la skill cloud-desktop solo para facilitar la revisión visible:
+el entorno anuncia escritorio on-demand, pero esta sesión no ofrece herramientas
+cua/js, open_in_codex u open_cloud_preview. No se anuncia un escritorio abierto
+ni un enlace localhost accesible desde el equipo del usuario. El HTML autónomo
+resuelve la presentación revisable sin desplegar un sitio o instalar otro cliente.
+
+### Comprobaciones y hallazgos
+
+Playwright/Chromium 156.0.8078.4, fecha sintética 2026-11-17 12:00 Europe/Madrid,
+locale nativo en-US. ES/EN × claro/oscuro, 1440×900 y 393×851: cuatro perfiles,
+16 capturas de propósito/situación/acción/resultado y ocho PNG normal/máximo.
+Sin overflow horizontal, errores de página o peticiones externas. La acción de
+cada pregunta ordinaria queda dentro del viewport de estos perfiles en el
+prototipo; no acredita el encaje final en la cabecera real o con teclado móvil.
+Enlace de condición/tamaño real en el manifiesto, no tiempo de finalización humano.
+
+Se prueban errores de longitud y pegado con saltos sin cambiar/truncar entradas,
+Otro y su foco, avance/Atrás/edición, conservación literal entre idiomas, PNG
+1179×2556 con máximos íntegros en la zona propuesta, validación de calendario,
+consentimiento/Cancelar/Escape sin envío y contexto aislado. Axe encuentra cero
+incidencias en los cuatro resultados; no certifica accesibilidad global.
+Se corrigen dos hallazgos iniciales del prototipo: nombre accesible del selector
+de idioma que no contenía EN/ES y aviso de revisión fuera de un landmark.
+
+Además: reflujo a 320 px, Enter/Tab/foco, texto con marcado mostrado literalmente,
+emoji compuesto preservado, reduced-motion sin animación, variante normal con
+animación de estado y HTML autónomo desde file:// con red offline. Un fallo
+inyectado de canvas conserva frase y permite reintentar desde Guardar; se comprueba
+la descarga posterior. Días vacíos enfocan el primer control y no simulan éxito;
+resumen singular/plural revisado. No se afirma zoom nativo 200 %, lector de
+pantalla real, persistencia, duración de dos minutos o evaluación por otras personas.
+
+El detector Impeccable del prototipo devuelve 11 advertencias (incluida duplicación
+de la versión autónoma): 2 tiny-text, 7 overused-font y 2 cream-palette. Se corrige
+el aviso de revisión de 10 a 12 px y se regenera el autónomo; el resultado calculado
+se comprueba, sin repetir el detector por trámite. Las otras 9 se corresponden
+con Space Grotesk/fondo cálido de la identidad aprobada, que se conserva conforme
+a FE-M11; no son permiso para cambiar marca. No se ocultan warnings o se declaran
+como cero. El detector complementa la revisión visual; no otorga aprobación.
+
+### Aislamiento y salida
+
+El prototipo y sus artefactos viven en docs/review/fe01. Se excluye su carpeta del
+descubrimiento Tailwind, siguiendo el aislamiento comprobado en I2, y se declara
+el entorno browser/Node de sus dos scripts en ESLint para revisarlos sin relajar
+las reglas del producto. El build final detecta que el manifiesto de revisión
+añadía una regla adicional de transiciones de 477 B; se amplía la exclusión a toda la carpeta
+de evidencia de FE-01 y se repite la comparación. El empaquetado normaliza CRLF y
+espacios finales de los avisos OFL conservando su texto/licencia.
+Componentes, dominio, almacenamiento, generadores,
+registro, rutas, package/lockfile y workflows del producto siguen sin cambios.
+Tipos/lint/formato/hosting/build e integración modular satisfactorios; lint/formato
+dirigidos se repiten tras el ajuste final de acciones del prototipo. Los 23 archivos
+públicos coinciden byte a byte con I1, sin material de revisión servido. Manifiesto
+de fuentes/imágenes verificado; 123 Markdown y 762 referencias locales revisadas,
+con el único falso positivo conocido de la plantilla upstream oklch(...), sin
+enlaces reales rotos. Diff --check satisfactorio antes del commit local. No se reclama una nueva
+regresión completa de 504 unitarias/19 componentes/146 E2E para esta propuesta.
+
+I3 queda preparada **pendiente de aprobación de dirección/contrato**, con FE-I3-03
+propuesto al propietario. FE-I3-01/02 no se marcan satisfechos antes de su revisión;
+I4/I5 no iniciadas. FE-01 sigue En curso; misma rama y commits por iteración,
+sin push, nueva PR, merge o acciones de publicación.

@@ -20,7 +20,8 @@ Sitio estático generado con Astro 7. No hay servidor de aplicación, base de da
 | Runtime | Node 24 (referencia 24.22.2) y npm 11, dependencias exactas y un solo lockfile |
 
 Las ayudas frontend de H-008 se versionan en .agents/skills como herramientas de
-desarrollo, con motor/caché ignorados en .local. global.css excluye .agents del
+desarrollo, con motor/caché ignorados en .local. global.css excluye .agents y
+docs/review/fe01 del
 descubrimiento de utilidades Tailwind para que los ejemplos de las skills no
 alteren el CSS público. [Perfil y límites comprobados](docs/guides/frontend-skills.md);
 no son dependencias de la aplicación ni se sirven desde dist.
