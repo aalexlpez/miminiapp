@@ -3,7 +3,8 @@ import type { MiniappDescriptor } from '../../lib/miniapp-registry';
 export const metadata = {
   id: 'plan-b',
   slug: 'plan-b',
-  status: 'draft',
+  status: 'published',
+  publishedAt: '2026-11-17',
   category: 'everyday',
   copy: {
     es: {

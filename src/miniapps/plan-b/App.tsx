@@ -47,6 +47,9 @@ export default function App({
   );
   const { session, ready, memoryOnly, warnings } = snapshot;
   const { inputs, step } = session;
+  const completePhrases =
+    Number(validateText('situation', inputs.situation).ok) +
+    Number(validateText('action', inputs.action).ok);
   const [errors, setErrors] = useState<InputErrors>({});
   const heading = useRef<HTMLHeadingElement>(null);
   const lastStep = useRef<Step | null>(null);
@@ -312,6 +315,8 @@ export default function App({
       className="pb-app"
       data-testid="plan-b-app"
       data-ready={ready}
+      data-step={step}
+      data-phrase-count={completePhrases}
       aria-labelledby="pb-step-title"
     >
       <aside role="status" aria-atomic="true" className="pb-notices">
@@ -481,7 +486,9 @@ export default function App({
         )}
         {step === 'result' && validation.ok && (
           <>
-            <p className="pb-stamp">{fill(ui.stamp, { month: nextMonth })}</p>
+            <div className="pb-stamp-space">
+              <p className="pb-stamp">{fill(ui.stamp, { month: nextMonth })}</p>
+            </div>
             <p className="pb-result" data-testid="plan-sentence">
               {
                 formatPlanText(validation.value, locale).description.split(

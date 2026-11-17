@@ -68,14 +68,15 @@ export const test = base.extend<
           const text = (
             await readFile(path.join(projectRoot, 'dist', filename))
           ).toString();
-          for (const marker of [
-            'PB_I1_ISOLATED_FIXTURE',
-            'Bad Day Plan',
-            'plan-b',
-          ]) {
+          for (const marker of ['PB_I1_ISOLATED_FIXTURE']) {
             expect(filename).not.toContain(marker);
             expect(text).not.toContain(marker);
           }
+        }
+        for (const locale of ['es', 'en']) {
+          expect(Object.keys(before.output)).toContain(
+            `${locale}/apps/plan-b/index.html`,
+          );
         }
         await provide({ draft, published });
       } finally {

@@ -284,13 +284,16 @@ describe('narrative date captured once in local calendar time', () => {
   });
 });
 
-it('keeps pure bilingual draft metadata excluded from catalogue and routes', () => {
-  const registry = [{ descriptor: metadata }];
+it('keeps bilingual metadata pure and its draft projection excluded from routes', () => {
+  const { publishedAt, ...descriptor } = metadata;
+  const draft = { ...descriptor, status: 'draft' as const };
+  const registry = [{ descriptor: draft }];
   expect(validateRegistry(registry)).toEqual(registry);
   expect(getPublishedMetadata(registry)).toEqual([]);
   expect(getMiniappPaths(registry)).toEqual([]);
   expect(metadata).not.toHaveProperty('loadEntry');
-  expect(metadata).not.toHaveProperty('publishedAt');
+  expect(draft).not.toHaveProperty('publishedAt');
+  expect(publishedAt).toBe('2026-11-17');
   expect(metadata.copy.es.title).toBe('Plan B');
   expect(metadata.copy.en.title).toBe('Bad Day Plan');
 });

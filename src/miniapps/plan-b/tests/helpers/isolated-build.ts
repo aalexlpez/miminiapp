@@ -88,7 +88,7 @@ import { metadata } from './plan-b/metadata';
 export const miniappRegistry = validateRegistry([
   ${
     variant === 'draft'
-      ? '{ descriptor: metadata }'
+      ? "{ descriptor: { ...metadata, status: 'draft' } }"
       : `{
     descriptor: { ...metadata, status: 'published', publishedAt: '2000-01-01' },
     loadEntry: () => import('./plan-b/entry.astro'),

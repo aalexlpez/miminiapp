@@ -48,10 +48,29 @@ function malformed(value: unknown): readonly MiniappRegistration[] {
 }
 
 describe('explicit miniapp registry', () => {
-  it('ships an empty production catalogue without test fixtures', () => {
-    expect(miniappRegistry).toEqual([]);
-    expect(getPublishedMetadata(miniappRegistry)).toEqual([]);
-    expect(getMiniappPaths(miniappRegistry)).toEqual([]);
+  it('keeps the empty catalogue contract without test fixtures', () => {
+    const empty = validateRegistry([]);
+    expect(empty).toEqual([]);
+    expect(getPublishedMetadata(empty)).toEqual([]);
+    expect(getMiniappPaths(empty)).toEqual([]);
+  });
+
+  it('registers the approved Plan B candidate with a lazy entry and both routes', () => {
+    expect(miniappRegistry).toHaveLength(1);
+    expect(getPublishedMetadata(miniappRegistry)[0]).toMatchObject({
+      id: 'plan-b',
+      slug: 'plan-b',
+      status: 'published',
+      publishedAt: '2026-11-17',
+      category: 'everyday',
+    });
+    expect(getMiniappPaths(miniappRegistry)).toEqual([
+      { params: { locale: 'es', slug: 'plan-b' }, props: { id: 'plan-b' } },
+      { params: { locale: 'en', slug: 'plan-b' }, props: { id: 'plan-b' } },
+    ]);
+    expect(findPublished(miniappRegistry, 'plan-b').loadEntry).toBeTypeOf(
+      'function',
+    );
   });
 
   it('projects published metadata without invoking UI loaders', () => {

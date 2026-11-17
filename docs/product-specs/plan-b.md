@@ -1,12 +1,12 @@
 # Plan B · Bad Day Plan — ficha funcional v06
 
 * **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados.
-* **Situación:** Plan B seleccionada como primera miniapp real; I1–I3 integradas en staging; I4 autorizada para desarrollo/pruebas locales; matriz física/HTTPS pendiente antes de cerrarla. No publicada; ADR-MMA-020/021 aprobadas.
-* **Creada:** 2026-11-15. **Actualizada:** 2026-11-17 (salidas de I4 en validación; contrato funcional v06 conservado).
+* **Situación:** Plan B seleccionada como primera miniapp real; I1–I4 integradas en staging; I5 implementada y registrada en la candidata tras autorización expresa. I4 conserva pendiente su matriz física/HTTPS. Despliegue no acreditado; ADR-MMA-020/021 aprobadas.
+* **Creada:** 2026-11-15. **Actualizada:** 2026-11-17 (preparación visual de I5; contrato funcional v06 conservado).
 * **Origen:** [v05 aportada por el propietario](../references/plan-b-v05.md), contrastada con `staging` en `e203d73156a61a61138e9ff23de964a827221fad`.
-* **Categoría propuesta:** `everyday`. **ID / slug propuestos:** `plan-b`. Etiquetas opcionales omitidas inicialmente; `publishedAt` se fijará al publicar.
-* **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1–I3 integradas e I4 autorizada localmente, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
-* **Revisión agrupada:** [paquete de aprobación](../design-docs/plan-b-approval.md). La autorización vigente abarca desarrollo/pruebas locales de I4 y su entrega por commit/push/PR en la rama estable. No completa la matriz física ni autoriza I5/I6, merge, publicación o infraestructura.
+* **Categoría:** `everyday`. **ID / slug:** `plan-b`. Etiquetas opcionales omitidas; `publishedAt: 2026-11-17` en la candidata autorizada, como fecha prevista de primera incorporación (confirmar la real antes de integrar si cambia el día).
+* **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1–I4 integradas e I5 con incorporación a la candidata autorizada, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
+* **Revisión agrupada:** [paquete de aprobación](../design-docs/plan-b-approval.md). Tras integrar I4, el propietario solicita comenzar I5: se adelanta su preparación local independiente y entrega por commit/push/PR en la rama estable. El propietario autoriza expresamente incorporar Plan B al catálogo de la rama candidata, con fecha prevista 2026-11-17, rutas ES/EN y carga perezosa. No completa la matriz física de I4 ni autoriza I6, merge, despliegue por el agente o infraestructura.
 
 ## 1. Propósito y alcance
 
@@ -21,7 +21,7 @@ Se conservan tres pasos, portada, resultado, ejemplo, sello, calendario, imagen 
 ## 2. Encaje con la base actual
 
 1. Carpeta `src/miniapps/plan-b/`: `metadata.ts`, `entry.astro`, UI, `domain/`, `i18n/es.ts`, `i18n/en.ts` y `tests/`.
-2. Único cambio común de aplicación previsto: inscripción en `src/miniapps/registry.ts`; rutas y catálogo son genéricos. Las pruebas actuales que exigen catálogo vacío se adaptan en la iteración 5 de PB-01 conservando ese caso en fixture y añadiendo el catálogo poblado real; no se debilitan para conseguir verde.
+2. Único cambio común de aplicación previsto: inscripción en `src/miniapps/registry.ts`; rutas y catálogo son genéricos. Las pruebas de base que exigían catálogo vacío se adaptan en la iteración 5 de PB-01 conservando ese caso en fixture y añadiendo el catálogo poblado real; no se debilitan para conseguir verde.
 3. Rutas propuestas: `/es/apps/plan-b/` y `/en/apps/plan-b/`; mismo slug, nombres visibles traducidos.
 4. `SiteLayout` aporta título, descripción, cabecera, pie y selector equivalente ES/EN. El recorrido no duplica ese título principal.
 5. Textos propios separados y validados con `validateTranslationParity`; metadatos completos en ambos idiomas.
@@ -234,7 +234,7 @@ Recortes, si hacen falta y se registran antes de aceptar: instrucciones de SO se
 
 ## 8. Pendientes y cambios respecto a v05
 
-El propietario selecciona Plan B y aprueba esta ficha al comenzar I1 el 2026-11-16. Tras fusionar PR #19 autoriza avanzar a I2 y aprueba ADR-MMA-021. I1/I2 quedan integradas. Tras confirmar la consolidación en una rama, autoriza I3 y aprueba ADR-MMA-020 el 2026-11-16. Recorrido y sesión quedan integrados por PR #22. El 2026-11-17 el propietario autoriza continuar con I4; se ejecuta su parte local conservando las pruebas físicas y acceso HTTPS como condiciones de cierre. I5/I6 sin autorizar. Las condiciones de las iteraciones y las revisiones humanas permanecen; la última revisión sigue siendo I6. No se atribuye compatibilidad física o aceptación del producto a sus generadores de calendario.
+El propietario selecciona Plan B y aprueba esta ficha al comenzar I1 el 2026-11-16. Tras fusionar PR #19 autoriza avanzar a I2 y aprueba ADR-MMA-021. I1/I2 quedan integradas. Tras confirmar la consolidación en una rama, autoriza I3 y aprueba ADR-MMA-020 el 2026-11-16. Recorrido y sesión quedan integrados por PR #22. El 2026-11-17 el propietario autoriza continuar con I4; se ejecuta su parte local conservando las pruebas físicas y acceso HTTPS como condiciones de cierre. Tras integrar PR #23 solicita comenzar la siguiente iteración: se prepara localmente I5 sin cerrar I4 ni alterar los criterios físicos. Después autoriza expresamente el registro en la candidata; se incorpora y comprueba el build real, manteniendo I6 y revisiones físicas/manuales pendientes. Las condiciones de las iteraciones y las revisiones humanas permanecen; la última revisión sigue siendo I6. No se atribuye compatibilidad física o aceptación del producto a sus generadores de calendario.
 
 Cambios materiales propuestos: rutas reales con slug único; mes natural; calendario `COUNT` exacto; promesa offline acotada; almacenamiento con fallos y borrado explícito; consentimiento para URL Google/PNG; lienzo fijo también desde escritorio; presupuesto propio separado del total; aceptación inicial en staging. La iteración 1 inventaría la vía de acceso HTTPS; la iteración 4 la requiere comprobada para las pruebas de teléfonos. No se inventa un hosting o despliegue de pruebas.
 
@@ -246,3 +246,5 @@ Cambios materiales propuestos: rutas reales con slug único; mes natural; calend
 | 2026-11-16 | `Aprobada` | Propietario de MiMiniApp | Confirma merge de PR #19 y pide avanzar: I2 y ADR-MMA-021 aprobadas; ADR-MMA-020 y ejecución de I3–I6 pendientes. |
 | 2026-11-16 | `Aprobada` | Propietario de MiMiniApp | Confirma integración de I1/I2 en la rama del plan y pide continuar: I3 y ADR-MMA-020 aprobadas; I4–I6 sin autorizar. |
 | 2026-11-17 | `Aprobada` | Propietario de MiMiniApp | Confirma merge de I3 y pide continuar: desarrollo/pruebas locales de I4, con matriz física/HTTPS pendiente para cierre. I5/I6 sin autorizar. |
+| 2026-11-17 | `Aprobada` | Propietario de MiMiniApp | Confirma merge de I4 y pide comenzar la siguiente: preparación local de I5, manteniendo matriz física de I4 y autorización de catálogo pendientes. No es aceptación de I4/I5 ni inicio de I6. |
+| 2026-11-17 | `Aprobada` | Propietario de MiMiniApp | «Autorizar el registro en la rama candidata»: incorporación explícita de I5, con rutas ES/EN, loader perezoso y fecha prevista de primera incorporación. Pruebas físicas de I4 y cierre/revisiones de I5 pendientes; merge humano. |
