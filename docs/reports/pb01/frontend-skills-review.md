@@ -1,7 +1,7 @@
 # Plan B — revisión UX e investigación de skills frontend
 
 **Fecha:** 2026-11-17. **Autor:** Codex. **Responsable de selección e incorporación:** propietario de MiMiniApp.
-**Estado:** investigación realizada. FE-01 aprobado con I1 autorizada el 2026-11-17; las propuestas de estándar/selección se preparan para revisión y las skills siguen sin instalar/activar. Este informe conserva la investigación previa, no declara aceptación visual o autorización de rediseño.
+**Estado:** investigación realizada y FE-01/I1 completada el 2026-11-17. ADR-MMA-022 y H-008 aprobadas; la aprobación del propietario es suficiente como aceptación humana y las pruebas con otras personas son opcionales. Skills todavía sin instalar/activar; el nuevo diseño del piloto conserva su revisión posterior.
 
 ## Conclusión
 
@@ -80,11 +80,11 @@ La incorporación propuesta comprende:
 
 Para Vercel, la skill original solicita reglas frescas en cada revisión. Se registra la revisión o contenido realmente consultado en la evidencia de cada uso; fijar el SKILL.md no fija por sí solo esas reglas remotas. Las fuentes externas ayudan a revisar, no cambian el contrato de producto ni autorizan dependencias/infraestructura.
 
-La autorización de esta investigación cubría preparar la propuesta. Posteriormente se aprueba FE-01 y se autoriza I1, que concreta selección/permisos antes de instalar herramientas en I2. [H-002](../../harness-decisions.md#h-002--adaptación-documental-de-la-instancia-miminiapp) reserva alcance, revisión y autorización propios para incorporar skills. La selección pendiente se presenta al propietario con esta propuesta concreta; no se declara aprobada por inferencia de «Supongo que puedes instalar skills en el proyecto».
+La autorización inicial de esta investigación cubría preparar la propuesta. Posteriormente se aprueba FE-01/I1 y después ADR-MMA-022/H-008: selección/configuración ya acordadas. La instalación/comprobación conserva su ejecución en I2, todavía sin iniciar. [H-002](../../harness-decisions.md#h-002--adaptación-documental-de-la-instancia-miminiapp) reserva alcance, revisión y autorización propios para incorporar skills. La aprobación posterior del propietario queda registrada en sus fuentes; no se deduce de la primera consulta «Supongo que puedes instalar skills en el proyecto».
 
 ## Unión de estándares — propuesta de adopción
 
-Esta sección responde a la consulta posterior del propietario sobre cómo unir Vercel, Impeccable y el marco actual. La propuesta se concreta ahora en I1 de FE-01 para revisión; no instala herramientas ni cambia todavía las normas vigentes.
+Esta sección responde a la consulta posterior del propietario sobre cómo unir Vercel, Impeccable y el marco actual. Su adopción queda aprobada en ADR-MMA-022/H-008 al cerrar I1 de FE-01, con la condición del propietario de que las pruebas con otras personas sean opcionales. La instalación y el nuevo diseño no se ejecutan por aprobar esas decisiones.
 
 ### Una fuente de calidad y funciones distintas para las ayudas
 
@@ -96,7 +96,7 @@ El estándar operativo propio se mantendría en [FRONTEND.md](../../standards/FR
 | Impeccable | Investigar la experiencia, proponer composición, criticar, simplificar y afinar interacción/acabado | Flujo, alternativas visibles, justificación y revisión del resultado renderizado. |
 | Vercel | Comprobar detalles de implementación, formularios, accesibilidad, movimiento y rendimiento | Hallazgos sobre archivos/candidato identificados, con reglas aplicadas y excepciones justificadas. |
 | Toolchain existente | Tipos, lógica, componentes, navegador, integración y publicación con identidad | Resultados de los comandos ya aprobados y evidencia del candidato exacto. |
-| Revisión humana / uso observado | Evaluar comprensión, valor del resultado, dirección visual y operaciones reales | Observaciones y aceptación explícita; no se infieren de un score o CI verde. |
+| Revisión humana del propietario / uso adicional opcional | Evaluar comprensión, valor del resultado y dirección visual; el propietario decide su aceptación. Las observaciones de otras personas son un complemento. | Aprobación del propietario suficiente para la aceptación humana, con verificaciones técnicas aplicables y límites explícitos. No se infiere una medición de un score, CI o aprobación. |
 
 La unión es de prácticas y criterios con una autoridad clara. No exige concatenar todas las instrucciones o convertir cada recomendación externa en obligación universal. Se usaría una herramienta de dirección visual y una de revisión técnica, con cargas de referencias ajustadas a la tarea.
 
@@ -119,11 +119,11 @@ El estándar propuesto debería pedir, para las miniapps:
 * Movimiento breve que comunique progreso, selección o cambio de estado, interrumpible y con alternativa reducida conforme al ámbito aprobado.
 * Estados vacíos, error, carga, cancelación y éxito que expliquen qué hacer, manteniendo entradas y navegación cuando corresponda.
 * Resultados y exportaciones tratados como piezas del producto: composición, texto real/máximo, contraste, tamaño y destino de uso revisados.
-* Evidencia separada de calidad técnica, acabado visual y uso observado. Un recorrido de dos minutos se mide con personas nuevas y condiciones registradas, no con la duración del E2E.
+* Calidad técnica y acabado visual revisados, con aprobación humana del propietario suficiente. Las pruebas con otras personas y mediciones de uso son opcionales; si se realizan, registrar condiciones y límites. La velocidad de un E2E no demuestra tiempo humano ni comprensión.
 
 ### Adopción por iteraciones, con Plan B como piloto
 
-La solicitud posterior de preparar un plan se concreta en el [único ExecPlan FE-01](../../exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), ahora En curso con I1 autorizada, con siete iteraciones: estándar, skills, diseño, recorrido, resultado/PNG, validación de uso y regresión global. Ese archivo contiene entradas, alcance, criterios, revisión humana, rama y progreso; este informe conserva la investigación y las razones de la propuesta, sin duplicar el plan o afirmar ejecución.
+La solicitud posterior de preparar un plan se concreta en el [único ExecPlan FE-01](../../exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), ahora En curso con I1 completada, con siete iteraciones: estándar, skills, diseño, recorrido, resultado/PNG, revisión del propietario y regresión global. Ese archivo contiene entradas, alcance, criterios, revisión humana, rama y progreso; este informe conserva la investigación y las razones de la propuesta, sin duplicar el plan o afirmar ejecución.
 
 La instalación se evaluará con carga y aplicación reales, y el estándar con la calidad del piloto. FE-01 define su relación con PB-01 y la reutilización de evidencia sobre el candidato final; los pendientes físicos del producto conservan su autoridad. Después se podrá reutilizar el procedimiento probado para otras miniapps.
 
@@ -135,7 +135,7 @@ Propuesta de experiencia para contrastar, todavía no contrato aprobado: propós
 
 El objetivo es evitar el desplazamiento innecesario para completar la tarea en viewports habituales. No prometer cero scroll en cualquier pantalla, con zoom o teclado abierto, ni ocultar contenido para lograrlo. Conservar foco visible, reflujo, Atrás, recuperación, texto literal y reduced-motion. [GOV.UK recomienda empezar con una cosa por página](https://design-system.service.gov.uk/patterns/question-pages/) y decidir agrupaciones con evidencia de uso; es una referencia de claridad, no una plantilla visual para copiar.
 
-Propuesta de evaluación: personas que no conozcan la app explican qué van a conseguir y completan un plan propio sin instrucciones externas. Registrar tiempo desde Empezar hasta resultado válido, dudas, errores y ayuda necesaria; medir aparte encontrar/guardar el fondo. El objetivo de dos minutos debe contrastarse con esas observaciones y declarar tamaño de muestra/condiciones, sin convertir una mediana aislada en garantía universal.
+La evaluación con personas que no conozcan la app queda como opción complementaria, tras la decisión del propietario: su aprobación es suficiente como aceptación humana. Si se realizan esas pruebas, pueden registrar tiempo hasta resultado válido, dudas/errores/ayuda y guardado por separado, con tamaño de muestra/condiciones y sin garantizar resultados universales. No se exige reclutar participantes o medir un mínimo de primeras visitas para aceptar el desarrollo.
 
 Para el PNG, preparar alternativas de composición fieles a la marca, revisar texto máximo, fondo real bajo reloj y contraste. Una imagen estática bien diseñada sirve al destino aprobado; vídeo, fondos animados, editor o IA dentro del producto serían otro alcance. Las skills son ayudas para producir y criticar alternativas; el resultado se evalúa por lo que ve y consigue la persona.
 

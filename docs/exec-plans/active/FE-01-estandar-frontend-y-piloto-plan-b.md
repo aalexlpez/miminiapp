@@ -8,8 +8,8 @@
 * **Rama de trabajo estable:** `feature/fe01-frontend-quality`, creada desde staging 1b204633ddd0ad782096d5377a3ee1c35d05c796 el 2026-11-17. Única para todo FE-01; no comparte la rama de ejecución de PB-01.
 * **Commits:** `tipo(FE-01/Ix): descripción en inglés`; PR con plan/iteraciones identificados, destino staging y merge manual del propietario.
 * **Organización:** un archivo, siete iteraciones secuenciales I1 → I2 → I3 → I4 → I5 → I6 → I7. I7 es siempre la última regresión y análisis del conjunto.
-* **Iteración actual:** I1 — base reproducible, estándar y acuerdos, iniciada el 2026-11-17. I2–I7 sin iniciar.
-* **Autorización actual:** el propietario indica «vale, crea una nueva rama y empecemos con la iteración 1» el 2026-11-17, tras revisar el plan y aclarar su alcance transversal/piloto y la ubicación de las skills. Se registra aprobación del plan y autorización de I1: reconciliación, rama, referencia reproducible y propuesta concreta del estándar/selección/permisos, con entrega por commits/push/PR según el marco. No se infiere aprobación de las normas o selección aún por concretar en I1, instalación I2 o rediseño I3–I7. Los puntos de decisión identificados siguen vigentes.
+* **Iteración actual:** I1 completada el 2026-11-17 tras aprobar ADR-MMA-022 y H-008. I2 es la siguiente, todavía sin iniciar ni autorizar; I3–I7 sin iniciar.
+* **Autorización actual:** el propietario indica «vale, crea una nueva rama y empecemos con la iteración 1» el 2026-11-17, tras revisar el plan y aclarar su alcance transversal/piloto y la ubicación de las skills. Se registra aprobación del plan y autorización de I1: reconciliación, rama, referencia reproducible y propuesta concreta del estándar/selección/permisos, con entrega por commits/push/PR según el marco. Posteriormente el propietario acepta ADR-MMA-022 con el ajuste de que su aprobación basta como aceptación humana y las pruebas con otras personas son opcionales, y acepta H-008. Se registra ese ajuste del criterio de aceptación y se cierra I1; la autorización de ejecución sigue limitada a I1 y no inicia I2 o el rediseño I3–I7.
 * **Base observada de planificación:** origin/staging `1b204633ddd0ad782096d5377a3ee1c35d05c796`, árbol `af9deb7d47fb9bd86dea690467f54577f3b214b7`, PR #25 integrada. Comprobar nuevamente SHA/árbol al ejecutar.
 * **Fuentes:** [investigación y propuesta de unión](../../reports/pb01/frontend-skills-review.md), [ficha Plan B](../../product-specs/plan-b.md), [registro técnico](../../design-docs/index.md), [frontend](../../standards/FRONTEND.md), [calidad](../../standards/QUALITY_SCORE.md), [seguridad](../../standards/SECURITY.md), [arquitectura](../../../ARCHITECTURE.md) y [gobierno del harness](../../harness-decisions.md).
 
@@ -44,9 +44,9 @@ Aplican ADR-MMA-001/002/003/005/006/008/011/015/016/017/019/020/021, la enmienda
 | Punto | Resolución necesaria y momento |
 | --- | --- |
 | Inicio | Resuelto el 2026-11-17: el propietario solicita crear la rama y comenzar I1. Plan aprobado y ejecución limitada a I1 autorizada; siguientes iteraciones y decisiones concretas conservan sus condiciones. |
-| Estándar y herramientas | I1 prepara la selección, adaptación, permisos y resolución de conflictos. Registrar la aprobación de gobierno en harness-decisions; las decisiones técnicas nuevas en el registro técnico. Hasta entonces no activar las skills ni convertir propuestas en norma vigente. |
+| Estándar y herramientas | Resuelto el 2026-11-17: ADR-MMA-022 y H-008 aprobadas en sus fuentes. I1 completada; la instalación, carga y comprobación de skills pertenecen a I2, pendiente de autorización de ejecución. |
 | Diseño y contrato | I3 presenta recorrido/composición/PNG y cambios concretos de ficha o contrato compartido. Revisión humana de la dirección y aprobación de cambios antes de I4/I5. |
-| Pruebas de uso | I3 acuerda protocolo y disponibilidad; I6 requiere personas que no conozcan la app. El propietario que ya la ha probado puede aceptar visuales, pero no sustituye una primera visita de usuario. |
+| Revisión humana | La aprobación del propietario es suficiente para la aceptación humana, con los controles técnicos aplicables. I3 define la dirección y el ámbito a revisar; I6 recoge su aprobación del acabado. Las pruebas con otras personas son opcionales y su ausencia no bloquea el cierre. |
 | Compatibilidad física | Permanece pendiente en PB-01. Registrar dispositivos/motores realmente probados y separar la validación del piloto de la aceptación global del producto. |
 
 Una autorización completa permite avanzar entre iteraciones al satisfacer sus salidas, sin volver a pedir permiso operativo ya concedido. Los puntos de revisión anteriores son decisiones concretas del propietario. No solicitar confirmación por cada ajuste local cubierto ni sustituir una comprobación esencial por una excepción implícita.
@@ -87,11 +87,11 @@ El informe de ejecución previsto es `docs/reports/fe01/execution.md`, con secci
 
 1. Diseñar el recorrido con una decisión principal cada vez, ayudas/sugerencias contextuales y resultado accesible pronto. Contrastar separar calendario/opciones del camino principal, número de pasos, posición de Atrás y guardado/restauración. Resolver qué cambia de la ficha; no fijar aquí otra estructura rígida antes de evaluar la propuesta.
 2. Presentar como máximo dos direcciones fieles a la identidad, con textos reales y ejemplos ES/EN, escritorio/móvil, claro/oscuro, formulario, resultado y composición PNG. Mostrar el flujo mediante prototipo navegable local o secuencia explícita de estados que permita revisar navegación/acciones, no solo un hero. Prototipo separado del producto/catálogo y sin publicación nueva. La ejecución elegida se concentra en una dirección revisada.
-3. Especificar estados, movimiento/interruptibilidad/reduced-motion, jerarquía, límites de tamaño y comportamiento con errores/texto máximo/zoom. Identificar cualquier ajuste compartido necesario y su contrato por defecto. Presentar migración/restauración de sesiones previas si cambia el modelo. Acordar protocolo de primera visita y preparar las modificaciones de ficha/decisiones; registrar aprobación de dirección y comportamiento antes de implementar.
+3. Especificar estados, movimiento/interruptibilidad/reduced-motion, jerarquía, límites de tamaño y comportamiento con errores/texto máximo/zoom. Identificar cualquier ajuste compartido necesario y su contrato por defecto. Presentar migración/restauración de sesiones previas si cambia el modelo. Precisar los criterios de revisión/aprobación del propietario y preparar las modificaciones de ficha/decisiones; registrar aprobación de dirección y comportamiento antes de implementar.
 
 **Archivos previstos:** propuesta visual en design-docs y evidencia de revisión, ficha Plan B, decisión técnica si procede y referencias del plan; sin convertir el prototipo en una miniapp pública.
 
-**Salida:** FE-I3-01 flujo y dirección visibles revisados por el propietario; FE-I3-02 contrato actualizado/aprobado con estados y compatibilidad de sesión definidos; FE-I3-03 protocolo y recursos humanos de evaluación identificados. No avanzar a I4/I5 con una decisión material sin resolver o con la propuesta visual rechazada.
+**Salida:** FE-I3-01 flujo y dirección visibles revisados por el propietario; FE-I3-02 contrato actualizado/aprobado con estados y compatibilidad de sesión definidos; FE-I3-03 criterios y ámbito de revisión del propietario definidos; las pruebas con otras personas son opcionales. No avanzar a I4/I5 con una decisión material sin resolver o con la propuesta visual rechazada.
 
 ### I4 — Recorrido guiado implementado
 
@@ -117,17 +117,17 @@ El informe de ejecución previsto es `docs/reports/fe01/execution.md`, con secci
 
 **Salida:** FE-I5-01 resultado/preview/PNG fieles a la dirección aprobada y con texto íntegro; FE-I5-02 exportaciones/consentimiento/offline/errores conservados; FE-I5-03 recursos liberados, presupuesto propio ≤50 KiB comprobado y runtime/totales informados. Compatibilidad móvil física sigue sin inferirse de descargas automatizadas.
 
-### I6 — Pulido y validación de primera visita
+### I6 — Pulido y aprobación del propietario
 
-**Entrada:** piloto completo de I4/I5 y participantes/protocolo acordados. **Resultado:** corregir fricción observable y acreditar el acabado en el ámbito realmente probado.
+**Entrada:** piloto completo de I4/I5 y dirección/contrato acordados. **Resultado:** corregir fricción observable y obtener la aprobación del propietario del recorrido, acabado y resultado en el ámbito revisado.
 
 1. Revisar el recorrido renderizado ES/EN, claro/oscuro, mouse/teclado, reduced-motion, errores, textos cortos/máximos y pantallas de referencia. Afinar ritmo, alineaciones, foco, labels y continuidad; no añadir funciones nuevas ni efectos que compitan con completar la tarea.
-2. Protocolo propuesto para acordar en I3: al menos tres personas sin experiencia previa con la app, en Chrome de escritorio identificado. Sin demostración del ejemplo ni instrucciones sobre el recorrido; formular su propio plan. Registrar tiempo desde Empezar hasta resultado válido, errores/dudas/ayuda y, aparte, localizar/guardar el fondo. Registrar métricas sin conservar frases personales o grabaciones innecesarias. El propietario revisa visuales y exportación por separado.
-3. Objetivo del piloto: participantes completan sin ayuda de navegación y dentro de 120 s, sin bloqueos materiales; explicar tamaño de muestra, condiciones y casos que fallan. Si no se logra, corregir la fricción y repetir con condiciones comparables/personas nuevas o proponer un cambio explícito de la promesa. No convertir una pasada asistida en éxito ni retirar la promesa por iniciativa propia. La muestra pequeña no demuestra rendimiento universal o retención.
+2. Presentar al propietario el recorrido implementado, el resultado y el PNG real, con sus límites y comprobaciones técnicas. Su aprobación es suficiente como aceptación humana de esta etapa; registrar la indicación y cualquier observación/corrección. No exigir participantes externos, un mínimo de tres primeras visitas o una medición temporal para dar por correcto el desarrollo.
+3. Las pruebas con otras personas y la medición del objetivo de dos minutos son complementos opcionales. Si se realizan, registrar tarea/condiciones/resultados sin conservar frases personales innecesarias y corregir hallazgos materiales. Si no se realizan, declararlo sin bloquear por esa ausencia ni atribuirle una medición a la aprobación del propietario. Los defectos técnicos y los incumplimientos del contrato aplicable conservan su tratamiento y revalidación.
 
-**Archivos previstos:** ajustes locales de UI/copy/PNG y sus pruebas si cambian comportamiento; informe de uso/hallazgos y capturas mínimas para la revisión. Si el protocolo acordado difiere, registrar la razón y aprobación antes de medir.
+**Archivos previstos:** ajustes locales de UI/copy/PNG y sus pruebas si cambian comportamiento; informe de revisión/aprobación, hallazgos y capturas mínimas. Si se decide una evaluación adicional, sus observaciones son evidencia complementaria.
 
-**Salida:** FE-I6-01 aceptación humana de la dirección implementada en el ámbito probado; FE-I6-02 protocolo ejecutado con resultados y correcciones trazables, o bloqueo explícito por participantes/capacidad; FE-I6-03 conjunto del candidato identificado, pruebas afectadas repetidas y freeze funcional para I7. No marcar esta iteración completa si falta su comprobación esencial de uso.
+**Salida:** FE-I6-01 aprobación del propietario de la dirección implementada en el ámbito revisado; FE-I6-02 aprobación/observaciones y correcciones registradas, con pruebas con otras personas opcionales; FE-I6-03 candidato identificado, pruebas técnicas afectadas repetidas y freeze funcional para I7. No marcar una comprobación técnica esencial como pasada por la aprobación visual.
 
 ### I7 — Regresión y análisis global, última iteración
 
@@ -149,7 +149,7 @@ El informe de ejecución previsto es `docs/reports/fe01/execution.md`, con secci
 | FE-AC-03 | Dirección y cambios del contrato aprobados antes de implementarlos, con identidad coherente y alcance modular. | I3, ficha/decisiones y revisión visual. |
 | FE-AC-04 | Recorrido claro y guiado, sin pérdida de texto/estado, utilizable en ES/EN, temas y escenarios de referencia. | I4/I6/I7, navegador, pruebas y observaciones. |
 | FE-AC-05 | Resultado y PNG cuidados, fieles y completos; exportaciones, privacidad y recuperación conservadas. | I5/I6/I7 y trazabilidad PB-AC. |
-| FE-AC-06 | Primera visita observada según el protocolo acordado y objetivo temporal contrastado; acabado aceptado en el ámbito probado. | I6, condiciones/resultados/hallazgos y revisión humana. |
+| FE-AC-06 | Recorrido, acabado y resultado aprobados por el propietario en el ámbito revisado, con los controles técnicos aplicables. Pruebas con otras personas y mediciones de uso opcionales; su ausencia no bloquea aceptación. | I6, indicación del propietario, correcciones/límites y observaciones adicionales solo si se realizan. |
 | FE-AC-07 | Presupuestos y costes reales medidos; sin degradación material reproducible o retenciones introducidas sin resolver. | I1/I5/I7 y comparaciones frías/calientes/recursos. |
 | FE-AC-08 | Regresión técnica, coherencia documental, CI e identidad/pruebas de staging del candidato final satisfactorias. | I7, run/head y manifest; evidencia local/remota diferenciada. |
 | FE-AC-09 | Handoff claro a PB-01 con el candidato/evidencia y pendientes físicos; aceptación del proceso/piloto separada del producto completo. | I7, actualización de referencias/progreso y decisión del propietario. |
@@ -176,12 +176,12 @@ FE-01 pasa a Verificado solo con sus criterios comprobados sobre el candidato fi
 
 | Iteración interna | Inicio | Fin | Salida / evidencia | Siguiente paso o bloqueo |
 | --- | --- | --- | --- | --- |
-| I1 — base y estándar | 2026-11-17 | — | [ ] FE-I1-01/02 comprobados: rama/reconciliación, 23 hashes, 40 estados, 24 PNG, 80 observaciones y propuesta FE-Q01–09/FE-M01–12. [Informe](../../reports/fe01/execution.md#i1--base-y-propuesta-del-estándar). | FE-I1-03: aprobar ADR-MMA-022 y H-008; I2 no iniciada ni autorizada por esta entrega. |
+| I1 — base y estándar | 2026-11-17 | 2026-11-17 | [x] FE-I1-01/02: base/matriz y referencia entregadas en PR #26, integrada en 64546ad. FE-I1-03: ADR-MMA-022 y H-008 aprobadas, con revisión humana suficiente del propietario y pruebas con otras personas opcionales. [Informe](../../reports/fe01/execution.md#i1--base-y-propuesta-del-estándar). | I2 pendiente de autorización de ejecución; sin skills instaladas. |
 | I2 — skills | — | — | [ ] | Selección/permisos acordados en I1 y capacidad del cliente. |
 | I3 — diseño y contrato | — | — | [ ] | Estándar/contexto; revisión humana de dirección y cambios de contrato. |
 | I4 — recorrido | — | — | [ ] | I3 aprobada; I2 usable o resolución explícita del bloqueo. |
 | I5 — resultado y PNG | — | — | [ ] | I4 comprobada y composición aprobada. |
-| I6 — pulido y uso | — | — | [ ] | Piloto completo; participantes/protocolo y revisión humana disponibles. |
+| I6 — pulido y revisión del propietario | — | — | [ ] | Piloto completo y aprobación del propietario; pruebas con otras personas opcionales. |
 | I7 — regresión final | — | — | [ ] | I1–I6 comprobadas, candidato congelado y permisos de entrega/remoto vigentes. |
 
 ## Historial de estado
@@ -192,3 +192,7 @@ FE-01 pasa a Verificado solo con sus criterios comprobados sobre el candidato fi
 | 2026-11-17 | `Aprobado` | Propietario | «vale, crea una nueva rama y empecemos con la iteración 1»: aprobación del plan presentado, tras las aclaraciones de alcance y skills locales. Las decisiones nuevas se concretan y revisan en sus puntos de control. |
 | 2026-11-17 | `Autorizado` → `En curso` | Propietario / Codex | Ejecución de I1 autorizada por la misma indicación; preservación/reconciliación del trabajo local y rama feature/fe01-frontend-quality desde staging 1b204633ddd0ad782096d5377a3ee1c35d05c796. I2–I7 sin iniciar. |
 | 2026-11-17 | `En curso` | Codex | I1: rama/reconciliación sin pérdida, runtime idéntico al staging integrado, referencia de UI/PNG/recursos y run/manifest remoto identificados. Propuestas ADR-MMA-022 y H-008 preparadas; FE-I1-01/02 comprobados y FE-I1-03 pendiente de decisión. No hay skills instaladas ni cambios de UI. |
+| 2026-11-17 | `Borrador` | Propietario / Codex | Ajuste material del criterio de aceptación indicado por el propietario al aceptar ADR-MMA-022: no se exige que otras personas prueben el desarrollo; basta su aprobación como aceptación humana. Se retira el mínimo de participantes y se actualizan FE-I3-03, FE-I6 y FE-AC-06, conservando alcance y regresión técnica. |
+| 2026-11-17 | `Aprobado` | Propietario | Acepta ADR-MMA-022 con ese ajuste y H-008. La misma indicación aprueba el cambio del criterio de aceptación incorporado al plan, sin pedir una segunda ratificación por trámite. |
+| 2026-11-17 | `Autorizado` → `En curso` | Propietario / Codex | Se conserva la autorización previa de I1 para registrar los acuerdos y completar su entrega, con el criterio actualizado por el propietario. No se amplía a I2–I7. |
+| 2026-11-17 | `En curso` | Codex | FE-I1-03 comprobado al registrar ambas aprobaciones; I1 completada. Rama estable sincronizada por fast-forward desde staging 64546adc0027b5988983e425278beb5585cf4a64 tras integrar PR #26. Instalación de skills y nueva UI aún sin ejecutar. |

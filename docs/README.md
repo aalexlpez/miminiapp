@@ -14,7 +14,7 @@ Este mapa dirige a las fuentes del proyecto. La autoridad y los estados se defin
 | Operar staging | [Guía de staging](guides/staging.md) |
 | Consultar trabajo y pendientes | [Roadmap](roadmap.md), [planes activos](exec-plans/active/) y [deuda](exec-plans/tech-debt-tracker.md) |
 | Revisar Plan B | [Ficha v06](product-specs/plan-b.md) aprobada y [PB-01](exec-plans/active/PB-01-plan-b.md) en curso: I1–I5 integradas en staging e I6 revisada técnicamente; pruebas físicas/revisión y staging de las correcciones pendientes, una rama estable y commits por iteración; su [iteración 6](exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global) cierra con regresión y análisis global |
-| Adoptar el estándar frontend y mejorar la UX | [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), plan en curso, I1 autorizada: estándar, skills, diseño, recorrido, resultado/PNG, prueba de uso y regresión final; siete iteraciones y relación explícita con PB-01 |
+| Adoptar el estándar frontend y mejorar la UX | [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), I1 completada: estándar ADR-MMA-022 y skills H-008 aprobados; I2 pendiente de ejecución. Siete iteraciones, aprobación humana del propietario y última regresión global; relación explícita con PB-01 |
 
 ## Dónde vive cada tipo de documento
 
