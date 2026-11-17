@@ -7,11 +7,11 @@
 * **Creado:** 2026-11-15. **Última actualización:** 2026-11-17.
 * **Base de planificación:** staging `07b95fd6b168b9b03150a48a9541ddbd3767748e`. Registrar la base real al ejecutar y explicar sus diferencias.
 * **Rama de trabajo estable:** `feature/pb01-plan-b`, única para las iteraciones restantes y ajustes de PB-01, según [H-007](../../harness-decisions.md#h-007--una-rama-por-execplan-y-commits-por-iteración). Se sincroniza desde staging tras cada entrega parcial.
-* **Commits:** `tipo(PB-01/Ix): descripción en inglés`; la entrega actual pertenece a I4. Ramas anteriores de planificación/I1/I2 conservadas como procedencia en el historial y el informe, sin reescribir commits.
+* **Commits:** `tipo(PB-01/Ix): descripción en inglés`; la entrega actual pertenece a I5. Ramas anteriores de planificación/I1/I2 conservadas como procedencia en el historial y el informe, sin reescribir commits.
 * **Organización:** un único ExecPlan con seis iteraciones internas secuenciales I1 → I2 → I3 → I4 → I5 → I6. La última es siempre regresión y análisis global.
-* **Iteración actual:** I4 — imagen y exportaciones; I3 integrada por PR #22. Base staging `8a22fb37c8baf5dd1f399ce28c09031beb2aeb61`, árbol `6784d884f131680daa29ec1e35c35a617102707d`; misma rama estable sincronizada por fast-forward.
+* **Iteración actual:** preparación local de I5 — identidad y revisión del candidato. I4 integrada por PR #23, pero sus criterios físicos siguen abiertos. Base staging `beed90c` (SHA completo registrado en el informe), misma rama estable sincronizada por fast-forward.
 * **Aprobación del plan:** 2026-11-16, propietario de MiMiniApp, mediante «los planes que están por confirmarse, quiero que analices si ya pasan los criterios de aceptación y pasalos a aprobados», condicionada a la revisión documentada abajo.
-* **Autorización actual:** el propietario confirma el merge de I3 y pide continuar con la siguiente iteración el 2026-11-17. Autoriza desarrollo y pruebas locales de I4, commits `tipo(PB-01/I4): ...`, push y PR en la rama estable; merge humano. ADR-MMA-020/021 siguen aprobadas. Chrome de escritorio disponible; HTTPS de candidata y teléfonos físicos pendientes: no completar I4 ni iniciar I5 sin sus criterios. No autoriza nuevo hosting, cambios de controles o integración pública.
+* **Autorización actual:** el 2026-11-17 el propietario confirma el merge de I4 y solicita «Comienza la siguiente iteración». Se ejecuta la preparación local independiente de I5 en la misma rama, por indicación expresa de avanzar, manteniendo I4 abierta y sin atribuir a su merge compatibilidad física. Esta preparación adelanta el acabado/revisión aislados respecto al orden inicialmente previsto; no elimina los criterios de salida de I4/I5 ni autoriza aceptar el producto sin pruebas. Incluye commit/push/PR con evidencia. Incorporación al catálogo pendiente de la autorización expresa de I5, tarea 4; I6 e infraestructura sin autorizar.
 
 ## Objetivo, alcance y decisiones
 
@@ -329,7 +329,7 @@ La IA puede corregir defectos locales cubiertos y repetir las pruebas pertinente
 
 ## Progreso y reanudación
 
-**Situación actual:** I1–I3 integradas mediante PR #19/#20/#22 y rama estable sincronizada desde staging 8a22fb3. I4 autorizada el 2026-11-17: implementación local de PNG, descargas .ics, consentimiento Google y compartir/copia de URL limpia. La evidencia y matriz pendiente se conservan en el [informe I4](../../reports/pb01/execution.md#i4--imagen-y-exportaciones). I4 permanece abierta: solo Chrome de escritorio disponible y faltan teléfonos/HTTPS de candidata para importación, guardado del fondo y modo avión físicos. PB-01 sigue `En curso`; I5/I6 sin iniciar ni autorizar, registro público sin cambios.
+**Situación actual:** I1–I4 integradas mediante PR #19/#20/#22/#23, base vigente beed90c. Por solicitud expresa de comenzar la siguiente iteración se ha preparado localmente I5: gris/color/sello, accesibilidad, reflujo, catálogo poblado de prueba, capturas y presupuesto. Batería local: 502 unitarias, 19 componentes, 136 E2E e integración. [Informe/capturas y propuesta de incorporación](../../reports/pb01/execution.md#i5--identidad-y-preparación-local-de-integración). I4 conserva matriz física/HTTPS pendiente e I5 necesita permiso de incorporación, adaptación/validación del registro real y revisiones manuales. Ambas filas permanecen abiertas; registro público vacío e I6 sin iniciar.
 
 | Iteración interna | Tareas y salida comprobadas | Inicio | Fin | Evidencia / siguiente paso |
 | --- | --- | --- | --- | --- |
@@ -337,7 +337,7 @@ La IA puede corregir defectos locales cubiertos y repetir las pruebas pertinente
 | I2 — calendario | [x] | 2026-11-16 | 2026-11-16 | PB-I2-01–04 comprobados; commit 62add4d y PR #20 integrada en e4c956e. Muestras e informe. I3 pendiente de autorización y ADR-MMA-020. |
 | I3 — recorrido y estado | [x] | 2026-11-16 | 2026-11-16 | PB-I3-01–04 comprobados localmente; ADR-MMA-020 aprobada, informe y entrega integrada por PR #22 en la rama estable. |
 | I4 — imagen y exportaciones | [ ] | 2026-11-17 | — | Desarrollo local comprobado: 502 unitarias, 19 componentes, 120 E2E e integración. Informe/PR parcial; matriz física/HTTPS pendientes para cierre. |
-| I5 — identidad e integración | [ ] | — | — | Depende de I4 y permiso de incorporación. |
+| I5 — identidad e integración | [ ] | 2026-11-17 | — | Preparación local comprobada, capturas/presupuesto e informe; 502 unitarias, 19 componentes, 136 E2E e integración. Registro real, revisión humana y cierre físico de I4 pendientes. |
 | I6 — regresión y análisis global | [ ] | — | — | Depende de I1–I5 y candidato definitivo. |
 
 La tabla refleja tareas/evidencia, no seis estados canónicos ni seis aceptaciones independientes. Durante la ejecución, anotar fechas reales, revisión, comprobaciones fallidas/no ejecutadas y condición concreta para avanzar. Solo el control de PB-01 declara el estado global.
@@ -376,3 +376,5 @@ El plan global se creó el 2026-11-15. El 2026-11-16 se prepararon localmente se
 | 2026-11-16 | `En curso` | Codex | I3 completada localmente: recorrido ES/EN, sesión/reset y fallos explícitos. 493 unitarias, 14 componentes, 104 E2E e integración; refuerzo final a 15 componentes con estáticos repetidos. Build sin UI pública y +127 bytes de tokens CSS explicados. Entrega en la rama estable, merge humano; I4–I6 y aceptación global pendientes. |
 | 2026-11-17 | `En curso` | Propietario / Codex | Confirma merge de PR #22 y autoriza continuar con I4. Rama estable actualizada desde 8a22fb3; se desarrolla la parte local, sin rebajar los requisitos físicos/HTTPS ni activar infraestructura. |
 | 2026-11-17 | `En curso` | Codex | Parte local de I4 implementada y comprobada: 502 unitarias, 19 componentes, 120 E2E e integración final; build público idéntico a I3 y diez ciclos sin URLs pendientes. Matriz física/HTTPS no ejecutada: I4 sin completar, I5/I6 sin iniciar. Entrega parcial por la misma rama y PR en borrador. |
+| 2026-11-17 | `En curso` | Propietario / Codex | Tras merge de PR #23 solicita comenzar la siguiente iteración. Se adelanta la preparación visual/local de I5 conforme a esa indicación, sin declarar I4 completa ni rebajar sus criterios físicos; registro público pendiente de autorización expresa. |
+| 2026-11-17 | `En curso` | Codex | Preparación local de I5 comprobada: gris/color/sello, contraste/reflujo, catálogo poblado aislado y 502 unitarias, 19 componentes, 136 E2E e integración. Capturas y presupuesto 42790 B propios de copia. Sin completar I4/I5, registrar públicamente o iniciar I6; entrega parcial y autorización de incorporación pendientes. |

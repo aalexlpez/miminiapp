@@ -19,7 +19,7 @@ Las iteraciones `I-xx` proceden del [dossier de origen](references/MiMiniApp_Ini
 | [MT-01](exec-plans/completed/MT-01-mantenimiento-y-colaboracion.md) | Documentación al día y preparación para varios colaboradores | Aceptado, 2026-11-15 |
 | [MT-02](exec-plans/completed/MT-02-organizacion-documental.md) | Organización documental, enlaces y mapa de navegación | Aceptado y archivado el 2026-11-16 tras contrastar criterios, CI y staging |
 | I-05 | Flujo de contribución pública | Sin plan. Depende de decidir la licencia |
-| [I-06 / PB-01](exec-plans/active/PB-01-plan-b.md) | Plan B propuesta como primera miniapp real: base, calendario, recorrido, salidas, visuales/integración y regresión global | En curso: I1 integrada mediante PR #19; I2 integrada mediante PR #20. ADR-MMA-020/021 aprobadas; I3 integrada mediante PR #22; I4 en desarrollo/verificación local con matriz física/HTTPS pendiente. I5/I6 sin iniciar |
+| [I-06 / PB-01](exec-plans/active/PB-01-plan-b.md) | Plan B propuesta como primera miniapp real: base, calendario, recorrido, salidas, visuales/integración y regresión global | En curso: I1 integrada mediante PR #19; I2 integrada mediante PR #20. ADR-MMA-020/021 aprobadas; I3/I4 integradas mediante PR #22/#23; I4 conserva matriz física/HTTPS pendiente. I5 en preparación visual/local solicitada; catálogo e I6 pendientes |
 
 I-04 quedó sin alcance propio: producción y el gate de promoción se incorporaron a I-03 el 2026-11-05.
 
@@ -37,6 +37,6 @@ Para las siguientes iteraciones de PB-01 quedan:
 
 * acceso HTTPS a la candidata y dispositivos físicos para I4; selección, [ficha](product-specs/plan-b.md) y ADR-MMA-020/021 ya aprobadas;
 * la licencia (ADR-MMA-010), si el repositorio va a aceptar contribuciones externas;
-* la autorización de las iteraciones siguientes; el desarrollo/pruebas locales de I4 de Plan B ya está autorizado e I-03 aceptado.
+* la autorización de las iteraciones siguientes; la preparación local de I5 ya está solicitada, conservando las pruebas físicas de I4 y el permiso de incorporación como pendientes e I-03 aceptado.
 
 Las skills opcionales siguen aplazadas al final, en [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final).

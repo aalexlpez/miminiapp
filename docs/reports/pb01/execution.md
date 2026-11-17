@@ -256,6 +256,77 @@ Para la sesión manual: identificar dispositivo/versiones/zona y candidato; abri
 
 **Entrega parcial de I4:** mismo nombre de rama, commit `feat(PB-01/I4): ...`, push y PR en borrador con evidencia local y bloqueos explícitos. Mantener PB-01 En curso e I4 sin marcar completada; merge humano no sustituye matriz física ni autoriza I5. HTTPS/dispositivos son condiciones del [plan](../../exec-plans/active/PB-01-plan-b.md#iteración-4--imagen-y-exportaciones), no una exigencia nueva de esta implementación.
 
-## I5–I6
+## I5 — Identidad y preparación local de integración
 
-Sin comenzar ni autorizar. I5 conserva entrada de I4 completa y permiso de incorporación; I6 permanece como regresión y análisis global del producto.
+### Alcance solicitado y base
+
+El 2026-11-17 el propietario confirma el merge de PR #23 y solicita «Comienza la siguiente iteración». Rama estable `feature/pb01-plan-b`, sincronizada por fast-forward desde staging `beed90cbb418e0c0f9525353c806ca9582ee7226`, árbol `abcd0f0041665e708470f1a4cb2e784869b9ba3d`. Ese merge conserva el contenido comprobado de I4.
+
+La indicación permite preparar localmente el acabado y revisar el candidato aislado de I5, adelantando esa parte independiente respecto al orden inicialmente previsto. **No acredita ni cierra I4:** siguen pendientes teléfonos/HTTPS, importación y fondo/modo avión físicos. I5 tampoco queda completada o aceptada por esta preparación. La incorporación real al catálogo mantiene la autorización expresa exigida en la tarea 4 del plan; no se cambia el registro para deducirla del merge anterior. I6 sin comenzar.
+
+### Implementación y revisión
+
+`App.tsx` deriva el acabado del paso y la validez de las dos frases, sin persistir otro dato: gris completo en obstáculo/plan sin frases válidas; medio con una; color con ambas y resultado. CSS de 600 ms limitado a `.pb-app`; cabecera, pie y movimiento global conservan sus reglas. Selecciones con trazo interior visible también en gris, sin depender exclusivamente de color.
+
+Sello de resultado con borde/tipografía/tokens existentes, giro −6° y entrada de escala 1,4 → 1 durante 300 ms. Tiene espacio propio y anchura acotada, sin superponer la frase ni desbordar a 320 px. Reduced-motion elimina giro/escala y transición de gris. No se añade coordinador, librería, preferencia, backend o estilo global.
+
+Textos, nombres ES/EN y exportaciones mantienen el contrato. La entrada real y sus metadatos siguen draft/fuera del registro; la copia temporal ya construye el catálogo publicado de prueba con su UI real. No se presentan sus rutas como publicadas en staging.
+
+### Verificación
+
+`npm run verify` completo, código 0: tipos sin diagnósticos, lint, formato, hosting offline, **502 unitarias**, **19 componentes**, **136 E2E** e integración modular satisfactorios. Se conservan las 2/4 pruebas de fixtures de integración, sin omisiones. Node 24.22.2/npm 11.19.1/Chromium 156.0.8078.4 r1248. Revisión documental: 62 Markdown y 528 enlaces locales válidos. CI del head final y PR se enlazan en la entrega.
+
+E2E nuevos: cuatro combinaciones ES/EN × claro/oscuro verifican gris 100/50/0 %, contraste ≥4,5 por cálculo que incorpora la matriz de gris y axe en cada estado; selector, foco y marco de selección. Sello: se pausa su animación CSS y se inspeccionan matrices a 0/300 ms (escala 1,4/1; ángulo −6°), límites del viewport y separación de la frase. Reduced-motion sin filtro animado ni transformaciones del sello. Un selector inicial de cabecera ambiguo entre cabecera de plataforma y encabezado de miniapp se acotó sin modificar aserciones de plataforma.
+
+Reflujo de los cinco estados a 320/393/768/1280/1440 px, ambos idiomas/temas; controles de al menos 48×48 px. CSS zoom ×2 suplementario, identificado como tal: **no es zoom nativo de navegador**, que conserva revisión manual pendiente. Catálogo poblado ES/EN de prueba: tarjeta/enlaces reales, título, h1 único y cambio de idioma equivalente con ejemplo literal conservado. Cero islas o solicitudes JS de Plan B/React por mostrar la tarjeta. El catálogo vacío real y los tests anteriores siguen comprobándose, sin omitir ni debilitar sus aserciones.
+
+El entorno solo dispone de Chromium r1248. No se atribuye a Playwright Chromium una revisión de Safari o Firefox real ni se instalan/declaran sustitutos como dispositivos físicos.
+
+### Capturas para aprobación visual
+
+Tres capturas mínimas, cada una menor de 300 KB, con datos sintéticos, viewport 393×851 y movimiento reducido:
+
+* [ES/claro, gris completo](../../review/pb01-i5/es-light-gray.png).
+* [ES/claro, gris parcial](../../review/pb01-i5/es-light-half.png).
+* [EN/oscuro, resultado y exportaciones](../../review/pb01-i5/en-dark-result.png).
+
+[Manifiesto](../../review/pb01-i5/manifest.json): versiones, base, hashes del código/capturas y alcance de la copia temporal. En movimiento reducido el sello se presenta sin giro; la animación normal se contrasta numéricamente en E2E. Inspección asistida realizada; revisión/aceptación visual del propietario pendiente. No son evidencia de teléfonos, reloj/recorte o compatibilidad externa.
+
+### Bytes, recursos y medición local
+
+El build público real se conserva idéntico a I4: 19 archivos, portadas y 404 con los mismos hashes/recursos/bytes, cero externas y catálogo vacío. Comparación separada de la siguiente medición sobre **copia aislada poblada**, no sobre staging.
+
+Presupuesto propio conservador en esa copia: chunk App **39447 B** + bloque CSS inline que contiene el módulo **3343 B** = **42790 B / 41,79 KiB**, inferior a 50 KiB. Se cuenta completo ese bloque inline, aunque también agrupe reglas de plataforma. Runtime adicional separado: `client` 212836 B + `react` 7909 B = **220745 B**; CSS compartido solicitado **34204 B**. No se ocultan esos costes al informar el total. La integración real debe volver a medir su build, no asumir que la copia tenga idéntico CSS común generado por Tailwind.
+
+Cinco pasadas con contextos fríos por ruta/perfil, mismo Node/Chromium, fuentes listas y reduced-motion; laboratorio local sin limitación artificial de red/CPU. Gzip es suma de gzip de cuerpos, no Content-Encoding observado. Todas las filas: cero solicitudes externas.
+
+| Perfil / ruta de copia | Peticiones | Bytes / suma gzip | LCP mediana (rango), ms | CLS mediana | Clic → dos frames mediana (rango), ms |
+| --- | --- | --- | --- | --- | --- |
+| 393 / portada ES poblada | 4 | 198838 / 152462 | 196 (136–300) | 0 | — |
+| 393 / Plan B | 7 | 471409 / 239757 | 136 (104–164) | 0,03 | 21,7 (7,8–34,7) |
+| 1440 / portada ES poblada | 4 | 198838 / 152462 | 204 (188–252) | 0 | — |
+| 1440 / Plan B | 7 | 471409 / 239757 | 184 (152–464) | 0,01 | 34,5 (14,9–51,4) |
+
+El clic se mide desde su evento hasta dos requestAnimationFrame; **no se presenta como INP**. No son datos de campo, p75, caché caliente o certificación de rendimiento final. Se observa el desplazamiento inicial de hidratación, no una ausencia total de CLS. I6 conserva comparación final, caché caliente/fría y análisis global. Las regresiones de exportación/reset/recursos de I4 se vuelven a ejecutar sobre este CSS.
+
+### Incorporación propuesta para autorización
+
+Propuesta concreta, todavía **sin aplicar al registro real**: conservar id/slug `plan-b`, categoría `everyday`, nombres/descripciones ES/EN actuales; cambiar descriptor a `status: 'published'` con `publishedAt: '2026-11-17'` como fecha propuesta de primera incorporación y registrar loader perezoso `() => import('./plan-b/entry.astro')` en `src/miniapps/registry.ts`. Si la incorporación sucede otro día, registrar su fecha real.
+
+Ese es el comportamiento ya revisado en copia aislada, cuya fecha 2000-01-01 es exclusivamente fixture. Antes de entregar la incorporación real se adaptan los tests de registro/catálogo hoy vacíos y el test de metadatos draft, conservando el caso vacío en copia; se añade recorrido remoto de Plan B cuando proceda y se repiten build, verify, recursos y CI. Ni la aprobación del registro de la rama candidata ni una PR implican merge/publicación autorizados o cierre de las pruebas físicas pendientes.
+
+### Criterios y siguiente paso
+
+| Criterio | Preparado/comprobado localmente | Pendiente para cerrar I5 |
+| --- | --- | --- |
+| PB-I5-01 | Gris/sello, contraste, foco, reflujo, reduced-motion y capturas. | Revisión visual humana, zoom nativo y matriz real de navegadores/dispositivos. |
+| PB-I5-02 | Catálogo poblado de prueba y catálogo vacío real comprobados. | Incorporación autorizada y adaptación del catálogo real sin retirar cobertura vacía. |
+| PB-I5-03 | Candidata aislada con UI completa de I1–I5. | Permiso de incorporación, fecha/registro reales y batería de ese candidato. |
+| PB-I5-04 | Presupuesto de copia ≤50 KiB, runtime y totales separados; tarjeta sin hidratar UI. | Repetir inventario sobre registro real autorizado. |
+| PB-I5-05 | Regresión del código local y pendientes explícitos. | Criterios físicos de I4, incorporación y demás revisiones obligatorias; I6 sigue al final. |
+
+Entrega de preparación por commit `feat(PB-01/I5): ...`, push y PR en borrador desde la misma rama. PB-01 En curso e I4/I5 sin marcar completadas. Antes de aplicar incorporación se solicita su permiso conforme al plan; no se crea infraestructura ni se cambia el contrato de aceptación por ausencia de dispositivos.
+
+## I6
+
+Sin comenzar ni autorizar. Permanece como regresión y análisis global del producto completo, después de resolver los criterios abiertos y congelar la candidata definitiva.
