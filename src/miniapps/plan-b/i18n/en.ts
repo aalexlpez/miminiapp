@@ -65,6 +65,51 @@ export const en = {
     noScript:
       'Enable JavaScript to prepare your plan. Your text is processed in this browser.',
   },
+  exports: {
+    calendarTitle: 'Remind me',
+    calendarDownload: 'Add to my calendar',
+    google: 'Add to Google Calendar',
+    continue: 'Continue',
+    cancel: 'Cancel',
+    googleWarning:
+      'Google Calendar will open with your plan. The text will be sent to Google and may remain in the URL and history. Review and save the event there.',
+    duplicateWarning: 'Importing the file again may duplicate events.',
+    wallpaperTitle: 'Wallpaper',
+    saveImage: 'Save image',
+    openImage: 'Open image',
+    imageLabel: 'My bad day plan',
+    imageNotice:
+      'The image contains your plan. If you choose another app when sharing it, that app will receive the image.',
+    imagePreparing: 'Preparing image…',
+    imageReady: 'Plan image ready',
+    imageInstructions:
+      'Check the download or chosen destination. You can also open the image to save it manually; options depend on your browser and system. Then choose the image in your wallpaper settings.',
+    retryImage: 'Prepare image again',
+    shareTitle: 'Share Bad Day Plan',
+    share: 'Share',
+    copy: 'Copy link',
+    shareText: 'Make your bad day plan in 2 minutes.',
+    copied: 'Link copied',
+    shared: 'Link shared',
+    filePrepared: 'File prepared. Check the download or destination app.',
+    googleOpened: 'Review and save the event in Google Calendar.',
+    offline: 'You need a connection for this. Your plan is still here.',
+    offlineNote:
+      'Once this page is fully loaded and kept open, you can finish your plan and generate the files offline.',
+    exportError:
+      'The file could not be prepared. Your plan is still here; try again.',
+    popupError:
+      'Google Calendar could not be opened. Allow the new tab or download the calendar file.',
+    shareError: 'Sharing failed. You can copy the link.',
+    imageError:
+      'The image could not be saved. You can open it to save it manually.',
+    imagePrepareError:
+      'The image could not be prepared. Your plan is still here; try again.',
+    manualCopy:
+      'The link could not be copied automatically. Select and copy it.',
+    linkLabel: 'Tool link',
+    busy: 'Wait for the current action to finish.',
+  },
   obstacles: {
     time: 'I ran out of time',
     motivation: 'I lost motivation',

@@ -64,6 +64,53 @@ export const es = {
     noScript:
       'Activa JavaScript para preparar tu plan. Tu texto se procesa en este navegador.',
   },
+  exports: {
+    calendarTitle: 'Recuérdamelo',
+    calendarDownload: 'Añadir a mi calendario',
+    google: 'Añadir a Google Calendar',
+    continue: 'Continuar',
+    cancel: 'Cancelar',
+    googleWarning:
+      'Se abrirá Google Calendar con tu plan. El texto se enviará a Google y puede quedar en la URL y el historial. Revisa y guarda el evento allí.',
+    duplicateWarning:
+      'Importar el archivo otra vez puede duplicar los eventos.',
+    wallpaperTitle: 'Fondo de pantalla',
+    saveImage: 'Guardar imagen',
+    openImage: 'Abrir imagen',
+    imageLabel: 'Mi plan B',
+    imageNotice:
+      'La imagen contiene tu plan. Si eliges otra app al compartirla, esa app recibirá la imagen.',
+    imagePreparing: 'Preparando imagen…',
+    imageReady: 'Imagen del plan lista',
+    imageInstructions:
+      'Comprueba la descarga o el destino elegido. También puedes abrir la imagen para guardarla manualmente; las opciones dependen del navegador y del sistema. Después, elige la imagen desde los ajustes de fondo de pantalla.',
+    retryImage: 'Preparar imagen de nuevo',
+    shareTitle: 'Compartir Plan B',
+    share: 'Compartir',
+    copy: 'Copiar enlace',
+    shareText: 'Haz tu plan B para tu propósito en 2 minutos.',
+    copied: 'Enlace copiado',
+    shared: 'Enlace compartido',
+    filePrepared:
+      'Archivo preparado. Comprueba la descarga o la aplicación de destino.',
+    googleOpened: 'Revisa y guarda el evento en Google Calendar.',
+    offline: 'Necesitas conexión para esto. Tu plan sigue aquí.',
+    offlineNote:
+      'Con esta página completamente cargada y abierta, puedes completar tu plan y generar los archivos sin conexión.',
+    exportError:
+      'No se pudo preparar el archivo. Tu plan sigue aquí; inténtalo de nuevo.',
+    popupError:
+      'No se pudo abrir Google Calendar. Permite la nueva pestaña o descarga el archivo de calendario.',
+    shareError: 'No se pudo compartir. Puedes copiar el enlace.',
+    imageError:
+      'No se pudo guardar la imagen. Puedes abrirla para guardarla manualmente.',
+    imagePrepareError:
+      'No se pudo preparar la imagen. Tu plan sigue aquí; inténtalo de nuevo.',
+    manualCopy:
+      'No se pudo copiar automáticamente. Selecciona y copia este enlace.',
+    linkLabel: 'Enlace de la herramienta',
+    busy: 'Espera a que termine la acción actual.',
+  },
   obstacles: {
     time: 'No tuve tiempo',
     motivation: 'Perdí las ganas',

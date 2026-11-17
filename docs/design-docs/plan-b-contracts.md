@@ -1,6 +1,6 @@
 # Plan B — contratos de persistencia y exportación
 
-**Fecha:** 2026-11-15. **Actualización de referencias:** 2026-11-16. **Responsable de aprobación:** propietario de MiMiniApp (Alexander / Ale). **Estados:** ADR-MMA-020 `Aprobada` al autorizar I3; ADR-MMA-021 `Aprobada` al autorizar I2 (2026-11-16). El [registro técnico](index.md) es la fuente canónica de su aprobación. Aplicación propuesta únicamente a [Plan B v06](../product-specs/plan-b.md), dentro del [plan único PB-01](../exec-plans/active/PB-01-plan-b.md) con seis iteraciones internas. La consolidación no cambia el contenido o aprobación de estas propuestas.
+**Fecha:** 2026-11-15. **Actualización de referencias:** 2026-11-17. **Responsable de aprobación:** propietario de MiMiniApp (Alexander / Ale). **Estados:** ADR-MMA-020 `Aprobada` al autorizar I3; ADR-MMA-021 `Aprobada` al autorizar I2 (2026-11-16). El [registro técnico](index.md) es la fuente canónica de su aprobación. Aplicación propuesta únicamente a [Plan B v06](../product-specs/plan-b.md), dentro del [plan único PB-01](../exec-plans/active/PB-01-plan-b.md) con seis iteraciones internas. La consolidación no cambia el contenido o aprobación de estas propuestas.
 
 El stack, las rutas genéricas, el registro modular, los temas y el alojamiento existentes ya están cubiertos por ADR-MMA-001/002/003/004/005/006/008/009/011/014/015/016/017/019. No se reabren para añadir esta herramienta. Las decisiones siguientes concretan persistencia y un contrato externo que la base no había aprobado para Plan B.
 
@@ -25,7 +25,7 @@ Verificación: restauración válida/corrupta/incompatible, storage inaccesible 
 
 ## ADR-MMA-021 — Exportaciones de Plan B y envío voluntario a Google
 
-**Estado:** `Aprobada` por el propietario el 2026-11-16 mediante la indicación de avanzar a I2, después de revisar su condición de entrada. La ejecución autorizada ahora comprende el modelo/generadores de calendario; PNG, botones, consentimiento e importación física se implementan/verifican en I4. ADR-MMA-020 no queda aprobada por esta indicación.
+**Estado:** `Aprobada` por el propietario el 2026-11-16 mediante la indicación de avanzar a I2, después de revisar su condición de entrada. Esa indicación autorizó el modelo/generadores de calendario de I2. El 2026-11-17 el propietario autoriza continuar con I4: PNG, botones, consentimiento y pruebas locales. Importación/guardado físicos siguen pendientes de dispositivos/HTTPS. ADR-MMA-020 se aprobó por separado al autorizar I3.
 
 **Contrato:** exportaciones locales `.ics` y PNG generadas con APIs del navegador; Google Calendar por enlace de plantilla tras consentimiento. Compartir herramienta solo con URL limpia; compartir PNG mediante el menú del SO puede entregar el plan al destino elegido. Sin API/OAuth, claves, SDK, servidor o biblioteca nuevos.
 
@@ -70,3 +70,4 @@ Cambiar el destino de datos, añadir una API, conservar planes entre sesiones, f
 | 2026-11-15 | Codex | `Propuesta` | Preparación documental solicitada por el propietario; sin aprobación técnica ni ejecución. |
 | 2026-11-16 | Propietario de MiMiniApp | ADR-MMA-021 `Aprobada`; ADR-MMA-020 sigue `Propuesta` | Tras fusionar PR #19 solicita avanzar a I2; contrato de exportación aprobado, implementación acotada a modelo, formatos y pruebas sintéticas. |
 | 2026-11-16 | Propietario de MiMiniApp | ADR-MMA-020 `Aprobada` | Solicita continuar con I3 en la rama estable tras integrar I1/I2. Sesión temporal y recorrido aprobados, con límites/fallos explícitos. |
+| 2026-11-17 | Propietario de MiMiniApp | ADR-MMA-020/021 `Aprobadas`, contratos conservados | Tras integrar I3 solicita continuar con I4; ejecución local de salidas, sin dar por realizada su matriz física o autorizar nueva infraestructura. |
