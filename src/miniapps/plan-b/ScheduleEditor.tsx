@@ -57,6 +57,7 @@ export default function ScheduleEditor({
   }
   return (
     <form className="pb-schedule" noValidate onSubmit={prepare}>
+      <p className="pb-hint">{copy.flow.calendarHint}</p>
       <p className="pb-hint" id="pb-schedule-hint">
         {copy.flow.scheduleHint}
       </p>

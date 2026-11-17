@@ -299,3 +299,71 @@ describe('guided plan journey', () => {
     ).toHaveTextContent(copy.ui.deleteFailed);
   });
 });
+
+it.each(['es', 'en'] as const)(
+  'identifies whitespace-only preview clauses as an example in %s without rewriting the draft',
+  async (locale) => {
+    const copy = getPlanCopy(locale),
+      user = await start(locale);
+    fireEvent.change(screen.getByLabelText(copy.ui.goalLabel), {
+      target: { value: 'Leer más' },
+    });
+    await user.click(
+      screen.getByRole('button', { name: copy.flow.nextPurpose }),
+    );
+    await user.click(screen.getByRole('button', { name: copy.obstacles.time }));
+    fireEvent.change(
+      screen.getByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`),
+      { target: { value: '   ' } },
+    );
+    expect(
+      screen.getByRole('complementary', { name: copy.flow.previewExample }),
+    ).toBeVisible();
+    expect(
+      JSON.parse(window.sessionStorage.getItem(sessionKey)!).inputs.situation,
+    ).toBe('   ');
+  },
+);
+
+it.each(['es', 'en'] as const)(
+  'shows only the prepared schedule summary in %s, including weekdays, all days and an individual day',
+  async (locale) => {
+    const copy = getPlanCopy(locale),
+      user = await start(locale);
+    await example(user, locale);
+    await finish(user, locale);
+    await user.click(
+      screen.getByText(copy.flow.calendarOptional, { selector: 'summary' }),
+    );
+    expect(screen.getByText(copy.flow.calendarHint)).toBeVisible();
+    const summary = () => document.getElementById('pb-calendar-summary');
+    expect(summary()).toHaveTextContent(copy.ui.workingDays);
+    expect(summary()).toHaveTextContent(
+      locale === 'es' ? '20:00, durante 4 semanas' : '8:00 PM, for 4 weeks',
+    );
+    const time = screen.getByLabelText(copy.ui.timeQuestion);
+    fireEvent.change(time, { target: { value: '21:30' } });
+    expect(summary()).toBeNull();
+    await user.click(
+      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+    );
+    expect(summary()).toHaveTextContent(locale === 'es' ? '21:30' : '9:30 PM');
+    for (const name of locale === 'es'
+      ? ['sábado', 'domingo']
+      : ['Saturday', 'Sunday'])
+      await user.click(screen.getByRole('button', { name }));
+    await user.click(
+      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+    );
+    expect(summary()).toHaveTextContent(copy.ui.allDays);
+    for (const name of locale === 'es'
+      ? ['martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
+      : ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+      await user.click(screen.getByRole('button', { name }));
+    await user.click(
+      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+    );
+    expect(summary()).toHaveTextContent(locale === 'es' ? 'lun' : 'Mon');
+    expect(summary()).not.toHaveTextContent(copy.ui.allDays);
+  },
+);

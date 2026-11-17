@@ -1,0 +1,254 @@
+{
+  "conditions": {
+    "browser": "156.0.8078.4",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "cache": "fresh context per route",
+    "timezone": "browser default; no timing measurements",
+    "compression": "gzip estimate of each full response body; not wire size"
+  },
+  "own": {
+    "js": {
+      "path": "_astro/App.D_ycsEu6.js",
+      "bytes": 34599,
+      "sha256": "de65a263b60f8c96051b807af0c3a950a1bfbdab50b63e7a776c42b7f3185870"
+    },
+    "inlineCss": {
+      "bytes": 8671,
+      "sha256": "b65f3fca18c6874d4bae2d9b60817484563911dbe1ee1e2aaff7fe36eee37a32"
+    },
+    "totalBytes": 43270,
+    "budgetBytes": 51200
+  },
+  "routes": [
+    {
+      "route": "/es/",
+      "requests": [
+        {
+          "url": "/_astro/global.MWueQfGS.css",
+          "status": 200,
+          "bytes": 34900,
+          "gzipEstimate": 8122,
+          "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+        },
+        {
+          "url": "/es/",
+          "status": 200,
+          "bytes": 23181,
+          "gzipEstimate": 5534,
+          "sha256": "ce4802f90feeefc07290c866b4c4e078f2088fe17bb13bf7be7f1f1a0d4a182b"
+        },
+        {
+          "url": "/fonts/DMSans.woff2",
+          "status": 200,
+          "bytes": 88820,
+          "gzipEstimate": 88581,
+          "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+        },
+        {
+          "url": "/fonts/SpaceGrotesk.woff2",
+          "status": 200,
+          "bytes": 49256,
+          "gzipEstimate": 49255,
+          "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+        }
+      ],
+      "requestCount": 4,
+      "rawBytes": 196157,
+      "gzipEstimate": 151492,
+      "external": []
+    },
+    {
+      "route": "/en/",
+      "requests": [
+        {
+          "url": "/_astro/global.MWueQfGS.css",
+          "status": 200,
+          "bytes": 34900,
+          "gzipEstimate": 8122,
+          "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+        },
+        {
+          "url": "/en/",
+          "status": 200,
+          "bytes": 23105,
+          "gzipEstimate": 5478,
+          "sha256": "78ce7aa6d63c027db734acfabc390a70f4a2ebee037e26c50b6f464a359ce154"
+        },
+        {
+          "url": "/fonts/DMSans.woff2",
+          "status": 200,
+          "bytes": 88820,
+          "gzipEstimate": 88581,
+          "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+        },
+        {
+          "url": "/fonts/SpaceGrotesk.woff2",
+          "status": 200,
+          "bytes": 49256,
+          "gzipEstimate": 49255,
+          "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+        }
+      ],
+      "requestCount": 4,
+      "rawBytes": 196081,
+      "gzipEstimate": 151436,
+      "external": []
+    },
+    {
+      "route": "/fe01-missing/",
+      "requests": [
+        {
+          "url": "/_astro/global.MWueQfGS.css",
+          "status": 200,
+          "bytes": 34900,
+          "gzipEstimate": 8122,
+          "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+        },
+        {
+          "url": "/fe01-missing/",
+          "status": 404,
+          "bytes": 20889,
+          "gzipEstimate": 5046,
+          "sha256": "55f378c352e55a4a3bc22bd1e6cf53097a1fdd8116caa9556f494001891738bd"
+        },
+        {
+          "url": "/fonts/DMSans.woff2",
+          "status": 200,
+          "bytes": 88820,
+          "gzipEstimate": 88581,
+          "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+        },
+        {
+          "url": "/fonts/SpaceGrotesk.woff2",
+          "status": 200,
+          "bytes": 49256,
+          "gzipEstimate": 49255,
+          "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+        }
+      ],
+      "requestCount": 4,
+      "rawBytes": 193865,
+      "gzipEstimate": 151004,
+      "external": []
+    },
+    {
+      "route": "/es/apps/plan-b/",
+      "requests": [
+        {
+          "url": "/_astro/App.D_ycsEu6.js",
+          "status": 200,
+          "bytes": 34599,
+          "gzipEstimate": 11415,
+          "sha256": "de65a263b60f8c96051b807af0c3a950a1bfbdab50b63e7a776c42b7f3185870"
+        },
+        {
+          "url": "/_astro/client.Cd-EeyjT.js",
+          "status": 200,
+          "bytes": 212836,
+          "gzipEstimate": 65804,
+          "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+        },
+        {
+          "url": "/_astro/global.MWueQfGS.css",
+          "status": 200,
+          "bytes": 34900,
+          "gzipEstimate": 8122,
+          "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+        },
+        {
+          "url": "/_astro/react.CvnImTBr.js",
+          "status": 200,
+          "bytes": 7909,
+          "gzipEstimate": 3009,
+          "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+        },
+        {
+          "url": "/es/apps/plan-b/",
+          "status": 200,
+          "bytes": 50675,
+          "gzipEstimate": 14918,
+          "sha256": "b74b9def48c9fdf1b71159a1bd06cd8db7bdf8253f0e39ae9e36856e270b027d"
+        },
+        {
+          "url": "/fonts/DMSans.woff2",
+          "status": 200,
+          "bytes": 88820,
+          "gzipEstimate": 88581,
+          "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+        },
+        {
+          "url": "/fonts/SpaceGrotesk.woff2",
+          "status": 200,
+          "bytes": 49256,
+          "gzipEstimate": 49255,
+          "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+        }
+      ],
+      "requestCount": 7,
+      "rawBytes": 478995,
+      "gzipEstimate": 241104,
+      "external": []
+    },
+    {
+      "route": "/en/apps/plan-b/",
+      "requests": [
+        {
+          "url": "/_astro/App.D_ycsEu6.js",
+          "status": 200,
+          "bytes": 34599,
+          "gzipEstimate": 11415,
+          "sha256": "de65a263b60f8c96051b807af0c3a950a1bfbdab50b63e7a776c42b7f3185870"
+        },
+        {
+          "url": "/_astro/client.Cd-EeyjT.js",
+          "status": 200,
+          "bytes": 212836,
+          "gzipEstimate": 65804,
+          "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+        },
+        {
+          "url": "/_astro/global.MWueQfGS.css",
+          "status": 200,
+          "bytes": 34900,
+          "gzipEstimate": 8122,
+          "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+        },
+        {
+          "url": "/_astro/react.CvnImTBr.js",
+          "status": 200,
+          "bytes": 7909,
+          "gzipEstimate": 3009,
+          "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+        },
+        {
+          "url": "/en/apps/plan-b/",
+          "status": 200,
+          "bytes": 50291,
+          "gzipEstimate": 14591,
+          "sha256": "64cfde7cc1b3258567bfe13c9be83c3591b86559f01ad61083b31e1a16cd54be"
+        },
+        {
+          "url": "/fonts/DMSans.woff2",
+          "status": 200,
+          "bytes": 88820,
+          "gzipEstimate": 88581,
+          "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+        },
+        {
+          "url": "/fonts/SpaceGrotesk.woff2",
+          "status": 200,
+          "bytes": 49256,
+          "gzipEstimate": 49255,
+          "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+        }
+      ],
+      "requestCount": 7,
+      "rawBytes": 478611,
+      "gzipEstimate": 240777,
+      "external": []
+    }
+  ]
+}

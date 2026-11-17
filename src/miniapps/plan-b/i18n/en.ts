@@ -29,6 +29,8 @@ export const en = {
     privacyLabel: 'How it works and privacy',
     resultTitle: 'You have a way to keep going.',
     resultHint: 'Save it somewhere you can see on a difficult day.',
+    calendarHint:
+      'The app will prepare a four-week series. You choose to save it; alerts depend on your calendar settings.',
     calendarOptional: 'Add a reminder (optional)',
     scheduleHint:
       'Your schedule is saved when you prepare the reminder. Reloading earlier restores the last prepared schedule.',

@@ -29,6 +29,8 @@ export const es = {
     privacyLabel: 'Cómo funciona y privacidad',
     resultTitle: 'Ya tienes una forma de seguir.',
     resultHint: 'Guárdala donde puedas verla en un día difícil.',
+    calendarHint:
+      'La app preparará una serie de cuatro semanas. Tú decides guardarla; los avisos dependen de tu calendario.',
     calendarOptional: 'Añadir un recordatorio (opcional)',
     scheduleHint:
       'El horario se conserva al preparar el recordatorio. Recargar antes recupera el último horario preparado.',

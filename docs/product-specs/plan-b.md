@@ -2,7 +2,7 @@
 
 * **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados. Enmienda v07 aprobada el 2026-11-17 mediante «Vale, si, la apruebo» al revisar dirección/contrato FE-01/I3 (ADR-MMA-023) y pasar a I4.
 * **Situación:** I1–I5 integradas en staging; I6 autorizada y revisión técnica global realizada. PB-01 sigue `En curso`: pruebas físicas, revisión humana y validación remota de las correcciones pendientes. Staging de I5 identificado/validado; ADR-MMA-020/021 aprobadas.
-* **Creada:** 2026-11-15. **Actualizada:** 2026-11-17 (v07 aprobada; recorrido y resultado/PNG FE-01/I4–I5 implementados y verificados localmente, revisión del acabado y regresión final pendientes).
+* **Creada:** 2026-11-15. **Actualizada:** 2026-11-17 (v07 aprobada; recorrido y resultado/PNG FE-01/I4–I5 implementados y verificados localmente, I6 revisada técnicamente y preparada para aprobación del acabado; I7 pendiente).
 * **Origen:** [v05 aportada por el propietario](../references/plan-b-v05.md), contrastada con `staging` en `e203d73156a61a61138e9ff23de964a827221fad`.
 * **Categoría:** `everyday`. **ID / slug:** `plan-b`. Etiquetas opcionales omitidas; `publishedAt: 2026-11-17` en la candidata autorizada, como fecha prevista de primera incorporación (confirmar la real antes de integrar si cambia el día).
 * **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1–I5 integradas e I6 autorizada y revisada técnicamente, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
@@ -14,7 +14,8 @@
 y [prototipo I3](../review/fe01/README.md) aprobados el 2026-11-17. Esta ficha v07
 es el contrato objetivo. FE-01/I4–I5 implementan y verifican localmente el recorrido,
 el calendario posterior y la composición de resultado/PNG. I6/I7 conservan la
-revisión del acabado por el propietario y la regresión final.
+revisión del acabado por el propietario y la regresión final. La revisión técnica
+de I6 está preparada, con tres correcciones locales y aprobación humana pendiente.
 PB-01 conserva sus pendientes físicos y de aceptación; el candidato FE sigue local.
 
 «Dime tu propósito, dime qué te hará dejarlo y prepara un plan B para ese día».

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Locale } from '../../lib/locales';
-import type { PlanInputs } from './domain/validation';
+import { defaultDays, weekdays, type PlanInputs } from './domain/validation';
 import type { PlanCopy } from './i18n/copy';
 import { formatPlanText } from './i18n/calendar-copy';
+import { fill } from './i18n/fill';
 import { renderWallpaper } from './browser/wallpaper';
 import { Arrow } from './PlanPreview';
 import {
@@ -46,10 +47,10 @@ function GoogleConsent({
       <h3 id="pb-google-title">{copy.google}</h3>
       <p id="pb-google-warning">{copy.googleWarning}</p>
       <div className="pb-actions">
-        <button type="button" ref={cancel} onClick={onCancel}>
+        <button data-pb-export type="button" ref={cancel} onClick={onCancel}>
           {copy.cancel}
         </button>
-        <button type="button" onClick={onConfirm}>
+        <button data-pb-export type="button" onClick={onConfirm}>
           {copy.continue}
         </button>
       </div>
@@ -236,22 +237,70 @@ export default function ExportPanel({
       }
     }
   }
+  function scheduleSummary() {
+    const days =
+      plan.days.length === 7
+        ? copy.ui.allDays
+        : plan.days.length === 5 &&
+            defaultDays.every((day) => plan.days.includes(day))
+          ? copy.ui.workingDays
+          : plan.days
+              .map((day) =>
+                new Intl.DateTimeFormat(locale, {
+                  weekday: 'short',
+                  timeZone: 'UTC',
+                }).format(
+                  new Date(Date.UTC(2026, 10, 16 + weekdays.indexOf(day))),
+                ),
+              )
+              .join(', ');
+    const [hour, minute] = plan.time.split(':').map(Number);
+    const time = new Intl.DateTimeFormat(locale, {
+      hour: 'numeric',
+      minute: '2-digit',
+      timeZone: 'UTC',
+    }).format(new Date(Date.UTC(2026, 0, 1, hour, minute)));
+    return fill(copy.ui.calendarSummary, { days, time });
+  }
   const calendarActions = plan.time ? (
     <section aria-labelledby="pb-calendar-title">
       <h3 id="pb-calendar-title">{text.calendarTitle}</h3>
+      <p id="pb-calendar-summary">{scheduleSummary()}</p>
       <p>{text.duplicateWarning}</p>
       <div className="pb-actions">
-        <button type="button" onClick={downloadCalendar}>
+        <button data-pb-export type="button" onClick={downloadCalendar}>
           {text.calendarDownload}
         </button>
-        <button type="button" onClick={() => setConsent(true)}>
+        <button data-pb-export type="button" onClick={() => setConsent(true)}>
           {text.google}
         </button>
       </div>
     </section>
   ) : null;
   return (
-    <div className="pb-exports" data-testid="plan-exports">
+    <div
+      className="pb-exports"
+      data-testid="plan-exports"
+      onClickCapture={(event) => {
+        if (
+          event.detail > 1 &&
+          event.target instanceof Element &&
+          event.target.closest('[data-pb-export]')
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }}
+      onKeyDownCapture={(event) => {
+        if (
+          event.key === 'Enter' &&
+          event.repeat &&
+          event.target instanceof Element &&
+          event.target.closest('[data-pb-export]')
+        )
+          event.preventDefault();
+      }}
+    >
       <div className="pb-result-layout">
         <div className="pb-result-content">
           {heading}
@@ -263,6 +312,7 @@ export default function ExportPanel({
           </p>
           <div className="pb-actions pb-save-actions">
             <button
+              data-pb-export
               type="button"
               className="pb-primary"
               disabled={busy || typeof image === 'string'}
@@ -276,6 +326,7 @@ export default function ExportPanel({
             </button>
             {onEdit && (
               <button
+                data-pb-export
                 type="button"
                 className="pb-secondary"
                 data-pb-navigation
@@ -295,6 +346,7 @@ export default function ExportPanel({
           </p>
           {image === 'error' && (
             <button
+              data-pb-export
               type="button"
               onClick={() => setAttempt((value) => value + 1)}
             >
@@ -305,10 +357,20 @@ export default function ExportPanel({
             <details className="pb-image-options" ref={imageOptions}>
               <summary>{text.imageOptions}</summary>
               <div className="pb-actions">
-                <button type="button" disabled={busy} onClick={downloadImage}>
+                <button
+                  data-pb-export
+                  type="button"
+                  disabled={busy}
+                  onClick={downloadImage}
+                >
                   {text.downloadImage}
                 </button>
-                <a href={image.url} target="_blank" rel="noopener noreferrer">
+                <a
+                  data-pb-export
+                  href={image.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {text.openImage}
                 </a>
               </div>
@@ -330,6 +392,7 @@ export default function ExportPanel({
               <p className="pb-hint">{text.shareHelp}</p>
               <div className="pb-actions">
                 <button
+                  data-pb-export
                   type="button"
                   disabled={busy}
                   onClick={() => {
@@ -339,6 +402,7 @@ export default function ExportPanel({
                   {text.share}
                 </button>
                 <button
+                  data-pb-export
                   type="button"
                   disabled={busy}
                   onClick={() => {

@@ -24,13 +24,13 @@ export default function PlanPreview({
   copy: PlanCopy;
 }) {
   const flow = copy.flow;
+  const situation = inputs.situation.trim();
+  const action = inputs.action.trim();
   return (
     <aside className="pb-preview" aria-labelledby="pb-preview-title">
       <div className="pb-preview-caption">
         <span id="pb-preview-title">
-          {inputs.situation || inputs.action
-            ? flow.previewTitle
-            : flow.previewExample}
+          {situation || action ? flow.previewTitle : flow.previewExample}
         </span>
         <span className="pb-paper-mark" aria-hidden="true">
           B
@@ -42,12 +42,12 @@ export default function PlanPreview({
         </p>
         <p className="pb-paper-sentence" dir="auto">
           <span className="pb-connector">{copy.ui.if}</span>{' '}
-          <span className={inputs.situation ? undefined : 'pb-ghost'}>
-            {inputs.situation.trim() || flow.previewSituation}
+          <span className={situation ? undefined : 'pb-ghost'}>
+            {situation || flow.previewSituation}
           </span>
           , <span className="pb-connector">{copy.ui.then}</span>{' '}
-          <span className={inputs.action ? undefined : 'pb-ghost'}>
-            {inputs.action.trim() || flow.previewAction}
+          <span className={action ? undefined : 'pb-ghost'}>
+            {action || flow.previewAction}
           </span>
           .
         </p>

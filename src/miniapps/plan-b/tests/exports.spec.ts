@@ -546,3 +546,58 @@ test('recovers from an unavailable local font and regenerates the real image aft
     await page.evaluate(() => sessionStorage.getItem('miminiapp.plan-b.v1')),
   ).toBe(saved);
 });
+
+test('exports once per double-click or held Enter while allowing a later intentional export', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Reflect.set(window, '__pbExports', { png: 0, ics: 0 });
+    Object.defineProperty(navigator, 'canShare', {
+      configurable: true,
+      value: () => false,
+    });
+    const click = HTMLAnchorElement.prototype.click;
+    HTMLAnchorElement.prototype.click = function () {
+      const counts = Reflect.get(window, '__pbExports');
+      if (this.download.endsWith('.png')) counts.png++;
+      if (this.download.endsWith('.ics')) counts.ics++;
+      click.call(this);
+    };
+  });
+  const copy = await result(page);
+  const save = page.getByRole('button', {
+    name: copy.exports.saveImage,
+    exact: true,
+  });
+  const first = page.waitForEvent('download');
+  await save.dblclick();
+  expect((await first).suggestedFilename()).toBe('plan-b.png');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').png),
+  ).toBe(1);
+  await save.focus();
+  const second = page.waitForEvent('download');
+  await page.keyboard.down('Enter');
+  await page.keyboard.down('Enter');
+  await page.keyboard.up('Enter');
+  expect((await second).suggestedFilename()).toBe('plan-b.png');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').png),
+  ).toBe(2);
+  const third = page.waitForEvent('download');
+  await save.click();
+  await third;
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').png),
+  ).toBe(3);
+  const calendar = page.getByRole('button', {
+    name: copy.exports.calendarDownload,
+    exact: true,
+  });
+  const fourth = page.waitForEvent('download');
+  await calendar.dblclick();
+  expect((await fourth).suggestedFilename()).toBe('plan-b.ics');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
+  ).toBe(1);
+});

@@ -650,3 +650,95 @@ reales rotos, conservando el falso positivo conocido del ejemplo upstream
 oklch(...). Hashes de fuente, build, capturas y skills comprobados; diff --check
 satisfactorio. El build posterior a la documentación reproduce byte a byte los
 23 archivos públicos del manifiesto, sin añadir recursos por el texto del informe.
+
+## I6 — Pulido y revisión del acabado
+
+### Autorización y hallazgos
+
+El propietario solicita «Vale, continua con la proxima iteración» tras la entrega
+I5 32a17aa. Se inicia I6 en la misma rama, con revisión técnica/renderizada y
+preparación de una entrega concreta. Esa instrucción autoriza el trabajo; la
+aprobación del acabado se recogerá después de presentarlo, conforme al plan.
+No se inicia I7 ni se escribe en el remoto.
+
+Impeccable 4.9.2/motor 0.1.25 y adaptación Vercel, reglas
+434b7f91364665f2f733b310ec54809bf8f37937. Lectura explícita de fuentes canónicas,
+Operate/polish/craft-floor y reglas pertinentes; context ejecutado mediante el
+adaptador local. **Un solo contexto, sin revisión independiente ni subagentes.**
+Los avisos upstream no autorizan init/document, hooks, catálogo o nuevas fuentes.
+Se respeta la identidad, texto literal/pegado, esquema v1 y política del hero.
+
+| Hallazgo | Evidencia anterior / impacto | Corrección y comprobación |
+| --- | --- | --- |
+| FE-I6-F01, P2: calendario sin explicación ni resumen preparado | ExportPanel/ScheduleEditor: panel real sin cuatro semanas, días/hora confirmados o dependencia de avisos; información aprobada presente en el prototipo y textos de la ficha, ausente en la UI. | Se traslada la ayuda aprobada I3 y se recupera el resumen localizado con las claves existentes. Resumen únicamente del horario confirmado; se oculta junto a exportar al modificar el borrador. ES/EN, laborables/todos/día individual y descarga .ics comprobados. |
+| FE-I6-F02, P3: vista previa con espacios mal identificada | PlanPreview: situación de tres espacios y acción vacía mostraban «Tu plan va tomando forma» sobre frases de ejemplo. | Derivar etiqueta/color/texto de las frases recortadas visualmente; no cambiar el contenido persistido. Dos pruebas de componente verifican ejemplo identificado y borrador literal conservado. |
+| FE-I6-F03, P2: doble descarga por un doble clic | ExportPanel: un dblclick nativo en guardar despachaba dos descargas PNG en vez de una. El guard de promesas no cubría la vía síncrona de descarga. | Ignorar el segundo clic del mismo gesto y Enter repetido en controles de exportación; sin temporizador/debounce, esquema nuevo o bloqueo de una nueva pulsación. Se verifica PNG, calendario y exportación intencional posterior con descargas reales. |
+
+Son defectos locales dentro del contrato aprobado, sin elección de stack,
+persistencia, seguridad, calendario o interfaz compartida nueva. No se cambia la
+composición PNG ni se añaden efectos o funciones. Se revisa el diff para conservar
+el alcance y evitar abstracciones o limpieza ajenas a estos hallazgos.
+
+### Revisión renderizada y paquete del propietario
+
+Ocho recorridos adicionales en Chromium 156.0.8078.4/Playwright 1.64.1: ES/EN,
+claro/oscuro, 1440×900 y 393×851. Cuatro con clics en claro y cuatro mediante
+Tab/Enter en oscuro; movimiento normal en ancho y reducido en estrecho. Se
+comprueban foco visible al tabular, primer error, frases cortas y un caso máximo
+80/90/90 con CJK/emoji compuestos, edición y sesión idéntica al volver, hora vacía,
+resumen preparado, apertura y Cancelar/Escape de Google. Sin overflow horizontal,
+peticiones externas o errores de página observados. Es revisión asistida por el
+agente en navegador, no una prueba humana ni todos los cruces posibles de motores,
+dispositivos o métodos de entrada.
+
+Dos capturas nuevas mínimas muestran calendario preparado ES/claro y error con
+foco EN/oscuro en estrecho, cada una <300 KB. El control horario usa el formato
+nativo de Chromium (en-US en este contexto), mientras el resumen usa el idioma
+de la ruta. Se regeneran los PNG claro normal y oscuro máximo: coinciden byte a
+byte con I5 y se reutilizan, sin duplicar imágenes. Conservan texto literal y zona
+de tinta: 946,5–1632,0 y 849,9–1754,4 px respectivamente. El detector final del módulo
+no produce hallazgos; no se atribuye calidad o aprobación humana a ese resultado.
+
+[Paquete concreto de revisión I6](../../review/fe01/i6/README.md), con recorrido,
+resultado, PNG real y calendario; [manifiesto del candidato](../../review/fe01/i6/manifest.json)
+con contenido, condiciones y ocho recorridos. No hay participantes externos ni
+medición de primeras visitas en 120 s; ambos son complementos opcionales, no un
+bloqueo. Teléfonos físicos, compartir nativo y fondo bajo reloj/recorte siguen
+pendientes en PB-01, sin inferirlos de un viewport de Chromium.
+
+### Recursos del candidato
+
+JS propio **34599 B**, CSS inline **8671 B**: **43270 B / 42,26 KiB**, bajo 50 KiB.
++1047 B frente a I5, +367 B frente a I1; CSS y runtime compartidos no cambian
+(34900 B y 220745 B). Catálogo ES/EN y 404 conservan recursos/bytes de I5, sin cargar
+Plan B o material de skills/revisión. Siete peticiones iniciales en Plan B y cero
+externas: ES 478995 B brutos/241104 B gzip estimado; EN 478611/240777 B.
+[Detalle de recursos](../../review/fe01/i6/resources.json), contextos nuevos y
+loopback; gzip de los cuerpos, no transferencia real. No es una comparación de
+rendimiento de producción ni la regresión global/memoria/deuda reservada para I7.
+
+### Verificación técnica y aprobación pendiente
+
+`npm run verify` completo satisfactorio: Astro check (125 archivos, cero
+errores/avisos), lint/formato, hosting offline, **518 unitarias**, **25 componentes**,
+**156 E2E** e integración modular. Las fixtures A/A+B pasan sus 2/4 pruebas;
+fuentes/build públicos preservados, traducción incompleta rechazada y fixtures
+fuera de los 23 archivos públicos. Batería dirigida previa: **64 E2E**. Se conservan
+calendario offline, consentimiento/privacidad, fallos/recuperación, diez ciclos de
+recursos, sesiones/meses, reflujo/contraste y regresión de plataforma. La primera
+verificación completa se detuvo en dos opciones exact no admitidas por el tipo de
+React Testing Library en pruebas nuevas; se retiraron antes de esta ejecución,
+sin cambiar el runtime que ya pasó la batería dirigida.
+
+FE-I6-01/02 siguen pendientes del propietario. FE-I6-03 tiene candidato identificado
+y comprobaciones técnicas preparadas; el freeze para I7 se confirma al aprobar el
+acabado, o se actualiza si el propietario solicita correcciones. No se registra
+aceptación por inferirla de «continúa» antes de presentar esta revisión. FE-01 sigue
+**En curso**, I6 preparada para aprobación e I7 sin iniciar. Sin push, PR, CI o
+staging de este candidato; la verificación local no sustituye la última etapa.
+
+Cierre documental: 124 Markdown/800 referencias locales comprobadas, sin enlaces
+reales rotos; se conserva el falso positivo conocido del ejemplo upstream
+oklch(...). Integridad de fuente, skills, capturas y PNG reutilizados verificada;
+diff --check satisfactorio. El build posterior a la documentación conserva byte
+a byte los 23 archivos públicos del candidato, listo para la revisión del propietario.
