@@ -53,6 +53,7 @@ export const metadata = {
 | `category` | Una de `calculator`, `productivity`, `everyday`, `science`, `game`, `experience`. |
 | `tags` | Opcional. Palabras clave estables con forma de slug, sin repetir. No son texto traducido. |
 | `publishedAt` | Fecha `AAAA-MM-DD` de la primera publicación. Obligatoria al publicar. |
+| `presentation` | Opcional: `standard` (también si se omite) o `focused`. ADR-MMA-023 permite compactar el encabezado del marco solo mediante esta opción explícita, sin retirar cabecera, pie o controles de plataforma. |
 | `copy` | Título y descripción no vacíos en `es` y `en`. |
 
 Este archivo no puede importar componentes ni estilos: el catálogo lo lee sin cargar la interfaz.

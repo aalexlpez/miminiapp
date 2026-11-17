@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Locale } from '../../lib/locales';
 import type { PlanInputs } from './domain/validation';
 import type { PlanCopy } from './i18n/copy';
@@ -61,10 +61,12 @@ export default function ExportPanel({
   plan,
   locale,
   copy,
+  calendarEditor,
 }: {
   plan: PlanInputs;
   locale: Locale;
   copy: PlanCopy;
+  calendarEditor?: (actions: ReactNode) => ReactNode;
 }) {
   const text = copy.exports;
   const [downloads] = useState(createDownloads);
@@ -217,21 +219,29 @@ export default function ExportPanel({
       }
     }
   }
+  const calendarActions = plan.time ? (
+    <section aria-labelledby="pb-calendar-title">
+      <h3 id="pb-calendar-title">{text.calendarTitle}</h3>
+      <p>{text.duplicateWarning}</p>
+      <div className="pb-actions">
+        <button type="button" onClick={downloadCalendar}>
+          {text.calendarDownload}
+        </button>
+        <button type="button" onClick={() => setConsent(true)}>
+          {text.google}
+        </button>
+      </div>
+    </section>
+  ) : null;
   return (
     <div className="pb-exports" data-testid="plan-exports">
-      {plan.time && (
-        <section aria-labelledby="pb-calendar-title">
-          <h3 id="pb-calendar-title">{text.calendarTitle}</h3>
-          <p>{text.duplicateWarning}</p>
-          <div className="pb-actions">
-            <button type="button" onClick={downloadCalendar}>
-              {text.calendarDownload}
-            </button>
-            <button type="button" onClick={() => setConsent(true)}>
-              {text.google}
-            </button>
-          </div>
-        </section>
+      {calendarEditor ? (
+        <details className="pb-calendar-options">
+          <summary>{copy.flow.calendarOptional}</summary>
+          {calendarEditor(calendarActions)}
+        </details>
+      ) : (
+        calendarActions
       )}
       <section aria-labelledby="pb-wallpaper-title">
         <h3 id="pb-wallpaper-title">{text.wallpaperTitle}</h3>

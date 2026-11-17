@@ -387,3 +387,148 @@ registra aprobación completa del paquete ADR-MMA-023, incluida restauración v1
 y focused opcional, actualización de ficha a v07 y cierre FE-I3-01/02/03. La misma
 respuesta autoriza I4 en el contexto de esa pregunta. No acepta implementación
 por adelantado, pruebas físicas, FE-01 o PB-01. La entrega sigue solo local.
+
+## I4 — Recorrido guiado en la aplicación real
+
+### Implementación y alcance
+
+Se aplica el contrato aprobado en ADR-MMA-023/ficha v07: primera pregunta directa,
+cuatro decisiones visibles, ayudas/sugerencias opcionales, Atrás, ejemplo,
+progreso y frase en construcción. Escritorio utiliza pregunta y vista previa en
+columnas; en estrecho la pregunta/acciones van antes de la vista previa. Conserva
+Laboratorio creativo, fuentes/tokens locales, cabecera/pie, temas y rutas ES/EN.
+Movimiento finito de 180 ms por pregunta y 240 ms al resultado, sin bloquear
+acciones; con movimiento reducido los estados aparecen de inmediato. Se retiran
+gris/sello conforme al contrato nuevo, sin modificar el movimiento del hero.
+
+Las vistas situación/acción solo viven en memoria: se mantienen clave y esquema
+v1, incluidos los pasos canónicos. La restauración del `plan` antiguo distingue
+situación válida/incompleta y nunca infiere resultado por tener acción. Se
+conservan los campos literales y horarios antiguos incompletos. La fecha se
+captura al primer cambio real/ejemplo; navegar una sesión antigua sin narrativa
+captura la fecha antes de persistir otro paso. Reset solo afecta a la clave de
+Plan B; siguen los avisos y el modo memoria si falla el almacenamiento.
+
+El calendario pasa a un desplegable opcional después del resultado. Su borrador
+local conserva hora/días al cerrar y reabrir; solo confirma conjuntamente un
+horario válido y rechaza badInput nativo. Recargar recupera la última preparación,
+sin sobrescribirla con una edición inválida. Las acciones de exportar calendario
+se ocultan mientras el borrador está modificado para evitar exportar otro horario.
+Una sesión v1 con calendario incompleto puede ver su frase sin borrar ese horario;
+permanece canónicamente en `plan` hasta confirmar datos válidos. Imagen, compartir,
+consentimiento Google y generadores conservan sus garantías anteriores.
+
+El descriptor admite `presentation` opcional standard/focused conforme al contrato
+aprobado. Solo Plan B y la fixture B optan por focused; ausente/standard mantienen
+el marco habitual y no emiten el atributo focused. Su validación rechaza valores
+ajenos sin cargar interfaces. Las pruebas de integración comprueban ambas opciones.
+
+El CSS propio se incorpora como texto estático desde entry.astro mediante la
+opción existente de Vite `?inline`, servido antes de hidratar y solo en la ruta de
+la herramienta. Se elimina su carga innecesaria desde el catálogo. Los textos de
+calendario y el interpolador puro se separan de los diccionarios de UI: las
+funciones de navegador ya no arrastran ambas traducciones completas. No cambian
+package/lockfile, dependencias, workflows, hosting, secretos o esquema persistido.
+
+**I5 sigue pendiente:** I4 solo integra funcionalmente el calendario en el resultado.
+El diseño final del resultado, la jerarquía de guardar y la composición nueva del
+PNG no se presentan como entregados. Tampoco se anticipan I6/I7 o la aceptación PB-01.
+
+### Observación de navegador y skills
+
+Uso explícito/manual de Impeccable 4.9.2, motor fijado 0.1.25, y adaptación local de
+Vercel con reglas 434b7f91364665f2f733b310ec54809bf8f37937. Contexto canónico,
+Operate/craft-floor y reglas pertinentes leídos; detector sobre src/miniapps/plan-b:
+cero hallazgos. Revisión de **un solo contexto, no independiente**; el detector
+vacío no acredita calidad. Se revisan código, foco/teclado y capturas reales.
+Se actualizan las adaptaciones/matriz para retirar la excepción histórica del gris
+tras ADR-MMA-023, manteniendo sus hashes y la procedencia upstream sin actualizar
+versiones, activar hooks o delegar trabajo.
+
+20 estados capturados (cinco vistas × dos tamaños × ES/claro y EN/oscuro), con
+Chromium 156.0.8078.4, fecha sintética 2026-11-17, zona Europe/Madrid y fuentes
+listas. Cuatro capturas mínimas conservadas, cada una < 300 KB, con
+[manifiesto de contenido](../../review/fe01/i4/manifest.json) y
+[paquete visual](../../review/fe01/README.md#i4--recorrido-en-la-aplicación-real).
+La revisión visual confirma jerarquía de pregunta, ejemplo identificado,
+continuidad de frase, estado oscuro y separación de acciones/vista previa.
+
+| Perfil | Propósito | Obstáculo | Situación | Acción | Alto del viewport |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| ES/claro 1440 | 643,4 | 710,0 | 771,0 | 771,0 | 900 |
+| ES/claro 393 | 634,2 | 713,0 | 746,0 | 746,0 | 851 |
+| EN/oscuro 1440 | 688,2 | 665,2 | 745,4 | 771,0 | 900 |
+| EN/oscuro 393 | 670,0 | 721,8 | 746,0 | 746,0 | 851 |
+
+Valores en píxeles: borde inferior de la acción principal, o grupo de obstáculos,
+con scroll al inicio y ejemplo normal. Las cuatro preguntas permiten avanzar sin
+scroll en estos perfiles; el resto del documento puede superar el viewport.
+No se exige ni se simula cero scroll con todos los máximos, ayudas abiertas,
+zoom o teclado virtual. No hay overflow horizontal en los estados capturados.
+La composición del resultado sigue pendiente de I5; no se mide como pregunta.
+
+### Recursos del candidato
+
+JS propio **31588 B** (_astro/App.CRcZ6Wje.js) + CSS propio inline **7920 B** =
+**39508 B / 38,58 KiB**, bajo 50 KiB y 3395 B menos que la referencia I1 (42903 B).
+Runtime React/client compartido **220745 B**, sin cambio; CSS común **34900 B**,
+23 B menos por eliminación del token generado no utilizado radius-panel, sin
+cambiar la definición de tokens. Estos recursos compartidos se informan aparte,
+no se ocultan dentro del presupuesto propio.
+
+| Ruta | Peticiones frías | Bytes brutos | Suma gzip estimada | Solicitudes externas |
+| --- | ---: | ---: | ---: | ---: |
+| /es/ | 4 | 196157 | 151492 | 0 |
+| /en/ | 4 | 196081 | 151436 | 0 |
+| 404 real | 4 | 193865 | 151004 | 0 |
+| /es/apps/plan-b/ | 7 | 474715 | 240130 | 0 |
+| /en/apps/plan-b/ | 7 | 474337 | 239825 | 0 |
+
+[Detalle por recurso](../../review/fe01/i4/resources.json), contexto nuevo por ruta,
+loopback, viewport 1440×900 y movimiento reducido. Gzip es una estimación sobre
+cuerpos completos, no transferencia real. El catálogo no solicita JS/CSS propio
+ni hidrata Plan B. El total de página Plan B crece ligeramente frente a I1 por
+HTML/copy del recorrido y vista previa, aunque se reduce el JS/CSS propio; no se
+presenta el presupuesto de 50 KiB como peso total. No se miden aquí INP, retención,
+tiempo humano o rendimiento de producción; la comparación global final es I7.
+
+### Verificación y cierre local
+
+`npm run verify` completo satisfactorio con Node 24.22.2/npm 11.19.1,
+Playwright 1.64.1/Chromium 156.0.8078.4:
+
+* Astro check: 125 archivos, cero errores/avisos; lint, formato y hosting offline satisfactorios.
+* Vitest: **518 unitarias** y **21 componentes**, sin omisiones nuevas.
+* Navegador: **152 E2E** satisfactorios en Chromium escritorio y viewport móvil,
+  incluyendo exportaciones reales offline, Google/consentimiento, texto máximo,
+  diez ciclos de URLs/canvas, almacenamiento, idioma, teclado/foco, reflujo,
+  accesibilidad y regresión de plataforma.
+* Integración modular: fixture A sola y A+B, **2/4 pruebas de módulo**, build
+  aislado, traducción incompleta rechazada, estándar/focused solo por opción;
+  fuentes y build públicos preservados, sin fixtures/borradores publicados.
+
+Casos nuevos relevantes: restauración v1 y payload literal, navegación con doble
+clic/Enter sostenido, primera edición al cambiar el mes sin robar foco, calendario
+nativo parcial sin sobrescribir el preparado y confirmación atómica del borrador.
+Se conservan los controles offline/privacidad y los casos de plataforma. Se
+adaptan las aserciones de gris/sello al contrato aprobado; no se silencian tests
+para obtener verde. Reflujo cubre 320/393/768/1280/1440 px y tamaño CSS duplicado,
+no zoom nativo móvil o compatibilidad física.
+
+Durante la adaptación de pruebas se detectó recursión accidental en el helper de
+llegada al resultado, corregida; el navegador identificó además un botón Atrás de
+46 px de ancho, corregido a mínimo 48 px. La batería dirigida pasó después
+(**44 E2E**); la verificación final completa anterior corresponde al código con
+esas correcciones y la recuperación de sesión antigua sin narrativa. Una primera
+ejecución final se detuvo en formato de un test, corregido antes de repetir verify.
+
+FE-I4-01/02/03 comprobados localmente. I4 completada; FE-01 sigue **En curso**, con
+I5–I7 pendientes. No hay aprobación anticipada del acabado, CI/staging de este
+candidato, pruebas físicas, medición de dos minutos ni aceptación PB-01. La
+entrega permanece en la rama estable con commit local; **sin push, PR o publicación**.
+
+Cierre documental: 123 Markdown/771 referencias locales revisadas, sin enlaces
+reales rotos; se conserva el falso positivo conocido del ejemplo oklch(...) de la
+referencia upstream. Integridad de skills/capturas/manifiesto y diff --check
+satisfactorios. Un build posterior a la documentación reproduce byte a byte los
+23 archivos públicos identificados en el manifiesto del candidato.

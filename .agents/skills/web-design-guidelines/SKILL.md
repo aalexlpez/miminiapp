@@ -21,7 +21,9 @@ an assertion of upstream certification. See [provenance](../README.md).
    and a new manifest entry, not an automatic standards change.
 3. Apply [FRONTEND's adoption matrix](../../../docs/standards/FRONTEND.md#matriz-de-adopción-y-conflictos-de-i1)
    before reporting violations. Preserve literal text/wrapping, the approved
-   newline-paste exception, hero motion policy, and grayscale transition.
+   newline-paste exception and hero motion policy. For Plan B, v07 and
+   ADR-MMA-023 replace the former grayscale/stamp with the approved brief motion;
+   do not reinstate the historical v06 exception.
    Keep personal state out of URLs, the existing ES/EN routing, approved copy
    conventions and reset behavior; generic rules do not override those contracts.
    Native buttons already provide keyboard activation: do not add redundant

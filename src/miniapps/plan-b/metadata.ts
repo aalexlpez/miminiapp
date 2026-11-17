@@ -6,15 +6,15 @@ export const metadata = {
   status: 'published',
   publishedAt: '2026-11-17',
   category: 'everyday',
+  presentation: 'focused',
   copy: {
     es: {
       title: 'Plan B',
-      description:
-        'Prepara un plan para el día en que tu propósito se complique.',
+      description: 'Un plan para seguir, incluso en un mal día.',
     },
     en: {
       title: 'Bad Day Plan',
-      description: 'Make a plan for the day your goal gets difficult.',
+      description: 'A way to keep going, even on a bad day.',
     },
   },
 } as const satisfies MiniappDescriptor;

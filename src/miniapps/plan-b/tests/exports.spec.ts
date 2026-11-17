@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
 import { test, expect } from './helpers/fixtures';
 import { getPlanCopy } from '../i18n/copy';
+import { enterPlanResult, openCalendar } from './helpers/journey';
 
 test.use({ entryKind: 'app' });
 async function result(
@@ -17,13 +18,14 @@ async function result(
   await page
     .getByRole('button', { name: copy.ui.exampleButton, exact: true })
     .click();
-  await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
-  await page
-    .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-    .click();
+  await enterPlanResult(page, copy);
+  await openCalendar(page, copy);
   await expect(
     page.getByRole('img', { name: copy.exports.imageReady }),
   ).toBeVisible();
@@ -103,13 +105,14 @@ for (const locale of ['es', 'en'] as const) {
     await page
       .getByRole('button', { name: copy.ui.exampleButton, exact: true })
       .click();
-    await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+      .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
-    await page
-      .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-      .click();
+    await enterPlanResult(page, copy);
+    await openCalendar(page, copy);
     await expect(
       page.getByRole('img', { name: copy.exports.imageReady }),
     ).toBeVisible();
@@ -323,13 +326,14 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
   await page
     .getByRole('button', { name: copy.ui.exampleButton, exact: true })
     .click();
-  await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
-  await page
-    .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-    .click();
+  await enterPlanResult(page, copy);
+  await openCalendar(page, copy);
   await expect(
     page.getByText(copy.exports.imagePrepareError, { exact: true }),
   ).toBeVisible();
@@ -361,13 +365,14 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
     await page
       .getByRole('button', { name: copy.ui.exampleButton, exact: true })
       .click();
-    await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+      .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
-    await page
-      .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-      .click();
+    await enterPlanResult(page, copy);
+    await openCalendar(page, copy);
   }
 });
 
@@ -403,7 +408,9 @@ for (const theme of ['light', 'dark'] as const) {
     await page
       .getByRole('button', { name: copy.ui.exampleButton, exact: true })
       .click();
-    await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+      .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
@@ -413,11 +420,13 @@ for (const theme of ['light', 'dark'] as const) {
       .getByLabel(`${copy.ui.if} — ${copy.ui.situationLabel}`, { exact: true })
       .fill(situation);
     await page
+      .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+      .click();
+    await page
       .getByLabel(`${copy.ui.then} — ${copy.ui.actionLabel}`, { exact: true })
       .fill(action);
-    await page
-      .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-      .click();
+    await enterPlanResult(page, copy);
+    await openCalendar(page, copy);
     await expect(
       page.getByRole('img', { name: copy.exports.imageReady }),
     ).toBeVisible();

@@ -31,7 +31,7 @@
       "source": ".agents/skills/impeccable/SKILL.md",
       "gitBlob": "0e93bf813444c2116dcff342cb22c031ace7f210",
       "upstreamSha256": "12d15997482e6d0734c5f2dcc4f62cea7bcba19953940214cffa5c6a7758aa93",
-      "sha256": "93374114a199f232af88a8b9d6cf52490f621e0a46a32de4eb217517547afb37",
+      "sha256": "5afb58a697f7168a2f8c74227a761cde76357506822542ecc6fbe5e7ca7b65f8",
       "adaptation": "Added local mandatory context, scope, permissions and manual profile preamble; upstream body retained."
     },
     {
@@ -440,7 +440,7 @@
   "localFiles": {
     ".agents/skills/README.md": "3b29569e04acbd23bd8e3f6a79f50414c8f567510c1fe4264b397aa4b9478905",
     ".agents/skills/impeccable/scripts/miminiapp-impeccable": "1f567e326e7da5d60161872a4012e1278c979263fd3b8be31a9985ff51948392",
-    ".agents/skills/web-design-guidelines/SKILL.md": "b961abdd8417ea1dffbacc3d3d3fec246760fdf53fca320fd1510d5d756755d9",
+    ".agents/skills/web-design-guidelines/SKILL.md": "9464031b6d60c79c8c4b19ca26e5190731d6679403c74a9f4c3da11880393684",
     ".impeccable/config.json": "2d8d6371f275fe39293bce8f27bfb96932b84d0d3b6302a6dd2d291dd9b274b9"
   }
 }

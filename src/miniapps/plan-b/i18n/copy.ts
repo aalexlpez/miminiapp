@@ -8,12 +8,4 @@ export type PlanCopy = typeof es;
 export function getPlanCopy(locale: Locale): PlanCopy {
   return { es, en }[locale];
 }
-/** Single pass keeps literal placeholder-shaped user text intact. */
-export function fill(
-  template: string,
-  values: Readonly<Record<string, string | number>>,
-) {
-  return template.replace(/\{(\w+)\}/g, (placeholder, key: string) =>
-    String(values[key] ?? placeholder),
-  );
-}
+export { fill } from './fill';

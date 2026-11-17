@@ -1,11 +1,45 @@
+import { calendarEn } from './calendar-messages.ts';
+
 export const en = {
-  calendar: {
-    summary: 'Bad Day Plan: {action}',
-    description:
-      'If {situation}, then {action}.\nYour goal: {purpose}\nMade with MiMiniApp',
+  calendar: calendarEn,
+  flow: {
+    purposePlaceholder: 'For example: read more',
+    purposeHint:
+      'Pick something that matters to you. Your bad day plan will help when that goal gets difficult.',
+    obstacleTitle: 'What could get in your way?',
+    situationTitle: 'When does that obstacle show up?',
+    actionTitle: 'What will you do in that moment?',
+    situationHint:
+      'A specific situation you can recognise. This will be your cue to act.',
+    actionHint:
+      'Something small and possible, even on a bad day. Five minutes can be enough.',
+    nextPurpose: 'Choose obstacle',
+    nextOther: 'Recognise the cue',
+    nextSituation: 'Choose response',
+    ideas: 'Need an idea?',
+    previewTitle: 'Your plan is taking shape',
+    previewExample: 'What it could look like · example',
+    previewGoal: 'One goal. Another way forward.',
+    previewSituation: 'the day gets difficult',
+    previewAction: 'I do a small version of my goal',
+    previewNote: 'A specific cue + a possible response.',
+    previewFooter:
+      "You don't need a perfect day. You need to know what to do when it isn't.",
+    privacyShort: 'No account. Only in this browser.',
+    privacyLabel: 'How it works and privacy',
+    resultTitle: 'You have a way to keep going.',
+    resultHint: 'Save it somewhere you can see on a difficult day.',
+    calendarOptional: 'Add a reminder (optional)',
+    scheduleHint:
+      'Your schedule is saved when you prepare the reminder. Reloading earlier restores the last prepared schedule.',
+    schedulePrepare: 'Prepare reminder',
+    scheduleReady:
+      'Schedule prepared. You can add it to your calendar or open Google Calendar.',
+    scheduleWithoutTime: 'Continue without a reminder',
+    scheduleCleared: 'No reminder. Your plan and image are still available.',
   },
   ui: {
-    subtitle: "Let's stop that from happening. It takes 2 minutes.",
+    subtitle: 'A way to keep going, even on a bad day.',
     headline: "It's {month} and you've already quit your goal.",
     question: 'What do you want to achieve?',
     januaryQuestion: 'What do you want to achieve this year?',

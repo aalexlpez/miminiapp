@@ -34,7 +34,8 @@ las recomendaciones upstream de este archivo y sus referencias.
   y el detector por separado e identifica «un solo contexto; no independiente».
   No invoques `critique` completo ni afirmes haber satisfecho sus dos evaluaciones
   independientes. Si se solicita ese comando completo, requiere permiso específico.
-- FE-M03–06 de FRONTEND resuelven pegado, texto íntegro, movimiento del hero y gris.
+- FE-M03–06 de FRONTEND resuelven pegado, texto íntegro y movimiento del hero.
+  Para Plan B, v07/ADR-MMA-023 retiran el gris/sello de v06; aplicar el contrato vigente.
   No corregir automáticamente estas excepciones desde el detector.
 - No modificar producto como efecto de una comprobación de integración. No añadir
   dependencias, hooks, automatizaciones, publicaciones o permisos implícitos.

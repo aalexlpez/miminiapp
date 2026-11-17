@@ -1,4 +1,4 @@
-# FE-01/I3 — Revisión de Plan B
+# FE-01 — Revisión de Plan B
 
 **Dirección y contrato aprobados el 2026-11-17.** Dirección «El plan toma forma», preparada
 con uso explícito de Impeccable/Vercel. El [contrato propuesto](../../design-docs/plan-b-frontend-proposal.md)
@@ -65,3 +65,24 @@ v1 y presentación focused del marco solo por opción explícita. No requiere
 participantes externos. Se actualizan ficha/ADR y se cierra I3;
 I4 implementará el recorrido en el código del producto y I5 el resultado/PNG.
 La aprobación visual no sustituye sus pruebas o la regresión final I7.
+
+## I4 — Recorrido en la aplicación real
+
+Implementación local del contrato aprobado, integrada con la cabecera y el pie
+reales. Cuatro preguntas, ayudas opcionales, vista previa y calendario desde el
+resultado. El acabado del resultado y la nueva composición PNG quedan para I5.
+Estas capturas acreditan observación técnica, no aprobación humana del acabado.
+
+| Vista real | Captura |
+| --- | --- |
+| Propósito, ES/claro, 1440×900 | [Primera pregunta](i4/es-light-1440-purpose.png) |
+| Obstáculo, ES/claro, 1440×900 | [Elección](i4/es-light-1440-obstacle.png) |
+| Situación, EN/oscuro, 393×851 | [Señal](i4/en-dark-393-situation.png) |
+| Acción, EN/oscuro, 393×851 | [Respuesta](i4/en-dark-393-action.png) |
+
+[Manifiesto I4](i4/manifest.json) y [recursos solicitados](i4/resources.json).
+Son viewports de Chromium de escritorio con datos sintéticos y fecha controlada,
+no pruebas en teléfonos físicos ni de teclado virtual. Las comprobaciones,
+resultados y límites están en el [informe I4](../../reports/fe01/execution.md#i4--recorrido-guiado-en-la-aplicación-real).
+El candidato sigue local, sin push o publicación; el prototipo anterior permanece
+como referencia de la dirección aprobada.

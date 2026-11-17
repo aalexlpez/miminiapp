@@ -2,7 +2,7 @@
 
 * **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados. Enmienda v07 aprobada el 2026-11-17 mediante «Vale, si, la apruebo» al revisar dirección/contrato FE-01/I3 (ADR-MMA-023) y pasar a I4.
 * **Situación:** I1–I5 integradas en staging; I6 autorizada y revisión técnica global realizada. PB-01 sigue `En curso`: pruebas físicas, revisión humana y validación remota de las correcciones pendientes. Staging de I5 identificado/validado; ADR-MMA-020/021 aprobadas.
-* **Creada:** 2026-11-15. **Actualizada:** 2026-11-17 (v07 aprobada; implementación FE-01/I4 iniciada, resultado/PNG nuevos en I5).
+* **Creada:** 2026-11-15. **Actualizada:** 2026-11-17 (v07 aprobada; recorrido FE-01/I4 implementado y verificado localmente, resultado/PNG nuevos pendientes en I5).
 * **Origen:** [v05 aportada por el propietario](../references/plan-b-v05.md), contrastada con `staging` en `e203d73156a61a61138e9ff23de964a827221fad`.
 * **Categoría:** `everyday`. **ID / slug:** `plan-b`. Etiquetas opcionales omitidas; `publishedAt: 2026-11-17` en la candidata autorizada, como fecha prevista de primera incorporación (confirmar la real antes de integrar si cambia el día).
 * **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1–I5 integradas e I6 autorizada y revisada técnicamente, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
@@ -12,8 +12,9 @@
 
 **Rediseño aprobado:** [ADR-MMA-023](../design-docs/plan-b-frontend-proposal.md)
 y [prototipo I3](../review/fe01/README.md) aprobados el 2026-11-17. Esta ficha v07
-es el contrato objetivo; el código se adapta en FE-01/I4–I5 y no se declara ya
-implementado por aprobarlo. PB-01 conserva sus pendientes físicos y de aceptación.
+es el contrato objetivo. FE-01/I4 implementa y verifica localmente el recorrido y
+el calendario posterior; el acabado del resultado/PNG sigue pendiente de I5.
+PB-01 conserva sus pendientes físicos y de aceptación; el candidato FE sigue local.
 
 «Dime tu propósito, dime qué te hará dejarlo y prepara un plan B para ese día».
 
@@ -260,7 +261,7 @@ Presupuesto propuesto: **≤ 50 KiB sin comprimir para JS/CSS propio adicional d
 
 El límite de Ale sigue siendo **6–12 h en 3–4 sesiones** de revisión/prueba, no una garantía de horas de desarrollo ni de fecha. Las pruebas de compatibilidad van primero. Si el núcleo no cabe, se entrega evidencia y se revisa el alcance; no se publica un resultado incompleto para cumplir el límite.
 
-Recortes, si hacen falta y se registran antes de aceptar: instrucciones de SO separadas → instrucciones conjuntas; gris progresivo → cambio al resultado; Google → solo si `.ics` permite importar correctamente en ambos móviles. Analítica ya está fuera y no supone ahorro pendiente. No se recortan tres pasos, plan, una vía de calendario por móvil, PNG, ES/EN, uso offline definido ni sello.
+Recortes, si hacen falta y se registran antes de aceptar: instrucciones de SO separadas → instrucciones conjuntas; Google → solo si `.ics` permite importar correctamente en ambos móviles. Analítica ya está fuera y no supone ahorro pendiente. No se recortan las cuatro preguntas, plan, una vía de calendario por móvil, PNG, ES/EN ni uso offline definido. La retirada de gris/sello ya fue aprobada en v07; no es un recorte pendiente.
 
 | ID | Resultado aceptable | Evidencia prevista |
 | --- | --- | --- |

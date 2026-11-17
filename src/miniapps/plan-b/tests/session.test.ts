@@ -253,3 +253,111 @@ it('refreshes the home month after reset while keeping the active story stable',
   });
   expect(port.data.has(sessionKey)).toBe(false);
 });
+
+describe('approved guided view over v1 sessions', () => {
+  it('starts on the first real edit without persisting a visual substep', () => {
+    const port = storage();
+    let now = new Date(2026, 0, 31, 23, 59);
+    const controller = createPlanController(
+      createSessionStore(() => port),
+      () => now,
+    );
+    controller.initialize();
+    expect(port.data.has(sessionKey)).toBe(false);
+    now = new Date(2026, 1, 1, 0, 1);
+    controller.update('purpose', 'Leer más');
+    const session = controller.getSnapshot().session;
+    expect(session.narrative?.startedOn).toMatchObject({ month: 2, day: 1 });
+    expect(controller.getSnapshot().view).toBe('purpose');
+    expect(JSON.parse(port.data.get(sessionKey)!)).not.toHaveProperty('view');
+    expect(parseSession(port.data.get(sessionKey)!)).toEqual(session);
+  });
+  it.each(['', 'x', 'llego tarde'])(
+    'restores the unfinished plan view for %j without inferring a result',
+    (situation) => {
+      const port = storage();
+      port.data.set(
+        sessionKey,
+        JSON.stringify({
+          ...saved(),
+          step: 'plan',
+          inputs: { ...example, situation },
+        }),
+      );
+      const controller = createPlanController(
+        createSessionStore(() => port),
+        date,
+      );
+      controller.initialize();
+      expect(controller.getSnapshot().view).toBe(
+        situation.length < 3 ? 'situation' : 'action',
+      );
+      expect(controller.getSnapshot().session.inputs.action).toBe(
+        example.action,
+      );
+      controller.show('situation');
+      controller.update('situation', 'otra señal');
+      expect(controller.getSnapshot().view).toBe('situation');
+    },
+  );
+  it('preserves a legacy incomplete schedule and commits only a valid result atomically', () => {
+    const port = storage();
+    port.data.set(
+      sessionKey,
+      JSON.stringify({
+        ...saved(),
+        step: 'plan',
+        inputs: { ...example, days: [] },
+      }),
+    );
+    const controller = createPlanController(
+      createSessionStore(() => port),
+      date,
+    );
+    controller.initialize();
+    controller.show('result');
+    expect(controller.getSnapshot().view).toBe('result');
+    expect(controller.getSnapshot().session.step).toBe('plan');
+    expect(controller.getSnapshot().session.inputs.time).toBe('20:00');
+    const before = port.data.get(sessionKey);
+    expect(controller.commitSchedule('21:30', [])).toBe(false);
+    expect(controller.commitSchedule('25:00', ['MO'])).toBe(false);
+    expect(port.data.get(sessionKey)).toBe(before);
+    expect(controller.commitSchedule('21:30', ['MO'])).toBe(true);
+    const savedResult = parseSession(port.data.get(sessionKey)!);
+    expect(savedResult?.step).toBe('result');
+    expect(savedResult?.inputs).toMatchObject({
+      time: '21:30',
+      days: ['MO'],
+      action: example.action,
+    });
+    const restored = createPlanController(
+      createSessionStore(() => port),
+      date,
+    );
+    restored.initialize();
+    expect(restored.getSnapshot().view).toBe('result');
+    expect(restored.commitSchedule('', [])).toBe(true);
+    expect(parseSession(port.data.get(sessionKey)!)?.inputs.time).toBe('');
+  });
+});
+
+it('starts a valid legacy home draft on navigation even if it has no narrative yet', () => {
+  const port = storage();
+  port.data.set(
+    sessionKey,
+    JSON.stringify({ ...emptySession(), inputs: example }),
+  );
+  const controller = createPlanController(
+    createSessionStore(() => port),
+    date,
+  );
+  controller.initialize();
+  expect(controller.getSnapshot().view).toBe('purpose');
+  expect(controller.getSnapshot().session.inputs.purpose).toBe(example.purpose);
+  controller.show('obstacle');
+  expect(
+    parseSession(port.data.get(sessionKey)!)?.narrative?.startedOn,
+  ).toMatchObject({ year: 2026, month: 1, day: 31 });
+  expect(controller.getSnapshot().session.inputs.action).toBe(example.action);
+});
