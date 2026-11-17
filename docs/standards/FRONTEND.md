@@ -25,6 +25,10 @@ Estos criterios se aplican al trabajo nuevo y las mejoras autorizadas. No reabre
 
 ### Matriz de adopción y conflictos de I1
 
+Integración de desarrollo y límites observados en I2: [guía de uso local](../guides/frontend-skills.md).
+El perfil y motor están incorporados; el descubrimiento nativo del cliente sigue
+pendiente. Esta situación no cambia las normas ni permite afirmar carga automática.
+
 Referencias examinadas: [Impeccable d41d986](https://github.com/pbakaus/impeccable/tree/d41d9860b0094dcb68030657da63461212835aaa), [skill Vercel 1a2c79d](https://github.com/vercel-labs/agent-skills/tree/1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62/skills/web-design-guidelines) y [reglas Vercel 434b7f9](https://github.com/vercel-labs/web-interface-guidelines/blob/434b7f91364665f2f733b310ec54809bf8f37937/command.md). Son fuentes de revisión; los estados del proyecto conservan su autoridad.
 
 | ID / aporte | Resolución adoptada y motivo | Ámbito / comprobación |

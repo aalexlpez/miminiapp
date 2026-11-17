@@ -104,4 +104,150 @@ El propietario acepta ADR-MMA-022 con la indicación «no hace falta que para da
 | FE-I1-02 | Comprobado: estándar/procedimiento, matriz contextualizada y selección/permisos preparados en sus fuentes, con reglas aplicables y conflictos explícitos. Su aprobación posterior está registrada arriba. |
 | FE-I1-03 | Comprobado: ADR-MMA-022 aprobada con aceptación humana suficiente del propietario y pruebas con otras personas opcionales; H-008 aprobada. I1 completada el 2026-11-17; FE-01 permanece En curso. |
 
-Siguiente paso: I2, pendiente de autorización para instalar/comprobar las skills aprobadas. I2–I7 no se inician por aprobar las decisiones o entregar este cierre documental. La rama estable se conserva para el resto de FE-01; merge manual y sincronización sin reescribir historia. La aprobación actual de normas/selección no acepta el futuro diseño del piloto ni el producto completo.
+Al cerrar I1, I2 quedaba pendiente de autorización. La instrucción posterior de ejecución local se registra en Control del plan y en I2 a continuación. La aprobación de normas/selección no acepta el futuro diseño del piloto ni el producto completo.
+
+## I2 — Integración local y comprobación de skills
+
+### Inicio y entrega local
+
+PR #27 está integrada: se hace fetch de staging y de la rama del plan y se
+actualiza esta última por fast-forward a **e4b42f121674a24aacc4a3add473111bc7e36c34**,
+árbol **de2ab70cab9849b7d50325a5d7372c5a97017adb**, sin cambios locales previos.
+El propietario solicita empezar las iteraciones «sin subir nada hasta que esté
+todo el plan ejecutado», mencionando I1. Se le comunica que I1 ya estaba completa
+y que se continúa por I2, primera pendiente. Se conserva la rama estable y la
+entrega mediante commits locales por iteración: sin push, PR nueva, merge o
+escrituras remotas. La entrega conjunta/CI/staging será posterior a la
+implementación y regresión local final; sus evidencias siguen siendo necesarias
+para la verificación global. Las decisiones de dirección I3 y acabado I6 siguen
+correspondiendo al propietario, sin exigir otras personas.
+
+### Perfil incorporado y procedencia
+
+[Manifiesto](../../../.agents/skills/manifest.json),
+[avisos y adaptaciones](../../../.agents/skills/README.md) y
+[procedimiento reproducible](../../guides/frontend-skills.md).
+
+* Impeccable **4.9.2**, revisión **d41d9860b0094dcb68030657da63461212835aaa**:
+  SKILL.md con preámbulo local señalado, playbooks upstream, launcher POSIX,
+  VERSION/checksums y Apache-2.0/NOTICE. Perfil manual limitado a contexto,
+  detector de fuentes e instrucciones de diseño. Se omiten configuraciones de
+  subagentes, catálogo de fuentes, bundles de inyección y launcher Windows;
+  sus capacidades opcionales no se declaran instaladas/probadas.
+* Adaptación de Web Design Guidelines basada en agent-skills
+  **1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62**, con snapshot íntegro de reglas
+  **434b7f91364665f2f733b310ec54809bf8f37937**. Se redacta el procedimiento
+  local en lugar de redistribuir literalmente el SKILL original del paquete
+  sin LICENSE separado. Las reglas sí tienen LICENSE MIT, copyright 2025
+  Vercel Labs, que se conserva. No se cambia la licencia general del producto.
+* El motor es **0.1.25**, versión independiente de la skill, con SHA-256 Linux
+  x64 **f48aca43294a9ba1ea3eb7b1d0a0b2d595c480e8c65003e410247b9884820ddd**
+  tomado de la revisión fija. Descarga pública explícita con prepare; caché
+  ignorada .local/skills/impeccable y verificación antes de cada ejecución.
+  El wrapper rechaza otros comandos, URLs como target y activación de telemetría.
+  Una alteración sintética del binario termina en 65 sin ejecución; se restaura
+  el contenido verificado y engine-probe vuelve a identificar 0.1.25.
+
+Contexto: AGENTS, ficha Plan B §§3–5, decisiones aplicables/ADR-MMA-022,
+arquitectura, FRONTEND/matriz FE-M y FE-01. Se leen SKILL.md de ambas ayudas,
+Operate, onboard y reglas Vercel; craft-floor se examina para detectar conflictos,
+sin editar UI. Se conserva la identidad y la autoridad del contrato frente a
+recomendaciones upstream, incluidas URL con estado, autodetección de idioma,
+Title Case, confirmación de reset, movimiento y truncado. context del motor
+detecta correctamente que faltan PRODUCT.md/DESIGN.md; no carga por sí mismo las
+fuentes con otros nombres. Las instrucciones adaptadas obligan a leerlas y
+descartan la recomendación de init. No se crean autoridades paralelas.
+
+### Motor, efectos y descubrimiento del cliente
+
+[Evidencia resumida](i2-checks.json). engine-probe, context y detect ejecutados con
+telemetría apagada desde antes del arranque; config de proyecto telemetry=false,
+updateCheck=false y variables NO_TELEMETRY/NO_UPDATE_CHECK/NO_STALENESS_CHECK.
+strace no observa syscalls de red IP en esas llamadas. En detect no observa
+aperturas para escritura ni creación/borrado/renombrado de archivos. Solo prepare
+descarga la release pública fijada; no se consulta catálogo, API de versiones,
+servicios de imágenes ni se transmite contexto. telemetry status confirma off
+y advierte que los rolls seguirían siendo posibles: por eso se limitan también
+los comandos. No se afirma una auditoría de todo el binario o un sandbox de red.
+
+El detector lee efectivamente App.tsx, ExportPanel.tsx, app.css y entry.astro
+y devuelve **[] / exit 0**. No sustituye la revisión renderizada ni certifica UX.
+
+**Bloqueo FE-I2-01:** skills.list del executor sigue devolviendo skills=[],
+warnings=[] después de instalar los archivos. Esta sesión parte de /workspace,
+con repo en /workspace/miminiapp; no se demuestra que esa ubicación sea la causa.
+La comprobación adicional mediante Codex CLI **0.166.0-alpha.1** no llega a
+skills/list: inicialmente no puede inicializar sqlite bajo su directorio de
+estado; al ubicar logs/sqlite temporales en el workspace tampoco arranca porque
+necesita abrir installation_id en /home/agent/.codex, de solo lectura. Se observa
+ese fallo con strace. No hay turnos de modelo, subagentes, cambio de HOME/CODEX_HOME,
+instalación global o modificación de ese directorio.
+
+No se ejecutan los tres escenarios de selección nativa ni se afirma carga
+automática por haber leído SKILL.md a mano. Siguiente comprobación concreta:
+sesión abierta con raíz/cwd del repo y lista recargada, seguida de diseño,
+revisión técnica y tarea ajena. Esa posibilidad está por probar. Si el cliente
+carece de esa capacidad, continuar con alcance manual requiere que el propietario
+decida expresamente la alternativa y se actualice FE-I2-01; no se da por resuelto
+ni se instala otro cliente por inferencia. Claude/Gemini sin certificar.
+
+### Aplicación manual acotada al producto actual
+
+**Método: un solo contexto; no independiente.** Revisión Operate/onboard y
+Vercel, más detector de fuentes y navegador. No se invoca critique completo,
+sus dos evaluaciones independientes ni su overlay/live-server. Cuatro capturas
+locales: plan/resultado, ES claro 1440×900 y EN oscuro 393×851. Chromium
+156.0.8078.4, zona Europe/Madrid, locale nativo en-US, reduced-motion y ejemplo
+sintético completo a fecha fija 2026-11-17; no es una prueba humana o móvil físico.
+Se inspeccionan visualmente el plan de escritorio y el resultado estrecho oscuro.
+
+| Hallazgo | Evidencia / impacto | Acción para I3 o implementación aprobada |
+| --- | --- | --- |
+| P1 — Decisiones opcionales antes del valor principal | App.tsx:414 agrupa situación, acción, sugerencias, hora y siete días antes de Ver mi plan. Pantalla del paso: 1727 px en escritorio y 1880 px estrecho; final de acción principal y=1417/1555 con scroll inicial cero. | Proponer una decisión principal cada vez y pasar calendario a después del resultado; requiere revisar/aprobar ficha, no parchear I2. |
+| P1 — Resultado sin prioridad clara entre acciones | ExportPanel.tsx:221 muestra calendario, fondo y compartir con jerarquía similar. Altura de página 2380/2630 px; la vista previa llega después de calendario/avisos. | Presentar primero el plan y una acción de guardado clara; revelar otras opciones en su contexto manteniendo privacidad/consentimientos. |
+| P2 — Escritorio reducido a columna móvil | app.css:2 fija 30rem para todo el recorrido; screenshot 1440 muestra gran espacio lateral sin mejorar la tarea. | Diseñar composición de escritorio dentro de Laboratorio creativo; no ampliar el marco común sin acordarlo en I3. |
+| P2 — Feedback hover ausente | app.css:33; al pasar ratón sobre Ver mi plan se mantienen background/color/border/shadow/transform idénticos en ambos perfiles. Foco global sí existe. | Añadir estados de interacción coherentes; no sustituir foco por hover ni animar todo el formulario. |
+| P2 — PNG cumple contrato pero aporta poca composición | browser/wallpaper.ts:28 dibuja fondo uniforme, etiqueta y frase centrada. PNG 1179×2556 observado; estructura plana fiel a la ficha actual. | Proponer composición estática con identidad y jerarquía, conservando frase literal/zona útil; no vídeo, IA o dependencias. |
+
+Las alturas corresponden al ejemplo completo, frente a otros estados medidos
+en I1: no se interpreta su diferencia como una regresión de código. Son una
+lectura de fricción, no evidencia de abandono, retención o duración humana.
+Se observan cero errores de página, peticiones externas y overflow horizontal en
+estos dos perfiles. Se conservan puntos fuertes: entradas etiquetadas, foco al
+título, tema/tokens/fuentes locales, texto íntegro, ejemplo y consentimiento.
+Se descartan falsos positivos genéricos sobre paste/newlines, filter/gris,
+truncado, URL con estado y handlers de teclado redundantes en botones nativos.
+
+### Aislamiento y verificación
+
+La primera compilación detecta una integración defectuosa: Tailwind explora las
+referencias de .agents y añade **4182 B** al CSS común, de 34923 a 39105 B,
+alterando su hash y los HTML que lo enlazan. Se corrige con una exclusión explícita
+`@source not '../../.agents'` en global.css. Es el único ajuste de compilación:
+no cambia reglas visuales o funcionales. El build posterior vuelve a producir
+los **23 archivos públicos idénticos, byte por byte, a la referencia I1**; skills,
+configuración y motor no se sirven. Package/lockfile, componentes, dominio,
+pruebas de producto, scripts de entrega y workflows se conservan. Esta incidencia
+justifica comprobar la salida real aunque los archivos nuevos sean de desarrollo.
+
+Tipos (118 archivos, cero errores/avisos), lint, formato, hosting, build e
+integración modular pasan. La comparación de hashes y estos resultados se
+registran en i2-checks.json. El comprobador documental recorre 121 Markdown y
+737 referencias locales: queda un falso positivo inspeccionado en la plantilla
+upstream document.md, donde interpreta el ejemplo oklch(...) como URL. No es
+un destino real; los enlaces reales de la integración están resueltos. No se
+modifica la referencia upstream para complacer ese parser. sh -n de ambos
+lanzadores y diff --check satisfactorios. Se conserva la deuda previa y PEND-001 abierto;
+no se repite toda la regresión funcional por un tooling sin cambio de runtime.
+Logs/capturas/binario permanecen fuera del entregable; el JSON conserva condiciones
+y hashes mínimos de evidencia. No hay CI/staging nuevos por la restricción de
+entrega local del propietario.
+
+| Salida | Resultado |
+| --- | --- |
+| FE-I2-01 | **Pendiente:** descubrimiento/invocación nativos no observados. No se cierra I2 ni se declara alternativa manual aprobada. |
+| FE-I2-02 | Comprobado para el perfil acotado: contexto/adaptación, procedencia/licencias, config, motor/checksum, caché y efectos; sin automatización ni dependencias de producto nuevas. |
+| FE-I2-03 | Comprobado por aplicación manual declarada y navegador: hallazgos útiles y contrato preservado; salida pública idéntica tras excluir las referencias del escaneo Tailwind. |
+
+I3–I7 no se han iniciado. FE-01 permanece En curso y todo el nuevo trabajo queda
+local, con el bloqueo y la comprobación siguiente explícitos.

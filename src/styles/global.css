@@ -2,6 +2,9 @@
 @import './motion.css';
 @import './appearance.css';
 
+/* Development skill examples must never contribute utilities to the product. */
+@source not '../../.agents';
+
 @font-face {
   font-family: 'Space Grotesk';
   src: url('/fonts/SpaceGrotesk.woff2') format('woff2');

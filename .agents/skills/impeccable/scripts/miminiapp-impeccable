@@ -1,0 +1,53 @@
+#!/bin/sh
+# MiMiniApp manual profile, FE-01/I2. No global installation or hooks.
+set -eu
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+repo=$(CDPATH= cd -- "$script_dir/../../../.." && pwd)
+export IMPECCABLE_HOME="$repo/.local/skills/impeccable"
+export IMPECCABLE_NO_TELEMETRY=1
+export IMPECCABLE_NO_UPDATE_CHECK=1
+export IMPECCABLE_NO_STALENESS_CHECK=1
+export IMPECCABLE_SKILL_DIR="$script_dir/.."
+export IMPECCABLE_PROVIDER_ID=agents
+version=0.1.25
+digest=f48aca43294a9ba1ea3eb7b1d0a0b2d595c480e8c65003e410247b9884820ddd
+binary="$IMPECCABLE_HOME/bin/$version/impeccable"
+command=${1:-}
+case "$command" in
+  prepare|context|engine-probe) [ "$#" -eq 1 ] || exit 64 ;;
+  telemetry) [ "$#" -eq 2 ] && [ "$2" = status ] || exit 64 ;;
+  detect)
+    [ "$#" -eq 2 ] || exit 64
+    case "$2" in -*|*://*) echo 'Use one local source path.' >&2; exit 64 ;; esac
+    [ -e "$2" ] || { echo 'Source path does not exist.' >&2; exit 66; }
+    ;;
+  *) echo 'Usage: miminiapp-impeccable prepare|context|engine-probe|telemetry status|detect <local-source-path>' >&2; exit 64 ;;
+esac
+[ "$(uname -sm)" = 'Linux x86_64' ] || {
+  echo 'This verified engine profile currently supports Linux x64 only.' >&2; exit 69;
+}
+verify() { printf '%s  %s\n' "$digest" "$1" | sha256sum --check --status; }
+if [ "$command" = prepare ]; then
+  if [ -f "$binary" ] && verify "$binary"; then
+    echo "Verified cached engine $version"; exit 0
+  fi
+  mkdir -p "${binary%/*}"
+  tmp=$(mktemp "${binary%/*}/.download.XXXXXX")
+  trap 'rm -f "$tmp"' EXIT HUP INT TERM
+  curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
+    --connect-timeout 15 --max-time 120 \
+    "https://github.com/pbakaus/impeccable/releases/download/engine-v$version/impeccable-linux-x64" \
+    --output "$tmp"
+  verify "$tmp" || { echo 'Engine checksum mismatch; refusing execution.' >&2; exit 65; }
+  chmod 755 "$tmp"
+  mv "$tmp" "$binary"
+  echo "Prepared verified engine $version"
+  exit 0
+fi
+[ -f "$binary" ] || { echo 'Engine missing: run prepare explicitly first.' >&2; exit 69; }
+verify "$binary" || { echo 'Engine checksum mismatch; refusing execution.' >&2; exit 65; }
+if [ "$command" = detect ]; then
+  exec "$binary" detect --json "$2"
+fi
+cd "$repo"
+exec "$binary" "$@"

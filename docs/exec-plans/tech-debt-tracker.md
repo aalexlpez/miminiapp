@@ -4,13 +4,13 @@ Este registro conserva tareas pendientes; no equivale a un ExecPlan aprobado ni 
 
 ## PEND-001 — Skills opcionales al final
 
-* **Estado:** Selección/configuración aprobadas en H-008 y estándar aprobado en ADR-MMA-022 el 2026-11-17. Incorporación y uso efectivo aún pendientes; aplazamiento inicial del 2026-11-04 conservado como antecedente.
+* **Estado:** Selección/configuración aprobadas en H-008 y estándar aprobado en ADR-MMA-022 el 2026-11-17. Perfil local y revisión manual incorporados; carga nativa todavía pendiente; aplazamiento inicial del 2026-11-04 conservado como antecedente.
 * **Responsable:** Propietario de MiMiniApp.
-* **Momento actual:** FE-01/I1 completada; I2 es la siguiente etapa para instalar y comprobar las skills, pendiente de autorización de ejecución. Se conserva la ruta de trabajo sin skills.
-* **Trabajo pendiente:** Incorporar las skills seleccionadas conforme a H-008 y verificar carga/funcionamiento en el cliente elegido durante FE-01/I2; documentar límites reales y conservar las fuentes canónicas y la ruta sin skills.
+* **Momento actual:** FE-01/I1 completada; I2 autorizada e iniciada localmente, sin entregar al remoto hasta terminar el plan. Se conserva la ruta de trabajo sin skills.
+* **Trabajo pendiente:** Completar FE-I2-01: verificar descubrimiento/carga nativa y selección pertinente en el cliente elegido durante FE-01/I2; documentar límites reales y conservar las fuentes canónicas y la ruta sin skills.
 * **Criterios de cierre:** Utilidad justificada; alcance y permisos mínimos aprobados; integración autorizada; ausencia de duplicación de normas; carga y funcionamiento comprobados en los clientes que se vayan a utilizar; ruta sin skills conservada. Ninguna skill fusiona ni publica por iniciativa propia.
-* **Situación actual:** [Investigación y comparación](../reports/pb01/frontend-skills-review.md) realizadas; selección aprobada de Impeccable y Vercel con versiones/configuración y límites en H-008. No se ha instalado ni activado ninguna skill; la incorporación/carga efectiva siguen pendientes. No se atribuye funcionalidad a otros clientes sin comprobarla.
-* **Planificación:** [FE-01](active/FE-01-estandar-frontend-y-piloto-plan-b.md) conserva siete iteraciones. I1 completada con ADR-MMA-022/H-008 aprobadas y criterio de aceptación humana ajustado por el propietario: no se requieren participantes externos. I2 aún sin iniciar; PEND-001 no se cierra por aprobar la selección.
+* **Situación actual:** [Investigación y comparación](../reports/pb01/frontend-skills-review.md) realizadas; selección aprobada de Impeccable y Vercel con versiones/configuración y límites en H-008. [Perfil instalado](../guides/frontend-skills.md), motor Linux x64/checksum/telemetría/red y revisión manual comprobados. skills.list del executor devuelve lista vacía; la comprobación adicional de Codex CLI no arranca por estado de solo lectura. La carga nativa efectiva sigue pendiente. No se atribuye funcionalidad a otros clientes sin comprobarla.
+* **Planificación:** [FE-01](active/FE-01-estandar-frontend-y-piloto-plan-b.md) conserva siete iteraciones. I1 completada con ADR-MMA-022/H-008 aprobadas y criterio de aceptación humana ajustado por el propietario: no se requieren participantes externos. I2 no se cierra mientras FE-I2-01 siga pendiente, ni PEND-001 por copiar archivos o aplicar instrucciones manualmente.
 
 ## Otros pendientes
 
