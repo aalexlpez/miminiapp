@@ -194,7 +194,14 @@ export default function App({
         const checked = validateText('otherObstacle', inputs.otherObstacle);
         if (!checked.ok) found = { otherObstacle: checked.error };
       }
-    } else if (step === 'plan' && !validation.ok) found = validation.errors;
+    } else if (step === 'plan') {
+      if (!validation.ok) found = validation.errors;
+      // A native time editor can contain a partial hour while value is empty.
+      const time = document.getElementById(
+        'pb-time',
+      ) as HTMLInputElement | null;
+      if (time?.validity.badInput) found = { ...found, time: 'invalid-time' };
+    }
     if (Object.values(found).some(Boolean)) {
       setErrors(found);
       const first = Object.keys(found)[0];

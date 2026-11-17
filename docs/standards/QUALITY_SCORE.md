@@ -1,12 +1,14 @@
 # Calidad y estrategia de verificación
 
-**Estado:** suite local implementada y ejecución autorizada. Tipos/lint/formato, 14 unitarias, 9 componentes y build pasan. Los 8 E2E/axe pasan con Chromium 156.0.8078.4 / revisión 1248, sin omisiones; revisión asistida visual/teclado correcta. I-01 Aceptado por el propietario el 2026-11-05 y archivado; Chromium 155 queda como diagnóstico histórico.
+**Estado actual — 2026-11-17:** I-03 aceptado, CI/staging y promoción manual implementados; sus contratos se conservan en el [informe I-03](../reports/i03/contract-verification-2026-11-16.md). PB-01 continúa En curso: I6 revisada técnicamente con verify 504 unitarias, 19 componentes, 146 E2E e integración; staging I5 identificado/validado, correcciones I6 pendientes de integración y validación remota. Pruebas físicas y revisión humana pendientes, según el [informe I6](../reports/pb01/execution.md#i6--regresión-y-análisis-global).
+
+**Antecedente I-01:** la suite inicial pasó con 14 unitarias, 9 componentes y 8 E2E/axe con Chromium fijado; I-01 Aceptado el 2026-11-05. Los párrafos de implantación inicial siguientes conservan ese contexto histórico; no describen la ausencia actual de CI o staging.
 **Responsable:** propietario de MiMiniApp.
-**Actualizado:** 2026-11-04.
+**Actualizado:** 2026-11-17 (estado vigente y contexto histórico; política de evidencias sin cambios).
 
 El [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), sección 6, reporta pruebas automatizadas recurrentes como requisito acordado. [ADR-MMA-008](../design-docs/index.md) está Aprobada por el propietario el 2026-11-04, con herramientas, versiones, comandos y política local del [paquete I-01](../design-docs/i01-approval-proposal.md). Los gates remotos y otros motores se concretarán en sus iteraciones posteriores. Instalación real, npm ci, tipos/lint/pruebas de lógica/componentes y build ya se han comprobado. La parte de navegador requerida pasa también con Chromium 156 fijado, incluidos axe y revisión asistida de teclado/foco y capturas responsive. Resultados, controles negativos y límites en el [informe de ejecución](../reports/i01/execution.md). No hay puntuación global ni certificación de calidad; los resultados locales medidos, incluidos los de navegador, se distinguen de los objetivos de producto y entornos remotos.
 
-## Capas de verificación — local aprobado, remoto por implementar
+## Capas de verificación
 
 | Capa | Herramienta / estado | Resultado que debe demostrar |
 | --- | --- | --- |
@@ -21,7 +23,7 @@ El [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), s
 | Staging | E2E y smoke HTTP contra URL remota explícita | Comportamiento del sitio desplegado y su identidad de versión. |
 | Producción | Smoke HTTP/navegador tras deploy | Disponibilidad, versión y recorridos críticos. |
 
-## Momentos y bloqueo propuestos
+## Momentos y bloqueo — diseño original y circuito vigente
 
 1. **Edición local:** pruebas rápidas afectadas, tipos y lint según cambios. Antes del PR, suite completa aplicable y build. No es necesario ejecutar toda la suite lenta en cada guardado.
 2. **PR a staging:** repetir los mismos comandos versionados desde checkout limpio, con pruebas de lógica, tipos/lint, build, E2E básico ES/EN y accesibilidad. Un fallo deberá bloquear integración cuando se implementen los gates. Sin secretos de despliegue en PR no confiables.
@@ -29,9 +31,9 @@ El [dossier v1.2](../references/MiMiniApp_Inicio_Proyecto_Harness_IA_v1.2.md), s
 4. **Antes de promover a main:** exigir evidencia vigente de staging y aceptación humana para el contenido a publicar. Un cambio posterior invalida esa validación; ver [fiabilidad](RELIABILITY.md).
 5. **Tras producción:** smoke de la versión esperada. Un fallo genera incidencia y rollback controlado; no puede bloquear retroactivamente el deploy que ya ocurrió.
 
-## Contrato de los futuros comandos
+## Contrato inicial de comandos — antecedente I-01
 
-Los scripts locales de I-01 ya están implementados y documentados en README. Los siguientes nombres conservan también los objetivos remotos futuros: test:smoke:staging y test:smoke:production no se han creado ni verificado, porque no existen esos entornos:
+Los scripts locales de I-01 ya están implementados y documentados en README. Los siguientes nombres conservan también los objetivos remotos futuros: test:smoke:staging y test:smoke:production no se han creado ni verificado, en aquel alcance inicial. Los comandos vigentes se consultan en package.json y CONTRIBUTING.md; el flujo actual usa test:remote y no se inventan los siguientes scripts históricos:
 
 ```text
 npm run check
@@ -54,7 +56,7 @@ Cubrir los criterios de aceptación automatizables de cada iteración y límites
 
 Una miniapp debe demostrar corrección de lógica, recorrido crítico por idioma cuando difieran textos/rutas, demo reproducible y reset, teclado y tamaños representativos, ausencia de solicitudes privadas inesperadas y revisión manual móvil. Aplicar las metas de [frontend](FRONTEND.md) distinguiendo objetivos de mediciones; las pruebas automáticas no certifican WCAG ni datos de campo.
 
-En el ExecPlan correspondiente registrar ejecución real, resultado, versión/herramientas, target y artefactos vigentes. Separar aprobado, fallido, omitido y no ejecutado. Hay scripts locales y pruebas reales ejecutadas, con su evidencia en el informe. El navegador fijado ya está instalado y verify pasa completo; I-01 está Aceptado por el propietario el 2026-11-05; no hay CI remota ni despliegues verificados y no se sustituyen por el diagnóstico del navegador del sistema.
+En el ExecPlan correspondiente registrar ejecución real, resultado, versión/herramientas, target y artefactos vigentes. Separar aprobado, fallido, omitido y no ejecutado. Hay scripts locales y pruebas reales ejecutadas, con su evidencia en el informe. El navegador fijado ya está instalado y verify pasa completo; I-01 está Aceptado por el propietario el 2026-11-05; en ese informe inicial no había CI remota ni despliegues verificados. Esa limitación histórica no describe I-03/PB-01; consultar el estado vigente arriba. El diagnóstico de otro navegador no sustituye la referencia fijada.
 
 ## Política de evidencias
 

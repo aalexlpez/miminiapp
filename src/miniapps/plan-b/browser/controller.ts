@@ -82,6 +82,7 @@ export function createPlanController(
     },
     reset() {
       store.clear();
+      snapshot = { ...snapshot, previewDate: captureNarrativeDate(clock) };
       publish(emptySession(), false);
     },
   };
