@@ -23,7 +23,6 @@ import {
 } from './domain/validation';
 import type { PlanCopy } from './i18n/copy';
 import { fill } from './i18n/fill';
-import { formatPlanText } from './i18n/calendar-copy';
 import ExportPanel from './ExportPanel';
 import PlanPreview, { Arrow } from './PlanPreview';
 import ScheduleEditor from './ScheduleEditor';
@@ -331,11 +330,17 @@ export default function App({
             }
             key={view}
           >
-            <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
-              {ready ? titles[view] : ui.loading}
-            </h2>
-            <p className="pb-hint pb-question-hint">{hints[view]}</p>
-            {session.example && <p className="pb-example">{ui.exampleTag}</p>}
+            {view !== 'result' && (
+              <>
+                <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
+                  {ready ? titles[view] : ui.loading}
+                </h2>
+                <p className="pb-hint pb-question-hint">{hints[view]}</p>
+                {session.example && (
+                  <p className="pb-example">{ui.exampleTag}</p>
+                )}
+              </>
+            )}
             {view !== 'result' && (
               <form
                 noValidate
@@ -446,21 +451,22 @@ export default function App({
             )}
             {view === 'result' && phrase.ok && (
               <>
-                <p className="pb-result" data-testid="plan-sentence" dir="auto">
-                  {
-                    formatPlanText(phrase.value, locale).description.split(
-                      '\n',
-                      1,
-                    )[0]
-                  }
-                </p>
-                <p className="pb-goal" dir="auto">
-                  {ui.goalLabel}: {phrase.value.purpose}
-                </p>
                 <ExportPanel
                   plan={phrase.value}
                   locale={locale}
                   copy={copy}
+                  heading={
+                    <>
+                      <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
+                        {titles.result}
+                      </h2>
+                      <p className="pb-hint pb-question-hint">{hints.result}</p>
+                      {session.example && (
+                        <p className="pb-example">{ui.exampleTag}</p>
+                      )}
+                    </>
+                  }
+                  onEdit={() => go('action')}
                   calendarEditor={(calendarActions) => (
                     <ScheduleEditor
                       plan={{
@@ -478,14 +484,6 @@ export default function App({
                   )}
                 />
                 <div className="pb-actions">
-                  <button
-                    type="button"
-                    className="pb-secondary"
-                    data-pb-navigation
-                    onClick={() => go('action')}
-                  >
-                    {ui.back}
-                  </button>
                   <button
                     type="button"
                     className="pb-secondary"

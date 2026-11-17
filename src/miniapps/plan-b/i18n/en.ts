@@ -100,6 +100,12 @@ export const en = {
       'Enable JavaScript to prepare your plan. Your text is processed in this browser.',
   },
   exports: {
+    editPlan: 'Edit my plan',
+    imageOptions: 'Other ways to save',
+    downloadImage: 'Download PNG',
+    imageDimensions: 'PNG · 1179 × 2556 · static image',
+    shareHelp:
+      'A clean Bad Day Plan link will be shared, without your sentence or schedule.',
     calendarTitle: 'Remind me',
     calendarDownload: 'Add to my calendar',
     google: 'Add to Google Calendar',
@@ -108,8 +114,8 @@ export const en = {
     googleWarning:
       'Google Calendar will open with your plan. The text will be sent to Google and may remain in the URL and history. Review and save the event there.',
     duplicateWarning: 'Importing the file again may duplicate events.',
-    wallpaperTitle: 'Wallpaper',
-    saveImage: 'Save image',
+    wallpaperTitle: 'Your wallpaper',
+    saveImage: 'Save my plan',
     openImage: 'Open image',
     imageLabel: 'My bad day plan',
     imageNotice:

@@ -100,6 +100,12 @@ export const es = {
       'Activa JavaScript para preparar tu plan. Tu texto se procesa en este navegador.',
   },
   exports: {
+    editPlan: 'Editar mi plan',
+    imageOptions: 'Otras formas de guardar',
+    downloadImage: 'Descargar PNG',
+    imageDimensions: 'PNG · 1179 × 2556 · imagen estática',
+    shareHelp:
+      'Se compartirá un enlace limpio de Plan B, sin tu frase ni tu horario.',
     calendarTitle: 'Recuérdamelo',
     calendarDownload: 'Añadir a mi calendario',
     google: 'Añadir a Google Calendar',
@@ -109,8 +115,8 @@ export const es = {
       'Se abrirá Google Calendar con tu plan. El texto se enviará a Google y puede quedar en la URL y el historial. Revisa y guarda el evento allí.',
     duplicateWarning:
       'Importar el archivo otra vez puede duplicar los eventos.',
-    wallpaperTitle: 'Fondo de pantalla',
-    saveImage: 'Guardar imagen',
+    wallpaperTitle: 'Tu fondo de pantalla',
+    saveImage: 'Guardar mi plan',
     openImage: 'Abrir imagen',
     imageLabel: 'Mi plan B',
     imageNotice:

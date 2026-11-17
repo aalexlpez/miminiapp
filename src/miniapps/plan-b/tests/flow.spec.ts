@@ -60,7 +60,9 @@ for (const locale of ['es', 'en'] as const) {
     await expect(page.getByTestId('plan-sentence')).toHaveText(sentence);
     await page.reload();
     await expect(page.getByTestId('plan-sentence')).toHaveText(sentence);
-    await page.getByRole('button', { name: copy.ui.back, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.exports.editPlan, exact: true })
+      .click();
     await expect(
       page.getByLabel(`${copy.ui.then} — ${copy.ui.actionLabel}`, {
         exact: true,

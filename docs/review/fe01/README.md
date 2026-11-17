@@ -86,3 +86,28 @@ no pruebas en teléfonos físicos ni de teclado virtual. Las comprobaciones,
 resultados y límites están en el [informe I4](../../reports/fe01/execution.md#i4--recorrido-guiado-en-la-aplicación-real).
 El candidato sigue local, sin push o publicación; el prototipo anterior permanece
 como referencia de la dirección aprobada.
+
+## I5 — Resultado y PNG reales
+
+Candidato local: frase y propósito, «Guardar mi plan» y «Editar mi plan» primero;
+calendario, compartir y alternativas de guardado mediante desplegables. La vista
+previa muestra el mismo PNG preparado para guardar. La nueva composición conserva
+el texto íntegro, alineado a la izquierda, con línea de continuidad y arcos fuera
+de la zona de lectura. No dibuja reloj, logo o URL.
+
+| Revisión | Archivo |
+| --- | --- |
+| Resultado normal, ES/claro, 1440×900 | [Resultado](i5/es-light-1440-example-result.png) |
+| Resultado máximo, EN/oscuro, 393×851 | [Máximos](i5/en-dark-393-maximum-result.png) |
+| PNG real del ejemplo, 1179×2556 | [Fondo claro](i5/es-light-1440-example-wallpaper.png) |
+| PNG real máximo, CJK/emoji compuestos, 1179×2556 | [Fondo oscuro máximo](i5/en-dark-393-maximum-wallpaper.png) |
+
+[Manifiesto y límites](i5/manifest.json), [recursos](i5/resources.json) e
+[informe de ejecución](../../reports/fe01/execution.md#i5--resultado-y-png-con-acabado-de-producto).
+Son datos sintéticos y Chromium de escritorio con viewports, no teléfonos físicos.
+El espacio bajo el reloj sigue siendo una aproximación; no se acredita guardado
+nativo o recorte del SO con estas capturas. Las entradas máximas conservan el
+contenido y permiten scroll natural; no representan un ejemplo de buena redacción.
+
+Este paquete permite revisar el acabado en I6. No registra su aprobación por
+anticipado ni sustituye la última regresión I7. Todo sigue local, sin push/PR.

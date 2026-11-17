@@ -532,3 +532,121 @@ reales rotos; se conserva el falso positivo conocido del ejemplo oklch(...) de l
 referencia upstream. Integridad de skills/capturas/manifiesto y diff --check
 satisfactorios. Un build posterior a la documentación reproduce byte a byte los
 23 archivos públicos identificados en el manifiesto del candidato.
+
+## I5 — Resultado y PNG con acabado de producto
+
+### Implementación local
+
+El propietario solicita «Vale, vamos a continuar con la siguiente iteración» tras
+la entrega I4 d33f55b. Se registra autorización/inicio de I5 en la rama estable,
+con composición ADR-MMA-023 aprobada y sin escrituras remotas.
+
+Resultado en dos columnas en escritorio: frase completa y propósito, guardar y
+editar primero; el PNG real a la derecha. En estrecho las acciones preceden a la
+imagen. Calendario y compartir se abren mediante desplegables; compartir explica
+que envía un enlace limpio, sin frase/horario. El aviso sobre el contenido privado
+del PNG permanece junto a guardar. La edición vuelve a acción, con foco y texto
+conservados. El resultado reutiliza la preparación, consentimiento y liberación
+de recursos existentes, sin crear otro renderer para su vista previa.
+
+Guardar se mantiene visible/deshabilitado durante preparación o envío. Ante fallo
+de generación, el plan sigue legible/editable y ofrece reintento. Ante un fallo
+del menú de compartir archivos se abre la ayuda con descarga directa y vista de
+imagen; la descarga alternativa no vuelve a invocar ese menú. Cancelar conserva
+el tratamiento discreto, sin anunciar éxito o error alarmante. Las instrucciones
+no prometen que todos los navegadores/SO permitan la misma acción.
+
+PNG estático fijo 1179×2556, misma familia y paleta locales, alineado a la izquierda,
+con etiqueta/frase/línea de continuidad dentro del 32–72 % de alto y margen lateral
+del 10 %. Dos arcos en la parte inferior, fuera del texto; sin reloj, logo o URL.
+El layout reserva también la línea y su trazo dentro de la zona segura. Mantiene
+ajuste por palabras/grafemas, texto íntegro sin elipsis y fuente entre 4–7 % del
+ancho. La ausencia de la fuente local produce error recuperable en lugar de
+generar silenciosamente otra composición con una fuente de sustitución; CJK/emoji
+conservan sus glifos de respaldo del navegador. Canvas se libera incluso al fallar.
+No se añade editor, selector de estilos, dependencia, recurso remoto o servicio.
+
+### Revisión visual y límites
+
+Impeccable 4.9.2/motor 0.1.25 y reglas Vercel
+434b7f91364665f2f733b310ec54809bf8f37937, uso explícito/manual de **un solo contexto,
+no independiente**. Fuentes canónicas, Operate, comp/craft-floor y reglas pertinentes
+leídas. La primera invocación context con --target fue rechazada por la interfaz
+acotada del adaptador; se corrigió a context sin argumentos, sin modificar sus
+permisos. Los avisos upstream sobre PRODUCT/DESIGN, hooks, talleres y subagentes
+se resuelven con la adaptación H-008; no se crean esas autoridades o capacidades.
+Detector final del módulo: cero hallazgos; revisión real de código y navegador,
+no certificación por un detector vacío.
+
+Capturas del recorrido y resultado ES/claro y EN/oscuro, 1440×900 y 393×851.
+Se inspecciona además el PNG real claro del ejemplo y oscuro con máximos de
+80/90/90 puntos de código, CJK, emoji familiar unido y modificadores de piel.
+Se comprueba la frase literal dibujada y límites de tinta medidos con el canvas
+real: ejemplo 946,5–1632,0 px; máximos 849,9–1754,4 px, dentro de 817,92–1840,32 px.
+Los máximos usan once líneas frente a seis del ejemplo. El botón de guardar del
+ejemplo ES/escritorio termina a 707,1 px en un viewport de 900; con máximos y
+viewport estrecho se permite scroll natural, sin ocultar texto ni bloquear zoom.
+No se atribuye una medición de dos minutos o retención a estos resultados.
+
+Se conservan cuatro imágenes mínimas para la revisión del propietario (dos UI y
+dos PNG, cada una <300 KB), con [manifiesto](../../review/fe01/i5/manifest.json) y
+[paquete visual](../../review/fe01/README.md#i5--resultado-y-png-reales). Datos
+sintéticos, Chromium 156.0.8078.4, Playwright 1.64.1, reloj 2026-11-17 y zona
+Europe/Madrid, movimiento reducido. No son teléfonos físicos, menú nativo probado,
+reloj real o recorte del SO. La compatibilidad física de PB-01 sigue pendiente.
+
+### Recursos frente a I1/I4
+
+JS propio **33552 B** + CSS inline propio **8671 B** = **42223 B / 41,23 KiB**,
+bajo el presupuesto de 50 KiB: +2715 B frente a I4 y −680 B frente a I1. Runtime
+React/client **220745 B** y CSS común **34900 B**, sin cambios frente a I4. Las
+portadas y 404 mantienen los mismos recursos/bytes que I4; no cargan CSS/JS de
+Plan B ni material de revisión o skills.
+
+| Ruta | Peticiones frías | Bytes brutos | Suma gzip estimada | Solicitudes externas |
+| --- | ---: | ---: | ---: | ---: |
+| /es/ | 4 | 196157 | 151492 | 0 |
+| /en/ | 4 | 196081 | 151436 | 0 |
+| 404 real | 4 | 193865 | 151004 | 0 |
+| /es/apps/plan-b/ | 7 | 477801 | 240861 | 0 |
+| /en/apps/plan-b/ | 7 | 477418 | 240552 | 0 |
+
+[Detalle por recurso](../../review/fe01/i5/resources.json): carga inicial, contexto
+nuevo por ruta, loopback y sin throttle. Gzip estimado sobre los cuerpos completos,
+no transferencia real. Los PNG generados tras responder son blobs locales y no
+forman parte de esa carga inicial: 161467 B el ejemplo y 141647 B los máximos de
+las capturas. Lienzo fijo de 3013524 píxeles, igual que la base; no se escala por
+DPR o tamaño de pantalla. Estas cifras no sustituyen la evaluación global de
+rendimiento/memoria/deuda de I7 ni acreditan rendimiento de producción.
+
+### Verificación y cierre local
+
+`npm run verify` completo satisfactorio sobre el candidato capturado, Node
+24.22.2/npm 11.19.1: Astro check (125 archivos, cero errores/avisos), lint, formato,
+hosting offline, **518 unitarias**, **21 componentes**, **154 E2E** Chromium
+escritorio/viewport móvil e integración modular. Fixtures A/A+B: 2/4 pruebas;
+fuentes/build públicos sin alteraciones por el harness, 23 archivos públicos,
+traducción incompleta rechazada y fixtures/borradores ausentes. La batería dirigida
+previa pasó con **54 E2E**; no hubo fallos funcionales que exigieran corregir el
+candidato después de esa ejecución. No se sustituyen CI o staging por estos logs.
+
+Se conservan descarga real PNG/.ics offline, cancelación/error de compartir,
+enlace limpio y copia manual, Google solo después del consentimiento, fuente/canvas
+indisponibles, reintento, texto máximo, contraste, foco, navegación/edición y diez
+ciclos de exportación/reset con liberación de URLs/canvas. Nuevas comprobaciones:
+PNG alineado a la izquierda con todos los caracteres, continuidad dentro de zona
+segura, descarga alternativa sin repetir un share fallido, recuperación de fuente
+local ausente y cambio de tema con PNG real regenerado y sesión intacta. Reflujo
+320/393/768/1280/1440 y tamaño CSS duplicado siguen satisfactorios, sin inferir
+compatibilidad física o zoom nativo por esas pruebas.
+
+FE-I5-01/02/03 comprobados localmente; I5 completada. FE-01 permanece **En curso**;
+I6 (revisión del acabado por el propietario) e I7 (última regresión/análisis global)
+siguen pendientes. No se acepta anticipadamente el producto/PB-01 ni se publica el
+candidato. Misma rama, commit por iteración, **sin push o PR**.
+
+Cierre documental: 123 Markdown/782 referencias locales comprobadas; sin enlaces
+reales rotos, conservando el falso positivo conocido del ejemplo upstream
+oklch(...). Hashes de fuente, build, capturas y skills comprobados; diff --check
+satisfactorio. El build posterior a la documentación reproduce byte a byte los
+23 archivos públicos del manifiesto, sin añadir recursos por el texto del informe.

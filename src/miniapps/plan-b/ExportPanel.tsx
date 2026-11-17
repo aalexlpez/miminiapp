@@ -4,6 +4,7 @@ import type { PlanInputs } from './domain/validation';
 import type { PlanCopy } from './i18n/copy';
 import { formatPlanText } from './i18n/calendar-copy';
 import { renderWallpaper } from './browser/wallpaper';
+import { Arrow } from './PlanPreview';
 import {
   calendarFile,
   cleanToolUrl,
@@ -62,11 +63,15 @@ export default function ExportPanel({
   locale,
   copy,
   calendarEditor,
+  heading,
+  onEdit,
 }: {
   plan: PlanInputs;
   locale: Locale;
   copy: PlanCopy;
   calendarEditor?: (actions: ReactNode) => ReactNode;
+  heading?: ReactNode;
+  onEdit?: () => void;
 }) {
   const text = copy.exports;
   const [downloads] = useState(createDownloads);
@@ -78,6 +83,7 @@ export default function ExportPanel({
   const [busy, setBusy] = useState(false);
   const inFlight = useRef(false);
   const active = useRef(false);
+  const imageOptions = useRef<HTMLDetailsElement>(null);
   const sentence = formatPlanText(plan, locale).description.split('\n', 1)[0];
   const filename = locale === 'es' ? 'plan-b' : 'bad-day-plan';
   useEffect(() => {
@@ -173,8 +179,10 @@ export default function ExportPanel({
       else downloads.save(image.file, image.file.name);
       if (active.current) setNotice(text.filePrepared);
     } catch (error) {
-      if (active.current && !isShareCancellation(error))
+      if (active.current && !isShareCancellation(error)) {
         setNotice(text.imageError);
+        if (imageOptions.current) imageOptions.current.open = true;
+      }
     } finally {
       inFlight.current = false;
       if (active.current) setBusy(false);
@@ -201,6 +209,15 @@ export default function ExportPanel({
     } finally {
       inFlight.current = false;
       if (active.current) setBusy(false);
+    }
+  }
+  function downloadImage() {
+    if (typeof image === 'string') return;
+    try {
+      downloads.save(image.file, image.file.name);
+      setNotice(text.filePrepared);
+    } catch {
+      setNotice(text.imageError);
     }
   }
   async function copyLink() {
@@ -235,26 +252,131 @@ export default function ExportPanel({
   ) : null;
   return (
     <div className="pb-exports" data-testid="plan-exports">
-      {calendarEditor ? (
-        <details className="pb-calendar-options">
-          <summary>{copy.flow.calendarOptional}</summary>
-          {calendarEditor(calendarActions)}
-        </details>
-      ) : (
-        calendarActions
-      )}
-      <section aria-labelledby="pb-wallpaper-title">
-        <h3 id="pb-wallpaper-title">{text.wallpaperTitle}</h3>
-        <p>{text.imageNotice}</p>
-        <p role="status">
-          {image === 'pending'
-            ? text.imagePreparing
-            : image === 'error'
-              ? text.imagePrepareError
-              : text.imageReady}
-        </p>
-        {typeof image !== 'string' && (
-          <>
+      <div className="pb-result-layout">
+        <div className="pb-result-content">
+          {heading}
+          <p className="pb-result" data-testid="plan-sentence" dir="auto">
+            {sentence}
+          </p>
+          <p className="pb-goal" dir="auto">
+            {copy.ui.goalLabel}: {plan.purpose}
+          </p>
+          <div className="pb-actions pb-save-actions">
+            <button
+              type="button"
+              className="pb-primary"
+              disabled={busy || typeof image === 'string'}
+              aria-busy={busy || image === 'pending'}
+              onClick={() => {
+                void saveImage();
+              }}
+            >
+              {text.saveImage}
+              <Arrow />
+            </button>
+            {onEdit && (
+              <button
+                type="button"
+                className="pb-secondary"
+                data-pb-navigation
+                onClick={onEdit}
+              >
+                {text.editPlan}
+              </button>
+            )}
+          </div>
+          <p className="pb-hint pb-image-privacy">{text.imageNotice}</p>
+          <p role="status" aria-atomic="true" className="pb-image-status">
+            {image === 'pending'
+              ? text.imagePreparing
+              : image === 'error'
+                ? text.imagePrepareError
+                : text.imageReady}
+          </p>
+          {image === 'error' && (
+            <button
+              type="button"
+              onClick={() => setAttempt((value) => value + 1)}
+            >
+              {text.retryImage}
+            </button>
+          )}
+          {typeof image !== 'string' && (
+            <details className="pb-image-options" ref={imageOptions}>
+              <summary>{text.imageOptions}</summary>
+              <div className="pb-actions">
+                <button type="button" disabled={busy} onClick={downloadImage}>
+                  {text.downloadImage}
+                </button>
+                <a href={image.url} target="_blank" rel="noopener noreferrer">
+                  {text.openImage}
+                </a>
+              </div>
+              <p className="pb-hint">{text.imageInstructions}</p>
+              <p className="pb-hint">{text.offlineNote}</p>
+            </details>
+          )}
+          <div className="pb-result-options">
+            {calendarEditor ? (
+              <details className="pb-calendar-options">
+                <summary>{copy.flow.calendarOptional}</summary>
+                {calendarEditor(calendarActions)}
+              </details>
+            ) : (
+              calendarActions
+            )}
+            <details className="pb-share-options">
+              <summary>{text.shareTitle}</summary>
+              <p className="pb-hint">{text.shareHelp}</p>
+              <div className="pb-actions">
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => {
+                    void shareTool();
+                  }}
+                >
+                  {text.share}
+                </button>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => {
+                    void copyLink();
+                  }}
+                >
+                  {text.copy}
+                </button>
+              </div>
+              {manual && (
+                <div className="pb-field">
+                  <label htmlFor="pb-tool-link">{text.linkLabel}</label>
+                  <input
+                    id="pb-tool-link"
+                    readOnly
+                    dir="ltr"
+                    value={manual}
+                    onFocus={(event) => event.currentTarget.select()}
+                  />
+                </div>
+              )}
+            </details>
+          </div>
+          <p role="status" aria-atomic="true">
+            {notice}
+          </p>
+        </div>
+        <aside
+          className="pb-preview pb-result-preview"
+          aria-labelledby="pb-wallpaper-title"
+        >
+          <div className="pb-preview-caption">
+            <h3 id="pb-wallpaper-title">{text.wallpaperTitle}</h3>
+            <span className="pb-paper-mark" aria-hidden="true">
+              B
+            </span>
+          </div>
+          {typeof image !== 'string' ? (
             <img
               className="pb-wallpaper-preview"
               src={image.url}
@@ -262,71 +384,12 @@ export default function ExportPanel({
               height={2556}
               alt={text.imageReady}
             />
-            <div className="pb-actions">
-              <button
-                type="button"
-                disabled={busy}
-                onClick={() => {
-                  void saveImage();
-                }}
-              >
-                {text.saveImage}
-              </button>
-              <a href={image.url} target="_blank" rel="noopener noreferrer">
-                {text.openImage}
-              </a>
-            </div>
-            <p className="pb-hint">{text.imageInstructions}</p>
-          </>
-        )}
-        {image === 'error' && (
-          <button
-            type="button"
-            onClick={() => setAttempt((value) => value + 1)}
-          >
-            {text.retryImage}
-          </button>
-        )}
-      </section>
-      <section aria-labelledby="pb-share-title">
-        <h3 id="pb-share-title">{text.shareTitle}</h3>
-        <div className="pb-actions">
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              void shareTool();
-            }}
-          >
-            {text.share}
-          </button>
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              void copyLink();
-            }}
-          >
-            {text.copy}
-          </button>
-        </div>
-        {manual && (
-          <div className="pb-field">
-            <label htmlFor="pb-tool-link">{text.linkLabel}</label>
-            <input
-              id="pb-tool-link"
-              readOnly
-              dir="ltr"
-              value={manual}
-              onFocus={(event) => event.currentTarget.select()}
-            />
-          </div>
-        )}
-      </section>
-      <p role="status" aria-atomic="true">
-        {notice}
-      </p>
-      <p className="pb-hint">{text.offlineNote}</p>
+          ) : (
+            <div className="pb-image-placeholder" aria-hidden="true" />
+          )}
+          <p className="pb-preview-footer">{text.imageDimensions}</p>
+        </aside>
+      </div>
       {consent && (
         <GoogleConsent
           copy={text}

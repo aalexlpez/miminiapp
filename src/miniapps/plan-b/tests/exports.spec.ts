@@ -231,6 +231,7 @@ test('shares only a clean current-origin URL; handles clipboard failure and shar
     });
   });
   const copy = await result(page, 'en');
+  await page.getByText(copy.exports.shareTitle, { exact: true }).click();
   await page
     .getByRole('button', { name: copy.exports.share, exact: true })
     .click();
@@ -293,6 +294,14 @@ test('prepares file sharing before the user gesture and keeps download/view alte
   await expect(
     page.getByRole('link', { name: copy.exports.openImage }),
   ).toHaveAttribute('href', /^blob:/);
+  const download = page.waitForEvent('download');
+  await page
+    .getByRole('button', { name: copy.exports.downloadImage, exact: true })
+    .click();
+  expect((await download).suggestedFilename()).toBe('plan-b.png');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbFiles').length),
+  ).toBe(1);
   await expect(page.getByTestId('plan-sentence')).toContainText(
     copy.example.action,
   );
@@ -394,6 +403,8 @@ for (const theme of ['light', 'dark'] as const) {
           Reflect.get(window, '__pbDrawn').push({
             text,
             font: this.font,
+            x,
+            align: this.textAlign,
             y,
             width: this.measureText(text).width,
             color: this.fillStyle,
@@ -433,6 +444,8 @@ for (const theme of ['light', 'dark'] as const) {
     const drawn: {
       text: string;
       font: string;
+      x: number;
+      align: string;
       y: number;
       width: number;
       color: string;
@@ -443,6 +456,10 @@ for (const theme of ['light', 'dark'] as const) {
         .map((line) => line.text)
         .join(''),
     ).toBe(`Si ${situation}, entonces ${action}.`);
+    for (const line of drawn) {
+      expect(line.x).toBeCloseTo(117.9, 1);
+      expect(line.align).toBe('left');
+    }
     for (const line of drawn.slice(1)) {
       expect(
         Number.parseFloat(line.font.match(/([\d.]+)px/)![1]),
@@ -465,3 +482,67 @@ for (const theme of ['light', 'dark'] as const) {
     await page.keyboard.press('Escape');
   });
 }
+
+test('recovers from an unavailable local font and regenerates the real image after a theme change', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Reflect.set(window, '__pbFontUnavailable', true);
+    const load = document.fonts.load.bind(document.fonts);
+    document.fonts.load = (...args) =>
+      Reflect.get(window, '__pbFontUnavailable')
+        ? Promise.resolve([])
+        : load(...args);
+  });
+  const copy = getPlanCopy('en');
+  await page.goto('/en/apps/plan-b/');
+  await page
+    .getByRole('button', { name: copy.ui.exampleButton, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.obstacles.time, exact: true })
+    .click();
+  await enterPlanResult(page, copy);
+  await expect(
+    page.getByText(copy.exports.imagePrepareError, { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: copy.exports.saveImage, exact: true }),
+  ).toBeDisabled();
+  const sentence = await page.getByTestId('plan-sentence').textContent();
+  const saved = await page.evaluate(() =>
+    sessionStorage.getItem('miminiapp.plan-b.v1'),
+  );
+  await page.evaluate(() => Reflect.set(window, '__pbFontUnavailable', false));
+  await page
+    .getByRole('button', { name: copy.exports.retryImage, exact: true })
+    .click();
+  const image = page.getByRole('img', {
+    name: copy.exports.imageReady,
+    exact: true,
+  });
+  await expect(image).toBeVisible();
+  const oldUrl = await image.getAttribute('src');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(image).toHaveAttribute('src', /^blob:/);
+  await expect(image).not.toHaveAttribute('src', oldUrl!);
+  const rgba = await image.evaluate(async (img: HTMLImageElement) => {
+    const bitmap = await createImageBitmap(await (await fetch(img.src)).blob());
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 1;
+    const context = canvas.getContext('2d')!;
+    context.drawImage(bitmap, 0, 0);
+    const color = [...context.getImageData(0, 0, 1, 1).data];
+    bitmap.close();
+    canvas.width = canvas.height = 0;
+    return color;
+  });
+  expect(rgba).toEqual([23, 20, 33, 255]);
+  await expect(page.getByTestId('plan-sentence')).toHaveText(sentence!);
+  expect(
+    await page.evaluate(() => sessionStorage.getItem('miminiapp.plan-b.v1')),
+  ).toBe(saved);
+});

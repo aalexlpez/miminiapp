@@ -78,7 +78,9 @@ describe('guided plan journey', () => {
       expect(screen.getByTestId('plan-sentence')).toHaveTextContent(
         copy.example.action,
       );
-      await user.click(screen.getByRole('button', { name: copy.ui.back }));
+      await user.click(
+        screen.getByRole('button', { name: copy.exports.editPlan }),
+      );
       expect(
         screen.getByLabelText(`${copy.ui.then} — ${copy.ui.actionLabel}`),
       ).toHaveValue(copy.example.action);
