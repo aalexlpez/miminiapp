@@ -4,12 +4,13 @@ Este registro conserva tareas pendientes; no equivale a un ExecPlan aprobado ni 
 
 ## PEND-001 — Skills opcionales al final
 
-* **Estado:** Pendiente, aplazada expresamente por el usuario el 2026-11-04.
+* **Estado:** Investigación retomada el 2026-11-17 por solicitud del propietario tras revisar la UX de Plan B; incorporación todavía pendiente. Aplazamiento inicial del 2026-11-04 conservado como antecedente.
 * **Responsable:** Propietario de MiMiniApp.
-* **Momento:** Al final de la preparación del flujo y después de estabilizar los procedimientos reales; no es un requisito para continuar sin skills.
+* **Momento actual:** FE-01/I1 prepara referencia/selección/permisos; la incorporación propuesta pertenece a I2, sujeta a sus acuerdos/autorización. Se conserva la ruta de trabajo sin skills y el aplazamiento inicial como antecedente.
 * **Trabajo pendiente:** Evaluar si conviene reutilizar skills globales o incorporar skills del proyecto para implementar miniapps, revisar cambios o verificar releases. Decidir nombres, contenido y rutas solo entonces, a partir de evidencia de repetición.
 * **Criterios de cierre:** Utilidad justificada; alcance y permisos mínimos aprobados; integración autorizada; ausencia de duplicación de normas; carga y funcionamiento comprobados en los clientes que se vayan a utilizar; ruta sin skills conservada. Ninguna skill fusiona ni publica por iniciativa propia.
-* **Situación actual:** No se ha creado, instalado ni activado ninguna skill. Las skills genéricas mencionadas en el bootstrap no se presuponen disponibles.
+* **Situación actual:** Investigación y [propuesta concreta de skills frontend](../reports/pb01/frontend-skills-review.md) preparadas: Impeccable como ayuda principal y Vercel como revisión complementaria, con alternativas, revisiones fijadas, alcance y límites. No se ha instalado ni activado ninguna skill; selección/incorporación y carga efectiva todavía pendientes. Las skills genéricas del bootstrap no se presuponen disponibles.
+* **Planificación:** [FE-01](active/FE-01-estandar-frontend-y-piloto-plan-b.md) aprobado con I1 autorizada el 2026-11-17: referencia y propuesta concreta del estándar/skills en la rama propia. Siete iteraciones, con integración y piloto posteriores; su estado/progreso se consultan allí. Selección/activación siguen pendientes de sus acuerdos y PEND-001 permanece abierto.
 
 ## Otros pendientes
 

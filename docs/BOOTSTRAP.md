@@ -17,7 +17,7 @@ Las adaptaciones multiherramienta y de trabajo sin skills se adoptan bajo [H-002
 
 Las capacidades necesarias son investigar, implementar trabajo autorizado, revisar, verificar y, cuando exista frontend, diseñar e inspeccionar la interfaz. Las skills `fix-bug`, `implement-feature`, `review-change` y `frontend-design` son posibles ayudas, no requisitos de arranque ni dependencias del repositorio. Si no están disponibles, usa los procedimientos normales del agente, las fuentes canónicas y los comandos del proyecto cuando existan; no inventes skills ni afirmes haberlas usado. Si falta una capacidad material para verificar el resultado, registra el bloqueo antes de depender de ella.
 
-En MiMiniApp las skills se dejan **para el final**, tras estabilizar el flujo: consulta [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final). No se instalan ni activan como parte de esta preparación documental.
+El aplazamiento inicial de skills se retoma el 2026-11-17 en [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), con I1 autorizada para preparar base y propuesta. [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final) sigue abierto: selección/configuración propuesta en H-008, incorporación y carga efectiva pendientes de sus condiciones. Las capacidades actuales sin skills se conservan; no se activa ninguna herramienta por este documento.
 
 ### Comprobar instrucciones por herramienta
 

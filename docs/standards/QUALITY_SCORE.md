@@ -1,6 +1,6 @@
 # Calidad y estrategia de verificación
 
-**Estado actual — 2026-11-17:** I-03 aceptado, CI/staging y promoción manual implementados; sus contratos se conservan en el [informe I-03](../reports/i03/contract-verification-2026-11-16.md). PB-01 continúa En curso: I6 revisada técnicamente con verify 504 unitarias, 19 componentes, 146 E2E e integración; staging I5 identificado/validado, correcciones I6 pendientes de integración y validación remota. Pruebas físicas y revisión humana pendientes, según el [informe I6](../reports/pb01/execution.md#i6--regresión-y-análisis-global).
+**Estado actual — 2026-11-17:** I-03 aceptado, CI/staging y promoción manual implementados. PB-01 continúa En curso con pruebas físicas/revisión humana pendientes; PR #25 está integrada y su runtime identificado/validado en staging 1b204633ddd0ad782096d5377a3ee1c35d05c796. FE-01/I1 prepara referencia y propuesta de calidad/skills, sin instalar herramientas ni cambiar la UI. Runs, condiciones y límites en el [informe I1](../reports/fe01/execution.md#i1--base-y-propuesta-del-estándar); el [informe PB-01/I6](../reports/pb01/execution.md#i6--regresión-y-análisis-global) conserva su evidencia histórica. El apartado FE-01 de este documento es una propuesta pendiente de aprobación.
 
 **Antecedente I-01:** la suite inicial pasó con 14 unitarias, 9 componentes y 8 E2E/axe con Chromium fijado; I-01 Aceptado el 2026-11-05. Los párrafos de implantación inicial siguientes conservan ese contexto histórico; no describen la ausencia actual de CI o staging.
 **Responsable:** propietario de MiMiniApp.
@@ -57,6 +57,22 @@ Cubrir los criterios de aceptación automatizables de cada iteración y límites
 Una miniapp debe demostrar corrección de lógica, recorrido crítico por idioma cuando difieran textos/rutas, demo reproducible y reset, teclado y tamaños representativos, ausencia de solicitudes privadas inesperadas y revisión manual móvil. Aplicar las metas de [frontend](FRONTEND.md) distinguiendo objetivos de mediciones; las pruebas automáticas no certifican WCAG ni datos de campo.
 
 En el ExecPlan correspondiente registrar ejecución real, resultado, versión/herramientas, target y artefactos vigentes. Separar aprobado, fallido, omitido y no ejecutado. Hay scripts locales y pruebas reales ejecutadas, con su evidencia en el informe. El navegador fijado ya está instalado y verify pasa completo; I-01 está Aceptado por el propietario el 2026-11-05; en ese informe inicial no había CI remota ni despliegues verificados. Esa limitación histórica no describe I-03/PB-01; consultar el estado vigente arriba. El diagnóstico de otro navegador no sustituye la referencia fijada.
+
+## Propuesta FE-01 — revisión técnica, visual y de uso
+
+**Estado:** `Propuesta`, preparada en I1 el 2026-11-17; responsable: propietario de MiMiniApp. Pendiente de aprobar ADR-MMA-022. Se aplica el estado de las fuentes existentes hasta esa decisión. Los criterios visuales se definen únicamente en [la propuesta de FRONTEND](FRONTEND.md#propuesta-fe-01--estándar-de-calidad-frontend); este apartado propone cómo reunir su evidencia, sin duplicarlos ni crear nuevos estados del plan.
+
+| Comprobación | Qué se registra | Quién/cómo la observa |
+| --- | --- | --- |
+| Técnica | Contrato/base/candidato, comandos y resultados, límites de navegador/red/recursos, hallazgos y correcciones repetidas. | Toolchain existente y revisión de código; Vercel como checklist contextualizada con revisión de reglas identificada. |
+| Visual e interacción | Dirección elegida, contenido real, jerarquía, estados, transiciones y archivos exportados; ámbito de los temas/tamaños revisados. | Navegador renderizado y revisión del propietario; Impeccable como apoyo para alternativas/crítica, sin delegar la aceptación a la skill. |
+| Uso observado | Perfil/experiencia previa, tarea y condiciones, tiempo hasta resultado, dudas/errores/ayuda y acceso al guardado; tamaño de muestra y límites. | Personas nuevas disponibles según protocolo acordado, separando observación de una demostración asistida. No almacenar sus frases personales por defecto. |
+
+Secuencia propuesta: identificar brief/contexto → revisar dirección y cambios del contrato → implementar y observar → contrastar técnica/diseño/uso → corregir → realizar la regresión final → entregar evidencia para aceptación humana. Una autorización completa conserva sus puntos concretos de revisión, sin permisos adicionales por cada ajuste local.
+
+Para FE-01, el protocolo inicial de I6 propone tres primeras visitas en Chrome de escritorio y objetivo de 120 s desde Empezar a resultado válido, con el guardado medido aparte; se concreta/acuerda en I3 antes de medir. No existe aún ese resultado. No tomar la velocidad de un E2E o de un ejemplo conocido como evidencia de comprensión/retención, ni convertir una muestra pequeña en garantía universal. Si falta una comprobación esencial o falla el objetivo, registrar/corregir o proponer el cambio de contrato correspondiente; no marcarla aprobada por ausencia de evidencia.
+
+Las revisiones citan la versión/contenido de las reglas externas y las excepciones de ámbito aprobadas. No se instalan servicios de testing o hooks como efecto de esta propuesta. Se conserva el circuito de verify/CI/staging vigente y el merge manual. La política de evidencias aprobada siguiente permanece intacta: el material visual versionado debe ser el mínimo necesario para una decisión real.
 
 ## Política de evidencias
 

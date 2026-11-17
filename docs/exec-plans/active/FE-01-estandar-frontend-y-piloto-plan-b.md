@@ -1,0 +1,194 @@
+# FE-01 — Estándar frontend, skills y piloto de Plan B
+
+## Control
+
+* **Estado:** `En curso`.
+* **Responsable de aprobación, autorización, aceptación y cancelación:** propietario de MiMiniApp (Alexander / Ale).
+* **Creado / actualizado:** 2026-11-17.
+* **Rama de trabajo estable:** `feature/fe01-frontend-quality`, creada desde staging 1b204633ddd0ad782096d5377a3ee1c35d05c796 el 2026-11-17. Única para todo FE-01; no comparte la rama de ejecución de PB-01.
+* **Commits:** `tipo(FE-01/Ix): descripción en inglés`; PR con plan/iteraciones identificados, destino staging y merge manual del propietario.
+* **Organización:** un archivo, siete iteraciones secuenciales I1 → I2 → I3 → I4 → I5 → I6 → I7. I7 es siempre la última regresión y análisis del conjunto.
+* **Iteración actual:** I1 — base reproducible, estándar y acuerdos, iniciada el 2026-11-17. I2–I7 sin iniciar.
+* **Autorización actual:** el propietario indica «vale, crea una nueva rama y empecemos con la iteración 1» el 2026-11-17, tras revisar el plan y aclarar su alcance transversal/piloto y la ubicación de las skills. Se registra aprobación del plan y autorización de I1: reconciliación, rama, referencia reproducible y propuesta concreta del estándar/selección/permisos, con entrega por commits/push/PR según el marco. No se infiere aprobación de las normas o selección aún por concretar en I1, instalación I2 o rediseño I3–I7. Los puntos de decisión identificados siguen vigentes.
+* **Base observada de planificación:** origin/staging `1b204633ddd0ad782096d5377a3ee1c35d05c796`, árbol `af9deb7d47fb9bd86dea690467f54577f3b214b7`, PR #25 integrada. Comprobar nuevamente SHA/árbol al ejecutar.
+* **Fuentes:** [investigación y propuesta de unión](../../reports/pb01/frontend-skills-review.md), [ficha Plan B](../../product-specs/plan-b.md), [registro técnico](../../design-docs/index.md), [frontend](../../standards/FRONTEND.md), [calidad](../../standards/QUALITY_SCORE.md), [seguridad](../../standards/SECURITY.md), [arquitectura](../../../ARCHITECTURE.md) y [gobierno del harness](../../harness-decisions.md).
+
+## Objetivo y resultado esperado
+
+Adoptar un estándar frontend propio y verificable, apoyado en Impeccable y Vercel, y demostrar su utilidad con una revisión del recorrido, resultado y fondo exportado de Plan B. La experiencia debe explicar su utilidad a una persona nueva, guiar decisiones con poca fricción, expresar la identidad existente y producir un resultado que merezca guardarse. La instalación de herramientas y los tests verdes no constituyen por sí solos ese resultado.
+
+El entregable incluye normas coherentes, skills realmente utilizables en el cliente elegido, un piloto implementado y revisado, observaciones de uso y una regresión comparada sobre el candidato final. La plataforma sigue en Astro/React/Tailwind, con la identidad Laboratorio creativo, ES/EN, temas y el circuito de entrega existentes.
+
+## Alcance, límites y relación con PB-01
+
+FE-01 propone y ejecutaría la adopción transversal de calidad/skills y **solo la mejora frontend nueva del piloto**. PB-01 conserva el contrato funcional, historial I1–I6, pruebas de calendario/persistencia/exportaciones y aceptación del producto. FE-01 parte del código integrado de PB-01; **no depende de que PB-01 esté Aceptado**, evitando una dependencia circular.
+
+| Responsabilidad | Fuente / ejecución |
+| --- | --- |
+| Estándar compartido, integración de skills y nueva revisión UX/UI | FE-01, únicamente en su rama y dentro del alcance que se apruebe. |
+| Comportamiento de Plan B y cambios materiales del recorrido | Ficha funcional y decisiones técnicas; su modificación se propone y aprueba antes de implementar el cambio. El plan no sustituye ese contrato. |
+| Cierre funcional y matriz física pendientes | PB-01 continúa En curso. FE-01 no acepta, cancela ni marca completas sus iteraciones. |
+| Trabajo concurrente sobre la UI de Plan B | Se ordena: durante I3–I7 de FE-01 no ejecutar cambios de UI en PB-01 en paralelo. Otra corrección necesaria se coordina, integra y revalida antes de congelar el candidato. Esta coordinación queda propuesta con el plan. |
+| Evidencia final | FE-01 I7 traza los PB-AC afectados; PB-01 I6 se actualiza sobre el nuevo candidato y reutiliza evidencia válida del mismo contenido. Se repite cuando cambien runtime, contrato o condiciones, no por trámite. |
+
+El alcance humano inicialmente disponible es Chrome de escritorio. El piloto se revisa allí y mediante emulación/tamaños de referencia; esas pruebas no acreditan Safari/Firefox reales, importación móvil, destinos nativos o fondo colocado bajo reloj. Sus requisitos esenciales de PB-01 siguen bloqueando la aceptación global del producto. La eventual aceptación de FE-01 deberá identificar expresamente ese alcance y sus límites, sin presentarla como aceptación de PB-01 o autorización de lanzamiento.
+
+Incluye ajustes de formulario, jerarquía, progresión, ayudas, microinteracciones, resultado, vista previa y composición PNG, con sus traducciones/pruebas. Un ajuste mínimo del marco compartido de miniapps se permite **solo si se identifica y aprueba su contrato en I3**, con comportamiento por defecto conservado para otras herramientas/fixtures. No usar esta salvedad para un refactor transversal.
+
+Quedan fuera cuentas, backend, analítica, gamificación, recordatorios propios, IA dentro del producto, editor de fondos, vídeo/fondos animados, varias direcciones de marca entregadas como selector, migración de stack, nuevas dependencias frontend, nueva infraestructura, CI/hooks automáticos, producción/promoción/rollback remoto y cambios del hero/plataforma por preferencia. Una necesidad real fuera de estos límites se propone en su fuente antes de implementarla.
+
+## Decisiones y bloqueos
+
+Aplican ADR-MMA-001/002/003/005/006/008/011/015/016/017/019/020/021, la enmienda de movimiento de ADR-MMA-018 y los límites de entrega de ADR-MMA-004/009/014. H-005/006/007 fijan regresión final, un plan con iteraciones y una rama por plan. Sus estados se consultan en las fuentes, sin deducir autorizaciones de su presencia aquí.
+
+| Punto | Resolución necesaria y momento |
+| --- | --- |
+| Inicio | Resuelto el 2026-11-17: el propietario solicita crear la rama y comenzar I1. Plan aprobado y ejecución limitada a I1 autorizada; siguientes iteraciones y decisiones concretas conservan sus condiciones. |
+| Estándar y herramientas | I1 prepara la selección, adaptación, permisos y resolución de conflictos. Registrar la aprobación de gobierno en harness-decisions; las decisiones técnicas nuevas en el registro técnico. Hasta entonces no activar las skills ni convertir propuestas en norma vigente. |
+| Diseño y contrato | I3 presenta recorrido/composición/PNG y cambios concretos de ficha o contrato compartido. Revisión humana de la dirección y aprobación de cambios antes de I4/I5. |
+| Pruebas de uso | I3 acuerda protocolo y disponibilidad; I6 requiere personas que no conozcan la app. El propietario que ya la ha probado puede aceptar visuales, pero no sustituye una primera visita de usuario. |
+| Compatibilidad física | Permanece pendiente en PB-01. Registrar dispositivos/motores realmente probados y separar la validación del piloto de la aceptación global del producto. |
+
+Una autorización completa permite avanzar entre iteraciones al satisfacer sus salidas, sin volver a pedir permiso operativo ya concedido. Los puntos de revisión anteriores son decisiones concretas del propietario. No solicitar confirmación por cada ajuste local cubierto ni sustituir una comprobación esencial por una excepción implícita.
+
+## Orden, unidades de trabajo y evidencia
+
+Cada iteración produce una unidad revisable y conserva regresión local. Si un hallazgo no cabe en esa unidad, detener el trabajo afectado, acotar la corrección y revisar el plan antes de ampliarlo; la regresión global permanece al final. No crear un archivo de plan por iteración.
+
+El informe de ejecución previsto es `docs/reports/fe01/execution.md`, con secciones I1–I7; se crea al existir ejecución real. El [informe de investigación](../../reports/pb01/frontend-skills-review.md) conserva la procedencia y enlaza este plan, sin mantener otro progreso paralelo. Capturas mínimas para aprobación en `docs/review/fe01/`, con manifiesto de candidato/tema/locale/viewport y datos sintéticos. Logs, motores y mediciones auxiliares quedan fuera del entregable y de las capturas compartidas.
+
+### I1 — Base reproducible, estándar y acuerdos
+
+**Entrada:** FE-01 aprobado y ejecución I1 autorizada. **Resultado:** referencia fiable y propuesta exacta del estándar/adopción, con sus aprobaciones registradas para la parte que se vaya a ejecutar.
+
+1. Reconciliar el workspace antes de crear la rama de ejecución: el checkout observado seguía en 3d28184 con cambios I6 previos a la desconexión, mientras staging integró PR #25. Guardar copia de seguridad y comparar archivos con staging, preservando investigación y cambios no integrados. No usar reset/clean, mezclar trabajo de planes o asumir que los cambios locales pendientes son nuevos. Registrar SHA/árbol real, estado y diferencia intencional antes de avanzar.
+2. Capturar referencia del recorrido/resultados ES/EN claro/oscuro, formularios y PNG con entradas cortas/máximas; geometría, foco y recursos de portada/404/Plan B, bytes propios/compartidos y deuda actual. Usar el runtime integrado real; las capturas I5 son antecedente, no sustituyen una referencia de la nueva base.
+3. Preparar los cambios acotados de FRONTEND, QUALITY_SCORE y enlaces de guía/BOOTSTRAP/PEND-001: roles de diseño/revisión, criterio visual y de uso, procedencia de reglas y excepciones. Para cada conflicto decidir adoptar/adaptar/revisar regla propia/descartar, con ámbito y comprobación. Presentar al propietario la selección y permisos de herramientas con la propuesta revisable. Conservar una ruta sin skills.
+
+**Archivos previstos:** estándares existentes, harness-decisions, registro técnico solo cuando haya una decisión duradera, guía de miniapps/BOOTSTRAP y seguimiento de deuda; informe/referencias de FE-01. No se crea otra fuente de producto o identidad.
+
+**Salida:** FE-I1-01 base/estado recuperables y referencia identificados; FE-I1-02 matriz de adopción con los conflictos conocidos de contexto, texto, movimiento, ejecución/red y reglas remotas; FE-I1-03 selección y alcance aprobados antes de activar herramientas o normas. Si falta una aprobación, conservar las propuestas claramente separadas del estado vigente.
+
+### I2 — Skills integradas y comprobadas
+
+**Entrada:** base y permisos de I1 resueltos. **Resultado:** uso reproducible de las ayudas en el cliente elegido, sin cambiar el producto.
+
+1. Incorporar copias locales y adaptaciones mínimas con procedencia/licencia/manifiesto. Revisiones candidatas: Impeccable 4.9.2 en d41d9860b0094dcb68030657da63461212835aaa; Vercel agent-skills en 1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62. Las reglas Vercel examinadas corresponden a 434b7f91364665f2f733b310ec54809bf8f37937; fijar el paquete no fija sus descargas desde main. Registrar qué reglas usa cada revisión. Resolver los avisos de licencia antes de distribuir las copias; no actualizar todo automáticamente por haber otra versión.
+2. Ubicación prevista `.agents/skills/impeccable/` y `.agents/skills/web-design-guidelines/`. Adaptar referencias a las fuentes existentes; no crear PRODUCT.md/DESIGN.md como autoridades nuevas ni ejecutar init/document por defecto. Uso manual, sin hooks/subagentes activados por inferencia. Telemetría desactivada; controlar aparte catálogo/red del motor y caché/versiones/checksums si se usa. No añadir dependencias al package/lockfile de la miniapp.
+3. Verificar descubrimiento real con el cliente iniciado en el repo: solicitud frontend pertinente, una revisión técnica y una tarea ajena que no debería activar diseño. Registrar instrucciones/referencias leídas, conflictos resueltos y efectos de red/archivos. Leer un SKILL.md a mano no demuestra descubrimiento automático. Comprobar el motor y las funciones realmente escogidas antes de afirmar que funcionan; no certificar Claude/Gemini sin sus pruebas.
+
+**Archivos previstos:** skills/manifiesto/avisos, configuración mínima de desarrollo y documentación de uso existente. Motores/cachés y archivos de sesiones no se versionan ni llegan a dist.
+
+**Salida:** FE-I2-01 carga e invocación observadas en el cliente usado; FE-I2-02 contexto/reglas/configuración y efectos documentados sin automatización o dependencia frontend nueva; FE-I2-03 aplicación acotada produce hallazgos útiles sobre la UI actual, sin editarla como efecto de la prueba. Un fallo de motor/carga queda como bloqueo real de adopción; cualquier alternativa se decide expresamente, sin afirmar equivalencia no probada.
+
+### I3 — Recorrido, composición y contrato aprobados
+
+**Entrada:** estándar acordado, herramientas comprobadas o limitación explícita que permita continuar el trabajo de diseño autorizado. **Resultado:** propuesta visual y funcional suficiente para implementar sin inventar decisiones materiales.
+
+1. Diseñar el recorrido con una decisión principal cada vez, ayudas/sugerencias contextuales y resultado accesible pronto. Contrastar separar calendario/opciones del camino principal, número de pasos, posición de Atrás y guardado/restauración. Resolver qué cambia de la ficha; no fijar aquí otra estructura rígida antes de evaluar la propuesta.
+2. Presentar como máximo dos direcciones fieles a la identidad, con textos reales y ejemplos ES/EN, escritorio/móvil, claro/oscuro, formulario, resultado y composición PNG. Mostrar el flujo mediante prototipo navegable local o secuencia explícita de estados que permita revisar navegación/acciones, no solo un hero. Prototipo separado del producto/catálogo y sin publicación nueva. La ejecución elegida se concentra en una dirección revisada.
+3. Especificar estados, movimiento/interruptibilidad/reduced-motion, jerarquía, límites de tamaño y comportamiento con errores/texto máximo/zoom. Identificar cualquier ajuste compartido necesario y su contrato por defecto. Presentar migración/restauración de sesiones previas si cambia el modelo. Acordar protocolo de primera visita y preparar las modificaciones de ficha/decisiones; registrar aprobación de dirección y comportamiento antes de implementar.
+
+**Archivos previstos:** propuesta visual en design-docs y evidencia de revisión, ficha Plan B, decisión técnica si procede y referencias del plan; sin convertir el prototipo en una miniapp pública.
+
+**Salida:** FE-I3-01 flujo y dirección visibles revisados por el propietario; FE-I3-02 contrato actualizado/aprobado con estados y compatibilidad de sesión definidos; FE-I3-03 protocolo y recursos humanos de evaluación identificados. No avanzar a I4/I5 con una decisión material sin resolver o con la propuesta visual rechazada.
+
+### I4 — Recorrido guiado implementado
+
+**Entrada:** dirección y contrato I3 aprobados, I2 utilizable o excepción de alcance decidida expresamente. **Resultado:** completar/editar el plan en el nuevo recorrido, con continuidad y sin pérdida de entradas.
+
+1. Implementar preguntas/progresión, ayudas, sugerencias y acción principal según el diseño; reducir scroll innecesario y dar espacio deliberado al escritorio. Validación, foco, teclado, Atrás, ejemplo, reset, cambio de idioma y recuperación conservan el comportamiento actualizado aprobado. No ocultar overflow ni bloquear zoom para que parezca caber.
+2. Incorporar microinteracciones y transiciones al servicio de los cambios de estado; acciones rápidas/interrumpidas no duplican avance, eventos o guardado. Preservar texto literal, avisos de almacenamiento y narrativa/fechas. Verificar restauración de sesiones previas y estados incompletos conforme a I3, sin borrar datos silenciosamente.
+3. Añadir/modificar pruebas de los comportamientos cambiados y límites reales: hora nativa parcial, cambio de mes/reset, almacenamiento bloqueado/corrupto, locale, pulsaciones rápidas y movimiento reducido. Conservar casos vacío/draft, aislamiento y garantías de plataforma. Si se aprobó un ajuste del marco común, probar su default con fixtures.
+
+**Archivos previstos:** App, controlador/estado/copy/CSS del módulo y pruebas relacionadas; contratos compartidos solo los aprobados en I3. Generadores de calendario y política de hosting conservados.
+
+**Salida:** FE-I4-01 recorrido ES/EN fiel y utilizable con teclado; FE-I4-02 errores/entradas/sesión/fechas mantienen los contratos; FE-I4-03 verificaciones dirigidas y verify aplicables satisfactorios, con observación real del navegador y límites visibles. La revisión local no sustituye I6/I7.
+
+### I5 — Resultado y PNG con acabado de producto
+
+**Entrada:** recorrido funcional y composición de I3 aprobada. **Resultado:** resultado y exportaciones integrados con jerarquía clara y fondo estático deliberadamente diseñado.
+
+1. Implementar resultado, edición y acceso progresivo a calendario/guardado/compartir según el contrato nuevo. Dar prioridad a entender y usar el plan, con estados de preparación/error/cancelación/éxito claros. Evitar duplicar controles, avisos o peticiones al navegar entre opciones.
+2. Implementar la dirección PNG elegida: 1179×2556, fuentes/tokens locales, zona útil bajo reloj, frase completa y literal, temas y casos de texto máximo. Mantener los límites de privacidad, activación de usuario y alternativa de descarga/vista. No añadir editor, selector de estilos, fuentes remotas o generación IA en el producto.
+3. Comprobar que el diseño no altera calendario, consentimiento Google/Cancelar, enlace compartido limpio, funcionamiento offline con página cargada ni liberación de canvas/URLs/listeners. Cubrir casos largos, grafemas/emoji, fallo de fuentes/canvas/compartir y navegación de ida/vuelta. Medir el coste incremental frente a I1.
+
+**Archivos previstos:** ExportPanel, render/layout de PNG, copy/CSS y pruebas del módulo; recursos locales únicamente con licencia/procedencia comprobadas y coste registrado.
+
+**Salida:** FE-I5-01 resultado/preview/PNG fieles a la dirección aprobada y con texto íntegro; FE-I5-02 exportaciones/consentimiento/offline/errores conservados; FE-I5-03 recursos liberados, presupuesto propio ≤50 KiB comprobado y runtime/totales informados. Compatibilidad móvil física sigue sin inferirse de descargas automatizadas.
+
+### I6 — Pulido y validación de primera visita
+
+**Entrada:** piloto completo de I4/I5 y participantes/protocolo acordados. **Resultado:** corregir fricción observable y acreditar el acabado en el ámbito realmente probado.
+
+1. Revisar el recorrido renderizado ES/EN, claro/oscuro, mouse/teclado, reduced-motion, errores, textos cortos/máximos y pantallas de referencia. Afinar ritmo, alineaciones, foco, labels y continuidad; no añadir funciones nuevas ni efectos que compitan con completar la tarea.
+2. Protocolo propuesto para acordar en I3: al menos tres personas sin experiencia previa con la app, en Chrome de escritorio identificado. Sin demostración del ejemplo ni instrucciones sobre el recorrido; formular su propio plan. Registrar tiempo desde Empezar hasta resultado válido, errores/dudas/ayuda y, aparte, localizar/guardar el fondo. Registrar métricas sin conservar frases personales o grabaciones innecesarias. El propietario revisa visuales y exportación por separado.
+3. Objetivo del piloto: participantes completan sin ayuda de navegación y dentro de 120 s, sin bloqueos materiales; explicar tamaño de muestra, condiciones y casos que fallan. Si no se logra, corregir la fricción y repetir con condiciones comparables/personas nuevas o proponer un cambio explícito de la promesa. No convertir una pasada asistida en éxito ni retirar la promesa por iniciativa propia. La muestra pequeña no demuestra rendimiento universal o retención.
+
+**Archivos previstos:** ajustes locales de UI/copy/PNG y sus pruebas si cambian comportamiento; informe de uso/hallazgos y capturas mínimas para la revisión. Si el protocolo acordado difiere, registrar la razón y aprobación antes de medir.
+
+**Salida:** FE-I6-01 aceptación humana de la dirección implementada en el ámbito probado; FE-I6-02 protocolo ejecutado con resultados y correcciones trazables, o bloqueo explícito por participantes/capacidad; FE-I6-03 conjunto del candidato identificado, pruebas afectadas repetidas y freeze funcional para I7. No marcar esta iteración completa si falta su comprobación esencial de uso.
+
+### I7 — Regresión y análisis global, última iteración
+
+**Entrada:** estándar/skills/piloto completos, revisión humana registrada y candidato congelado. **Resultado:** contrastar el conjunto con la base anterior y entregar evidencia para aceptación del plan, sin introducir funciones posteriores a la revisión.
+
+1. Revisar todo el diff de FE-01: normas coherentes sin fuentes paralelas, procedencia/adaptaciones de skills, alcance real de carga y red, producto contra ficha/decisiones, aislamiento modular y deuda previa/nueva. Trazar los doce PB-AC, distinguiendo evidencia local, CI, staging y operaciones manuales pendientes de PB-01. Registrar hallazgo, origen, impacto, acción y revalidación; un incumplimiento esencial de FE-01 no se acepta trasladándolo a deuda.
+2. Ejecutar verify final aplicable y revisar portada ES/EN, catálogo vacío/poblado/draft, rutas, idioma, 404, cabecera/pie, apariencia, fuentes/hero/movimiento y Plan B. Preservar las regresiones I6 previas y las nuevas. Contrastar DOM/capturas mínimas; axe/zoom/reflow no certifican por sí solos toda la accesibilidad.
+3. Comparar base/candidato con mismo runtime/navegador, perfiles y condiciones, cinco pasadas fría/caliente por ruta relevante, medianas/rangos. Informar bytes propios y totales, solicitudes externas, LCP/CLS e interacción observada con límites; no llamar INP a un proxy ni reclamar p75 de campo. Revisar generación de PNG, diez ciclos exportación/Atrás/reset, recursos/memoria y sesgo de medición; auditoría de dependencias actual y base con criterio de exposición, sin actualizaciones automáticas.
+4. Comprobar enlaces, contratos y materiales entregados; confirmar que skills/motores/cachés no se sirven. Con permisos operativos vigentes, commit/push/PR en la rama estable y CI del head final. El propietario hace merge; después comprobar run prepare/remote-test de staging y manifest SHA/árbol/payload del candidato servido por el circuito existente, sin debilitar guards. Sin ejecución remota, conservar pendiente ese criterio y el estado global.
+
+**Salida:** FE-I7-01 todos los FE-AC contrastados con evidencia suficiente y hallazgos materiales resueltos; FE-I7-02 comparación funcional/visual/privacidad/recursos/deuda documentada con sus límites; FE-I7-03 verify/CI/staging del candidato final comprobados, documentación coherente y aceptación humana pendiente de decisión. Una corrección durante I7 se prueba y revalida sobre el nuevo candidato; una nueva función requiere revisar alcance y repetir la etapa final.
+
+## Criterios de aceptación del plan
+
+| ID | Resultado requerido | Evidencia principal |
+| --- | --- | --- |
+| FE-AC-01 | Estándar propio claro, aplicado y sin autoridades documentales duplicadas; conflictos resueltos por ámbito y decisión. | I1/I7, diff y matriz de adopción. |
+| FE-AC-02 | Skills seleccionadas cargan y sirven al trabajo real en el cliente elegido, con versiones, referencias y permisos comprobados. | I2/I7; no basta copiar archivos. |
+| FE-AC-03 | Dirección y cambios del contrato aprobados antes de implementarlos, con identidad coherente y alcance modular. | I3, ficha/decisiones y revisión visual. |
+| FE-AC-04 | Recorrido claro y guiado, sin pérdida de texto/estado, utilizable en ES/EN, temas y escenarios de referencia. | I4/I6/I7, navegador, pruebas y observaciones. |
+| FE-AC-05 | Resultado y PNG cuidados, fieles y completos; exportaciones, privacidad y recuperación conservadas. | I5/I6/I7 y trazabilidad PB-AC. |
+| FE-AC-06 | Primera visita observada según el protocolo acordado y objetivo temporal contrastado; acabado aceptado en el ámbito probado. | I6, condiciones/resultados/hallazgos y revisión humana. |
+| FE-AC-07 | Presupuestos y costes reales medidos; sin degradación material reproducible o retenciones introducidas sin resolver. | I1/I5/I7 y comparaciones frías/calientes/recursos. |
+| FE-AC-08 | Regresión técnica, coherencia documental, CI e identidad/pruebas de staging del candidato final satisfactorias. | I7, run/head y manifest; evidencia local/remota diferenciada. |
+| FE-AC-09 | Handoff claro a PB-01 con el candidato/evidencia y pendientes físicos; aceptación del proceso/piloto separada del producto completo. | I7, actualización de referencias/progreso y decisión del propietario. |
+
+## Entorno, pruebas y evidencia
+
+Usar Node 24.22.2, npm 11.19.1, Chromium 156.0.8078.4/r1248 y las herramientas existentes. Comprobar disponibilidad real y conservar package/lockfile. Referencias de observación: 393×851 y 1440×900, más reflujo a 320 px y zoom nativo 200 % cuando la capacidad esté disponible; los viewports de emulación no prueban teclado virtual o dispositivos físicos.
+
+Comandos existentes: `npm run check`, `npm run lint`, `npm run format:check`, `npm run validate:hosting`, `npm run test:unit`, `npm run test:components`, `npm run test:e2e`, `npm run test:integration`, `npm run verify` y `npm run build`. Pruebas dirigidas durante cambios; verify en entregas de runtime y candidato final. Repetir tras cambios materiales o fallos, sin rondas adicionales por trámite. `npm run test:remote` pertenece al circuito de target/identidad aprobado; no ejecutarlo contra una URL arbitraria con expectativas construidas desde lo observado.
+
+En I1/I2, cuando solo cambien documentación/tooling de desarrollo, revisar enlaces/estados/rutas/alcance de archivos y carga real; comprobar que el build/runtime no incorpora ese material. No crear tests de contenido editorial o que solo repliquen la implementación. En I4/I5 conservar tests del dominio y actualizar aserciones únicamente cuando verifiquen un contrato nuevo aprobado; nunca retirar pruebas o hacer skips para conseguir verde.
+
+Los scripts auxiliares de auditoría documental, benchmark, prototipo o captura se identifican al ejecutarse; no se presentan comandos futuros como si ya existieran. Las mediciones y logs se resumen en el informe durable, con versión/base/candidato/resultados/límites; no enlazar scratch local como evidencia compartida.
+
+## Recuperación, límites operativos y cierre
+
+Conservar copia/diff antes de reconciliar el workspace y commits/entregas anteriores. Una instalación defectuosa se puede revertir retirando únicamente lo incorporado por FE-01 y restaurando su configuración previa, sin borrar skills ajenas o documentos de producto. La reversión del piloto se prepara desde los commits identificados, por PR y sin reset destructivo/force push. No revertir contratos/sesiones sin comprobar compatibilidad y estado servido.
+
+Si una dependencia/servicio, contrato compartido, permiso o capacidad ausente desborda lo aprobado, registrar el bloqueo, preparar la opción concreta y continuar solo con trabajo independiente autorizado. Ninguna skill, detector, puntuación o CI concede aprobación, autoriza el merge o sustituye la observación humana. No instalar herramientas alternativas ni activar automatizaciones como remedio implícito.
+
+FE-01 pasa a Verificado solo con sus criterios comprobados sobre el candidato final; la aceptación es humana. Los requisitos físicos pendientes del producto continúan en PB-01, identificados y sin marcarse ejecutados. Aceptar FE-01 no archiva PB-01. Al aceptar/cancelar este plan se mueve su único archivo a completed y se actualizan enlaces. El siguiente cambio funcional requiere revalidar la evidencia afectada y preservar una última regresión global.
+
+## Progreso y reanudación
+
+| Iteración interna | Inicio | Fin | Salida / evidencia | Siguiente paso o bloqueo |
+| --- | --- | --- | --- | --- |
+| I1 — base y estándar | 2026-11-17 | — | [ ] FE-I1-01/02 comprobados: rama/reconciliación, 23 hashes, 40 estados, 24 PNG, 80 observaciones y propuesta FE-Q01–09/FE-M01–12. [Informe](../../reports/fe01/execution.md#i1--base-y-propuesta-del-estándar). | FE-I1-03: aprobar ADR-MMA-022 y H-008; I2 no iniciada ni autorizada por esta entrega. |
+| I2 — skills | — | — | [ ] | Selección/permisos acordados en I1 y capacidad del cliente. |
+| I3 — diseño y contrato | — | — | [ ] | Estándar/contexto; revisión humana de dirección y cambios de contrato. |
+| I4 — recorrido | — | — | [ ] | I3 aprobada; I2 usable o resolución explícita del bloqueo. |
+| I5 — resultado y PNG | — | — | [ ] | I4 comprobada y composición aprobada. |
+| I6 — pulido y uso | — | — | [ ] | Piloto completo; participantes/protocolo y revisión humana disponibles. |
+| I7 — regresión final | — | — | [ ] | I1–I6 comprobadas, candidato congelado y permisos de entrega/remoto vigentes. |
+
+## Historial de estado
+
+| Fecha | Estado | Actor | Evidencia o motivo |
+| --- | --- | --- | --- |
+| 2026-11-17 | `Borrador` | Codex, por solicitud del propietario | «Vamos a crear un plan de ejecución por iteraciones si hace falta»: preparación de un único FE-01 con siete iteraciones, rama estable prevista, dependencias/revisión humana y regresión global final. Sin instalación, ejecución, aprobación técnica o aceptación de producto. |
+| 2026-11-17 | `Aprobado` | Propietario | «vale, crea una nueva rama y empecemos con la iteración 1»: aprobación del plan presentado, tras las aclaraciones de alcance y skills locales. Las decisiones nuevas se concretan y revisan en sus puntos de control. |
+| 2026-11-17 | `Autorizado` → `En curso` | Propietario / Codex | Ejecución de I1 autorizada por la misma indicación; preservación/reconciliación del trabajo local y rama feature/fe01-frontend-quality desde staging 1b204633ddd0ad782096d5377a3ee1c35d05c796. I2–I7 sin iniciar. |
+| 2026-11-17 | `En curso` | Codex | I1: rama/reconciliación sin pérdida, runtime idéntico al staging integrado, referencia de UI/PNG/recursos y run/manifest remoto identificados. Propuestas ADR-MMA-022 y H-008 preparadas; FE-I1-01/02 comprobados y FE-I1-03 pendiente de decisión. No hay skills instaladas ni cambios de UI. |
