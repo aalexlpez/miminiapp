@@ -1,0 +1,16 @@
+---
+import type { Locale } from '../../lib/locales';
+import App from './App';
+import { getPlanCopy } from './i18n/copy';
+import './app.css';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const copy = getPlanCopy(locale);
+---
+
+<App client:load locale={locale} copy={copy} />
+<noscript>
+  <p>{copy.ui.noScript}</p>
+</noscript>

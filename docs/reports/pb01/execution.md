@@ -147,6 +147,60 @@ La actualización actual es documentación de entrega/trazabilidad de I2, con co
 
 Revisión final: coherencia entre AGENTS, PLANS, plantilla, guía, decisión H-007 y control de PB-01; enlaces locales y diff; ascendencia de los heads retirados, conservación del historial y rama estable publicada. No se atribuye una nueva batería funcional local a este ajuste documental. La PR de entrega incorpora la verificación remota del candidato definitivo.
 
-## I3–I6
+## I3 — Recorrido y estado
 
-Sin comenzar. La autorización actual se limita a I2, además de I1 ya completada. I3 necesita ADR-MMA-020 aprobada y su autorización; I4–I6 conservan sus recursos y revisiones expresas. I6 permanece como cierre global de todo el producto.
+### Autorización y base
+
+El propietario confirma la integración de I1/I2 en una rama y solicita continuar con la siguiente iteración. Se registra ADR-MMA-020 Aprobada y ejecución de I3, conservando el marco de entrega y merge humano. Rama estable `feature/pb01-plan-b`, sincronizada por fast-forward desde staging `4203db5ebc33e1f899a6768bdada7108068a08c5`, árbol `958a92a3088cc44f9865e8cad13a86a340d8a0f2`. I1/I2 y H-007 están integradas; no se reescribe historial ni se abre otra rama.
+
+Repaso de AGENTS, PLANS/H-007, ficha v06, ADR-MMA-020/021, arquitectura, estándares frontend/seguridad y entradas/salidas de PB-01. No cambia el contrato funcional. La entrada real sigue sin inscripción en el registro público; pruebas sobre copias aisladas no equivalen a publicación.
+
+### Implementación
+
+* `entry.astro`/`App.tsx`/`app.css`: portada, propósito, obstáculos, plan y resultado ES/EN, foco por paso, errores asociados, contadores Unicode, Otro y hora/días opcionales. Atrás conserva entradas; Añadir hora retorna al control enfocado. Las sugerencias sustituyen solo su campo. El resultado usa el mismo formateador de texto validado que calendario y React lo presenta como texto.
+* Diccionarios ES/EN ampliados con paridad estructural/placeholders comprobada. Ejemplo con valores de la ficha, etiqueta hasta modificación efectiva y conservación literal al cambiar de idioma. Fecha narrativa fijada al comenzar/ejemplo y restaurada sin recalcularla al navegar o cambiar de mes.
+* `domain/session-state.ts`: esquema versionado validado, campos/IDs/días/fecha acotados y validación de pasos ya completados; permite entradas incompletas en el paso editable. Rechaza datos corruptos, incompatibles o inválidos con retorno explicado a portada.
+* `browser/session.ts`/`controller.ts`: solo `miminiapp.plan-b.v1`; lectura/escritura/borrado protegidos, memoria con aviso explícito y eliminación de copia obsoleta ante escritura fallida cuando es posible. Reset limpia la memoria y su clave sin recrearla automáticamente; explica un borrado rechazado. No modifica apariencia ni claves ajenas.
+* Con almacenamiento bloqueado, la navegación de idioma pide confirmación antes de perder la memoria. Listener limitado a enlaces equivalentes de esta miniapp, con retirada al desmontar; no cambia cabecera compartida ni historial del navegador.
+* Helpers conservan el modo fixture de I1 y añaden modo UI real en sus copias; previews propios y auditoría de hashes/limpieza. Registro real, plataforma, dependencias, hosting, workflows y controles sin modificaciones.
+
+No hay acciones de descarga, apertura Google, PNG o compartir simuladas. Pertenecen a I4; gris y movimiento del sello/integración pública se reservan a I5.
+
+### Verificación y hallazgos
+
+`npm run verify` completo, código 0: tipos sin diagnósticos, lint, formato, hosting offline, **493 unitarias**, **14 componentes**, **104 E2E** e integración modular satisfactorios. Node 24.22.2/npm 11.19.1/Chromium r1248, mismo entorno de I1/I2. Después de esa pasada solo se añade una prueba de componentes para conservar situación/acción al editar propósito/obstáculo y sustituir sugerencias de forma independiente: tipos/lint/formato y componentes repetidos, **15 componentes** satisfactorios. Runtime sin cambios desde la batería completa; CI del candidato final se verifica en la PR de entrega. Los fixtures de integración mantienen sus 2/4 pruebas propias.
+
+Los E2E reales ejecutan ejemplo completo ES/EN, navegación/reload/reset, reloj de enero a febrero y cambio de idioma conservando texto, Otro, validación de días y texto similar a HTML. Interceptan peticiones/cuerpos y consola con centinela sintético: no sale en red, URL o título ni se interpreta como marcado. Comprueban lectura/escritura/borrado rechazados, cancelación/aceptación del aviso de idioma y apariencia intacta. axe no detecta infracciones en los cinco estados del recorrido en oscuro, en perfiles Chromium escritorio/móvil emulado; no certifica accesibilidad ni sustituye dispositivos reales.
+
+La primera pasada E2E detectó selectores ambiguos entre el estado de movimiento común y el aviso de la miniapp; se acotan al módulo sin debilitar controles de plataforma. Tipos detectó una firma ambigua en el mock de Storage, corregida separando métodos de lectura/escritura. Los escenarios afectados se repiten en la batería final.
+
+Inspección asistida de capturas sintéticas a 393 px, formulario claro y resultado oscuro: tipografía, tokens, controles y envoltura coherentes con el sitio, sin duplicar h1. Resultado sin desbordamiento horizontal a 320 px en ambos temas. Capturas locales de diagnóstico; no son aprobación visual humana ni el acabado de I5. No se añade librería ni dependencia.
+
+### Comparación con la referencia
+
+El build público conserva **19 archivos** y ninguna ruta o chunk de Plan B. No es idéntico byte a byte: usar cinco tokens ya aprobados (`tint-ink`, `selection`, `selection-ink`, `error-ink`, `radius-panel`) hace que Tailwind conserve sus declaraciones, antes eliminadas por falta de uso. **+127 bytes de CSS sin comprimir**, sin reglas de la UI. Los cuatro HTML solo cambian el nombre hash de ese CSS; se comprueba normalizando exactamente ese nombre y las cinco declaraciones. Resto de archivos idénticos.
+
+| Ruta | Solicitudes | Bytes base → I3 | Gzip estimado base → I3 | Externas |
+| --- | --- | --- | --- | --- |
+| `/es/` | 4 → 4 | 196432 → 196559 | 151480 → 151506 | 0 |
+| `/en/` | 4 → 4 | 196345 → 196472 | 151419 → 151444 | 0 |
+| 404 | 4 → 4 | 193761 → 193888 | 150986 → 151012 | 0 |
+
+Medición con el entorno/viewport/procedimiento de I1, ambos temas y contexto frío. El crecimiento es el coste de conservar tokens existentes, no carga de React o UI en portada; no se cambia el CSS global para ocultarlo. No constituye medición de Core Web Vitals ni presupuesto final del módulo, reservado a I5/I6.
+
+### Criterios y handoff
+
+| Criterio | Evidencia / resultado |
+| --- | --- |
+| PB-I3-01 | Componentes/E2E ES/EN: recorrido, validación, sugerencias, Atrás, foco y entradas conservadas. Cumple localmente. |
+| PB-I3-02 | Ejemplo/edición efectiva, fecha/idioma, reset, catálogo y texto literal comprobados. Cumple localmente. |
+| PB-I3-03 | Sesión válida restaurada, esquema inválido descartado y fallos de acceso/escritura/borrado explícitos; claves ajenas intactas. Cumple localmente. |
+| PB-I3-04 | Batería completa y aislamiento de fuentes/previews; catálogo real vacío y diferencia de tokens cuantificada. Cumple localmente. |
+
+**Handoff para I4:** `controller.getSnapshot().session` contiene entradas y narrativa; `validatePlanInputs` produce valores normalizados. Reutilizar formateo/modelo de I2. El evento lee la fecha al exportar, no la narrativa, y recibe UID nuevo. Las acciones externas requieren aviso/gesto/errores del contrato aprobado. Mantener entrada draft sin registro hasta I5. Solo Chrome de escritorio disponible: acceso HTTPS de candidata y matriz física iPhone/Safari + Android/Chrome pendientes. No crear hosting ni sustituir pruebas físicas por emulación.
+
+PB-01 permanece `En curso`; cumplir I3 no acepta el producto ni autoriza I4. La entrega por commit `feat(PB-01/I3): ...`, push y PR usa la misma rama estable. El CI del head y la PR se enlazan en la entrega; el propietario conserva el merge manual.
+
+## I4–I6
+
+Sin comenzar ni autorizar. I4 requiere I3 completada y preparación HTTPS/dispositivos; I5 conserva aprobación de incorporación y acabado; I6 permanece como cierre global de todo el producto.

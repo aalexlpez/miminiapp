@@ -1,12 +1,14 @@
 # Plan B — contratos de persistencia y exportación
 
-**Fecha:** 2026-11-15. **Actualización de referencias:** 2026-11-16. **Responsable de aprobación:** propietario de MiMiniApp (Alexander / Ale). **Estados:** ADR-MMA-020 `Propuesta`; ADR-MMA-021 `Aprobada` el 2026-11-16 al autorizar I2. El [registro técnico](index.md) es la fuente canónica de su aprobación. Aplicación propuesta únicamente a [Plan B v06](../product-specs/plan-b.md), dentro del [plan único PB-01](../exec-plans/active/PB-01-plan-b.md) con seis iteraciones internas. La consolidación no cambia el contenido o aprobación de estas propuestas.
+**Fecha:** 2026-11-15. **Actualización de referencias:** 2026-11-16. **Responsable de aprobación:** propietario de MiMiniApp (Alexander / Ale). **Estados:** ADR-MMA-020 `Aprobada` al autorizar I3; ADR-MMA-021 `Aprobada` al autorizar I2 (2026-11-16). El [registro técnico](index.md) es la fuente canónica de su aprobación. Aplicación propuesta únicamente a [Plan B v06](../product-specs/plan-b.md), dentro del [plan único PB-01](../exec-plans/active/PB-01-plan-b.md) con seis iteraciones internas. La consolidación no cambia el contenido o aprobación de estas propuestas.
 
 El stack, las rutas genéricas, el registro modular, los temas y el alojamiento existentes ya están cubiertos por ADR-MMA-001/002/003/004/005/006/008/009/011/014/015/016/017/019. No se reabren para añadir esta herramienta. Las decisiones siguientes concretan persistencia y un contrato externo que la base no había aprobado para Plan B.
 
 ## ADR-MMA-020 — Estado temporal local de Plan B
 
-**Propuesta:** `sessionStorage`, clave `miminiapp.plan-b.v1`, esquema validado y versionado; memoria como alternativa ante acceso fallido. Guarda paso, entradas, hora/días, ejemplo y fecha narrativa. Nunca guarda datos en URL, cookies, almacenamiento remoto ni `localStorage` del plan. No modifica la preferencia de apariencia ya aprobada.
+**Estado:** `Aprobada` por el propietario el 2026-11-16 al pedir continuar con I3 después de integrar I1/I2. Se autoriza el recorrido y su sesión temporal; la integración pública y las salidas de navegador mantienen sus etapas posteriores.
+
+**Contrato:** `sessionStorage`, clave `miminiapp.plan-b.v1`, esquema validado y versionado; memoria como alternativa ante acceso fallido. Guarda paso, entradas, hora/días, ejemplo y fecha narrativa. Nunca guarda datos en URL, cookies, almacenamiento remoto ni `localStorage` del plan. No modifica la preferencia de apariencia ya aprobada.
 
 * Recarga y navegación ES/EN conservan el progreso si la página carga y el almacenamiento funciona. Se descarta cualquier estado incompatible o inválido, sin interpolarlo como HTML.
 * Reset elimina la clave propia y el estado en memoria. Si falla el borrado se informa; no se promete eliminación física garantizada ni que cerrar pestaña impida restauración del navegador.
@@ -67,3 +69,4 @@ Cambiar el destino de datos, añadir una API, conservar planes entre sesiones, f
 | --- | --- | --- | --- |
 | 2026-11-15 | Codex | `Propuesta` | Preparación documental solicitada por el propietario; sin aprobación técnica ni ejecución. |
 | 2026-11-16 | Propietario de MiMiniApp | ADR-MMA-021 `Aprobada`; ADR-MMA-020 sigue `Propuesta` | Tras fusionar PR #19 solicita avanzar a I2; contrato de exportación aprobado, implementación acotada a modelo, formatos y pruebas sintéticas. |
+| 2026-11-16 | Propietario de MiMiniApp | ADR-MMA-020 `Aprobada` | Solicita continuar con I3 en la rama estable tras integrar I1/I2. Sesión temporal y recorrido aprobados, con límites/fallos explícitos. |

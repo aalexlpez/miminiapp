@@ -1,11 +1,11 @@
 # Plan B v06 — paquete para revisión del propietario
 
-**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D ampliado a I2 el 2026-11-16 tras el merge de PR #19. Del Bloque B, ADR-MMA-021 aprobada y ADR-MMA-020 pendiente; I3–I6 no autorizadas. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; I1/I2 integradas mediante PR #19/#20. Rama estable de PB-01: `feature/pb01-plan-b`, sincronizada desde staging `e4c956e46a57fadcb7cecaf187df2aba592bad19`, según H-007.
+**Estado:** Bloques A (selección/ficha) y C (PB-01) aprobados; Bloque D ampliado a I3 el 2026-11-16 tras integrar I1/I2 y consolidar la rama del plan. Bloque B con ADR-MMA-020/021 aprobadas; I4–I6 no autorizadas. **Responsable:** propietario de MiMiniApp (Alexander / Ale). **Creado:** 2026-11-15. **Actualizado:** 2026-11-16. Preparación original en `docs/plan-b-v06`; I1/I2 integradas mediante PR #19/#20. Rama estable de PB-01: `feature/pb01-plan-b`, sincronizada desde staging `4203db5ebc33e1f899a6768bdada7108068a08c5`, según H-007.
 
 ## Qué se entrega
 
 * [Ficha funcional v06](../product-specs/plan-b.md): definición autocontenida, textos ES/EN, comportamiento ante errores y doce criterios de aceptación.
-* [ADR-MMA-020/021](plan-b-contracts.md): propuestas de sesión temporal y exportaciones; estados canónicos en el [registro técnico](index.md).
+* [ADR-MMA-020/021](plan-b-contracts.md): contratos aprobados de sesión temporal y exportaciones; estados canónicos en el [registro técnico](index.md).
 * Un [ExecPlan PB-01](../exec-plans/active/PB-01-plan-b.md) en curso, con I1/I2 integradas, con seis iteraciones internas secuenciales, criterios de salida y regresión global al final. El Bloque C resume su estructura.
 * [v05 original](../references/plan-b-v05.md): antecedente aportado, con nota de procedencia. No se da por verificado que su v04 exista en Git.
 
@@ -28,10 +28,10 @@ Se conservan núcleo, ejemplo, imagen, tres pasos, sello, ES/EN y al menos una v
 
 ## Bloque B — decisiones técnicas de Plan B
 
-* **ADR-MMA-020:** `sessionStorage` versionado y validado, memoria ante fallo, reset explícito. Cerrar pestaña no garantiza borrado; no se toca la preferencia de apariencia.
+* **ADR-MMA-020, aprobada al autorizar I3:** `sessionStorage` versionado y validado, memoria ante fallo, reset explícito. Cerrar pestaña no garantiza borrado; no se toca la preferencia de apariencia.
 * **ADR-MMA-021, aprobada al autorizar I2:** `.ics` y PNG locales; Google solo tras aviso/confirmación, con texto en su URL. Compartir la herramienta lleva URL limpia; compartir PNG puede entregar el plan al destino elegido. Sin API, OAuth o backend.
 
-Las decisiones se aprueban individualmente en el registro técnico. ADR-MMA-021 ya está Aprobada; ADR-MMA-020 sigue Propuesta y condiciona I3. La aprobación de A no sustituye esas decisiones.
+Las decisiones se aprueban individualmente en el registro técnico. ADR-MMA-020/021 están Aprobadas para sus alcances respectivos. La aprobación de A no sustituye esas decisiones.
 
 ## Bloque C — plan único con seis iteraciones
 
@@ -77,7 +77,7 @@ Los bloqueos se localizan dentro del mismo plan: selección/ficha y autorizació
 
 ## Bloque D — autorización de ejecución y alcance operativo
 
-Los Bloques A/C están aprobados e I1 integrada. Ahora se autoriza I2 con ADR-MMA-021 aprobada; ADR-MMA-020 sigue pendiente antes de I3. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
+Los Bloques A/C están aprobados e I1/I2 integradas. Ahora se autoriza I3 con ADR-MMA-020/021 aprobadas. Tras resolver los bloqueos de inicio, el propietario puede autorizar **PB-01 completo** o un alcance parcial identificado, incluyendo sus iteraciones internas, rama feature, pruebas y evidencia. Una autorización completa permite progresar según sus condiciones sin solicitar otra aprobación por cada iteración. Puede incluir commits, push y PR en borrador a staging; el merge sigue siendo humano. La aceptación final se registra una sola vez al completar y verificar el conjunto. Estos permisos no se deducen de aprobar la planificación.
 
 Esta autorización no permite al agente hacer merge, desplegar por fuera de Actions, habilitar producción/promoción/rollback, crear hosting/túneles, modificar secretos/protecciones o publicar un prototipo incompleto por eludir la verificación.
 
@@ -85,7 +85,7 @@ Esta autorización no permite al agente hacer merge, desplegar por fuera de Acti
 
 ## Cómo registrar la respuesta
 
-La aprobación de A/C, la de ADR-MMA-021 y la autorización parcial de D hasta I2 constan en ficha, registro técnico y PB-01. Una indicación posterior puede resolver ADR-MMA-020 y ampliar D con su alcance real; las revisiones humanas, permisos operativos y aceptación final se registran expresamente. La aprobación de un bloque no completa ni autoriza los demás.
+La aprobación de A/C, ADR-MMA-020/021 y la autorización parcial de D hasta I3 constan en ficha, registro técnico y PB-01. Una indicación posterior puede ampliar D con su alcance real; las revisiones humanas, permisos operativos y aceptación final se registran expresamente. La aprobación de un bloque no completa ni autoriza los demás.
 
 Se registra fecha, actor y alcance en ficha, registro técnico y plan, sin atribuir aceptación de producto a la autorización. Si ya hay más de un mantenedor, la indicación debe constar además en el PR de GitHub correspondiente según H-003; no se presume el número de mantenedores a partir de una lista de despliegue vacía.
 
@@ -112,3 +112,7 @@ El propietario confirma PR #19 fusionada y pide avanzar a la siguiente iteració
 ## Rama y commits del plan — H-007
 
 El propietario establece una única rama por ExecPlan, iteraciones internas y commits que identifican cada iteración. PB-01 continúa en `feature/pb01-plan-b` con títulos como `feat(PB-01/I3): implement the plan flow`; I1/I2 conservan su historia integrada. Las entregas por PR usan esa misma rama. Esta decisión organizativa no autoriza I3 ni cambia la aceptación final o los puntos de revisión humana.
+
+## Registro de avance a I3 — 2026-11-16
+
+El propietario confirma la integración de I1/I2 y solicita continuar. Se aprueba ADR-MMA-020 en el registro técnico y se autoriza I3 en `feature/pb01-plan-b`, con commits identificados por iteración, push y PR a staging. La autorización cubre UI ES/EN, sesión temporal, recuperación/reset y pruebas en copia aislada. No autoriza I4–I6, registro público, infraestructura o merge. Evidencia y handoff en el [informe único](../reports/pb01/execution.md#i3--recorrido-y-estado).

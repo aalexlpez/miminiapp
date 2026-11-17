@@ -1,0 +1,118 @@
+.pb-app {
+  max-width: 30rem;
+  margin-inline: auto;
+  padding: 1.5rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+.pb-app h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  line-height: 1.2;
+}
+.pb-app p {
+  margin-block: 0.75rem;
+}
+.pb-app button,
+.pb-app a {
+  min-height: 48px;
+}
+.pb-app button {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--color-control-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+.pb-app button[type='submit'],
+.pb-app button[aria-pressed='true'] {
+  background: var(--color-selection);
+  color: var(--color-selection-ink);
+  border-color: var(--color-selection);
+}
+.pb-app button:disabled {
+  cursor: wait;
+}
+.pb-actions,
+.pb-suggestions,
+.pb-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+.pb-actions a {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-link);
+}
+.pb-obstacles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.pb-field {
+  margin-block: 1.5rem 0.75rem;
+}
+.pb-field label,
+.pb-app legend {
+  display: block;
+  font-weight: 700;
+}
+.pb-field input,
+.pb-field textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--color-control-border);
+  border-radius: var(--radius-control);
+  color: var(--color-ink);
+  background: var(--color-surface);
+}
+.pb-field textarea {
+  field-sizing: content;
+  min-height: 5rem;
+  resize: vertical;
+}
+.pb-field [aria-invalid='true'] {
+  border-color: var(--color-error-ink);
+}
+.pb-app fieldset {
+  border: 0;
+  padding: 0;
+  margin: 1.5rem 0;
+  min-width: 0;
+}
+.pb-app .pb-hint,
+.pb-counter,
+.pb-step,
+.pb-month,
+.pb-privacy {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+.pb-app .pb-error {
+  color: var(--color-error-ink);
+}
+.pb-example,
+.pb-stamp {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-tint-ink);
+}
+.pb-app .pb-result {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+.pb-notices:empty {
+  display: none;
+}
