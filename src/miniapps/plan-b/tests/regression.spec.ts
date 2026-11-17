@@ -74,7 +74,9 @@ for (const locale of ['es', 'en'] as const) {
     await expect(page.locator('.pb-stamp')).toContainText(
       locale === 'es' ? 'febrero' : 'February',
     );
-    await page.getByRole('button', { name: copy.ui.reset, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.ui.reset, exact: true })
+      .click();
     await expect(page.locator('#pb-step-title')).toContainText(
       locale === 'es' ? 'marzo' : 'March',
     );

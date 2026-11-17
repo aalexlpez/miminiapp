@@ -46,7 +46,7 @@ Requisitos trasladados del dossier y aprobados canónicamente por el propietario
 | PROD-11 | Sugerencias iniciales por comentarios en redes y gestión manual. |
 | PROD-12 | Posible evolución a monetización/SaaS, sin construir ahora esa infraestructura. |
 | PROD-13 | Lanzamiento condicionado por calidad; cantidad inicial sin cerrar. |
-| PROD-14 | Primera miniapp aplazada en la base inicial; Plan B seleccionada el 2026-11-16, con ficha aprobada, I1–I4 integradas y registro de Plan B en la candidata de I5 autorizado expresamente. |
+| PROD-14 | Primera miniapp aplazada en la base inicial; Plan B seleccionada el 2026-11-16, con ficha aprobada e I1–I5 integradas en staging; revisión técnica I6 realizada con dos correcciones, sin cerrar pruebas físicas/humanas o aceptación global. |
 
 El MVP aprobado comprende portada, catálogo, páginas por miniapp, contenido y metadatos ES/EN, selector de idioma, interfaz responsive, ejemplos de demostración y enlaces reales a redes/GitHub. Prefijos `/es/` y `/en/`, español predeterminado y slugs estables están aprobados en ADR-MMA-016 del [registro de decisiones](../design-docs/index.md), junto con la separación/validación de traducciones. Las canónicas/hreflang absolutas quedan diferidas hasta disponer de origen público aprobado; Cloudflare se verificará en I-03.
 
