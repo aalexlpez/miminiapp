@@ -1,6 +1,9 @@
 # FE-01/I6 — Revisión del acabado
 
-**Candidato local para revisión del propietario. Aprobación pendiente.**
+**Acabado aprobado por el propietario el 2026-11-17.**
+«aprobado, continua con la siguiente», en respuesta al paquete y la pregunta de
+cerrar I6 y comenzar I7. Candidato funcional 7f027f3 y contenido del manifiesto I6
+congelados. I7 en curso; no es aceptación anticipada de su regresión o del producto.
 Continúa la dirección aprobada en I3; incorpora el recorrido I4, resultado/PNG I5
 y tres correcciones de I6. No está subido o publicado.
 

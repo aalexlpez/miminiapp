@@ -1,6 +1,6 @@
 # FE-01 — Revisión de Plan B
 
-**Revisión actual:** [I6 — acabado implementado y aprobación pendiente](i6/README.md).
+**Revisión actual:** [I6 — acabado implementado y aprobado](i6/README.md).
 
 **Dirección y contrato aprobados el 2026-11-17.** Dirección «El plan toma forma», preparada
 con uso explícito de Impeccable/Vercel. El [contrato propuesto](../../design-docs/plan-b-frontend-proposal.md)

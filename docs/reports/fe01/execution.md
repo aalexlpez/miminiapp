@@ -742,3 +742,12 @@ reales rotos; se conserva el falso positivo conocido del ejemplo upstream
 oklch(...). Integridad de fuente, skills, capturas y PNG reutilizados verificada;
 diff --check satisfactorio. El build posterior a la documentación conserva byte
 a byte los 23 archivos públicos del candidato, listo para la revisión del propietario.
+
+### Aprobación y cierre de I6
+
+El propietario responde «aprobado, continua con la siguiente» a la pregunta de
+aprobar el acabado presentado, cerrar I6 y comenzar I7. Se completan FE-I6-01/02/03
+y se congela el runtime de 7f027f3 con los hashes del manifiesto I6. I7 queda
+autorizada, sin aceptar anticipadamente su resultado, PB-01, CI o staging.
+Fetch de origin/staging: e4b42f121674a24aacc4a3add473111bc7e36c34, ancestro del
+candidato; 7 commits locales por delante y ninguno nuevo que integrar.
