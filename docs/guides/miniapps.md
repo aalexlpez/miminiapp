@@ -1,6 +1,6 @@
 # Cómo añadir una miniapp
 
-**Investigación frontend — FE-01/I1:** se prepara un [estándar y matriz de adopción](../standards/FRONTEND.md#propuesta-fe-01--estándar-de-calidad-frontend), junto a la propuesta H-008 de skills locales. Ambos conservan sus aprobaciones pendientes; no cambian todavía los pasos/contratos vigentes de esta guía. Su ejecución y evidencia se consultan en [FE-01](../exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md).
+**Estándar frontend — ADR-MMA-022:** aplicar los [criterios y matriz de adopción](../standards/FRONTEND.md#fe-01--estándar-de-calidad-frontend) y el [procedimiento de revisión](../standards/QUALITY_SCORE.md#fe-01--revisión-técnica-visual-y-de-uso) aprobados. La aprobación del propietario es suficiente como aceptación humana; las pruebas con otras personas son opcionales. H-008 aprueba la selección/configuración de skills locales; su instalación y carga real corresponden a I2 de [FE-01](../exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md). Los contratos específicos de cada miniapp conservan su autoridad.
 
 Guía práctica del contrato aprobado en ADR-MMA-011 y ADR-MMA-016. Una miniapp es una carpeta autocontenida más una línea en el registro: añadirla no debe exigir tocar rutas, layouts, estilos globales ni otras herramientas.
 

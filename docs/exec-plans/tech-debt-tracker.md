@@ -4,13 +4,13 @@ Este registro conserva tareas pendientes; no equivale a un ExecPlan aprobado ni 
 
 ## PEND-001 — Skills opcionales al final
 
-* **Estado:** Investigación retomada el 2026-11-17 por solicitud del propietario tras revisar la UX de Plan B; incorporación todavía pendiente. Aplazamiento inicial del 2026-11-04 conservado como antecedente.
+* **Estado:** Selección/configuración aprobadas en H-008 y estándar aprobado en ADR-MMA-022 el 2026-11-17. Incorporación y uso efectivo aún pendientes; aplazamiento inicial del 2026-11-04 conservado como antecedente.
 * **Responsable:** Propietario de MiMiniApp.
-* **Momento actual:** FE-01/I1 prepara referencia/selección/permisos; la incorporación propuesta pertenece a I2, sujeta a sus acuerdos/autorización. Se conserva la ruta de trabajo sin skills y el aplazamiento inicial como antecedente.
-* **Trabajo pendiente:** Evaluar si conviene reutilizar skills globales o incorporar skills del proyecto para implementar miniapps, revisar cambios o verificar releases. Decidir nombres, contenido y rutas solo entonces, a partir de evidencia de repetición.
+* **Momento actual:** FE-01/I1 completada; I2 es la siguiente etapa para instalar y comprobar las skills, pendiente de autorización de ejecución. Se conserva la ruta de trabajo sin skills.
+* **Trabajo pendiente:** Incorporar las skills seleccionadas conforme a H-008 y verificar carga/funcionamiento en el cliente elegido durante FE-01/I2; documentar límites reales y conservar las fuentes canónicas y la ruta sin skills.
 * **Criterios de cierre:** Utilidad justificada; alcance y permisos mínimos aprobados; integración autorizada; ausencia de duplicación de normas; carga y funcionamiento comprobados en los clientes que se vayan a utilizar; ruta sin skills conservada. Ninguna skill fusiona ni publica por iniciativa propia.
-* **Situación actual:** Investigación y [propuesta concreta de skills frontend](../reports/pb01/frontend-skills-review.md) preparadas: Impeccable como ayuda principal y Vercel como revisión complementaria, con alternativas, revisiones fijadas, alcance y límites. No se ha instalado ni activado ninguna skill; selección/incorporación y carga efectiva todavía pendientes. Las skills genéricas del bootstrap no se presuponen disponibles.
-* **Planificación:** [FE-01](active/FE-01-estandar-frontend-y-piloto-plan-b.md) aprobado con I1 autorizada el 2026-11-17: referencia y propuesta concreta del estándar/skills en la rama propia. Siete iteraciones, con integración y piloto posteriores; su estado/progreso se consultan allí. Selección/activación siguen pendientes de sus acuerdos y PEND-001 permanece abierto.
+* **Situación actual:** [Investigación y comparación](../reports/pb01/frontend-skills-review.md) realizadas; selección aprobada de Impeccable y Vercel con versiones/configuración y límites en H-008. No se ha instalado ni activado ninguna skill; la incorporación/carga efectiva siguen pendientes. No se atribuye funcionalidad a otros clientes sin comprobarla.
+* **Planificación:** [FE-01](active/FE-01-estandar-frontend-y-piloto-plan-b.md) conserva siete iteraciones. I1 completada con ADR-MMA-022/H-008 aprobadas y criterio de aceptación humana ajustado por el propietario: no se requieren participantes externos. I2 aún sin iniciar; PEND-001 no se cierra por aprobar la selección.
 
 ## Otros pendientes
 

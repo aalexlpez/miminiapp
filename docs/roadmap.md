@@ -25,7 +25,7 @@ I-04 quedó sin alcance propio: producción y el gate de promoción se incorpora
 
 | Plan frontend | Resultado | Estado y relación |
 | --- | --- | --- |
-| [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md) | Estándar frontend propio, skills integradas y revisión UX/UI de Plan B como piloto | En curso, I1 autorizada el 2026-11-17. Rama propia feature/fe01-frontend-quality desde staging integrado de PR #25. Un archivo y siete iteraciones, última de regresión/análisis. I1 prepara referencia y propuesta revisable del estándar/skills; no instala herramientas ni implementa aún el piloto. Conserva los pendientes de PB-01 y ordena el trabajo de UI. |
+| [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md) | Estándar frontend propio, skills integradas y revisión UX/UI de Plan B como piloto | En curso, I1 completada: base entregada por PR #26 y ADR-MMA-022/H-008 aprobadas el 2026-11-17. Aprobación humana suficiente del propietario; pruebas con otras personas opcionales. Misma rama feature/fe01-frontend-quality sincronizada desde staging 64546ad. I2 aún sin iniciar; siete iteraciones y última regresión/análisis; pendientes de PB-01 conservados |
 
 ## Cierres recientes
 
@@ -43,4 +43,4 @@ Para las siguientes iteraciones de PB-01 quedan:
 * la licencia (ADR-MMA-010), si el repositorio va a aceptar contribuciones externas;
 * completar las pruebas físicas de I4 y revisiones humanas de I5, integrar las correcciones I6 mediante merge humano y validar su identidad/recorrido en staging; I6 está autorizada y revisada técnicamente, sin aceptación global. I-03 permanece aceptado.
 
-La investigación de skills se retoma por solicitud del propietario y se planifica en FE-01. Su incorporación permanece pendiente de selección/aprobación/autorización y carga comprobada, según [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final). Aprobar la planificación y comenzar su ejecución son pasos distintos; el estado de cada plan es canónico.
+La investigación de skills se retoma por solicitud del propietario y se planifica en FE-01. Selección/configuración aprobadas en H-008; su incorporación y carga comprobada quedan para I2, pendiente de autorización de ejecución, según [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final). Aprobar la planificación y comenzar su ejecución son pasos distintos; el estado de cada plan es canónico.
