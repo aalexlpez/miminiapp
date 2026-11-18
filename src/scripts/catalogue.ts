@@ -1,13 +1,14 @@
-<!-- Native popovers keep Escape/light dismissal and stay above clipping containers.
-     The catalogue remains static HTML; this inline module imports no miniapp UI. -->
-<script is:inline type="module">
-  for (const card of document.querySelectorAll('.catalogue-card')) {
+/** Native hints share the existing platform module; never import a miniapp UI. */
+export function initCatalogueHints() {
+  for (const card of document.querySelectorAll<HTMLElement>(
+    '.catalogue-card',
+  )) {
     const link = card.querySelector('.card-link');
     const hint = card.querySelector('.app-tooltip');
     if (!(link instanceof HTMLElement) || !(hint instanceof HTMLElement))
       continue;
-    let closeTimer;
-    const cancelClose = () => clearTimeout(closeTimer);
+    let closeTimer: number | undefined;
+    const cancelClose = () => window.clearTimeout(closeTimer);
     const close = () => {
       cancelClose();
       if (hint.matches(':popover-open')) hint.hidePopover();
@@ -34,7 +35,7 @@
     };
     const deferClose = () => {
       cancelClose();
-      closeTimer = setTimeout(() => {
+      closeTimer = window.setTimeout(() => {
         if (!card.matches(':focus-within') && !hint.matches(':hover')) close();
       }, 140);
     };
@@ -54,4 +55,4 @@
     window.addEventListener('resize', close);
     window.addEventListener('scroll', close, { passive: true });
   }
-</script>
+}
