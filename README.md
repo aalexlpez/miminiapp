@@ -9,7 +9,7 @@ Colección pública de miniapps bilingües (ES/EN): calculadoras, utilidades, ex
 | Área | Situación |
 | --- | --- |
 | Plataforma | Portada y catálogo ES/EN, identidad animada y apariencia clara/oscura/sistema. |
-| Miniapps | Plan B integrada en staging con catálogo/rutas ES/EN, recorrido, sesión y exportaciones. Correcciones PB-01/I6 integradas; nuevo frontend FE-01 aprobado visualmente y con regresión local satisfactoria. Deuda de dependencias no bloqueante aprobada; CI/staging del nuevo candidato y pruebas físicas pendientes. PB-01 sigue En curso. |
+| Miniapps | Plan B integrada en staging con catálogo/rutas ES/EN, recorrido, sesión y exportaciones. FE-01 integrada por PR #28; refinamiento FE-02 de selección rápida, recordatorio y marca en regresión local. Deuda de dependencias no bloqueante aprobada; entrega/CI/staging FE-02 y pruebas físicas pendientes. PB-01 sigue En curso. |
 | Staging | Publicado automáticamente con cada merge a `staging`. |
 | Producción | Publicada desde `soycerobytes/miminiapp` mediante Workers Builds tras merge manual; promoción por snapshot del SHA validado en staging. |
 | Licencia | Sin decidir (`UNLICENSED`). El código no es todavía software libre. |

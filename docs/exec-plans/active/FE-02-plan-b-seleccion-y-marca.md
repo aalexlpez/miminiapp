@@ -8,7 +8,7 @@
 * **Rama estable:** feature/fe01-frontend-quality, reutilizada por instrucción expresa del propietario; excepción acotada a H-007, sin trabajo concurrente de FE-01.
 * **Base:** staging 7cf32ca9cd2b9085600fac202f4455027c11becc, merge de PR #28. Rama sincronizada mediante fast-forward. FE-01 conserva historia y aceptación propia pendiente; FE-02 mejora el contenido integrado, no depende de aceptar FE-01 ni lo declara aceptado.
 * **Autorización:** «De resto me suena bien lo que planteaste» y «Vamos a generar un nuevo plan en la misma rama, hacemos las iteraciones y luego subimos la PR», incorporando selección simple/personalizada en Si/entonces y logo/identidad en el PNG. Aprueba este alcance y autoriza ejecución local secuencial y entrega conjunta final. No informes al usuario por iteración ni nuevas demos; una sola imagen de ejemplo real. Merge manual y revisión visual en staging.
-* **Iteración actual:** I4 — regresión y análisis final.
+* **Iteración actual:** I4 — regresión local completada; entrega/CI y staging pendientes.
 
 ## Objetivo y contrato aprobado
 
@@ -59,10 +59,34 @@ Riesgos: unificar exportación con validación sin usar el horario anterior, no 
 | I1 | 2026-11-18 | 2026-11-18 | Base PR #28 sincronizada; contrato y autorización registrados en a28cc7d. |
 | I2 | 2026-11-18 | 2026-11-18 | Selección simple/personalizada, Otro sin autoFocus, pie y jerarquía implementados. Pruebas dirigidas de teclado/valor/restauración y tipos satisfactorios; regresión completa al final. |
 | I3 | 2026-11-18 | 2026-11-18 | Resultado, editor directo con presets, símbolo UI/PNG y firma MiMiniApp implementados. 27 componentes y 23 E2E dirigidas de escritorio satisfactorias, incluidos valores rápidos/personalizados, .ics directo/Google, branding máximo, diez ciclos y doble exportación; I4 repetirá la batería global sobre el candidato final. |
-| I4 | 2026-11-18 | — | Regresión global iniciada; ninguna escritura remota antes de terminar. |
+| I4 | 2026-11-18 | — | Regresión local final satisfactoria sobre ef4f503: 518 unitarias, 27 componentes, 162 E2E e integración. Una imagen real y resumen abajo. Pendientes PR/CI del head, merge manual, staging y aceptación humana. |
 
 ## Historial
 
 | Fecha | Estado | Actor | Evidencia |
 | --- | --- | --- | --- |
 | 2026-11-18 | Borrador → Aprobado → Autorizado → En curso | Propietario / Codex | Solicita nuevo plan, acepta la propuesta con selección simple/personalizada y logo, pide reutilizar rama y ejecutar iteraciones antes de PR conjunta. Se registra el alcance antes de implementar. |
+
+## Resumen único de regresión y entrega
+
+**Candidato funcional:** ef4f503844b0dc0477da1844211b66d883d0003a, comparado con staging 7cf32ca. Cambios de runtime limitados a Plan B; package/lockfile, dominio de calendario/validación/persistencia, workflows, controles de publicación y plataforma compartida conservados. La ficha v08 sustituye solo el recorrido/visibilidad y PNG sin marca de v07. Sin funciones nuevas después de esta revisión.
+
+**Verificación local final:** npm run verify satisfactorio en Node 24.22.2 / npm 11.19.1 / Chromium 156.0.8078.4/r1248: tipos sin errores/advertencias/hints, lint/formato/hosting/build, **518 unitarias, 27 componentes, 162 E2E, dos builds y cuatro pantallas de integración**. Cobertura ES/EN, temas, ejemplo/selección/personalizada, restauración v1, errores sin selección, texto literal/Unicode máximo, mes/DST/recurrencia, consentimiento/cancelación, offline tras carga, teclado, reduced-motion, reflujo 320–1440 y zoom CSS 200 %, catálogo/identidad/404. No acredita comprensión universal en dos minutos, zoom nativo, otros motores o operaciones físicas de PB-01.
+
+**Hallazgos resueltos y revalidados:** horario Google confirmado en estado React en lugar de un ref dentro de callback de render; protección de doble exportación trasladada a los nuevos botones; aviso/foco al continuar sin obstáculo u opción; tamaño táctil de radio evaluado sobre su etiqueta completa, y días distribuidos en cuatro columnas en móvil. La batería final pasa sin omisiones, skips o relajación del umbral de accesibilidad.
+
+**Recursos:** 38631 B JS + 11185 B CSS propios = **49816 B / 48,65 KiB**, frente a 43469 B de base y límite 51200 B; margen 1384 B. Siete solicitudes iniciales de Plan B ES, 486983 B completos, cero externas/errores en la observación. No nuevas dependencias o solicitudes de marca; trazos vectoriales locales. El CSS global sigue en 34900 B y runtime compartido en 220745 B. Los 23 archivos públicos excluyen skills/motor/cachés y material de revisión.
+
+**PNG y recursos de exportación:** cinco generaciones reales por creación/cambios de tema, 21,1–52,0 ms (mediana 26,9), después de cargar fuentes, loopback sin throttling y reloj real; excluyen carga previa/guardado del SO y no son una comparación de campo. Diez ciclos de exportación/editar/reset en cada perfil Chromium pasan sin URLs, callbacks o lienzos retenidos. Texto máximo/emoji y marca se comprueban en ambos temas; no se afirma que el fondo esté probado físicamente bajo un reloj.
+
+**Observación de UI:** resultado e imagen real inspeccionados a 393×851; acciones principales terminan a 514 px del viewport, sin overflow horizontal. Días de 85×48 px en dos filas. El objetivo se completa mediante selección de «Leer más», falta de tiempo, «llego tarde a casa» y «leo una página»; las sugerencias para propósitos libres no prometen comprensión semántica. No se usan servicios externos o nuevos catálogos.
+
+**Skills:** aplicación manual de Impeccable 4.9.2/Operate/clarify y Vercel con reglas fijadas 434b7f91364665f2f733b310ec54809bf8f37937; un solo contexto, no revisión independiente. Integridad de 62 archivos correcta y detector final sin hallazgos. Sin hooks, subagentes, nuevos servicios o afirmaciones de descubrimiento nativo.
+
+**Deuda:** auditoría lock-only actual: 21 altas/11 moderadas/0 críticas; omit=dev: cero. Mismas raíces picomatch/minimatch/Astro, sin cambio de package/lockfile o exposición por globs. PEND-007 sigue como deuda no bloqueante aceptada, con revisión mensual y objetivo 2026-12-18; no se declara resuelta ni se activa automatización. Sin nuevos hallazgos funcionales materiales abiertos en el alcance revisado.
+
+**Única imagen de revisión:** [PNG descargado real](../../review/fe02/example.png), ES/claro, 1179×2556, **125520 B**, SHA-256 fa1584d742bf9006dd6a6a23247053fd535fc3d1588fa39ed2b9fd31bf7e64d5. Incluye símbolo Plan B y firma MiMiniApp. Capturas auxiliares/logs/sondas permanecen fuera del entregable; no se crean informes por iteración o demos adicionales.
+
+FE2-AC01–07 comprobados localmente con los límites anteriores. FE2-AC08 conserva pendientes CI del head final, merge humano, identidad/recorrido de staging y aceptación del propietario. Revisar en staging tras su merge; producción y aceptación de PB-01 siguen separadas.
+
+Cierre documental: 126 Markdown/823 enlaces locales revisados sin roturas reales; solo el ejemplo literal upstream ya conocido. diff --check satisfactorio y los 23 archivos públicos idénticos tras la documentación. La validación CI remota se enlazará en la PR del head final; no se presenta esta evidencia local como remota.
