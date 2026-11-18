@@ -1,6 +1,6 @@
 # FE-01 — Informe único de ejecución
 
-**Responsable:** propietario de MiMiniApp (Alexander / Ale). **Actualizado:** 2026-11-17. Estado/progreso canónicos en el [ExecPlan FE-01](../../exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md). Este informe conserva la evidencia de sus iteraciones; no aprueba estándares o herramientas.
+**Responsable:** propietario de MiMiniApp (Alexander / Ale). **Actualizado:** 2026-11-18. Estado/progreso canónicos en el [ExecPlan FE-01](../../exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md). Este informe conserva la evidencia de sus iteraciones; no aprueba estándares o herramientas.
 
 ## I1 — Base y propuesta del estándar
 
@@ -751,3 +751,116 @@ y se congela el runtime de 7f027f3 con los hashes del manifiesto I6. I7 queda
 autorizada, sin aceptar anticipadamente su resultado, PB-01, CI o staging.
 Fetch de origin/staging: e4b42f121674a24aacc4a3add473111bc7e36c34, ancestro del
 candidato; 7 commits locales por delante y ninguno nuevo que integrar.
+
+## I7 — Regresión y análisis global
+
+### Candidato, alcance y estado de entrega
+
+El propietario aprueba I6 mediante «aprobado, continua con la siguiente» y autoriza esta última iteración. La aprobación del acabado sobre 7f027f3 queda registrada en 2863fae. I7 se reanuda el 2026-11-18, corrige una espera de codificación PNG y congela el candidato funcional **2d213dd863d5efd49645b81fa80398adfa8295aa**, en la misma rama feature/fe01-frontend-quality. No añade funciones, cambia el contrato aprobado o altera la composición revisada.
+
+**Regresión local satisfactoria; entrega bloqueada por dependencias.** La [evaluación y excepción propuesta](security-review.md) requiere decisión del propietario según QUALITY_SCORE. No se ha hecho push ni abierto una PR nueva, y no hay CI o staging del nuevo candidato. I7 y FE-01 permanecen En curso; no se atribuye al candidato el CI o despliegue de una revisión anterior.
+
+[Análisis estructurado I7](../../review/fe01/i7/analysis.json): identidad y huella de fuentes, manifiesto de los 23 archivos públicos, condiciones, medianas/rangos, recursos, muestras PNG, memoria, invariantes y auditoría. El código fuente se identifica por el commit funcional; el posterior commit documental no cambia ese runtime. La base es 1b204633ddd0ad782096d5377a3ee1c35d05c796, árbol af9deb7d47fb9bd86dea690467f54577f3b214b7: los 23 archivos públicos archivados coinciden con los hashes de I1. La lectura remota del 18 de noviembre mantiene staging en e4b42f121674a24aacc4a3add473111bc7e36c34, ancestro de la rama; no hay trabajo remoto nuevo que integrar.
+
+### Revisión del diff y regresión técnica
+
+Se contrasta el diff completo con I1, las fuentes funcionales con ficha v07/ADR-MMA-023 y las normas/skills con ADR-MMA-022/H-008. No cambian package/lockfile, workflows, despliegue/promoción, componentes/layouts/i18n compartidos, apariencia/movimiento o archivos públicos. Fuera de Plan B, el runtime solo incorpora el contrato focused opcional aprobado y las exclusiones de Tailwind para material de desarrollo/revisión. Las demás miniapps conservan la presentación por defecto.
+
+Se preservan los generadores de calendario, validación, narrativa, persistencia, enlaces Google y exportaciones del dominio. Cambian intencionalmente el flujo, composición del wallpaper y controlador de pasos. La copia ES de calendario coincide con la base aunque ahora se carga desde diccionarios pequeños. No hay tests de Plan B omitidos o restringidos con only. La modificación final de recursos amplía el caso existente de diez ciclos para comprobar la liberación de callbacks de frame; las comprobaciones de URLs/fallo/reintento se conservan.
+
+Sobre el candidato final, **npm run verify** pasa: tipos Astro sin errores, advertencias o hints; lint, formato, configuración de hosting y build satisfactorios; **518 unitarias, 25 componentes, 156 E2E, dos builds de integración y cuatro comprobaciones de pantalla**. La batería dirigida de exportaciones pasa con 20 pruebas. Entorno: Node 24.22.2, npm 11.19.1, Playwright 1.64.1, Chromium 156.0.8078.4/r1248. Resultados exclusivamente locales.
+
+La suite conserva portada ES/EN, catálogo vacío/poblado/draft en copias aisladas, rutas/404, cambio de idioma, identidad, cabecera/pie, temas, fuentes, hero/pausa/movimiento, contratos de miniapps y recorrido real de Plan B. Incluye errores, teclado/foco, sesión v1/restauración/corrupción/bloqueo, calendario/fecha, compartir/cancelar, descargas, texto máximo/emoji, offline tras carga, reduced-motion, reflujo y accesibilidad automática. No acredita motores o dispositivos físicos no ejecutados, WCAG completa ni tiempos humanos universales de comprensión.
+
+### Hallazgo de codificación y corrección
+
+La primera comparación de I7 detecta en el renderer aprobado de I6 una espera intermitente de aproximadamente un segundo al codificar el canvas; no era un segundo de trabajo de dibujo. Se separa dibujo de espera/codificación y se comprueba con píxeles idénticos: cinco pasadas alternadas de la sonda muestran el camino clásico sin callbacks solicitados en 1012–1017 ms y una ventana limitada de frames en 17–23 ms. El experimento OffscreenCanvas de af7d1bd tampoco evita consistentemente la espera; queda sustituido, sin introducir esa API en el producto final.
+
+2d213dd mantiene HTML canvas/toBlob y el dibujo aprobado. Solicita como máximo cinco callbacks de frame durante la codificación, cancela al resolver/rechazar y libera el lienzo en finally. No anima el contenido, incorpora un worker ni mantiene un bucle. El fallo/reintento y la limpieza se vuelven a comprobar en navegador.
+
+Se miden **40 codificaciones reales**, base/candidato × claro/oscuro × ejemplo/textos máximos × cinco pasadas alternadas, fuentes listas, reloj real y viewport 393×851. Tiempo desde crear el canvas; excluye la espera previa de fuentes y el guardado/menú del SO. Mediana y rango total en ms:
+
+| Caso | Base I1 | Candidato final |
+| --- | --- | --- |
+| Claro, ejemplo | 22,0 (20,9–30,1) | 21,2 (19,7–24,3) |
+| Claro, máximo | 43,5 (42,7–50,3) | 43,9 (38,7–49,4) |
+| Oscuro, ejemplo | 21,7 (21,1–28,9) | 21,4 (20,4–23,9) |
+| Oscuro, máximo | 42,8 (39,2–102,7) | 46,3 (39,1–49,6) |
+
+Las medianas de dibujo del candidato son 6,4/25,4/6,6/28,9 ms; las de codificación, 14,8/18,5/14,9/17,2 ms. Ninguna de las 20 muestras finales del candidato repite la espera de un segundo. Es evidencia de este entorno Chromium, no garantía de duración en todo dispositivo.
+
+Se regeneran desde el código final los PNG ES/claro/ejemplo y EN/oscuro/máximo mixto con CJK/emoji compuestos: **idénticos byte a byte a los archivos aprobados de I5/I6**, 1179×2556, frase íntegra, tinta dentro de la zona segura y sin errores o solicitudes externas. Se reutilizan los archivos existentes; no se añaden capturas duplicadas. El caso máximo puede alargar el resultado; no se promete eliminar todo scroll de lectura, y las cuatro preguntas siguen separadas.
+
+### Rendimiento y recursos comparados
+
+Los scripts auxiliares locales de servidor, performance, PNG, recursos y memoria se ejecutan fuera del repo; sus resultados relevantes y condiciones quedan en el análisis durable. No son comandos nuevos del producto. Para reducir sesgo se reconstruye la comparación de ambas salidas con el mismo servidor estático Node, sin compresión, no-cache/ETag y 404 real. No se comparan directamente estos tiempos con los de I1 servidos mediante Astro preview. Cinco pasadas por variante/ruta/viewport, orden base/candidato alternado: **160 observaciones** contando frío/caliente. Contexto nuevo para frío; mismo contexto para caliente, solo sesión propia borrada y about:blank entre visitas. Sin throttling, fuentes listas, reduced-motion, tema claro, zona Europe/Madrid, sin service worker. Cachés del SO no purgadas.
+
+LCP en ms, mediana (mínimo–máximo); las distribuciones y CLS por grupo están en el JSON:
+
+| Ancho / ruta | Frío base → candidato | Caliente base → candidato |
+| --- | --- | --- |
+| 393 / ES | 48 (40–112) → 60 (56–72) | 36 (28–52) → 32 (20–48) |
+| 393 / EN | 56 (52–84) → 52 (44–60) | 32 (24–40) → 40 (24–52) |
+| 393 / 404 | 44 (40–52) → 48 (36–64) | 28 (24–40) → 24 (20–40) |
+| 393 / Plan B | 52 (48–64) → 64 (48–68) | 32 (28–36) → 28 (24–52) |
+| 1440 / ES | 56 (52–72) → 56 (52–84) | 36 (28–52) → 40 (24–56) |
+| 1440 / EN | 60 (48–64) → 64 (56–80) | 36 (28–40) → 32 (32–44) |
+| 1440 / 404 | 44 (44–56) → 48 (44–52) | 28 (28–40) → 32 (24–40) |
+| 1440 / Plan B | 56 (52–68) → 88 (52–100) | 36 (32–36) → 36 (32–44) |
+
+La diferencia máxima de medianas frías es +32 ms en Plan B/escritorio, con rangos solapados; no se oculta como una mejora. En esta muestra local no aparece una degradación material, pero cinco pasadas sin red/CPU limitadas no prueban equivalencia de campo. CLS del candidato es cero en los grupos observados; la base Plan B alcanza 0,02837 estrecho y 0,00563 escritorio. El clic común «Ver un ejemplo» hasta dos frames tiene medianas frías 27,5 → 27,1 ms estrecho y 27,9 → 26,1 ms escritorio. Es un proxy, **no INP**, p75 real ni medición de retención/primer uso humano.
+
+Bytes propios: **34798 JS + 8671 CSS inline = 43469 B (42,45 KiB)**, frente a 42903 B de I1; margen 7731 B al presupuesto de 50 KiB. El JS propio baja 4762 B mientras el CSS crece por el acabado. El runtime compartido permanece en 220745 B; CSS global 34900 frente a 34923 B, únicamente por retirar de la salida una variable no usada. Se conservan fuentes/identidad y no se carga Plan B o React desde portada/404.
+
+| Ruta final | Solicitudes | Bytes completos | Estimación gzip |
+| --- | --- | --- | --- |
+| Portada ES | 4 | 196157 | 151492 |
+| Portada EN | 4 | 196081 | 151436 |
+| 404 real | 4 | 193865 | 151004 |
+| Plan B ES | 7 | 479194 | 241180 |
+| Plan B EN | 7 | 478810 | 240853 |
+
+Portada ES de base: 199557 B; Plan B ES de base: 472242 B. El aumento total de Plan B ES es 6952 B e incluye HTML/estilos/estructura, no solo el módulo. Gzip es estimación por cuerpo completo, no transferencia real de Cloudflare. Cero solicitudes externas observadas. Las 23 salidas públicas no incluyen skills, motor, cachés o material de revisión.
+
+### Memoria, privacidad, deuda y herramientas
+
+Se ejecutan **diez ciclos por variante y ancho, 40 ciclos en total**: resultado, descargas reales PNG/.ics, editar, resultado y reset. Cada sesión crea/revoca 40 URLs; después de cada reset hay cero URLs vivas, observers de exportación, lienzos activos, enlaces temporales o callbacks pendientes. El listener de tema vuelve al basal de uno. Pico de lienzo fijo 3013524 píxeles, aproximadamente 12 MB RGBA, sin atribuirlo al RSS total.
+
+Heap JS tras GC en ciclos 0/1/5/10, MB decimales: base estrecha 2,245/3,016/3,353/3,514 y candidato 2,303/3,124/3,511/3,664; base escritorio 2,265/3,016/3,351/3,514 y candidato 2,303/3,108/3,512/3,653. Nodos tras primer ciclo estables en 154 base/239 candidato; listeners estables en 173/181. Hay crecimiento de cachés en ambas variantes; estos contadores y WeakRefs instrumentados no demuestran ausencia universal de fugas de heap/GPU/RSS. No se observa retención de recursos de exportación introducida por el cambio.
+
+Campos y estado permanecen en cliente/sesión; no se añade backend, analítica, envío previo a Google ni texto privado a la URL. Se mantienen consentimiento, enlace limpio, borrado explícito y errores recuperables. No se identifica nueva deuda funcional pendiente en el alcance revisado. La deuda existente PEND-007 permanece abierta y ahora es un bloqueo efectivo: auditoría lock-only normalizada idéntica en base/candidato, **17 altas/8 moderadas/0 críticas; omit=dev: cero**. Una raíz alta picomatch se propaga por 17 paquetes de herramientas. Sin versión corregida publicada en la consulta; no se adopta audit fix o un downgrade implícito. El [informe de seguridad](security-review.md) concreta exposición, mitigaciones, riesgo residual y excepción pendiente; las pruebas verdes no resuelven ese hallazgo.
+
+Se aplican manualmente Impeccable Operate y las reglas Vercel fijadas, con las adaptaciones locales y sin revisión independiente. Integridad de 62 archivos de skills correcta; detector final de Plan B devuelve lista vacía. No es certificación de calidad visual. Sin hooks, subagentes, dependencias nuevas, servicios o telemetría; descubrimiento nativo sigue sin acreditarse y fuera del criterio aceptado. La autoridad continúa en las fuentes canónicas del proyecto.
+
+### Trazabilidad y handoff
+
+| Criterio FE | Evidencia / límite actual |
+| --- | --- |
+| FE-AC-01 | Normas y matriz de adopción I1, autoridades existentes preservadas, diff final revisado. |
+| FE-AC-02 | Uso manual aplicado I2–I7; versiones/hashes/permisos verificados. Descubrimiento nativo excluido por acuerdo. |
+| FE-AC-03 | Dirección/ficha v07/ADR-MMA-023 aprobadas antes de implementar. Identidad y focused acotados. |
+| FE-AC-04 | Cuatro preguntas, sesión y errores ES/EN; pruebas y revisión I4/I6, regresión final satisfactoria. |
+| FE-AC-05 | Resultado/PNG fiel, salidas y recuperación probadas; PNG finales idénticos a los aprobados. Límites físicos en PB-01. |
+| FE-AC-06 | Acabado aprobado expresamente por el propietario en I6; no se exige participantes externos. |
+| FE-AC-07 | Presupuesto/160 observaciones/40 PNG/40 ciclos; espera PNG corregida y revalidada, límites de muestra declarados. |
+| FE-AC-08 | Parte local satisfactoria; **pendientes** excepción de dependencias, CI y staging del candidato final. |
+| FE-AC-09 | Candidato y doce PB-AC trazados; PB-01 actualizado y En curso. Aceptación global de FE-01 pendiente. |
+
+| Criterio PB | Evidencia local reutilizable / pendiente |
+| --- | --- |
+| PB-AC-01 | Registro published, rutas/metadatos ES/EN y contrato focused; E2E e integración conservan aislamiento. Validación remota del nuevo candidato pendiente. |
+| PB-AC-02 | Flujo v07, cuatro preguntas, errores/sugerencias, Atrás/ejemplo/reset; unitarias/componentes/E2E. |
+| PB-AC-03 | Dominio de mes/fecha estable sin cambios; regresión de límites, cambio de mes y reset mantenida. |
+| PB-AC-04 | Sesión v1, restauración de paso/horario, bloqueo/corrupción, cambio de idioma y reset cubiertos. |
+| PB-AC-05 | Generadores y expectativas de primera fecha/DST/COUNT conservados. **Importación real de cada vía pendiente.** |
+| PB-AC-06 | UTF-8, escapes/plegado/inyección, consentimiento Google, cancelar/errores cubiertos sin llamadas reales a Google. |
+| PB-AC-07 | PNG real máximo/emoji/temas, igualdad byte a byte y zona segura comprobados. **Guardado/fondo bajo reloj en ambos teléfonos pendiente.** |
+| PB-AC-08 | Texto literal y enlace sin plan verificados, APIs/errores simulados. **Destinos nativos físicos pendientes.** |
+| PB-AC-09 | Ejemplo y PNG/.ics offline tras carga pasan en navegador. **Modo avión físico pendiente; no se promete recarga offline.** |
+| PB-AC-10 | axe, teclado/foco, temas, reduced-motion, reflujo y zoom de las iteraciones conservados. **Compatibilidad física/otros motores pendiente.** |
+| PB-AC-11 | 42,45 KiB propios, carga real/red revisadas; no salida de datos previa a exportación explícita observada. |
+| PB-AC-12 | Verify final local pasa. **CI/staging del nuevo candidato y matriz manual completa pendientes.** |
+
+La aprobación FE-01/I6 satisface la revisión humana del piloto en su ámbito; no convierte la emulación en pruebas físicas ni acepta PB-01. La evidencia histórica de PB-01/I6 sigue identificada por su revisión anterior. Tras la entrega habrá que comprobar CI del head exacto, merge manual, prepare/remote-test y manifest SHA/árbol/payload de staging por el circuito existente. Ningún workflow/guard se modifica para conseguir esa validación. FE-I7-02 queda documentado; FE-I7-01/03 siguen pendientes por el bloqueo y la evidencia remota ausente.
+
+Cierre documental local: 125 Markdown y 813 referencias locales comprobadas, sin enlaces reales rotos; el único aviso es el ejemplo literal de puntos suspensivos del documento upstream, ya identificado como falso positivo. Formato y diff --check satisfactorios. El build posterior a toda la documentación conserva **idénticos los 23 archivos públicos** medidos; no se repite la suite completa por cambios solo documentales sin efecto en runtime.

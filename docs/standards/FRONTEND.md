@@ -5,7 +5,7 @@
 
 ## FE-01 — estándar de calidad frontend
 
-**Estado de este apartado:** `Aprobado` el 2026-11-17 por el propietario de MiMiniApp mediante la aceptación de ADR-MMA-022, con el ajuste de que su aprobación basta como aceptación humana. Las pruebas con otras personas son opcionales y no bloquean el cierre; se mantienen las verificaciones técnicas y los criterios de producto aplicables. Referencia técnica en el [registro](../design-docs/index.md); selección/permisos de skills en H-008. La aprobación del estándar no sustituye la de una UI concreta. Skills incorporadas y uso manual comprobado en I2; dirección/contrato de Plan B aprobados en I3 mediante ADR-MMA-023. La aprobación del acabado sigue en I6. [Paquete de I1 y evidencia](../reports/fe01/execution.md#i1--base-y-propuesta-del-estándar).
+**Estado de este apartado:** `Aprobado` el 2026-11-17 por el propietario de MiMiniApp mediante la aceptación de ADR-MMA-022, con el ajuste de que su aprobación basta como aceptación humana. Las pruebas con otras personas son opcionales y no bloquean el cierre; se mantienen las verificaciones técnicas y los criterios de producto aplicables. Referencia técnica en el [registro](../design-docs/index.md); selección/permisos de skills en H-008. La aprobación del estándar no sustituye la de una UI concreta. Skills incorporadas y uso manual comprobado en I2; dirección/contrato de Plan B aprobados en I3 mediante ADR-MMA-023. Acabado I6 aprobado por el propietario; I7 con regresión local satisfactoria, entrega/CI/staging pendientes según el ExecPlan. [Paquete de I1 y evidencia](../reports/fe01/execution.md#i1--base-y-propuesta-del-estándar).
 
 ### Criterios de calidad
 

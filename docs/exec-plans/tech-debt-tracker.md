@@ -29,11 +29,13 @@ La base local está implementada y verificada. Los registros siguientes conserva
 * **Reanudación previa a publicación:** cdn.playwright.dev redirigía a storage.googleapis.com y ese destino recibía CONNECT 403. Instalador y verify exit 1, con ocho lanzamientos sin binario; evidencia conservada en .local/verification/resume-0cf778f/. Se guardó solo la adición exacta en el borrador, tras respuesta «si», sin publicación por el agente.
 * **Cierre comprobado:** el propietario publicó el entorno y solicitó probar Playwright; permiso efectivo observed/enforced. Instalador oficial exit 0, Chromium y Headless Shell 156.0.8078.4/r1248; verify exit 0 con 14+9+8 casos sin omisiones, más revisión asistida visual/teclado correcta. Evidencia final en .local/verification/chromium-156/ y [el informe](../reports/i01/execution.md#verificación-final-con-chromium-fijado). Los diagnósticos Chromium 155 no se usan para cerrar este pendiente. Sin nuevos commits/pushes, I-02 o publicación por el agente.
 
-## PEND-007 — Seguimiento de incidencias moderadas de lint
+## PEND-007 — Seguimiento de dependencias de desarrollo
+
+**Situación vigente FE-01/I7 — 2026-11-18:** 17 altas/8 moderadas/0 críticas, idénticas en base I1 y candidato; omit=dev: 0. Aviso raíz alto de picomatch GHSA-fc5q-39xc-vjpf, sin versión corregida publicada; afecta herramientas de desarrollo/CI. [Evaluación y propuesta de excepción](../reports/fe01/security-review.md) pendiente de aprobación humana; bloquea la entrega por QUALITY_SCORE. No se resuelve ni se hereda una excepción de las auditorías anteriores. Reevaluar al publicarse una corrección, modificar el candidato/lockfile o ampliar entradas no confiables. Las revisiones siguientes conservan resultados históricos.
 
 **Revisión PB-01/I6 — 2026-11-17:** npm audit actual y base previa al producto auditada hoy: 14 moderadas, 0 altas/críticas; omit=dev: 0 vulnerabilidades. Package/lockfile idénticos. Incluye minimatch GHSA-g3hv-75wg-m249 y cadena de lint, y Astro GHSA-r3h5-4585-7x3w sobre @astrojs/node (adaptador no instalado ni desplegado en Workers estático). No se introducen dependencias ni se ejecuta audit fix; seguimiento abierto. El resultado de 11 siguiente es histórico de I-01. [Evaluación y límites](../reports/pb01/execution.md#i6--regresión-y-análisis-global).
 
-* **Estado:** Pendiente de seguimiento, sin incumplir el umbral de altas/críticas aprobado.
+* **Estado inicial en I-01:** Pendiente de seguimiento, entonces sin incumplir el umbral de altas/críticas. El estado vigente bloquea la entrega mientras no haya corrección o excepción aprobada.
 * **Evidencia:** npm audit informa 11 moderadas por minimatch y dependientes de lint/TypeScript, 0 altas y 0 críticas. Los patrones no proceden de usuarios de la fixture y estas herramientas no se sirven en el build estático.
 * **Acción:** evaluar una actualización compatible cuando el ecosistema la ofrezca y antes de ampliar a contribuciones no confiables; no aplicar audit fix --force o downgrades de majors sin aprobación material. Detalle e inventario de licencias en el informe de ejecución.
 
