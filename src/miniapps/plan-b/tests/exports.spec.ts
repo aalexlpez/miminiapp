@@ -24,6 +24,9 @@ async function result(
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await enterPlanResult(page, copy);
   await openCalendar(page, copy);
   await expect(
@@ -110,6 +113,9 @@ for (const locale of ['es', 'en'] as const) {
       .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
       .click();
     await enterPlanResult(page, copy);
     await openCalendar(page, copy);
@@ -282,8 +288,9 @@ test('prepares file sharing before the user gesture and keeps download/view alte
     });
   });
   const copy = await result(page);
+  await page.getByText(copy.exports.imageOptions, { exact: true }).click();
   await page
-    .getByRole('button', { name: copy.exports.saveImage, exact: true })
+    .getByRole('button', { name: copy.exports.shareImage, exact: true })
     .click();
   expect(await page.evaluate(() => Reflect.get(window, '__pbFiles'))).toEqual([
     { name: 'plan-b.png', type: 'image/png', active: true },
@@ -357,6 +364,9 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await enterPlanResult(page, copy);
   await openCalendar(page, copy);
   await expect(
@@ -404,6 +414,9 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     await enterPlanResult(page, copy);
     await openCalendar(page, copy);
   }
@@ -449,14 +462,35 @@ for (const theme of ['light', 'dark'] as const) {
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     const situation = '界'.repeat(90);
     const action = 'W'.repeat(90);
+    if (
+      !(await page
+        .getByLabel(`${copy.ui.if} — ${copy.ui.situationLabel}`, {
+          exact: true,
+        })
+        .count())
+    )
+      await page
+        .getByRole('radio', { name: /^(Escribir la mía|Write my own)$/ })
+        .check();
     await page
       .getByLabel(`${copy.ui.if} — ${copy.ui.situationLabel}`, { exact: true })
       .fill(situation);
     await page
       .getByRole('button', { name: copy.flow.nextSituation, exact: true })
       .click();
+    if (
+      !(await page
+        .getByLabel(`${copy.ui.then} — ${copy.ui.actionLabel}`, { exact: true })
+        .count())
+    )
+      await page
+        .getByRole('radio', { name: /^(Escribir la mía|Write my own)$/ })
+        .check();
     await page
       .getByLabel(`${copy.ui.then} — ${copy.ui.actionLabel}`, { exact: true })
       .fill(action);
@@ -474,17 +508,20 @@ for (const theme of ['light', 'dark'] as const) {
       width: number;
       color: string;
     }[] = await page.evaluate(() => Reflect.get(window, '__pbDrawn'));
+    const planLines = drawn
+      .filter((line) => line.text !== 'MiMiniApp')
+      .slice(1);
     expect(
-      drawn
-        .slice(1)
-        .map((line) => line.text)
-        .join(''),
-    ).toBe(`Si ${situation}, entonces ${action}.`);
-    for (const line of drawn) {
+      drawn.some((line) => line.text === 'MiMiniApp' && line.y > 1840.32),
+    ).toBe(true);
+    expect(planLines.map((line) => line.text).join('')).toBe(
+      `Si ${situation}, entonces ${action}.`,
+    );
+    for (const line of planLines) {
       expect(line.x).toBeCloseTo(117.9, 1);
       expect(line.align).toBe('left');
     }
-    for (const line of drawn.slice(1)) {
+    for (const line of planLines) {
       expect(
         Number.parseFloat(line.font.match(/([\d.]+)px/)![1]),
       ).toBeGreaterThanOrEqual(47.16);
@@ -492,7 +529,7 @@ for (const theme of ['light', 'dark'] as const) {
       expect(line.y).toBeLessThan(1840.32);
       expect(line.width).toBeLessThanOrEqual(943.2);
     }
-    expect(drawn[1].color).toBe(theme === 'dark' ? '#f7f3ff' : '#242136');
+    expect(planLines[0].color).toBe(theme === 'dark' ? '#f7f3ff' : '#242136');
     await page
       .getByRole('button', { name: copy.exports.google, exact: true })
       .click();
@@ -528,6 +565,9 @@ test('recovers from an unavailable local font and regenerates the real image aft
     .click();
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
     .click();
   await enterPlanResult(page, copy);
   await expect(
@@ -624,4 +664,19 @@ test('exports once per double-click or held Enter while allowing a later intenti
   expect(
     await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
   ).toBe(1);
+  await page.getByLabel(copy.ui.timeQuestion, { exact: true }).focus();
+  const fifth = page.waitForEvent('download');
+  await page.keyboard.down('Enter');
+  await page.keyboard.down('Enter');
+  await page.keyboard.up('Enter');
+  await fifth;
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
+  ).toBe(2);
+  const sixth = page.waitForEvent('download');
+  await calendar.click();
+  await sixth;
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
+  ).toBe(3);
 });

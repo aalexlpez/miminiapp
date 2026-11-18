@@ -1,5 +1,6 @@
-import { useRef, useState, type SubmitEvent, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import type { Locale } from '../../lib/locales';
+import { fill } from './i18n/fill';
 import type { PlanCopy } from './i18n/copy';
 import {
   validateDays,
@@ -17,13 +18,15 @@ export default function ScheduleEditor({
   onCommit,
   onEdit,
   children,
+  onExport,
 }: {
   plan: PlanInputs;
   locale: Locale;
   copy: PlanCopy;
   onCommit: (time: string, days: readonly Weekday[]) => boolean;
   onEdit: () => void;
-  children: ReactNode;
+  children?: ReactNode;
+  onExport: (input: PlanInputs, kind: 'ics' | 'google') => void;
 }) {
   const [time, setTime] = useState(plan.time);
   const [days, setDays] = useState<readonly Weekday[]>([...plan.days]);
@@ -31,8 +34,7 @@ export default function ScheduleEditor({
   const [notice, setNotice] = useState('');
   const [dirty, setDirty] = useState(false);
   const input = useRef<HTMLInputElement>(null);
-  function prepare(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function prepare(kind: 'ics' | 'google' = 'ics') {
     if (!time || input.current?.validity.badInput || !validateTime(time).ok) {
       setError('time');
       input.current?.focus();
@@ -46,7 +48,8 @@ export default function ScheduleEditor({
     if (onCommit(time, days)) {
       setError(null);
       setDirty(false);
-      setNotice(copy.flow.scheduleReady);
+      setNotice('');
+      onExport({ ...plan, time, days: [...days] }, kind);
     }
   }
   function name(day: Weekday, short = false) {
@@ -55,11 +58,37 @@ export default function ScheduleEditor({
       timeZone: 'UTC',
     }).format(new Date(Date.UTC(2026, 10, 16 + weekdays.indexOf(day))));
   }
+  const validSchedule =
+    !!time && validateTime(time).ok && validateDays(days, true).ok;
+  const [hour, minute] = time.split(':').map(Number);
+  const formattedTime = validSchedule
+    ? new Intl.DateTimeFormat(locale, {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'UTC',
+      }).format(new Date(Date.UTC(2026, 0, 1, hour, minute)))
+    : '';
+  const formattedDays =
+    days.length === 7
+      ? copy.ui.allDays
+      : days.length === 5 &&
+          weekdays.slice(0, 5).every((day) => days.includes(day))
+        ? copy.ui.workingDays
+        : days.map((day) => name(day, true)).join(', ');
   return (
-    <form className="pb-schedule" noValidate onSubmit={prepare}>
-      <p className="pb-hint">{copy.flow.calendarHint}</p>
+    <form
+      className="pb-schedule"
+      noValidate
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' && event.repeat) event.preventDefault();
+      }}
+      onSubmit={(event) => {
+        event.preventDefault();
+        prepare();
+      }}
+    >
       <p className="pb-hint" id="pb-schedule-hint">
-        {copy.flow.scheduleHint}
+        {copy.flow.calendarHint}
       </p>
       <div className="pb-field">
         <label htmlFor="pb-time">{copy.ui.timeQuestion}</label>
@@ -93,6 +122,30 @@ export default function ScheduleEditor({
         aria-describedby={error === 'days' ? 'pb-days-error' : undefined}
       >
         <legend>{copy.ui.daysLabel}</legend>
+        <div className="pb-day-presets">
+          {[
+            { label: copy.ui.allDays, values: weekdays },
+            { label: copy.ui.workingDays, values: weekdays.slice(0, 5) },
+          ].map((preset) => (
+            <button
+              key={preset.label}
+              type="button"
+              aria-pressed={
+                days.length === preset.values.length &&
+                preset.values.every((day) => days.includes(day))
+              }
+              onClick={() => {
+                onEdit();
+                setDays([...preset.values]);
+                setDirty(true);
+                setError(null);
+                setNotice('');
+              }}
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
         <div className="pb-days">
           {weekdays.map((day) => (
             <button
@@ -123,9 +176,20 @@ export default function ScheduleEditor({
           </p>
         )}
       </fieldset>
+      {validSchedule && (
+        <p id="pb-calendar-summary" role="status">
+          {fill(copy.ui.calendarSummary, {
+            days: formattedDays,
+            time: formattedTime,
+          })}
+        </p>
+      )}
       <div className="pb-actions">
-        <button type="submit" className="pb-primary">
-          {copy.flow.schedulePrepare}
+        <button data-pb-export type="submit" className="pb-primary">
+          {copy.exports.calendarDownload}
+        </button>
+        <button data-pb-export type="button" onClick={() => prepare('google')}>
+          {copy.exports.google}
         </button>
         <button
           type="button"
@@ -145,6 +209,9 @@ export default function ScheduleEditor({
       <p role="status" aria-atomic="true">
         {notice}
       </p>
+      {time && !dirty && (
+        <p className="pb-hint">{copy.exports.duplicateWarning}</p>
+      )}
       {!dirty && children}
     </form>
   );

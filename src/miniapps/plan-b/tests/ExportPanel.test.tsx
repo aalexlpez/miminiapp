@@ -52,13 +52,18 @@ it('shares a prepared PNG from the click and treats cancellation without success
     share: { configurable: true, value: share },
   });
   await panel();
-  fireEvent.click(screen.getByRole('button', { name: copy.exports.saveImage }));
+  fireEvent.click(
+    screen.getByText(copy.exports.imageOptions, { selector: 'summary' }),
+  );
+  fireEvent.click(
+    screen.getByRole('button', { name: copy.exports.shareImage }),
+  );
   expect(share).toHaveBeenCalledOnce();
   const file = share.mock.calls[0][0].files![0];
   expect(file.name).toBe('plan-b.png');
   await waitFor(() =>
     expect(
-      screen.getByRole('button', { name: copy.exports.saveImage }),
+      screen.getByRole('button', { name: copy.exports.shareImage }),
     ).toBeEnabled(),
   );
   expect(screen.queryByText(copy.exports.filePrepared)).not.toBeInTheDocument();

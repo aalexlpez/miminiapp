@@ -26,6 +26,7 @@ import { fill } from './i18n/fill';
 import ExportPanel from './ExportPanel';
 import PlanPreview, { Arrow } from './PlanPreview';
 import ScheduleEditor from './ScheduleEditor';
+import PhraseChoices from './PhraseChoices';
 
 export default function App({
   locale,
@@ -63,12 +64,8 @@ export default function App({
     lastView.current = view;
     exampleFocus.current = false;
     if (first && session.step === 'home') return;
-    heading.current?.focus();
+    heading.current?.focus({ preventScroll: true });
   }, [ready, view, session.step, session.narrative]);
-  useEffect(() => {
-    if (view === 'obstacle' && inputs.obstacle === 'other')
-      otherInput.current?.focus();
-  }, [view, inputs.obstacle]);
   useEffect(() => {
     function beforeLocaleNavigation(event: MouseEvent) {
       if (!(event.target instanceof Element)) return;
@@ -108,13 +105,6 @@ export default function App({
     situation: flow.situationTitle,
     action: flow.actionTitle,
     result: flow.resultTitle,
-  };
-  const hints = {
-    purpose: flow.purposeHint,
-    obstacle: `${fill(ui.obstacleQuestion, { month: nextMonth })} ${ui.obstacleHint}`,
-    situation: flow.situationHint,
-    action: flow.actionHint,
-    result: flow.resultHint,
   };
   const nextLabels = {
     purpose: flow.nextPurpose,
@@ -173,11 +163,23 @@ export default function App({
   function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (controller.getSnapshot().view !== view || view === 'result') return;
+    if (view === 'obstacle' && !inputs.obstacle) {
+      setErrors({ obstacle: 'required' });
+      document.getElementById('pb-obstacle')?.focus();
+      return;
+    }
+    if (view === 'obstacle' && inputs.obstacle && inputs.obstacle !== 'other') {
+      go('situation');
+      return;
+    }
     const name = view === 'obstacle' ? 'otherObstacle' : view;
     const checked = validateText(name, inputs[name]);
     if (!checked.ok) {
       setErrors({ [name]: checked.error });
-      document.getElementById(`pb-${name}`)?.focus();
+      const target =
+        document.getElementById(`pb-${name}`) ||
+        document.querySelector<HTMLInputElement>('.pb-phrase-options input');
+      target?.focus();
       return;
     }
     if (view === 'purpose') go('obstacle');
@@ -210,9 +212,53 @@ export default function App({
     };
     return (
       <div className="pb-field">
-        <label htmlFor={props.id}>{label}</label>
+        <label
+          className={name === 'otherObstacle' ? undefined : 'pb-sr-only'}
+          htmlFor={props.id}
+        >
+          {label}
+        </label>
         {multiline ? (
-          <textarea {...props} rows={2} dir="auto" />
+          <>
+            <span className="pb-field-prefix">
+              {name === 'situation' ? ui.if : ui.then}
+            </span>
+            <textarea
+              {...props}
+              rows={2}
+              dir="auto"
+              placeholder={
+                name === 'situation'
+                  ? flow.situationPlaceholder
+                  : flow.actionPlaceholder
+              }
+            />
+            {new RegExp(
+              `^${name === 'situation' ? ui.if : ui.then}\\s+`,
+              'i',
+            ).test(inputs[name]) && (
+              <button
+                type="button"
+                className="pb-prefix-fix"
+                onClick={() =>
+                  changeText(
+                    name,
+                    inputs[name].replace(
+                      new RegExp(
+                        `^${name === 'situation' ? ui.if : ui.then}\\s+`,
+                        'i',
+                      ),
+                      '',
+                    ),
+                  )
+                }
+              >
+                {fill(flow.removePrefix, {
+                  prefix: name === 'situation' ? ui.if : ui.then,
+                })}
+              </button>
+            )}
+          </>
         ) : (
           <input
             {...props}
@@ -247,14 +293,16 @@ export default function App({
       values.length > 0 && (
         <details className="pb-ideas">
           <summary>{flow.ideas}</summary>
-          <div className="pb-suggestions">
+          <div className="pb-suggestions pb-reveal">
             {values.map((value) => (
               <button
                 type="button"
                 key={value}
                 onClick={() => {
                   changeText(name, value);
-                  document.getElementById(`pb-${name}`)?.focus();
+                  document
+                    .getElementById(`pb-${name}`)
+                    ?.focus({ preventScroll: true });
                 }}
               >
                 {value}
@@ -335,7 +383,11 @@ export default function App({
                 <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
                   {ready ? titles[view] : ui.loading}
                 </h2>
-                <p className="pb-hint pb-question-hint">{hints[view]}</p>
+                {view === 'obstacle' && (
+                  <p className="pb-hint pb-question-hint">
+                    {fill(ui.obstacleQuestion, { month: nextMonth })}
+                  </p>
+                )}
                 {session.example && (
                   <p className="pb-example">{ui.exampleTag}</p>
                 )}
@@ -362,6 +414,9 @@ export default function App({
                       className="pb-obstacles"
                       role="group"
                       aria-label={flow.obstacleTitle}
+                      aria-describedby={
+                        errors.obstacle ? 'pb-obstacle-error' : undefined
+                      }
                     >
                       {obstacleIds.map((id) => (
                         <button
@@ -375,7 +430,6 @@ export default function App({
                               return;
                             controller.update('obstacle', id);
                             setErrors({});
-                            if (id !== 'other') go('situation');
                           }}
                         >
                           {copy.obstacles[id]}
@@ -383,33 +437,46 @@ export default function App({
                         </button>
                       ))}
                     </div>
-                    {obstacle === 'other' &&
-                      field('otherObstacle', ui.otherLabel)}
+                    {errors.obstacle && (
+                      <p
+                        id="pb-obstacle-error"
+                        role="alert"
+                        className="pb-error"
+                      >
+                        {ui.errorObstacle}
+                      </p>
+                    )}
+                    {obstacle === 'other' && (
+                      <div className="pb-reveal">
+                        {field('otherObstacle', ui.otherLabel)}
+                      </div>
+                    )}
                   </>
                 )}
-                {view === 'situation' && (
-                  <>
+                {(view === 'situation' || view === 'action') && (
+                  <PhraseChoices
+                    name={view}
+                    label={titles[view]}
+                    value={inputs[view]}
+                    customLabel={flow.customChoice}
+                    error={errors[view] ? flow.choiceRequired : undefined}
+                    values={
+                      view === 'situation'
+                        ? copy.suggestions.situation[obstacle || 'other']
+                        : Object.values(flow.quickActions)[
+                            copy.suggestions.purpose.indexOf(
+                              inputs.purpose.trim(),
+                            )
+                          ] || copy.suggestions.action[obstacle || 'other']
+                    }
+                    onChange={(value) => changeText(view, value)}
+                  >
                     {field(
-                      'situation',
-                      `${ui.if} — ${ui.situationLabel}`,
+                      view,
+                      `${view === 'situation' ? ui.if : ui.then} — ${view === 'situation' ? ui.situationLabel : ui.actionLabel}`,
                       true,
                     )}
-                    {suggestions(
-                      'situation',
-                      obstacle && obstacle !== 'other'
-                        ? copy.suggestions.situation[obstacle]
-                        : [],
-                    )}
-                  </>
-                )}
-                {view === 'action' && (
-                  <>
-                    {field('action', `${ui.then} — ${ui.actionLabel}`, true)}
-                    {suggestions(
-                      'action',
-                      obstacle ? copy.suggestions.action[obstacle] : [],
-                    )}
-                  </>
+                  </PhraseChoices>
                 )}
                 <div
                   className={`pb-actions ${view === 'purpose' ? 'pb-start-actions' : ''}`}
@@ -424,7 +491,7 @@ export default function App({
                       {ui.back}
                     </button>
                   )}
-                  {(view !== 'obstacle' || obstacle === 'other') && (
+                  {
                     <button
                       type="submit"
                       className="pb-primary"
@@ -434,7 +501,7 @@ export default function App({
                       {nextLabels[view]}
                       <Arrow />
                     </button>
-                  )}
+                  }
                   {view === 'purpose' && (
                     <button
                       type="button"
@@ -460,14 +527,16 @@ export default function App({
                       <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
                         {titles.result}
                       </h2>
-                      <p className="pb-hint pb-question-hint">{hints.result}</p>
+                      <p className="pb-hint pb-question-hint">
+                        {flow.resultHint}
+                      </p>
                       {session.example && (
                         <p className="pb-example">{ui.exampleTag}</p>
                       )}
                     </>
                   }
                   onEdit={() => go('action')}
-                  calendarEditor={(calendarActions) => (
+                  calendarEditor={(exportSchedule) => (
                     <ScheduleEditor
                       plan={{
                         ...phrase.value,
@@ -478,9 +547,8 @@ export default function App({
                       copy={copy}
                       onCommit={controller.commitSchedule}
                       onEdit={controller.markEdited}
-                    >
-                      {calendarActions}
-                    </ScheduleEditor>
+                      onExport={exportSchedule}
+                    />
                   )}
                 />
                 <div className="pb-actions">
@@ -500,16 +568,15 @@ export default function App({
               </>
             )}
           </div>
-          <div className="pb-privacy">
-            <span>{flow.privacyShort}</span>
-            <details>
-              <summary>{flow.privacyLabel}</summary>
-              <p>{ui.privacy}</p>
-            </details>
-          </div>
         </div>
         {view !== 'result' && <PlanPreview inputs={inputs} copy={copy} />}
       </div>
+      <footer className="pb-privacy" aria-label={flow.footerAbout}>
+        <details>
+          <summary>{flow.privacyLabel}</summary>
+          <p>{ui.privacy}</p>
+        </details>
+      </footer>
     </section>
   );
 }

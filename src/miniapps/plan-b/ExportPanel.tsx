@@ -6,6 +6,7 @@ import { formatPlanText } from './i18n/calendar-copy';
 import { fill } from './i18n/fill';
 import { renderWallpaper } from './browser/wallpaper';
 import { Arrow } from './PlanPreview';
+import BrandMark from './BrandMark';
 import {
   calendarFile,
   cleanToolUrl,
@@ -70,7 +71,9 @@ export default function ExportPanel({
   plan: PlanInputs;
   locale: Locale;
   copy: PlanCopy;
-  calendarEditor?: (actions: ReactNode) => ReactNode;
+  calendarEditor?: (
+    onExport: (input: PlanInputs, kind: 'ics' | 'google') => void,
+  ) => ReactNode;
   heading?: ReactNode;
   onEdit?: () => void;
 }) {
@@ -79,6 +82,8 @@ export default function ExportPanel({
   const [image, setImage] = useState<ImageState>('pending');
   const [attempt, setAttempt] = useState(0);
   const [consent, setConsent] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [googlePlan, setGooglePlan] = useState(plan);
   const [notice, setNotice] = useState('');
   const [manual, setManual] = useState('');
   const [busy, setBusy] = useState(false);
@@ -141,9 +146,9 @@ export default function ExportPanel({
     };
   }, [sentence, text.imageLabel, filename, attempt]);
 
-  function downloadCalendar() {
+  function downloadCalendar(candidate: PlanInputs = plan) {
     try {
-      downloads.save(calendarFile(plan, locale), `${filename}.ics`);
+      downloads.save(calendarFile(candidate, locale), `${filename}.ics`);
       setNotice(text.filePrepared);
     } catch {
       setNotice(text.exportError);
@@ -157,7 +162,9 @@ export default function ExportPanel({
     }
     try {
       setNotice(
-        openGoogleCalendar(plan, locale) ? text.googleOpened : text.popupError,
+        openGoogleCalendar(googlePlan, locale)
+          ? text.googleOpened
+          : text.popupError,
       );
     } catch {
       setNotice(text.exportError);
@@ -268,10 +275,17 @@ export default function ExportPanel({
       <p id="pb-calendar-summary">{scheduleSummary()}</p>
       <p>{text.duplicateWarning}</p>
       <div className="pb-actions">
-        <button data-pb-export type="button" onClick={downloadCalendar}>
+        <button data-pb-export type="button" onClick={() => downloadCalendar()}>
           {text.calendarDownload}
         </button>
-        <button data-pb-export type="button" onClick={() => setConsent(true)}>
+        <button
+          data-pb-export
+          type="button"
+          onClick={() => {
+            setGooglePlan(plan);
+            setConsent(true);
+          }}
+        >
           {text.google}
         </button>
       </div>
@@ -317,13 +331,22 @@ export default function ExportPanel({
               className="pb-primary"
               disabled={busy || typeof image === 'string'}
               aria-busy={busy || image === 'pending'}
-              onClick={() => {
-                void saveImage();
-              }}
+              onClick={downloadImage}
             >
               {text.saveImage}
               <Arrow />
             </button>
+            {calendarEditor && (
+              <button
+                type="button"
+                className="pb-reminder-button"
+                aria-expanded={calendarOpen}
+                aria-controls="pb-reminder-editor"
+                onClick={() => setCalendarOpen(!calendarOpen)}
+              >
+                {copy.flow.calendarOptional}
+              </button>
+            )}
             {onEdit && (
               <button
                 data-pb-export
@@ -336,13 +359,12 @@ export default function ExportPanel({
               </button>
             )}
           </div>
-          <p className="pb-hint pb-image-privacy">{text.imageNotice}</p>
           <p role="status" aria-atomic="true" className="pb-image-status">
             {image === 'pending'
               ? text.imagePreparing
               : image === 'error'
                 ? text.imagePrepareError
-                : text.imageReady}
+                : ''}
           </p>
           {image === 'error' && (
             <button
@@ -356,7 +378,18 @@ export default function ExportPanel({
           {typeof image !== 'string' && (
             <details className="pb-image-options" ref={imageOptions}>
               <summary>{text.imageOptions}</summary>
+              <p className="pb-hint">{text.imageNotice}</p>
               <div className="pb-actions">
+                <button
+                  data-pb-export
+                  type="button"
+                  disabled={busy}
+                  onClick={() => {
+                    void saveImage();
+                  }}
+                >
+                  {text.shareImage}
+                </button>
                 <button
                   data-pb-export
                   type="button"
@@ -380,10 +413,21 @@ export default function ExportPanel({
           )}
           <div className="pb-result-options">
             {calendarEditor ? (
-              <details className="pb-calendar-options">
-                <summary>{copy.flow.calendarOptional}</summary>
-                {calendarEditor(calendarActions)}
-              </details>
+              <section
+                id="pb-reminder-editor"
+                className="pb-calendar-options pb-reveal"
+                hidden={!calendarOpen}
+                aria-label={copy.flow.calendarOptional}
+              >
+                <h3>{copy.flow.calendarOptional}</h3>
+                {calendarEditor((input, kind) => {
+                  if (kind === 'ics') downloadCalendar(input);
+                  else {
+                    setGooglePlan(input);
+                    setConsent(true);
+                  }
+                })}
+              </section>
             ) : (
               calendarActions
             )}
@@ -436,9 +480,7 @@ export default function ExportPanel({
         >
           <div className="pb-preview-caption">
             <h3 id="pb-wallpaper-title">{text.wallpaperTitle}</h3>
-            <span className="pb-paper-mark" aria-hidden="true">
-              B
-            </span>
+            <BrandMark />
           </div>
           {typeof image !== 'string' ? (
             <img

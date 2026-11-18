@@ -3,19 +3,40 @@ import { calendarEn } from './calendar-messages.ts';
 export const en = {
   calendar: calendarEn,
   flow: {
+    choiceRequired: 'Choose an option or write your own.',
+    customChoice: 'Write my own',
+    situationPlaceholder: 'For example: I get home late',
+    actionPlaceholder: 'For example: I read one page',
+    prefixHint: 'Write only what comes after “{prefix}”.',
+    removePrefix: 'Remove repeated “{prefix}”',
+    footerAbout: 'About Plan B',
+    quickActions: {
+      exercise: ['I stretch for two minutes', 'I walk for five minutes'],
+      reading: ['I read one page', 'I read for two minutes'],
+      saving: ['I save a small amount', 'I review one expense from today'],
+      language: ['I practise one new word', 'I review for two minutes'],
+      sleep: [
+        'I leave my phone away from my bed',
+        'I go to bed five minutes earlier',
+      ],
+      phone: [
+        'I leave my phone in another room',
+        'I turn off notifications for ten minutes',
+      ],
+    },
     purposePlaceholder: 'For example: read more',
     purposeHint:
       'Pick something that matters to you. Your bad day plan will help when that goal gets difficult.',
     obstacleTitle: 'What could get in your way?',
-    situationTitle: 'When does that obstacle show up?',
-    actionTitle: 'What will you do in that moment?',
+    situationTitle: 'When is it hard to follow through?',
+    actionTitle: 'What will you do to keep going?',
     situationHint:
       'A specific situation you can recognise. This will be your cue to act.',
     actionHint:
       'Something small and possible, even on a bad day. Five minutes can be enough.',
-    nextPurpose: 'Choose obstacle',
-    nextOther: 'Recognise the cue',
-    nextSituation: 'Choose response',
+    nextPurpose: 'Continue',
+    nextOther: 'Continue',
+    nextSituation: 'Continue',
     ideas: 'Need an idea?',
     previewTitle: 'Your plan is taking shape',
     previewExample: 'What it could look like · example',
@@ -27,11 +48,11 @@ export const en = {
       "You don't need a perfect day. You need to know what to do when it isn't.",
     privacyShort: 'No account. Only in this browser.',
     privacyLabel: 'How it works and privacy',
-    resultTitle: 'You have a way to keep going.',
-    resultHint: 'Save it somewhere you can see on a difficult day.',
+    resultTitle: 'Your Plan B',
+    resultHint: 'A way to keep going, even on a bad day.',
     calendarHint:
-      'The app will prepare a four-week series. You choose to save it; alerts depend on your calendar settings.',
-    calendarOptional: 'Add a reminder (optional)',
+      'Choose a time and days. Repeats for 4 weeks; alerts depend on your calendar.',
+    calendarOptional: 'Add a reminder',
     scheduleHint:
       'Your schedule is saved when you prepare the reminder. Reloading earlier restores the last prepared schedule.',
     schedulePrepare: 'Prepare reminder',
@@ -68,7 +89,7 @@ export const en = {
     situationHint:
       'Could you see it in a photo? If not, make it more specific.',
     actionHint: 'Something small: 5 minutes or less.',
-    timeQuestion: 'What time does it usually happen? (optional)',
+    timeQuestion: 'What time?',
     timeHint: "Add a time and we'll make a reminder for your calendar.",
     stepTemplate: 'Step {current} of {total}',
     counterTemplate: '{current} of {max} characters',
@@ -102,6 +123,7 @@ export const en = {
       'Enable JavaScript to prepare your plan. Your text is processed in this browser.',
   },
   exports: {
+    shareImage: 'Share image',
     editPlan: 'Edit my plan',
     imageOptions: 'Other ways to save',
     downloadImage: 'Download PNG',
@@ -109,7 +131,7 @@ export const en = {
     shareHelp:
       'A clean Bad Day Plan link will be shared, without your sentence or schedule.',
     calendarTitle: 'Remind me',
-    calendarDownload: 'Add to my calendar',
+    calendarDownload: 'Download calendar (.ics)',
     google: 'Add to Google Calendar',
     continue: 'Continue',
     cancel: 'Cancel',
@@ -117,9 +139,9 @@ export const en = {
       'Google Calendar will open with your plan. The text will be sent to Google and may remain in the URL and history. Review and save the event there.',
     duplicateWarning: 'Importing the file again may duplicate events.',
     wallpaperTitle: 'Your wallpaper',
-    saveImage: 'Save my plan',
+    saveImage: 'Download image',
     openImage: 'Open image',
-    imageLabel: 'My bad day plan',
+    imageLabel: 'Plan B',
     imageNotice:
       'The image contains your plan. If you choose another app when sharing it, that app will receive the image.',
     imagePreparing: 'Preparing image…',
@@ -170,6 +192,7 @@ export const en = {
       'Use my phone less',
     ],
     situation: {
+      other: ['the day gets complicated', 'my routine changes'],
       time: ['I get home late', 'my day is full of meetings'],
       motivation: ["I don't feel like it at all", 'I have no energy left'],
       unexpected: ['something unexpected happens', 'my plans change'],

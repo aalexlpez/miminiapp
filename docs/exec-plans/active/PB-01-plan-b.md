@@ -21,6 +21,8 @@ El [handoff de I7](../../reports/fe01/execution.md#i7--regresión-y-análisis-gl
 
 Las correcciones históricas de PB-01/I6 quedaron integradas por PR #25 (staging 1b2046), y staging actual e4b42f1 incluye además FE-01/I1. El candidato funcional FE-01 todavía es local: CI/staging propios pendientes; [riesgo de dependencias](../../reports/fe01/security-review.md) aceptado como deuda no bloqueante para esta entrega. Ninguna de estas comprobaciones cierra I4/I5/I6 de PB-01 ni acepta el producto.
 
+**Refinamiento FE-02 — 2026-11-18:** ficha v08/ADR-MMA-024 aprobadas y [nuevo plan](FE-02-plan-b-seleccion-y-marca.md) autorizado por el propietario, reutilizando la rama FE de forma secuencial. Parte de FE-01 integrada por PR #28 (7cf32ca); añade selección simple/personalizada y marca PNG, preservando dominio/sesión/formatos. Su última regresión reemplazará la evidencia local afectada; no acredita pruebas físicas ni acepta PB-01.
+
 ## Objetivo, alcance y decisiones
 
 Entregar Plan B integrada en MiMiniApp: propósito, obstáculo y frase si/entonces, ES/EN, ejemplo/reset, sesión temporal, calendario de cuatro semanas, PNG para fondo de bloqueo y enlace compartible, con privacidad, accesibilidad y resultados verificables. La [ficha v07](../../product-specs/plan-b.md) conserva el contrato funcional y los doce PB-AC; este plan describe cómo ejecutarlo y demostrarlo.

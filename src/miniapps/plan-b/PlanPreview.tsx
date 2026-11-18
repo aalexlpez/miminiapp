@@ -1,3 +1,4 @@
+import BrandMark from './BrandMark';
 import type { PlanCopy } from './i18n/copy';
 import type { DraftInputs } from './domain/session-state';
 
@@ -32,9 +33,7 @@ export default function PlanPreview({
         <span id="pb-preview-title">
           {situation || action ? flow.previewTitle : flow.previewExample}
         </span>
-        <span className="pb-paper-mark" aria-hidden="true">
-          B
-        </span>
+        <BrandMark />
       </div>
       <div className="pb-paper">
         <p className="pb-paper-goal" dir="auto">

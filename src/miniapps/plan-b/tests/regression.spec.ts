@@ -27,6 +27,9 @@ test.describe('native keyboard time editor', () => {
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     await enterPlanResult(page, copy);
     await openCalendar(page, copy);
     const time = page.locator('#pb-time');
@@ -37,7 +40,7 @@ test.describe('native keyboard time editor', () => {
       await time.evaluate((el: HTMLInputElement) => el.validity.badInput),
     ).toBe(true);
     await page
-      .getByRole('button', { name: copy.flow.schedulePrepare, exact: true })
+      .getByRole('button', { name: copy.exports.calendarDownload, exact: true })
       .click();
     await expect(page.getByRole('alert')).toHaveText(copy.ui.errorTime);
     await expect(time).toBeFocused();
@@ -54,7 +57,7 @@ test.describe('native keyboard time editor', () => {
     ).toBe('20:00');
     await time.fill('21:30');
     await page
-      .getByRole('button', { name: copy.flow.schedulePrepare, exact: true })
+      .getByRole('button', { name: copy.exports.calendarDownload, exact: true })
       .click();
     expect(
       (
@@ -84,6 +87,9 @@ for (const locale of ['es', 'en'] as const) {
       .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
       .click();
     await page.clock.setFixedTime(new Date(2026, 1, 1, 12));
     await enterPlanResult(page, copy);

@@ -45,6 +45,9 @@ for (const locale of ['es', 'en'] as const) {
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     await expect(
       page.getByLabel(`${copy.ui.if} — ${copy.ui.situationLabel}`, {
         exact: true,
@@ -119,15 +122,17 @@ test('retains literal ES example and January narrative through locale/month chan
   await page
     .getByRole('button', { name: en.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: en.flow.nextOther, exact: true })
+    .click();
   await expect(page.getByLabel('If — Situation', { exact: true })).toHaveValue(
     es.example.situation,
   );
   await page
     .getByRole('button', { name: en.flow.nextSituation, exact: true })
     .click();
-  await page.locator('.pb-ideas > summary').click();
   await page
-    .getByRole('button', { name: en.suggestions.action.time[0], exact: true })
+    .getByRole('radio', { name: en.suggestions.action.time[0], exact: true })
     .click();
   await expect(page.getByText(en.ui.exampleTag, { exact: true })).toHaveCount(
     0,
@@ -178,12 +183,20 @@ test('validates Other, separate fields and optional days without transmitting pr
   await page
     .getByRole('button', { name: copy.flow.nextOther, exact: true })
     .click();
+  if (!(await page.getByLabel('Si — Situación', { exact: true }).count()))
+    await page
+      .getByRole('radio', { name: /^(Escribir la mía|Write my own)$/ })
+      .check();
   await page
     .getByLabel('Si — Situación', { exact: true })
     .fill(`veo <b>${sentinel}</b>`);
   await page
     .getByRole('button', { name: copy.flow.nextSituation, exact: true })
     .click();
+  if (!(await page.getByLabel('entonces — Acción', { exact: true }).count()))
+    await page
+      .getByRole('radio', { name: /^(Escribir la mía|Write my own)$/ })
+      .check();
   await page
     .getByLabel('entonces — Acción', { exact: true })
     .fill('leo una página');
@@ -198,7 +211,7 @@ test('validates Other, separate fields and optional days without transmitting pr
   for (const name of ['lunes', 'martes', 'miércoles', 'jueves', 'viernes'])
     await page.getByRole('button', { name, exact: true }).click();
   await page
-    .getByRole('button', { name: copy.flow.schedulePrepare, exact: true })
+    .getByRole('button', { name: copy.exports.calendarDownload, exact: true })
     .click();
   await expect(page.getByRole('alert')).toHaveText(copy.ui.errorDays);
   expect(
@@ -291,6 +304,9 @@ test('explains invalid saved data and failed reset without touching appearance',
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await enterPlanResult(page, copy);
   await page.getByRole('button', { name: copy.ui.reset, exact: true }).click();
   await expect(page.locator('.pb-notices')).toContainText(copy.ui.deleteFailed);
@@ -323,10 +339,14 @@ test('checks accessibility at every guided view in dark mode', async ({
       await page
         .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
         .click();
-    if (index === 1)
+    if (index === 1) {
       await page
         .getByRole('button', { name: copy.obstacles.time, exact: true })
         .click();
+      await page
+        .getByRole('button', { name: copy.flow.nextOther, exact: true })
+        .click();
+    }
     if (index === 2)
       await page
         .getByRole('button', { name: copy.flow.nextSituation, exact: true })
@@ -381,8 +401,13 @@ test('restores legacy v1 drafts deterministically, keeping their text and exact 
     expect(
       await page.evaluate((key) => sessionStorage.getItem(key), sessionKey),
     ).toBe(raw);
-    if (expected === 'situation')
+    if (expected === 'situation') {
+      if (!(await page.locator('#pb-situation').count()))
+        await page
+          .getByRole('radio', { name: copy.flow.customChoice, exact: true })
+          .check();
       await expect(page.locator('#pb-situation')).toHaveValue(situation);
+    }
     if (expected === 'action')
       await expect(page.locator('#pb-action')).toHaveValue(copy.example.action);
     if (expected === 'result')
@@ -410,6 +435,9 @@ test('keeps one navigation per double-click while allowing normal keyboard advan
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await expect(page.getByTestId('plan-b-app')).toHaveAttribute(
     'data-view',
     'situation',
@@ -432,4 +460,123 @@ test('keeps one navigation per double-click while allowing normal keyboard advan
     'data-view',
     'obstacle',
   );
+});
+
+for (const locale of ['es', 'en'] as const) {
+  test(`${locale}: makes a complete plan with quick choices and exports the new schedule directly`, async ({
+    page,
+  }) => {
+    const copy = getPlanCopy(locale);
+    await open(page, locale);
+    await page.locator('.pb-ideas > summary').click();
+    await page
+      .getByRole('button', { name: copy.suggestions.purpose[1], exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
+    await expect(page.getByRole('alert')).toHaveText(copy.ui.errorObstacle);
+    await page
+      .getByRole('button', { name: copy.obstacles.time, exact: true })
+      .click();
+    await expect(page.getByTestId('plan-b-app')).toHaveAttribute(
+      'data-view',
+      'obstacle',
+    );
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+      .click();
+    await expect(page.getByRole('alert')).toHaveText(copy.flow.choiceRequired);
+    await page
+      .getByRole('radio', {
+        name: copy.suggestions.situation.time[0],
+        exact: true,
+      })
+      .check();
+    await page
+      .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+      .click();
+    await page
+      .getByRole('radio', {
+        name: copy.flow.quickActions.reading[0],
+        exact: true,
+      })
+      .check();
+    await page
+      .getByRole('button', { name: copy.ui.viewPlan, exact: true })
+      .click();
+    await expect(page.getByTestId('plan-sentence')).toHaveText(
+      `${copy.ui.if} ${copy.suggestions.situation.time[0]}, ${copy.ui.then} ${copy.flow.quickActions.reading[0]}.`,
+    );
+    await expect(
+      page.getByRole('button', { name: copy.exports.saveImage, exact: true }),
+    ).toBeVisible();
+    await expect(page.locator('.pb-workspace .pb-privacy')).toHaveCount(0);
+    await expect(page.locator('footer.pb-privacy')).toBeVisible();
+    await openCalendar(page, copy);
+    await page.getByLabel(copy.ui.timeQuestion, { exact: true }).fill('21:45');
+    await page
+      .getByRole('button', { name: copy.ui.allDays, exact: true })
+      .click();
+    const download = page.waitForEvent('download');
+    await page
+      .getByRole('button', { name: copy.exports.calendarDownload, exact: true })
+      .click();
+    const { readFile } = await import('node:fs/promises');
+    const contents = await readFile((await (await download).path())!, 'utf8');
+    expect(contents).toContain('T214500\r\n');
+    expect(contents).toContain('COUNT=28');
+    const saved = await page.evaluate(
+      (key) => JSON.parse(sessionStorage.getItem(key)!),
+      sessionKey,
+    );
+    expect(saved.inputs.time).toBe('21:45');
+    expect(saved.inputs.days).toHaveLength(7);
+  });
+}
+
+test('reveals Other without stealing focus or scrolling and only removes a typed connector explicitly', async ({
+  page,
+}) => {
+  const copy = getPlanCopy('es');
+  await open(page);
+  await page.getByLabel(copy.ui.goalLabel, { exact: true }).fill('Leer más');
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
+  const other = page.getByRole('button', {
+    name: copy.obstacles.other,
+    exact: true,
+  });
+  await other.scrollIntoViewIfNeeded();
+  const scroll = await page.evaluate(() => scrollY);
+  await other.click();
+  await expect(
+    page.getByLabel(copy.ui.otherLabel, { exact: true }),
+  ).not.toBeFocused();
+  expect(
+    Math.abs((await page.evaluate(() => scrollY)) - scroll),
+  ).toBeLessThanOrEqual(2);
+  await page.getByLabel(copy.ui.otherLabel, { exact: true }).fill('Mi horario');
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
+  await page
+    .getByRole('radio', { name: copy.flow.customChoice, exact: true })
+    .check();
+  const field = page.getByLabel(`${copy.ui.if} — ${copy.ui.situationLabel}`, {
+    exact: true,
+  });
+  await field.fill('Si llego tarde');
+  await expect(field).toHaveValue('Si llego tarde');
+  await page
+    .getByRole('button', { name: 'Quitar «Si» repetido', exact: true })
+    .click();
+  await expect(field).toHaveValue('llego tarde');
 });

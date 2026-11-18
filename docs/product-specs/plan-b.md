@@ -1,12 +1,23 @@
-# Plan B · Bad Day Plan — ficha funcional v07
+# Plan B · Bad Day Plan — ficha funcional v08
 
 * **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados. Enmienda v07 aprobada el 2026-11-17 mediante «Vale, si, la apruebo» al revisar dirección/contrato FE-01/I3 (ADR-MMA-023) y pasar a I4.
-* **Situación:** I1–I5 integradas en staging; I6 autorizada y revisión técnica global realizada. PB-01 sigue `En curso`: pruebas físicas, revisión humana y validación remota de las correcciones pendientes. Correcciones PB-01/I6 integradas por PR #25; candidato frontend FE-01 aún local, con CI/staging pendientes. ADR-MMA-020/021/023 aprobadas.
+* **Situación:** FE-01 integrada por PR #28, staging base 7cf32ca. Enmienda v08 aprobada el 2026-11-18 al aceptar la simplificación, selección simple/personalizada y logo/identidad PNG; ADR-MMA-024 y FE-02 autorizados. FE-02 en regresión local; PB-01 mantiene pruebas físicas y aceptación global pendientes.
 * **Creada:** 2026-11-15. **Actualizada:** 2026-11-18 (v07 aprobada; recorrido y resultado/PNG FE-01/I4–I5 implementados y verificados localmente, acabado I6 aprobado sobre 7f027f3; regresión local I7 satisfactoria en 2d213dd, deuda de dependencias no bloqueante aprobada; CI/staging pendientes).
 * **Origen:** [v05 aportada por el propietario](../references/plan-b-v05.md), contrastada con `staging` en `e203d73156a61a61138e9ff23de964a827221fad`.
 * **Categoría:** `everyday`. **ID / slug:** `plan-b`. Etiquetas opcionales omitidas; `publishedAt: 2026-11-17` en la candidata autorizada, como fecha prevista de primera incorporación (confirmar la real antes de integrar si cambia el día).
 * **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1–I5 integradas e I6 autorizada y revisada técnicamente, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
 * **Revisión agrupada:** [paquete de aprobación](../design-docs/plan-b-approval.md). Tras integrar PR #24, el propietario solicita continuar con I6: revisión global, correcciones locales, commit/push/PR en la misma rama. Registro de I5 autorizado y staging integrado/validado; quedan pruebas físicas de I4, revisión humana/compatibilidad de I5 y staging del candidato corregido. No es aceptación del producto ni autorización de merge por el agente.
+
+## Enmienda v08 — aprobada el 2026-11-18
+
+El propietario acepta la propuesta de simplificación y añade selección simple con opción personalizada para situación/acción, logo de Plan B e identidad MiMiniApp en el PNG. Aprueba ADR-MMA-024 y autoriza [FE-02](../exec-plans/active/FE-02-plan-b-seleccion-y-marca.md). Esta enmienda prevalece sobre la descripción v07 histórica siguiente en los puntos modificados; el resto del dominio, sesión v1 y exportaciones sigue vigente.
+
+* Cuatro preguntas; situación/acción ofrecen opciones reales de selección simple y «Escribir la mía». Texto personalizado sigue validado y literal; elección rápida no interpreta semánticamente propósitos libres. Conectores fuera del valor; corrección de prefijos duplicados solo explícita.
+* Opciones de obstáculo requieren Continuar; Otro se revela sin autoFocus. Ideas con transición breve, instantánea con reduced-motion. Pregunta/etiqueta y ejemplo, sin repetir explicaciones generales.
+* Privacidad general en pie fuera del workspace; errores y consentimiento permanecen junto a su acción.
+* Imagen y añadir recordatorio como botones visibles. Editor inline con hora nativa y presets de días; .ics o Google validan y confirman horario atómicamente, sin preparar primero. Mantener consentimiento Google y alternativas compatibles del guardado PNG.
+* Logo vectorial Plan B y firma MiMiniApp en UI/PNG, sin URL o datos adicionales; sustituye el PNG sin logotipo de v07. Lienzo fijo, composición/legibilidad y texto íntegro conservados. No cambiar identidad global.
+* Una sola imagen real de revisión, entrega conjunta tras iteraciones/regresión. Aceptación visual en staging; no se exigen informes humanos por iteración o más demos.
 
 ## 1. Propósito y alcance
 
