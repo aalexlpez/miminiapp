@@ -35,15 +35,19 @@ export function layoutWallpaper(text: string, measure: MeasureText) {
     throw new RangeError('Invalid wallpaper text.');
   const { width, height } = wallpaperSize;
   const labelSize = width * 0.028;
-  const labelHeight = labelSize * 1.3;
-  const gap = width * 0.03;
+  const bodyOffset = width * 0.072;
+  const continuityGap = width * 0.03;
+  const strokeWidth = width * 0.007;
   const minimum = width * 0.04;
   let size = width * 0.07;
   while (true) {
     const lines = wrapWallpaperText(text, size, measure);
     const lineHeight = size * 1.3;
     const blockHeight =
-      labelHeight + gap + (lines?.length ?? Infinity) * lineHeight;
+      bodyOffset +
+      (lines?.length ?? Infinity) * lineHeight +
+      continuityGap +
+      strokeWidth / 2;
     if (lines && blockHeight <= height * 0.4) {
       const top = height * 0.32 + (height * 0.4 - blockHeight) / 2;
       return {
@@ -52,7 +56,11 @@ export function layoutWallpaper(text: string, measure: MeasureText) {
         lineHeight,
         labelSize,
         labelTop: top,
-        bodyTop: top + labelHeight + gap,
+        left: width * 0.1,
+        bodyTop: top + bodyOffset,
+        continuityY:
+          top + bodyOffset + lines.length * lineHeight + continuityGap,
+        strokeWidth,
       };
     }
     if (size === minimum) throw new RangeError('Wallpaper text does not fit.');

@@ -77,6 +77,7 @@ it('offers a selectable clean URL after share and clipboard failures', async () 
     },
   });
   await panel();
+  fireEvent.click(screen.getByText(copy.exports.shareTitle));
   fireEvent.click(screen.getByRole('button', { name: copy.exports.share }));
   expect(screen.getByText(copy.exports.shareError)).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: copy.exports.copy }));

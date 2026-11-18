@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import type { Page } from '@playwright/test';
 import { test, expect } from './helpers/fixtures';
 import { getPlanCopy } from '../i18n/copy';
+import { enterPlanResult } from './helpers/journey';
 
 test.use({ entryKind: 'app' });
 async function openPlan(page: Page, locale: 'es' | 'en') {
@@ -10,7 +11,9 @@ async function openPlan(page: Page, locale: 'es' | 'en') {
   await page
     .getByRole('button', { name: copy.ui.exampleButton, exact: true })
     .click();
-  await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
   return copy;
 }
 function luminance(color: number[], gray: number) {
@@ -64,34 +67,16 @@ async function contrast(page: Page, gray: number) {
 
 for (const locale of ['es', 'en'] as const)
   for (const theme of ['light', 'dark'] as const) {
-    test(`${locale}/${theme}: keeps the journey readable through full and partial gray`, async ({
+    test(`${locale}/${theme}: keeps every guided view readable with reduced motion`, async ({
       page,
     }) => {
       await page.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
       const copy = await openPlan(page, locale);
       const app = page.getByTestId('plan-b-app');
-      await expect(app).toHaveCSS('filter', 'grayscale(1)');
+      await expect(app).toHaveCSS('filter', 'none');
       await expect(page.locator('.site-header')).toHaveCSS('filter', 'none');
-      await contrast(page, 1);
-      await page
-        .getByRole('button', { name: copy.obstacles.time, exact: true })
-        .click();
-      const situation = page.getByLabel(
-        `${copy.ui.if} — ${copy.ui.situationLabel}`,
-        { exact: true },
-      );
-      const action = page.getByLabel(
-        `${copy.ui.then} — ${copy.ui.actionLabel}`,
-        { exact: true },
-      );
-      await situation.fill('');
-      await action.fill('');
-      await expect(app).toHaveCSS('filter', 'grayscale(1)');
-      for (const count of [0, 1, 2]) {
-        if (count === 1) await situation.fill(copy.example.situation);
-        if (count === 2) await action.fill(copy.example.action);
-        await expect(app).toHaveCSS('filter', `grayscale(${1 - count / 2})`);
-        await contrast(page, 1 - count / 2);
+      for (let phase = 0; phase < 4; phase++) {
+        await contrast(page, 0);
         expect(
           (
             await new AxeBuilder({ page })
@@ -99,21 +84,24 @@ for (const locale of ['es', 'en'] as const)
               .analyze()
           ).violations,
         ).toEqual([]);
+        await expect(page.locator('.pb-screen')).toHaveCSS(
+          'animation-name',
+          'none',
+        );
+        if (phase === 0)
+          await page
+            .getByRole('button', { name: copy.obstacles.time, exact: true })
+            .click();
+        if (phase === 1)
+          await page
+            .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+            .click();
+        if (phase === 2) await enterPlanResult(page, copy);
       }
-      await page
-        .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-        .click();
-      await expect(app).toHaveCSS('filter', 'grayscale(0)');
-      await expect(page.locator('.pb-stamp')).toHaveCSS('transform', 'none');
-      await expect(page.locator('.pb-stamp')).toHaveCSS(
-        'animation-name',
-        'none',
-      );
-      await expect(app).toHaveCSS('transition-duration', '0s');
     });
   }
 
-test('reserves room for the finite stamp animation and leaves the phrase unobstructed', async ({
+test('finite view motion remains interruptible and never delays a valid submission', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -122,48 +110,41 @@ test('reserves room for the finite stamp animation and leaves the phrase unobstr
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
-  await expect(page.getByTestId('plan-b-app')).toHaveCSS(
-    'transition-duration',
-    '0.6s',
-  );
-  await page
-    .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-    .click();
-  const samples = await page.locator('.pb-stamp').evaluate((element) => {
-    const animation = element
+  const motion = await page.locator('.pb-screen').evaluate((el) => {
+    const animation = el
       .getAnimations()
       .find(
         (value) =>
           value instanceof CSSAnimation &&
-          value.animationName === 'pb-stamp-arrive',
+          value.animationName === 'pb-screen-enter',
       )!;
     animation.pause();
-    return [0, 300].map((time) => {
+    return [0, 180].map((time) => {
       animation.currentTime = time;
-      const matrix = new DOMMatrix(getComputedStyle(element).transform);
-      const stamp = element.getBoundingClientRect();
-      const phrase = document
-        .querySelector('.pb-result')!
-        .getBoundingClientRect();
       return {
-        scale: Math.hypot(matrix.a, matrix.b),
-        angle: (Math.atan2(matrix.b, matrix.a) * 180) / Math.PI,
-        left: stamp.left,
-        right: stamp.right,
-        bottom: stamp.bottom,
-        phraseTop: phrase.top,
-        width: innerWidth,
+        opacity: Number(getComputedStyle(el).opacity),
+        y: new DOMMatrix(getComputedStyle(el).transform).f,
       };
     });
   });
-  expect(samples[0].scale).toBeCloseTo(1.4, 3);
-  expect(samples[1].scale).toBeCloseTo(1, 3);
-  for (const sample of samples) {
-    expect(sample.angle).toBeCloseTo(-6, 3);
-    expect(sample.left).toBeGreaterThanOrEqual(0);
-    expect(sample.right).toBeLessThanOrEqual(sample.width);
-    expect(sample.bottom).toBeLessThanOrEqual(sample.phraseTop);
-  }
+  expect(motion[0].y).toBeCloseTo(8, 1);
+  expect(motion[1].y).toBeCloseTo(0, 1);
+  expect(motion[0].opacity).toBeCloseTo(0.7, 1);
+  expect(motion[1].opacity).toBeCloseTo(1, 1);
+  await page
+    .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+    .click();
+  await page.locator('.pb-screen').evaluate((el) => {
+    for (const animation of el.getAnimations()) {
+      animation.pause();
+      animation.currentTime = 0;
+    }
+  });
+  await enterPlanResult(page, copy);
+  await expect(page.getByTestId('plan-sentence')).toContainText(
+    copy.example.action,
+  );
+  await expect(page.locator('#pb-step-title')).toBeFocused();
 });
 
 for (const locale of ['es', 'en'] as const) {
@@ -207,6 +188,9 @@ test('reflows every screen in both languages/themes and at doubled CSS size', as
       const copy = getPlanCopy(locale);
       const app = page.getByTestId('plan-b-app');
       await expect(app).toHaveAttribute('data-ready', 'true');
+      await page
+        .getByRole('button', { name: copy.ui.exampleButton, exact: true })
+        .click();
       // This is a reflow/CSS-zoom check; native browser zoom remains a manual review.
       for (let step = 0; step < 5; step++) {
         for (const width of [320, 393, 768, 1280, 1440]) {
@@ -241,20 +225,17 @@ test('reflows every screen in both languages/themes and at doubled CSS size', as
         });
         if (step === 0)
           await page
-            .getByRole('button', { name: copy.ui.exampleButton, exact: true })
+            .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
             .click();
         if (step === 1)
           await page
-            .getByRole('button', { name: copy.ui.next, exact: true })
+            .getByRole('button', { name: copy.obstacles.time, exact: true })
             .click();
         if (step === 2)
           await page
-            .getByRole('button', { name: copy.obstacles.time, exact: true })
+            .getByRole('button', { name: copy.flow.nextSituation, exact: true })
             .click();
-        if (step === 3)
-          await page
-            .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-            .click();
+        if (step === 3) await enterPlanResult(page, copy);
       }
       await page
         .getByRole('button', { name: copy.ui.reset, exact: true })

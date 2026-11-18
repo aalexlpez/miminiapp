@@ -19,6 +19,13 @@ Sitio estático generado con Astro 7. No hay servidor de aplicación, base de da
 | Entrega | Actions para staging; promoción por snapshot entre repositorios; Workers Builds para producción |
 | Runtime | Node 24 (referencia 24.22.2) y npm 11, dependencias exactas y un solo lockfile |
 
+Las ayudas frontend de H-008 se versionan en .agents/skills como herramientas de
+desarrollo, con motor/caché ignorados en .local. global.css excluye .agents y
+docs/review/fe01 del
+descubrimiento de utilidades Tailwind para que los ejemplos de las skills no
+alteren el CSS público. [Perfil y límites comprobados](docs/guides/frontend-skills.md);
+no son dependencias de la aplicación ni se sirven desde dist.
+
 ## Mapa del código
 
 ```text
@@ -52,16 +59,20 @@ Los textos de plataforma viven en `src/i18n/common/`. `validateTranslationParity
 
 `src/lib/miniapp-registry.ts` define el contrato y `src/miniapps/registry.ts` es la lista explícita de herramientas, con Plan B incorporada por autorización del propietario el 2026-11-17 e integrada en staging mediante PR #24.
 
-* Un **descriptor** es metadato puro: `id`, `slug`, `status` (`draft` o `published`), `category`, `tags` opcionales, `publishedAt` y título y descripción en ambos idiomas. Importarlo nunca carga interfaz.
+* Un **descriptor** es metadato puro: `id`, `slug`, `status` (`draft` o `published`), `category`, `tags` opcionales, `publishedAt` y título y descripción en ambos idiomas. `presentation` es opcional (`standard` por defecto o `focused` por opción explícita, ADR-MMA-023). Importarlo nunca carga interfaz.
 * Una entrada **publicada** añade `loadEntry`, que importa de forma perezosa el `entry.astro` de la herramienta. Un borrador no puede tener cargador.
 * `validateRegistry` se ejecuta en build y rechaza ids o slugs duplicados, categorías desconocidas, fechas inválidas, traducciones ausentes y borradores con cargador.
 * El catálogo consume solo los metadatos publicados. Los borradores no generan rutas ni dejan rastro en `dist/`.
 
-Plan B se registra con descriptor `published`, categoría `everyday`, fecha prevista de primera incorporación `2026-11-17` y loader perezoso de `src/miniapps/plan-b/entry.astro`. El build genera tarjeta y rutas `/es/apps/plan-b/` y `/en/apps/plan-b/`; la portada usa metadatos sin hidratar React/Plan B. Staging sirve esa integración, identificada por `3d28184f3c90db44fe57a7592e23a5e71c071f23` y Actions 44060190659. I6 entrega dos correcciones locales para su siguiente integración y validación; la aceptación del producto sigue pendiente.
+Plan B se registra con descriptor `published`, categoría `everyday`, fecha prevista de primera incorporación `2026-11-17` y loader perezoso de `src/miniapps/plan-b/entry.astro`. El build genera tarjeta y rutas `/es/apps/plan-b/` y `/en/apps/plan-b/`; la portada usa metadatos sin hidratar React/Plan B. Staging sirve esa integración, identificada por `3d28184f3c90db44fe57a7592e23a5e71c071f23` y Actions 44060190659. Las dos correcciones PB-01/I6 quedaron integradas por PR #25 (1b2046); staging actual e4b42f1 incorpora también la documentación inicial FE-01. El nuevo frontend FE-01 sigue local; su CI/staging y la aceptación del producto están pendientes.
 
-Su dominio mantiene validación, fecha narrativa y generadores puros de calendario `.ics`/URL Google, sin navegador o traducciones. La UI Astro/React ES/EN comparte el formateo de frase y mantiene entradas/paso/ejemplo con sesión temporal versionada/validada, memoria y avisos ante fallo; reset solo afecta a su clave y recaptura la fecha de portada, conservando estable la narrativa de una sesión activa. La validación de hora comprueba también el estado nativo badInput para no aceptar una edición incompleta como hora omitida.
+En la rama local FE-01/I4, ADR-MMA-023 implementa cuatro preguntas (propósito, obstáculo, situación y acción), vista previa de la frase y calendario opcional después del resultado. El marco `focused` compacta título/espaciado solo en las herramientas que lo declaran; conserva cabecera/pie y el comportamiento estándar de las demás. No se atribuye este candidato local a staging.
 
-`ExportPanel.tsx` prepara PNG con canvas y fuentes locales, ajuste por palabras/grafemas y tokens del tema; conserva activación para compartir y libera canvas/URLs al volver/reset. `.ics` local, Google con consentimiento y ventana detectable sin opener/referrer, compartir/copia de enlace limpio. No hay API ni llamadas previas a Google. CSS de gris/color y sello limitado al módulo, con reglas propias de reduced-motion.
+Su dominio mantiene validación, fecha narrativa y generadores puros de calendario `.ics`/URL Google, sin navegador o traducciones. La UI Astro/React ES/EN conserva la clave y el esquema de sesión v1: las dos vistas de `plan` viven solo en memoria y la restauración nunca infiere un resultado completo. La fecha se captura al primer cambio real o ejemplo, no al pintar la primera pregunta; reset solo afecta a su clave. La edición del calendario mantiene un borrador local y confirma hora/días válidos conjuntamente, conservando la última preparación guardada hasta entonces. La validación comprueba también el estado nativo badInput para no aceptar una edición incompleta como hora omitida. Sesiones antiguas con horario incompleto conservan sus datos.
+
+`ExportPanel.tsx` prepara PNG con canvas y fuentes locales, alineación izquierda, línea de continuidad y dos arcos fuera de la zona de texto (ADR-MMA-023). El layout mantiene etiqueta/frase/línea dentro del 32–72 % de alto, con ajuste por palabras/grafemas y tokens del tema; conserva activación para compartir y libera canvas/URLs al volver/reset. `.ics` local, Google con consentimiento y ventana detectable sin opener/referrer, compartir/copia de enlace limpio. No hay API ni llamadas previas a Google. I4 retira gris/sello y usa movimiento breve de opacidad/desplazamiento, instantáneo con reduced-motion; FE-01/I5 incorpora el resultado con guardar/editar prioritarios, calendario/compartir desplegables y vista previa del PNG real. I6 recupera la explicación y el resumen del horario confirmado y evita exportaciones duplicadas por doble clic o Enter mantenido, sin impedir una nueva pulsación. El propietario aprueba el acabado I6 sobre 7f027f3; I7 revalida el candidato 2d213dd y conserva idénticos los PNG aprobados. La codificación clásica canvas.toBlob solicita como máximo cinco callbacks de frame mientras está pendiente, cancelados al terminar/fallar: evita una espera de planificación observada en Chromium sin animar contenido ni mantener un bucle. No incorpora otro codificador o worker. Riesgo de dependencias de desarrollo aceptado para esta entrega como deuda no bloqueante con revisión mensual (PEND-007); CI/staging pendientes.
+
+`entry.astro` incorpora el CSS estático propio mediante `?inline` y lo emite solo en la ruta de Plan B, antes de la hidratación. El catálogo no descarga ese CSS ni hidrata la herramienta. Las traducciones completas se validan en build y se pasan según locale; las funciones de calendario del navegador importan únicamente sus textos reducidos compartidos, evitando incluir ambos diccionarios de UI en el JS.
 
 Las pruebas conservan copias vacías/draft/publicadas y verifican el recorrido real registrado. La suite remota de Plan B comprueba identidad antes de ejecutar ese mismo recorrido crítico. Compatibilidad/importación/guardado físicos de I4 y revisiones manuales de I5 siguen pendientes; no se presentan mocks ni Chromium emulado como aceptación móvil.
 

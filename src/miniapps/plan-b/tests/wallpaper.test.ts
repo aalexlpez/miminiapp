@@ -26,6 +26,10 @@ describe('complete wallpaper in its safe region', () => {
     expect(
       layout.bodyTop + layout.lines.length * layout.lineHeight,
     ).toBeLessThanOrEqual(1840.32);
+    expect(layout.continuityY + layout.strokeWidth / 2).toBeLessThanOrEqual(
+      1840.32,
+    );
+    expect(layout.continuityY - 36).toBeGreaterThanOrEqual(817.92);
     const boundaries = new Set(
       [...segmenter.segment(sentence)].map((part) => part.index),
     );

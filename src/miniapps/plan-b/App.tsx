@@ -9,7 +9,7 @@ import {
 import type { Locale } from '../../lib/locales';
 import { createPlanController } from './browser/controller';
 import { createSessionStore } from './browser/session';
-import type { Step } from './domain/session-state';
+import { questions, type PlanView } from './domain/flow';
 import {
   codePointLength,
   defaultDays,
@@ -17,15 +17,15 @@ import {
   textLimits,
   validatePlanInputs,
   validateText,
-  weekdays,
   type InputErrors,
   type TextField,
   type ValidationError,
-  type Weekday,
 } from './domain/validation';
-import { fill, type PlanCopy } from './i18n/copy';
-import { formatPlanText } from './i18n/calendar-copy';
+import type { PlanCopy } from './i18n/copy';
+import { fill } from './i18n/fill';
 import ExportPanel from './ExportPanel';
+import PlanPreview, { Arrow } from './PlanPreview';
+import ScheduleEditor from './ScheduleEditor';
 
 export default function App({
   locale,
@@ -45,35 +45,30 @@ export default function App({
     controller.getSnapshot,
     controller.getServerSnapshot,
   );
-  const { session, ready, memoryOnly, warnings } = snapshot;
-  const { inputs, step } = session;
-  const completePhrases =
-    Number(validateText('situation', inputs.situation).ok) +
-    Number(validateText('action', inputs.action).ok);
+  const { session, view, ready, memoryOnly, warnings } = snapshot;
+  const { inputs } = session;
   const [errors, setErrors] = useState<InputErrors>({});
   const heading = useRef<HTMLHeadingElement>(null);
-  const lastStep = useRef<Step | null>(null);
-  const focusTime = useRef(false);
+  const lastView = useRef<PlanView | null>(null);
   const otherInput = useRef<HTMLInputElement>(null);
-  const ui = copy.ui;
+  const exampleFocus = useRef(false);
+  const ui = copy.ui,
+    flow = copy.flow;
   useEffect(() => {
     controller.initialize();
   }, [controller]);
   useEffect(() => {
-    if (!ready || lastStep.current === step) return;
-    const previous = lastStep.current;
-    lastStep.current = step;
-    if (previous === null && step === 'home') return;
-    const target = focusTime.current
-      ? document.getElementById('pb-time')
-      : heading.current;
-    focusTime.current = false;
-    target?.focus();
-  }, [ready, step]);
+    if (!ready || (lastView.current === view && !exampleFocus.current)) return;
+    const first = lastView.current === null;
+    lastView.current = view;
+    exampleFocus.current = false;
+    if (first && session.step === 'home') return;
+    heading.current?.focus();
+  }, [ready, view, session.step, session.narrative]);
   useEffect(() => {
-    if (step === 'obstacle' && inputs.obstacle === 'other')
+    if (view === 'obstacle' && inputs.obstacle === 'other')
       otherInput.current?.focus();
-  }, [step, inputs.obstacle]);
+  }, [view, inputs.obstacle]);
   useEffect(() => {
     function beforeLocaleNavigation(event: MouseEvent) {
       if (!(event.target instanceof Element)) return;
@@ -96,69 +91,62 @@ export default function App({
     return () =>
       document.removeEventListener('click', beforeLocaleNavigation, true);
   }, [controller, locale, ui.languageLoss]);
-
   const narrative = session.narrative ?? snapshot.previewDate;
-  function monthName(month: number, year: number) {
-    const date = new Date(0);
-    date.setUTCFullYear(year, month - 1, 1);
-    return new Intl.DateTimeFormat(locale, {
-      month: 'long',
-      timeZone: 'UTC',
-    }).format(date);
-  }
   const nextMonth = narrative
-    ? monthName(narrative.nextMonth.month, narrative.nextMonth.year)
+    ? new Intl.DateTimeFormat(locale, {
+        month: 'long',
+        timeZone: 'UTC',
+      }).format(
+        new Date(
+          Date.UTC(narrative.nextMonth.year, narrative.nextMonth.month - 1, 1),
+        ),
+      )
     : '';
-  const title =
-    step === 'home'
-      ? ready
-        ? fill(ui.headline, { month: nextMonth })
-        : ui.loading
-      : step === 'purpose'
-        ? narrative?.isJanuary
-          ? ui.januaryQuestion
-          : ui.question
-        : step === 'obstacle'
-          ? fill(ui.obstacleQuestion, { month: nextMonth })
-          : step === 'plan'
-            ? ui.planTitle
-            : ui.planLabel;
+  const titles = {
+    purpose: narrative?.isJanuary ? ui.januaryQuestion : ui.question,
+    obstacle: flow.obstacleTitle,
+    situation: flow.situationTitle,
+    action: flow.actionTitle,
+    result: flow.resultTitle,
+  };
+  const hints = {
+    purpose: flow.purposeHint,
+    obstacle: `${fill(ui.obstacleQuestion, { month: nextMonth })} ${ui.obstacleHint}`,
+    situation: flow.situationHint,
+    action: flow.actionHint,
+    result: flow.resultHint,
+  };
+  const nextLabels = {
+    purpose: flow.nextPurpose,
+    obstacle: flow.nextOther,
+    situation: flow.nextSituation,
+    action: ui.viewPlan,
+  };
   const validation = validatePlanInputs(inputs);
-  const obstacle = inputs.obstacle;
-  const activeSuggestions =
-    obstacle && obstacle !== 'other'
-      ? copy.suggestions.situation[obstacle]
-      : [];
-  function message(error: ValidationError, field: keyof InputErrors) {
+  // Keep legacy unconfirmed calendar drafts intact without blocking the phrase.
+  const phrase = validation.ok
+    ? validation
+    : validatePlanInputs({ ...inputs, time: '', days: [] });
+  function go(next: PlanView) {
+    setErrors({});
+    controller.show(next);
+  }
+  function beginExample() {
+    setErrors({});
+    exampleFocus.current = true;
+    controller.begin({
+      ...copy.example,
+      obstacle: 'time',
+      otherObstacle: '',
+      time: '20:00',
+      days: [...defaultDays],
+    });
+  }
+  function message(error: ValidationError, field: TextField) {
     if (error === 'line-break') return ui.errorLine;
-    if (field === 'time') return ui.errorTime;
-    if (field === 'days') return ui.errorDays;
-    if (field === 'obstacle') return ui.errorObstacle;
     if (error === 'required' || error === 'invalid-type')
       return ui.errorRequired;
-    const limits = textLimits[field as TextField];
-    return limits
-      ? fill(ui.errorLength, { min: limits.min, max: limits.max })
-      : ui.errorRequired;
-  }
-  function go(next: Step) {
-    setErrors({});
-    controller.go(next);
-  }
-  function begin(example = false) {
-    setErrors({});
-    controller.begin(
-      example
-        ? {
-            ...copy.example,
-            obstacle: 'time',
-            otherObstacle: '',
-            time: '20:00',
-            days: [...defaultDays],
-          }
-        : undefined,
-    );
-    if (step === 'purpose') heading.current?.focus();
+    return fill(ui.errorLength, textLimits[field]);
   }
   function changeText(field: TextField, value: string) {
     controller.update(field, value);
@@ -184,59 +172,36 @@ export default function App({
   }
   function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    let found: InputErrors = {};
-    if (step === 'purpose') {
-      const checked = validateText('purpose', inputs.purpose);
-      if (!checked.ok) found = { purpose: checked.error };
-    } else if (step === 'obstacle') {
-      if (!obstacle) found = { obstacle: 'invalid-choice' };
-      else if (obstacle === 'other') {
-        const checked = validateText('otherObstacle', inputs.otherObstacle);
-        if (!checked.ok) found = { otherObstacle: checked.error };
-      }
-    } else if (step === 'plan') {
-      if (!validation.ok) found = validation.errors;
-      // A native time editor can contain a partial hour while value is empty.
-      const time = document.getElementById(
-        'pb-time',
-      ) as HTMLInputElement | null;
-      if (time?.validity.badInput) found = { ...found, time: 'invalid-time' };
-    }
-    if (Object.values(found).some(Boolean)) {
-      setErrors(found);
-      const first = Object.keys(found)[0];
-      document
-        .getElementById(first === 'days' ? 'pb-day-MO' : `pb-${first}`)
-        ?.focus();
+    if (controller.getSnapshot().view !== view || view === 'result') return;
+    const name = view === 'obstacle' ? 'otherObstacle' : view;
+    const checked = validateText(name, inputs[name]);
+    if (!checked.ok) {
+      setErrors({ [name]: checked.error });
+      document.getElementById(`pb-${name}`)?.focus();
       return;
     }
-    if (step === 'purpose') go('obstacle');
-    else if (step === 'obstacle') go('plan');
-    else if (step === 'plan') go('result');
+    if (view === 'purpose') go('obstacle');
+    else if (view === 'obstacle') go('situation');
+    else if (view === 'situation') go('action');
+    else if (phrase.ok) go('result');
   }
-  function field(
-    name: TextField,
-    label: string,
-    hint?: string,
-    multiline = false,
-  ) {
+  function field(name: TextField, label: string, multiline = false) {
     const count = codePointLength(inputs[name].trim());
     const showCount = count >= textLimits[name].max - 20;
-    const describedBy =
-      [
-        hint ? `pb-${name}-hint` : '',
-        showCount ? `pb-${name}-count` : '',
-        errors[name] ? `pb-${name}-error` : '',
-      ]
-        .filter(Boolean)
-        .join(' ') || undefined;
     const props = {
       id: `pb-${name}`,
       name,
       value: inputs[name],
       autoComplete: 'off',
+      disabled: !ready,
       'aria-invalid': !!errors[name],
-      'aria-describedby': describedBy,
+      'aria-describedby':
+        [
+          showCount ? `pb-${name}-count` : '',
+          errors[name] ? `pb-${name}-error` : '',
+        ]
+          .filter(Boolean)
+          .join(' ') || undefined,
       onChange: (event: { target: { value: string } }) =>
         changeText(name, event.target.value),
       onPaste: (
@@ -246,11 +211,6 @@ export default function App({
     return (
       <div className="pb-field">
         <label htmlFor={props.id}>{label}</label>
-        {hint && (
-          <p id={`pb-${name}-hint`} className="pb-hint">
-            {hint}
-          </p>
-        )}
         {multiline ? (
           <textarea {...props} rows={2} dir="auto" />
         ) : (
@@ -260,7 +220,9 @@ export default function App({
             type="text"
             dir="auto"
             placeholder={
-              name === 'otherObstacle' ? ui.otherPlaceholder : undefined
+              name === 'otherObstacle'
+                ? ui.otherPlaceholder
+                : flow.purposePlaceholder
             }
           />
         )}
@@ -282,295 +244,272 @@ export default function App({
   }
   function suggestions(name: TextField, values: string[]) {
     return (
-      <div className="pb-suggestions">
-        {values.map((value) => (
-          <button
-            type="button"
-            key={value}
-            onClick={() => changeText(name, value)}
-          >
-            {value}
-          </button>
-        ))}
-      </div>
+      values.length > 0 && (
+        <details className="pb-ideas">
+          <summary>{flow.ideas}</summary>
+          <div className="pb-suggestions">
+            {values.map((value) => (
+              <button
+                type="button"
+                key={value}
+                onClick={() => {
+                  changeText(name, value);
+                  document.getElementById(`pb-${name}`)?.focus();
+                }}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
+        </details>
+      )
     );
   }
-  function dayName(day: Weekday, short = false) {
-    return new Intl.DateTimeFormat(locale, {
-      weekday: short ? 'short' : 'long',
-      timeZone: 'UTC',
-    }).format(new Date(Date.UTC(2026, 10, 16 + weekdays.indexOf(day))));
-  }
-  function scheduleSummary() {
-    const days =
-      inputs.days.length === 7
-        ? ui.allDays
-        : defaultDays.every((day) => inputs.days.includes(day)) &&
-            inputs.days.length === 5
-          ? ui.workingDays
-          : inputs.days.map((day) => dayName(day, true)).join(', ');
-    const [hour, minute] = inputs.time.split(':').map(Number);
-    const time = new Intl.DateTimeFormat(locale, {
-      hour: 'numeric',
-      minute: '2-digit',
-      timeZone: 'UTC',
-    }).format(new Date(Date.UTC(2026, 0, 1, hour, minute)));
-    return fill(ui.calendarSummary, { days, time });
-  }
+  const index = questions.indexOf(view as (typeof questions)[number]);
+  const obstacle = inputs.obstacle;
+  const previous: Record<Exclude<PlanView, 'purpose'>, PlanView> = {
+    obstacle: 'purpose',
+    situation: 'obstacle',
+    action: 'situation',
+    result: 'action',
+  };
   return (
     <section
       className="pb-app"
       data-testid="plan-b-app"
       data-ready={ready}
-      data-step={step}
-      data-phrase-count={completePhrases}
+      data-step={session.step}
+      data-view={view}
       aria-labelledby="pb-step-title"
+      onClickCapture={(event) => {
+        if (
+          event.detail > 1 &&
+          event.target instanceof Element &&
+          event.target.closest('[data-pb-navigation]')
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }}
     >
       <aside role="status" aria-atomic="true" className="pb-notices">
         {memoryOnly && <p>{ui.memory}</p>}
-        {warnings.includes('invalid') && step === 'home' && <p>{ui.invalid}</p>}
+        {warnings.includes('invalid') && session.step === 'home' && (
+          <p>{ui.invalid}</p>
+        )}
         {warnings.includes('delete-failed') && <p>{ui.deleteFailed}</p>}
       </aside>
-      {session.example && <p className="pb-example">{ui.exampleTag}</p>}
-      {['purpose', 'obstacle', 'plan'].includes(step) && (
-        <p className="pb-step">
-          {fill(ui.stepTemplate, {
-            current: ['purpose', 'obstacle', 'plan'].indexOf(step) + 1,
-            total: 3,
-          })}
-        </p>
-      )}
-      <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
-        {title}
-      </h2>
-      {step !== 'home' && narrative && (
-        <p className="pb-month">
-          {ui.monthLabel}:{' '}
-          {step === 'purpose'
-            ? monthName(narrative.startedOn.month, narrative.startedOn.year)
-            : nextMonth}
-        </p>
-      )}
-      <form noValidate onSubmit={submit}>
-        {step === 'home' && (
-          <>
-            <p>{ui.subtitle}</p>
-            <div className="pb-actions">
-              <button type="button" disabled={!ready} onClick={() => begin()}>
-                {ui.start}
-              </button>
-              <button
-                type="button"
-                disabled={!ready}
-                onClick={() => begin(true)}
+      <div className="pb-workspace">
+        <div className="pb-journey">
+          {view !== 'result' && (
+            <>
+              <p className="pb-progress-label">
+                {fill(ui.stepTemplate, { current: index + 1, total: 4 })}
+              </p>
+              <ol
+                className="pb-progress"
+                aria-label={fill(ui.stepTemplate, {
+                  current: index + 1,
+                  total: 4,
+                })}
               >
-                {ui.exampleButton}
-              </button>
-            </div>
-          </>
-        )}
-        {step === 'purpose' && (
-          <>
-            {field('purpose', ui.goalLabel)}
-            {suggestions('purpose', copy.suggestions.purpose)}
-          </>
-        )}
-        {step === 'obstacle' && (
-          <>
-            <p id="pb-obstacle-hint">{ui.obstacleHint}</p>
-            <div
-              className="pb-obstacles"
-              role="group"
-              aria-describedby="pb-obstacle-hint"
-              aria-label={fill(ui.obstacleQuestion, { month: nextMonth })}
-            >
-              {obstacleIds.map((id) => (
-                <button
-                  id={id === 'time' ? 'pb-obstacle' : undefined}
-                  type="button"
-                  key={id}
-                  aria-pressed={obstacle === id}
-                  onClick={() => {
-                    controller.update('obstacle', id);
-                    setErrors({});
-                    if (id !== 'other') go('plan');
-                  }}
-                >
-                  {copy.obstacles[id]}
-                </button>
-              ))}
-            </div>
-            {errors.obstacle && (
-              <p role="alert" className="pb-error">
-                {ui.errorObstacle}
-              </p>
+                {questions.map((question, item) => (
+                  <li
+                    key={question}
+                    data-complete={item < index}
+                    aria-current={view === question ? 'step' : undefined}
+                    aria-label={titles[question]}
+                  />
+                ))}
+              </ol>
+            </>
+          )}
+          <div
+            className={
+              view === 'result' ? 'pb-screen pb-result-screen' : 'pb-screen'
+            }
+            key={view}
+          >
+            {view !== 'result' && (
+              <>
+                <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
+                  {ready ? titles[view] : ui.loading}
+                </h2>
+                <p className="pb-hint pb-question-hint">{hints[view]}</p>
+                {session.example && (
+                  <p className="pb-example">{ui.exampleTag}</p>
+                )}
+              </>
             )}
-            {obstacle === 'other' && field('otherObstacle', ui.otherLabel)}
-          </>
-        )}
-        {step === 'plan' && (
-          <>
-            {field(
-              'situation',
-              `${ui.if} — ${ui.situationLabel}`,
-              ui.situationHint,
-              true,
-            )}
-            {suggestions('situation', activeSuggestions)}
-            {field(
-              'action',
-              `${ui.then} — ${ui.actionLabel}`,
-              ui.actionHint,
-              true,
-            )}
-            {suggestions(
-              'action',
-              obstacle ? copy.suggestions.action[obstacle] : [],
-            )}
-            <div className="pb-field">
-              <label htmlFor="pb-time">{ui.timeQuestion}</label>
-              <p className="pb-hint" id="pb-time-hint">
-                {ui.timeHint}
-              </p>
-              <input
-                id="pb-time"
-                type="time"
-                value={inputs.time}
-                aria-describedby={
-                  errors.time ? 'pb-time-hint pb-time-error' : 'pb-time-hint'
-                }
-                aria-invalid={!!errors.time}
-                onChange={(event) => {
-                  controller.update('time', event.target.value);
-                  setErrors((current) => ({
-                    ...current,
-                    time: undefined,
-                    days: undefined,
-                  }));
+            {view !== 'result' && (
+              <form
+                noValidate
+                onSubmit={submit}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && event.repeat)
+                    event.preventDefault();
                 }}
-              />
-              {errors.time && (
-                <p id="pb-time-error" role="alert" className="pb-error">
-                  {ui.errorTime}
-                </p>
-              )}
-            </div>
-            <fieldset
-              aria-describedby={errors.days ? 'pb-days-error' : undefined}
-            >
-              <legend>{ui.daysLabel}</legend>
-              <div className="pb-days">
-                {weekdays.map((day) => (
+              >
+                {view === 'purpose' && (
+                  <>
+                    {field('purpose', ui.goalLabel)}
+                    {suggestions('purpose', copy.suggestions.purpose)}
+                  </>
+                )}
+                {view === 'obstacle' && (
+                  <>
+                    <div
+                      className="pb-obstacles"
+                      role="group"
+                      aria-label={flow.obstacleTitle}
+                    >
+                      {obstacleIds.map((id) => (
+                        <button
+                          id={id === 'time' ? 'pb-obstacle' : undefined}
+                          type="button"
+                          data-pb-navigation
+                          key={id}
+                          aria-pressed={obstacle === id}
+                          onClick={() => {
+                            if (controller.getSnapshot().view !== 'obstacle')
+                              return;
+                            controller.update('obstacle', id);
+                            setErrors({});
+                            if (id !== 'other') go('situation');
+                          }}
+                        >
+                          {copy.obstacles[id]}
+                          <Arrow />
+                        </button>
+                      ))}
+                    </div>
+                    {obstacle === 'other' &&
+                      field('otherObstacle', ui.otherLabel)}
+                  </>
+                )}
+                {view === 'situation' && (
+                  <>
+                    {field(
+                      'situation',
+                      `${ui.if} — ${ui.situationLabel}`,
+                      true,
+                    )}
+                    {suggestions(
+                      'situation',
+                      obstacle && obstacle !== 'other'
+                        ? copy.suggestions.situation[obstacle]
+                        : [],
+                    )}
+                  </>
+                )}
+                {view === 'action' && (
+                  <>
+                    {field('action', `${ui.then} — ${ui.actionLabel}`, true)}
+                    {suggestions(
+                      'action',
+                      obstacle ? copy.suggestions.action[obstacle] : [],
+                    )}
+                  </>
+                )}
+                <div
+                  className={`pb-actions ${view === 'purpose' ? 'pb-start-actions' : ''}`}
+                >
+                  {view !== 'purpose' && (
+                    <button
+                      type="button"
+                      className="pb-secondary"
+                      data-pb-navigation
+                      onClick={() => go(previous[view])}
+                    >
+                      {ui.back}
+                    </button>
+                  )}
+                  {(view !== 'obstacle' || obstacle === 'other') && (
+                    <button
+                      type="submit"
+                      className="pb-primary"
+                      data-pb-navigation
+                      disabled={!ready}
+                    >
+                      {nextLabels[view]}
+                      <Arrow />
+                    </button>
+                  )}
+                  {view === 'purpose' && (
+                    <button
+                      type="button"
+                      className="pb-secondary"
+                      data-pb-navigation
+                      disabled={!ready}
+                      onClick={beginExample}
+                    >
+                      {ui.exampleButton}
+                    </button>
+                  )}
+                </div>
+              </form>
+            )}
+            {view === 'result' && phrase.ok && (
+              <>
+                <ExportPanel
+                  plan={phrase.value}
+                  locale={locale}
+                  copy={copy}
+                  heading={
+                    <>
+                      <h2 id="pb-step-title" tabIndex={-1} ref={heading}>
+                        {titles.result}
+                      </h2>
+                      <p className="pb-hint pb-question-hint">{hints.result}</p>
+                      {session.example && (
+                        <p className="pb-example">{ui.exampleTag}</p>
+                      )}
+                    </>
+                  }
+                  onEdit={() => go('action')}
+                  calendarEditor={(calendarActions) => (
+                    <ScheduleEditor
+                      plan={{
+                        ...phrase.value,
+                        time: inputs.time,
+                        days: inputs.days,
+                      }}
+                      locale={locale}
+                      copy={copy}
+                      onCommit={controller.commitSchedule}
+                      onEdit={controller.markEdited}
+                    >
+                      {calendarActions}
+                    </ScheduleEditor>
+                  )}
+                />
+                <div className="pb-actions">
                   <button
-                    id={`pb-day-${day}`}
-                    key={day}
                     type="button"
-                    aria-label={dayName(day)}
-                    aria-pressed={inputs.days.includes(day)}
+                    className="pb-secondary"
+                    data-pb-navigation
                     onClick={() => {
-                      controller.update(
-                        'days',
-                        weekdays.filter((item) =>
-                          item === day
-                            ? !inputs.days.includes(item)
-                            : inputs.days.includes(item),
-                        ),
-                      );
-                      setErrors((current) => ({ ...current, days: undefined }));
+                      controller.reset();
+                      setErrors({});
                     }}
                   >
-                    {dayName(day, true)}
+                    {ui.reset}
                   </button>
-                ))}
-              </div>
-              {errors.days && (
-                <p id="pb-days-error" role="alert" className="pb-error">
-                  {ui.errorDays}
-                </p>
-              )}
-            </fieldset>
-          </>
-        )}
-        {step === 'result' && validation.ok && (
-          <>
-            <div className="pb-stamp-space">
-              <p className="pb-stamp">{fill(ui.stamp, { month: nextMonth })}</p>
-            </div>
-            <p className="pb-result" data-testid="plan-sentence">
-              {
-                formatPlanText(validation.value, locale).description.split(
-                  '\n',
-                  1,
-                )[0]
-              }
-            </p>
-            <p className="pb-goal">
-              {ui.goalLabel}: {validation.value.purpose}
-            </p>
-            {inputs.time ? (
-              <>
-                <p>{scheduleSummary()}</p>
-                <p className="pb-hint">{ui.calendarHint}</p>
+                  <a href={`/${locale}/#catalogo`}>{ui.catalogue}</a>
+                </div>
               </>
-            ) : (
-              <>
-                <p>{ui.noTime}</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    focusTime.current = true;
-                    go('plan');
-                  }}
-                >
-                  {ui.addTime}
-                </button>
-              </>
-            )}
-            <ExportPanel plan={validation.value} locale={locale} copy={copy} />
-            <div className="pb-actions">
-              <button
-                type="button"
-                onClick={() => {
-                  controller.reset();
-                  setErrors({});
-                }}
-              >
-                {ui.reset}
-              </button>
-              <a href={`/${locale}/#catalogo`}>{ui.catalogue}</a>
-            </div>
-          </>
-        )}
-        {step !== 'home' && (
-          <div className="pb-actions">
-            <button
-              type="button"
-              onClick={() =>
-                go(
-                  (
-                    {
-                      purpose: 'home',
-                      obstacle: 'purpose',
-                      plan: 'obstacle',
-                      result: 'plan',
-                    } as const
-                  )[step as Exclude<Step, 'home'>],
-                )
-              }
-            >
-              {ui.back}
-            </button>
-            {(step === 'purpose' ||
-              (step === 'obstacle' && obstacle === 'other') ||
-              step === 'plan') && (
-              <button type="submit">
-                {step === 'plan' ? ui.viewPlan : ui.next}
-              </button>
             )}
           </div>
-        )}
-      </form>
-      <p className="pb-privacy">{ui.privacy}</p>
+          <div className="pb-privacy">
+            <span>{flow.privacyShort}</span>
+            <details>
+              <summary>{flow.privacyLabel}</summary>
+              <p>{ui.privacy}</p>
+            </details>
+          </div>
+        </div>
+        {view !== 'result' && <PlanPreview inputs={inputs} copy={copy} />}
+      </div>
     </section>
   );
 }

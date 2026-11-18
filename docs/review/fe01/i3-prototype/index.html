@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Plan B · Propuesta I3</title>
+    <link rel="stylesheet" href="prototype.css" />
+    <script src="prototype.js" type="module"></script>
+  </head>
+  <body>
+    <aside class="review-banner" id="review-label" aria-label="Revisión I3">
+      Propuesta I3 · recorrido y diseño por aprobar · sin guardar datos
+    </aside>
+    <a class="skip" href="#step-title">Saltar a la pregunta</a>
+    <header class="site-header">
+      <img
+        id="wordmark"
+        src="../../../../public/brand/wordmark-compact.svg"
+        width="178"
+        height="48"
+        alt="MiMiniApp"
+      />
+      <div class="header-controls">
+        <button
+          id="locale"
+          type="button"
+          aria-label="EN · Change language to English"
+        >
+          EN
+        </button>
+        <button id="theme" type="button" aria-label="Cambiar a tema oscuro">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path
+              d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main>
+      <header class="tool-heading">
+        <h1 id="app-name">Plan B</h1>
+        <p id="app-description">Un plan para seguir, incluso en un mal día.</p>
+      </header>
+      <div class="workspace" id="workspace">
+        <section class="journey" aria-labelledby="step-title">
+          <div class="progress-meta">
+            <span id="step-number">1 de 4</span
+            ><span id="step-name">Tu propósito</span>
+          </div>
+          <ol class="progress-track" aria-label="Progreso">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ol>
+          <div id="step-content"></div>
+          <div class="privacy">
+            <span class="privacy-dot" aria-hidden="true"></span
+            ><span id="privacy-short">Sin cuenta. Solo en este navegador.</span>
+            <details>
+              <summary id="privacy-label">Cómo funciona</summary>
+              <p id="privacy-full"></p>
+            </details>
+          </div>
+        </section>
+        <aside class="preview" aria-labelledby="preview-title">
+          <div class="preview-caption">
+            <span id="preview-title">Tu plan va tomando forma</span
+            ><span class="paper-mark" aria-hidden="true">B</span>
+          </div>
+          <div class="paper">
+            <p class="paper-goal" id="preview-goal">
+              Un propósito. Una segunda oportunidad.
+            </p>
+            <p class="paper-sentence" id="preview-sentence"></p>
+            <svg class="continuity" viewBox="0 0 320 40" aria-hidden="true">
+              <path
+                d="M4 23H110Q136 23 145 10Q155-2 167 12Q176 25 200 25H315"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+              />
+            </svg>
+            <p class="paper-note" id="preview-note"></p>
+          </div>
+          <p class="preview-footer" id="preview-footer">
+            No necesitas un día perfecto. Necesitas saber qué hacer cuando no lo
+            sea.
+          </p>
+        </aside>
+      </div>
+      <p id="announcement" role="status" aria-atomic="true" class="notice"></p>
+      <details class="review-tools">
+        <summary id="review-tools-label">
+          Controles de revisión del prototipo
+        </summary>
+        <div>
+          <button id="example" type="button">Cargar ejemplo</button
+          ><button id="maximum" type="button">Textos máximos</button
+          ><button id="empty" type="button">Reiniciar prototipo</button>
+        </div>
+        <p id="review-limits">
+          PNG real. Calendario y compartir muestran estados de propuesta; no
+          abren servicios. Sin persistencia de sesión.
+        </p>
+      </details>
+    </main>
+    <dialog
+      id="google-dialog"
+      aria-labelledby="google-title"
+      aria-describedby="google-description"
+    >
+      <h2 id="google-title"></h2>
+      <p id="google-description"></p>
+      <div class="dialog-actions">
+        <button id="google-cancel" type="button"></button
+        ><button id="google-confirm" class="primary" type="button"></button>
+      </div>
+    </dialog>
+    <footer class="site-footer">
+      <span>MiMiniApp</span><span id="footer-copy">Hecho para explorar</span>
+    </footer>
+  </body>
+</html>

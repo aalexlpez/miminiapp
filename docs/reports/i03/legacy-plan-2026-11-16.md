@@ -299,7 +299,7 @@ Si el propietario prefiere delegar los ajustes iniciales, necesitará autorizar 
 
 ## Seguridad, errores y recuperación
 
-* **Fallo de CI o revisión:** no merge/publicación. Artefactos y logs suficientes para diagnosticar, sin secretos; mantener [PEND-007](../../exec-plans/tech-debt-tracker.md#pend-007--seguimiento-de-incidencias-moderadas-de-lint).
+* **Fallo de CI o revisión:** no merge/publicación. Artefactos y logs suficientes para diagnosticar, sin secretos; mantener [PEND-007](../../exec-plans/tech-debt-tracker.md#pend-007--seguimiento-de-dependencias-de-desarrollo).
 * **Fallo o timeout de deploy:** registrar versión anterior y respuesta del proveedor; consultar la versión realmente activa, porque un timeout no demuestra que no haya publicado. Bloquear promoción y comprobar staging/producción independientemente.
 * **Fallo de pruebas remotas en staging:** no se habilita el PR de promoción; se corrige y se vuelve a validar otro candidato.
 * **Fallo de smoke de producción:** release fallida; detener promociones y registrar el incidente. El propietario decide y ejecuta el rollback manual al último artefacto/versión validado mediante el procedimiento restringido. No hay recuperación automática ni un deployment de reemplazo sin su acción. Es una excepción de incidente, no un despliegue semanal manual.

@@ -1,7 +1,26 @@
 import { expect, type Page } from '@playwright/test';
 import type { Locale } from '../../../../lib/locales';
-import { getPlanCopy } from '../../i18n/copy';
+import { getPlanCopy, type PlanCopy } from '../../i18n/copy';
 import { sessionKey } from '../../browser/session';
+
+/** Walks the two approved visual plan views without inventing a result. */
+export async function enterPlanResult(page: Page, copy: PlanCopy) {
+  const app = page.getByTestId('plan-b-app');
+  if ((await app.getAttribute('data-view')) === 'situation')
+    await page
+      .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+      .click();
+  await expect(app).toHaveAttribute('data-view', 'action');
+  await page
+    .getByRole('button', { name: copy.ui.viewPlan, exact: true })
+    .click();
+  await expect(app).toHaveAttribute('data-view', 'result');
+}
+export async function openCalendar(page: Page, copy: PlanCopy) {
+  const panel = page.locator('.pb-calendar-options');
+  if (!(await panel.evaluate((element: HTMLDetailsElement) => element.open)))
+    await page.getByText(copy.flow.calendarOptional, { exact: true }).click();
+}
 
 /** Shared by the real local candidate and the identity-guarded remote suite. */
 export async function verifyPlanJourney(page: Page, locale: Locale) {
@@ -26,13 +45,13 @@ export async function verifyPlanJourney(page: Page, locale: Locale) {
   await expect(page.getByLabel(copy.ui.goalLabel, { exact: true })).toHaveValue(
     copy.example.purpose,
   );
-  await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
-  await page
-    .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-    .click();
+  await enterPlanResult(page, copy);
   const sentence =
     locale === 'es'
       ? `Si ${copy.example.situation}, entonces ${copy.example.action}.`
@@ -48,7 +67,7 @@ export async function verifyPlanJourney(page: Page, locale: Locale) {
   await expect(page.getByTestId('plan-sentence')).toHaveText(sentence);
   await page.getByRole('button', { name: copy.ui.reset, exact: true }).click();
   await expect(
-    page.getByRole('button', { name: copy.ui.start, exact: true }),
+    page.getByLabel(copy.ui.goalLabel, { exact: true }),
   ).toBeEnabled();
   expect(
     await page.evaluate((key) => sessionStorage.getItem(key), sessionKey),

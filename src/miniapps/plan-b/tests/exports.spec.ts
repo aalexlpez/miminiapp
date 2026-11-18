@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
 import { test, expect } from './helpers/fixtures';
 import { getPlanCopy } from '../i18n/copy';
+import { enterPlanResult, openCalendar } from './helpers/journey';
 
 test.use({ entryKind: 'app' });
 async function result(
@@ -17,13 +18,14 @@ async function result(
   await page
     .getByRole('button', { name: copy.ui.exampleButton, exact: true })
     .click();
-  await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
-  await page
-    .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-    .click();
+  await enterPlanResult(page, copy);
+  await openCalendar(page, copy);
   await expect(
     page.getByRole('img', { name: copy.exports.imageReady }),
   ).toBeVisible();
@@ -103,13 +105,14 @@ for (const locale of ['es', 'en'] as const) {
     await page
       .getByRole('button', { name: copy.ui.exampleButton, exact: true })
       .click();
-    await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+      .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
-    await page
-      .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-      .click();
+    await enterPlanResult(page, copy);
+    await openCalendar(page, copy);
     await expect(
       page.getByRole('img', { name: copy.exports.imageReady }),
     ).toBeVisible();
@@ -228,6 +231,7 @@ test('shares only a clean current-origin URL; handles clipboard failure and shar
     });
   });
   const copy = await result(page, 'en');
+  await page.getByText(copy.exports.shareTitle, { exact: true }).click();
   await page
     .getByRole('button', { name: copy.exports.share, exact: true })
     .click();
@@ -290,6 +294,14 @@ test('prepares file sharing before the user gesture and keeps download/view alte
   await expect(
     page.getByRole('link', { name: copy.exports.openImage }),
   ).toHaveAttribute('href', /^blob:/);
+  const download = page.waitForEvent('download');
+  await page
+    .getByRole('button', { name: copy.exports.downloadImage, exact: true })
+    .click();
+  expect((await download).suggestedFilename()).toBe('plan-b.png');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbFiles').length),
+  ).toBe(1);
   await expect(page.getByTestId('plan-sentence')).toContainText(
     copy.example.action,
   );
@@ -299,6 +311,22 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
   page,
 }) => {
   await page.addInitScript(() => {
+    const frames = new Set<number>();
+    Reflect.set(window, '__pbFrames', frames);
+    const request = requestAnimationFrame.bind(window),
+      cancel = cancelAnimationFrame.bind(window);
+    window.requestAnimationFrame = (callback) => {
+      const id = request((time) => {
+        frames.delete(id);
+        callback(time);
+      });
+      frames.add(id);
+      return id;
+    };
+    window.cancelAnimationFrame = (id) => {
+      frames.delete(id);
+      cancel(id);
+    };
     const create = URL.createObjectURL.bind(URL);
     const revoke = URL.revokeObjectURL.bind(URL);
     const urls = new Set<string>();
@@ -323,16 +351,20 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
   await page
     .getByRole('button', { name: copy.ui.exampleButton, exact: true })
     .click();
-  await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
-  await page
-    .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-    .click();
+  await enterPlanResult(page, copy);
+  await openCalendar(page, copy);
   await expect(
     page.getByText(copy.exports.imagePrepareError, { exact: true }),
   ).toBeVisible();
+  const idleFrames = await page.evaluate(
+    () => Reflect.get(window, '__pbFrames').size as number,
+  );
   await page.evaluate(() => {
     HTMLCanvasElement.prototype.toBlob = Reflect.get(window, '__pbEncode');
   });
@@ -357,17 +389,23 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
     expect(
       await page.evaluate(() => Reflect.get(window, '__pbUrls').size),
     ).toBe(0);
+    await expect
+      .poll(() =>
+        page.evaluate(() => Reflect.get(window, '__pbFrames').size as number),
+      )
+      .toBeLessThanOrEqual(idleFrames);
     if (index === 9) break;
     await page
       .getByRole('button', { name: copy.ui.exampleButton, exact: true })
       .click();
-    await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+      .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
-    await page
-      .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-      .click();
+    await enterPlanResult(page, copy);
+    await openCalendar(page, copy);
   }
 });
 
@@ -389,6 +427,8 @@ for (const theme of ['light', 'dark'] as const) {
           Reflect.get(window, '__pbDrawn').push({
             text,
             font: this.font,
+            x,
+            align: this.textAlign,
             y,
             width: this.measureText(text).width,
             color: this.fillStyle,
@@ -403,7 +443,9 @@ for (const theme of ['light', 'dark'] as const) {
     await page
       .getByRole('button', { name: copy.ui.exampleButton, exact: true })
       .click();
-    await page.getByRole('button', { name: copy.ui.next, exact: true }).click();
+    await page
+      .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+      .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
@@ -413,17 +455,21 @@ for (const theme of ['light', 'dark'] as const) {
       .getByLabel(`${copy.ui.if} — ${copy.ui.situationLabel}`, { exact: true })
       .fill(situation);
     await page
+      .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+      .click();
+    await page
       .getByLabel(`${copy.ui.then} — ${copy.ui.actionLabel}`, { exact: true })
       .fill(action);
-    await page
-      .getByRole('button', { name: copy.ui.viewPlan, exact: true })
-      .click();
+    await enterPlanResult(page, copy);
+    await openCalendar(page, copy);
     await expect(
       page.getByRole('img', { name: copy.exports.imageReady }),
     ).toBeVisible();
     const drawn: {
       text: string;
       font: string;
+      x: number;
+      align: string;
       y: number;
       width: number;
       color: string;
@@ -434,6 +480,10 @@ for (const theme of ['light', 'dark'] as const) {
         .map((line) => line.text)
         .join(''),
     ).toBe(`Si ${situation}, entonces ${action}.`);
+    for (const line of drawn) {
+      expect(line.x).toBeCloseTo(117.9, 1);
+      expect(line.align).toBe('left');
+    }
     for (const line of drawn.slice(1)) {
       expect(
         Number.parseFloat(line.font.match(/([\d.]+)px/)![1]),
@@ -456,3 +506,122 @@ for (const theme of ['light', 'dark'] as const) {
     await page.keyboard.press('Escape');
   });
 }
+
+test('recovers from an unavailable local font and regenerates the real image after a theme change', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Reflect.set(window, '__pbFontUnavailable', true);
+    const load = document.fonts.load.bind(document.fonts);
+    document.fonts.load = (...args) =>
+      Reflect.get(window, '__pbFontUnavailable')
+        ? Promise.resolve([])
+        : load(...args);
+  });
+  const copy = getPlanCopy('en');
+  await page.goto('/en/apps/plan-b/');
+  await page
+    .getByRole('button', { name: copy.ui.exampleButton, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.obstacles.time, exact: true })
+    .click();
+  await enterPlanResult(page, copy);
+  await expect(
+    page.getByText(copy.exports.imagePrepareError, { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: copy.exports.saveImage, exact: true }),
+  ).toBeDisabled();
+  const sentence = await page.getByTestId('plan-sentence').textContent();
+  const saved = await page.evaluate(() =>
+    sessionStorage.getItem('miminiapp.plan-b.v1'),
+  );
+  await page.evaluate(() => Reflect.set(window, '__pbFontUnavailable', false));
+  await page
+    .getByRole('button', { name: copy.exports.retryImage, exact: true })
+    .click();
+  const image = page.getByRole('img', {
+    name: copy.exports.imageReady,
+    exact: true,
+  });
+  await expect(image).toBeVisible();
+  const oldUrl = await image.getAttribute('src');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(image).toHaveAttribute('src', /^blob:/);
+  await expect(image).not.toHaveAttribute('src', oldUrl!);
+  const rgba = await image.evaluate(async (img: HTMLImageElement) => {
+    const bitmap = await createImageBitmap(await (await fetch(img.src)).blob());
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 1;
+    const context = canvas.getContext('2d')!;
+    context.drawImage(bitmap, 0, 0);
+    const color = [...context.getImageData(0, 0, 1, 1).data];
+    bitmap.close();
+    canvas.width = canvas.height = 0;
+    return color;
+  });
+  expect(rgba).toEqual([23, 20, 33, 255]);
+  await expect(page.getByTestId('plan-sentence')).toHaveText(sentence!);
+  expect(
+    await page.evaluate(() => sessionStorage.getItem('miminiapp.plan-b.v1')),
+  ).toBe(saved);
+});
+
+test('exports once per double-click or held Enter while allowing a later intentional export', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Reflect.set(window, '__pbExports', { png: 0, ics: 0 });
+    Object.defineProperty(navigator, 'canShare', {
+      configurable: true,
+      value: () => false,
+    });
+    const click = HTMLAnchorElement.prototype.click;
+    HTMLAnchorElement.prototype.click = function () {
+      const counts = Reflect.get(window, '__pbExports');
+      if (this.download.endsWith('.png')) counts.png++;
+      if (this.download.endsWith('.ics')) counts.ics++;
+      click.call(this);
+    };
+  });
+  const copy = await result(page);
+  const save = page.getByRole('button', {
+    name: copy.exports.saveImage,
+    exact: true,
+  });
+  const first = page.waitForEvent('download');
+  await save.dblclick();
+  expect((await first).suggestedFilename()).toBe('plan-b.png');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').png),
+  ).toBe(1);
+  await save.focus();
+  const second = page.waitForEvent('download');
+  await page.keyboard.down('Enter');
+  await page.keyboard.down('Enter');
+  await page.keyboard.up('Enter');
+  expect((await second).suggestedFilename()).toBe('plan-b.png');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').png),
+  ).toBe(2);
+  const third = page.waitForEvent('download');
+  await save.click();
+  await third;
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').png),
+  ).toBe(3);
+  const calendar = page.getByRole('button', {
+    name: copy.exports.calendarDownload,
+    exact: true,
+  });
+  const fourth = page.waitForEvent('download');
+  await calendar.dblclick();
+  expect((await fourth).suggestedFilename()).toBe('plan-b.ics');
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
+  ).toBe(1);
+});

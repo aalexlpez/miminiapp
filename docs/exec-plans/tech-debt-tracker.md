@@ -4,13 +4,11 @@ Este registro conserva tareas pendientes; no equivale a un ExecPlan aprobado ni 
 
 ## PEND-001 — Skills opcionales al final
 
-* **Estado:** Selección/configuración aprobadas en H-008 y estándar aprobado en ADR-MMA-022 el 2026-11-17. Incorporación y uso efectivo aún pendientes; aplazamiento inicial del 2026-11-04 conservado como antecedente.
+* **Estado:** Resuelto para el perfil manual explícito aceptado por el propietario el 2026-11-17 al solicitar usar Impeccable/Vercel y continuar con I3, después de explicar la limitación nativa y proponer ese ajuste.
 * **Responsable:** Propietario de MiMiniApp.
-* **Momento actual:** FE-01/I1 completada; I2 es la siguiente etapa para instalar y comprobar las skills, pendiente de autorización de ejecución. Se conserva la ruta de trabajo sin skills.
-* **Trabajo pendiente:** Incorporar las skills seleccionadas conforme a H-008 y verificar carga/funcionamiento en el cliente elegido durante FE-01/I2; documentar límites reales y conservar las fuentes canónicas y la ruta sin skills.
-* **Criterios de cierre:** Utilidad justificada; alcance y permisos mínimos aprobados; integración autorizada; ausencia de duplicación de normas; carga y funcionamiento comprobados en los clientes que se vayan a utilizar; ruta sin skills conservada. Ninguna skill fusiona ni publica por iniciativa propia.
-* **Situación actual:** [Investigación y comparación](../reports/pb01/frontend-skills-review.md) realizadas; selección aprobada de Impeccable y Vercel con versiones/configuración y límites en H-008. No se ha instalado ni activado ninguna skill; la incorporación/carga efectiva siguen pendientes. No se atribuye funcionalidad a otros clientes sin comprobarla.
-* **Planificación:** [FE-01](active/FE-01-estandar-frontend-y-piloto-plan-b.md) conserva siete iteraciones. I1 completada con ADR-MMA-022/H-008 aprobadas y criterio de aceptación humana ajustado por el propietario: no se requieren participantes externos. I2 aún sin iniciar; PEND-001 no se cierra por aprobar la selección.
+* **Evidencia:** [FE-01/I2](../reports/fe01/execution.md#cierre-posterior-de-i2-con-alcance-explícito-aceptado): instalación local fijada, licencias/manifiesto, motor/checksum/red, aplicación manual real y aceptación del alcance. [H-008](../harness-decisions.md#h-008--skills-frontend-locales-y-uso-manual-contextualizado) conserva permisos y enmienda.
+* **Límite:** Descubrimiento nativo no acreditado; deja de ser criterio de cierre por decisión del propietario. [Guía de uso](../guides/frontend-skills.md). No se atribuye compatibilidad a otros clientes; su comprobación sigue en PEND-002 cuando proceda.
+* **Planificación:** I2 completada con FE-I2-01/02/03 en el alcance explícito actualizado. I3 autorizada para preparar diseño/contrato, con revisión humana antes de implementar. Sin nueva entrega remota hasta terminar el plan local.
 
 ## Otros pendientes
 
@@ -31,12 +29,17 @@ La base local está implementada y verificada. Los registros siguientes conserva
 * **Reanudación previa a publicación:** cdn.playwright.dev redirigía a storage.googleapis.com y ese destino recibía CONNECT 403. Instalador y verify exit 1, con ocho lanzamientos sin binario; evidencia conservada en .local/verification/resume-0cf778f/. Se guardó solo la adición exacta en el borrador, tras respuesta «si», sin publicación por el agente.
 * **Cierre comprobado:** el propietario publicó el entorno y solicitó probar Playwright; permiso efectivo observed/enforced. Instalador oficial exit 0, Chromium y Headless Shell 156.0.8078.4/r1248; verify exit 0 con 14+9+8 casos sin omisiones, más revisión asistida visual/teclado correcta. Evidencia final en .local/verification/chromium-156/ y [el informe](../reports/i01/execution.md#verificación-final-con-chromium-fijado). Los diagnósticos Chromium 155 no se usan para cerrar este pendiente. Sin nuevos commits/pushes, I-02 o publicación por el agente.
 
-## PEND-007 — Seguimiento de incidencias moderadas de lint
+## PEND-007 — Seguimiento de dependencias de desarrollo
+
+**Situación vigente FE-01/I7 — 2026-11-18:** 17 altas/8 moderadas/0 críticas, idénticas en base I1 y candidato; omit=dev: 0. Aviso raíz alto de picomatch GHSA-fc5q-39xc-vjpf, sin versión corregida publicada; afecta herramientas de desarrollo/CI. [Evaluación y excepción aprobada](../reports/fe01/security-review.md) por el propietario el 2026-11-18: deuda abierta, no bloqueante para la entrega FE-01 del candidato 2d213dd y su lockfile auditado. La vulnerabilidad no se declara corregida. Revisar mensualmente y ante nueva versión/aviso, cambio de candidato/lockfile o ampliación de entradas no confiables. Las revisiones siguientes conservan resultados históricos.
 
 **Revisión PB-01/I6 — 2026-11-17:** npm audit actual y base previa al producto auditada hoy: 14 moderadas, 0 altas/críticas; omit=dev: 0 vulnerabilidades. Package/lockfile idénticos. Incluye minimatch GHSA-g3hv-75wg-m249 y cadena de lint, y Astro GHSA-r3h5-4585-7x3w sobre @astrojs/node (adaptador no instalado ni desplegado en Workers estático). No se introducen dependencias ni se ejecuta audit fix; seguimiento abierto. El resultado de 11 siguiente es histórico de I-01. [Evaluación y límites](../reports/pb01/execution.md#i6--regresión-y-análisis-global).
 
-* **Estado:** Pendiente de seguimiento, sin incumplir el umbral de altas/críticas aprobado.
+* **Estado inicial en I-01:** Pendiente de seguimiento, entonces sin incumplir el umbral de altas/críticas. El estado vigente es deuda no bloqueante para la entrega FE-01 por excepción humana aprobada; conserva el riesgo y su seguimiento.
 * **Evidencia:** npm audit informa 11 moderadas por minimatch y dependientes de lint/TypeScript, 0 altas y 0 críticas. Los patrones no proceden de usuarios de la fixture y estas herramientas no se sirven en el build estático.
+* **Responsable del seguimiento:** propietario de MiMiniApp; la IA ejecutará la investigación en las revisiones de mantenimiento que se retomen.
+* **Cadencia:** mensual, próxima revisión objetivo **2026-12-18**; adelantar si se publica corrección/aviso nuevo, cambia el candidato/lockfile o se amplían entradas no confiables. Sin recordatorio, job o automatización activados. Registrar fecha, avisos, versiones corregidas disponibles, opciones compatibles, pruebas y siguiente revisión en este pendiente.
+* **Cierre:** actualización o mitigación validada que resuelva el aviso, o retirada comprobada de la dependencia afectada. Aceptar el riesgo no cierra PEND-007.
 * **Acción:** evaluar una actualización compatible cuando el ecosistema la ofrezca y antes de ampliar a contribuciones no confiables; no aplicar audit fix --force o downgrades de majors sin aprobación material. Detalle e inventario de licencias en el informe de ejecución.
 
 ## PEND-008 — Movimiento suave y microinteracciones futuras

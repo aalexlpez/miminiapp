@@ -1,11 +1,48 @@
+import { calendarEs } from './calendar-messages.ts';
+
 export const es = {
-  calendar: {
-    summary: 'Plan B: {action}',
-    description:
-      'Si {situation}, entonces {action}.\nTu propósito: {purpose}\nHecho con MiMiniApp',
+  calendar: calendarEs,
+  flow: {
+    purposePlaceholder: 'Por ejemplo: leer más',
+    purposeHint:
+      'Elige algo que te importe. El plan B te ayudará cuando ese propósito se complique.',
+    obstacleTitle: '¿Qué podría ponértelo difícil?',
+    situationTitle: '¿Cuándo aparece ese obstáculo?',
+    actionTitle: '¿Qué harás en ese momento?',
+    situationHint:
+      'Una situación concreta que puedas reconocer. Esa será tu señal para actuar.',
+    actionHint:
+      'Algo pequeño y posible, incluso en un mal día. Cinco minutos pueden bastar.',
+    nextPurpose: 'Elegir mi obstáculo',
+    nextOther: 'Reconocer la señal',
+    nextSituation: 'Elegir mi respuesta',
+    ideas: '¿Necesitas una idea?',
+    previewTitle: 'Tu plan va tomando forma',
+    previewExample: 'Así puede quedar · ejemplo',
+    previewGoal: 'Un propósito. Una segunda oportunidad.',
+    previewSituation: 'el día se complica',
+    previewAction: 'hago una versión pequeña de mi propósito',
+    previewNote: 'Una señal concreta + una respuesta posible.',
+    previewFooter:
+      'No necesitas un día perfecto. Necesitas saber qué hacer cuando no lo sea.',
+    privacyShort: 'Sin cuenta. Solo en este navegador.',
+    privacyLabel: 'Cómo funciona y privacidad',
+    resultTitle: 'Ya tienes una forma de seguir.',
+    resultHint: 'Guárdala donde puedas verla en un día difícil.',
+    calendarHint:
+      'La app preparará una serie de cuatro semanas. Tú decides guardarla; los avisos dependen de tu calendario.',
+    calendarOptional: 'Añadir un recordatorio (opcional)',
+    scheduleHint:
+      'El horario se conserva al preparar el recordatorio. Recargar antes recupera el último horario preparado.',
+    schedulePrepare: 'Preparar recordatorio',
+    scheduleReady:
+      'Horario preparado. Puedes añadirlo a tu calendario o abrir Google Calendar.',
+    scheduleWithoutTime: 'Continuar sin recordatorio',
+    scheduleCleared:
+      'Sin recordatorio. Tu plan y tu imagen siguen disponibles.',
   },
   ui: {
-    subtitle: 'Vamos a evitarlo. Tardas 2 minutos.',
+    subtitle: 'Un plan para seguir, incluso en un mal día.',
     headline: 'Es {month} y ya has abandonado tu propósito.',
     question: '¿Qué quieres lograr?',
     januaryQuestion: '¿Qué quieres lograr este año?',
@@ -65,6 +102,12 @@ export const es = {
       'Activa JavaScript para preparar tu plan. Tu texto se procesa en este navegador.',
   },
   exports: {
+    editPlan: 'Editar mi plan',
+    imageOptions: 'Otras formas de guardar',
+    downloadImage: 'Descargar PNG',
+    imageDimensions: 'PNG · 1179 × 2556 · imagen estática',
+    shareHelp:
+      'Se compartirá un enlace limpio de Plan B, sin tu frase ni tu horario.',
     calendarTitle: 'Recuérdamelo',
     calendarDownload: 'Añadir a mi calendario',
     google: 'Añadir a Google Calendar',
@@ -74,8 +117,8 @@ export const es = {
       'Se abrirá Google Calendar con tu plan. El texto se enviará a Google y puede quedar en la URL y el historial. Revisa y guarda el evento allí.',
     duplicateWarning:
       'Importar el archivo otra vez puede duplicar los eventos.',
-    wallpaperTitle: 'Fondo de pantalla',
-    saveImage: 'Guardar imagen',
+    wallpaperTitle: 'Tu fondo de pantalla',
+    saveImage: 'Guardar mi plan',
     openImage: 'Abrir imagen',
     imageLabel: 'Mi plan B',
     imageNotice:

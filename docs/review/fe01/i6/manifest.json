@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "iteration": "FE-01/I6",
+  "date": "2026-11-17",
+  "status": "owner review pending; I7 not started",
+  "candidate": {
+    "parentCommit": "32a17aa06353adcfa1e04bd80e31082d0ee09a96",
+    "branch": "feature/fe01-frontend-quality",
+    "identification": "source and dist hashes identify the runtime reviewed; committed with this manifest",
+    "srcSha256": "bca87ef69c8601eacb2200caf8c9b0f96f3e9a39e7b1020a21a213d5cf722acd",
+    "distFiles": {
+      "404.html": {
+        "bytes": 20889,
+        "sha256": "55f378c352e55a4a3bc22bd1e6cf53097a1fdd8116caa9556f494001891738bd"
+      },
+      "_astro/App.D_ycsEu6.js": {
+        "bytes": 34599,
+        "sha256": "de65a263b60f8c96051b807af0c3a950a1bfbdab50b63e7a776c42b7f3185870"
+      },
+      "_astro/client.Cd-EeyjT.js": {
+        "bytes": 212836,
+        "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+      },
+      "_astro/global.MWueQfGS.css": {
+        "bytes": 34900,
+        "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+      },
+      "_astro/react.CvnImTBr.js": {
+        "bytes": 7909,
+        "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+      },
+      "_redirects": {
+        "bytes": 11,
+        "sha256": "a9d6dec64b325263010f05fd6dc63095d7d5c364caec31914bfc0e986db6e557"
+      },
+      "brand/M-isotype-dark.svg": {
+        "bytes": 427,
+        "sha256": "bcd66afee1657856c6d019a07cc7b6c7246db61de59186b6c8a5255434de2e3d"
+      },
+      "brand/M-isotype.svg": {
+        "bytes": 427,
+        "sha256": "ecd694054d3a6c197349ed345f5fc5a1866229d6a98cae51c6ffac19d2c56b51"
+      },
+      "brand/wordmark-compact-dark.svg": {
+        "bytes": 4710,
+        "sha256": "5fed474e74da2838fd63cce2fe1296341c3ce56837cf32299e49d6ff30238af0"
+      },
+      "brand/wordmark-compact.svg": {
+        "bytes": 4710,
+        "sha256": "964d92e68c1966351883c1aba73d8b2c99f294ab3eec922e633f6be9797f3e4a"
+      },
+      "brand/wordmark-editorial-dark.svg": {
+        "bytes": 5011,
+        "sha256": "4ea29ea25179d5a2fcbc8502dc7fb170978abfa4f6bd24932206c25e539b0d27"
+      },
+      "brand/wordmark-editorial.svg": {
+        "bytes": 5011,
+        "sha256": "bf48b80949bd90151ded4eda4ecdfb378934a8b78b30cf9fa5ef97509e7b0429"
+      },
+      "en/apps/plan-b/index.html": {
+        "bytes": 50291,
+        "sha256": "64cfde7cc1b3258567bfe13c9be83c3591b86559f01ad61083b31e1a16cd54be"
+      },
+      "en/index.html": {
+        "bytes": 23105,
+        "sha256": "78ce7aa6d63c027db734acfabc390a70f4a2ebee037e26c50b6f464a359ce154"
+      },
+      "es/apps/plan-b/index.html": {
+        "bytes": 50675,
+        "sha256": "b74b9def48c9fdf1b71159a1bd06cd8db7bdf8253f0e39ae9e36856e270b027d"
+      },
+      "es/index.html": {
+        "bytes": 23181,
+        "sha256": "ce4802f90feeefc07290c866b4c4e078f2088fe17bb13bf7be7f1f1a0d4a182b"
+      },
+      "favicon.svg": {
+        "bytes": 484,
+        "sha256": "8a32226444b7f92bb57ab9b4be11395a06cff5f4508ee3842a1fc66ca1a178ed"
+      },
+      "fonts/DMSans-OFL.txt": {
+        "bytes": 4482,
+        "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1"
+      },
+      "fonts/DMSans.woff2": {
+        "bytes": 88820,
+        "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+      },
+      "fonts/README.md": {
+        "bytes": 3105,
+        "sha256": "f3bff941d4ce91d70cbfbf7381250a022175365917414d189100893d92ea356c"
+      },
+      "fonts/SpaceGrotesk-OFL.txt": {
+        "bytes": 4495,
+        "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+      },
+      "fonts/SpaceGrotesk.woff2": {
+        "bytes": 49256,
+        "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+      },
+      "index.html": {
+        "bytes": 868,
+        "sha256": "7b82713d53b43e757a00286284e2bc2b7c83821da415806b4cac28c199b5c266"
+      }
+    }
+  },
+  "conditions": {
+    "node": "24.22.2",
+    "npm": "11.19.1",
+    "playwright": "1.64.1",
+    "browser": "Chromium 156.0.8078.4",
+    "timezone": "Europe/Madrid",
+    "fixedScreenshotDate": "2026-11-17T12:00:00+01:00",
+    "nativeControlLocale": "en-US (browser default)",
+    "data": "synthetic",
+    "physicalDevice": false
+  },
+  "captures": [
+    {
+      "file": "en-dark-393-calendar-error.png",
+      "bytes": 114025,
+      "sha256": "f80dc62f7456b42fdd6bda376bc01b4d0bc053488e6961b14cdceb8b336cd572"
+    },
+    {
+      "file": "es-light-1440-calendar-prepared.png",
+      "bytes": 145796,
+      "sha256": "7d1c909beee506f4e05c47dd22fd324f0065576a6ace255f491e283e210eaaa7"
+    }
+  ],
+  "reusedPNGs": [
+    {
+      "path": "docs/review/fe01/i5/es-light-1440-example-wallpaper.png",
+      "sha256": "13191ccda155bce4accdb87dd99f54410f37933518be524065fcbf01b1a0441c",
+      "currentPNGIdentical": true
+    },
+    {
+      "path": "docs/review/fe01/i5/en-dark-393-maximum-wallpaper.png",
+      "sha256": "6ab2435a353476d8dc3891d3c47d66fcaac644f8cc1e3692923e54ca5e71a219",
+      "currentPNGIdentical": true
+    }
+  ],
+  "journeys": [
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 1440,
+      "height": 900,
+      "keyboard": false,
+      "maximum": false,
+      "reducedMotion": false,
+      "keyboardFocusChecks": 0,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "De lunes a viernes a las 20:00, durante 4 semanas",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 393,
+      "height": 851,
+      "keyboard": false,
+      "maximum": false,
+      "reducedMotion": true,
+      "keyboardFocusChecks": 0,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "De lunes a viernes a las 20:00, durante 4 semanas",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    },
+    {
+      "locale": "es",
+      "theme": "dark",
+      "width": 1440,
+      "height": 900,
+      "keyboard": true,
+      "maximum": false,
+      "reducedMotion": false,
+      "keyboardFocusChecks": 14,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "De lunes a viernes a las 20:00, durante 4 semanas",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    },
+    {
+      "locale": "es",
+      "theme": "dark",
+      "width": 393,
+      "height": 851,
+      "keyboard": true,
+      "maximum": false,
+      "reducedMotion": true,
+      "keyboardFocusChecks": 14,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "De lunes a viernes a las 20:00, durante 4 semanas",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    },
+    {
+      "locale": "en",
+      "theme": "light",
+      "width": 1440,
+      "height": 900,
+      "keyboard": false,
+      "maximum": false,
+      "reducedMotion": false,
+      "keyboardFocusChecks": 0,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "Monday to Friday at 8:00 PM, for 4 weeks",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    },
+    {
+      "locale": "en",
+      "theme": "light",
+      "width": 393,
+      "height": 851,
+      "keyboard": false,
+      "maximum": false,
+      "reducedMotion": true,
+      "keyboardFocusChecks": 0,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "Monday to Friday at 8:00 PM, for 4 weeks",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 1440,
+      "height": 900,
+      "keyboard": true,
+      "maximum": true,
+      "reducedMotion": false,
+      "keyboardFocusChecks": 14,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "Monday to Friday at 8:00 PM, for 4 weeks",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 393,
+      "height": 851,
+      "keyboard": true,
+      "maximum": false,
+      "reducedMotion": true,
+      "keyboardFocusChecks": 14,
+      "errorsFocused": true,
+      "editPreservesSession": true,
+      "calendarSummary": "Monday to Friday at 8:00 PM, for 4 weeks",
+      "calendarContext": true,
+      "consentCancel": true,
+      "overflow": false,
+      "external": 0,
+      "pageErrors": 0
+    }
+  ],
+  "review": {
+    "method": "single context; not independent",
+    "skills": [
+      "Impeccable 4.9.2 / engine 0.1.25",
+      "Vercel guidelines 434b7f91364665f2f733b310ec54809bf8f37937"
+    ],
+    "detectorFindings": 0,
+    "resolved": [
+      "missing calendar explanation and confirmed schedule summary",
+      "whitespace-only preview clauses mislabeled as own text",
+      "duplicate download on one double-click"
+    ],
+    "excluded": [
+      "owner approval still required for I6 closure",
+      "physical phone/native sharing/OS clock compatibility",
+      "human completion time and retention",
+      "I7 final regression/performance/debt review",
+      "remote CI and staging"
+    ]
+  }
+}

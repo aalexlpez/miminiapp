@@ -305,6 +305,29 @@ describe('explicit miniapp registry', () => {
   });
 });
 
+describe('opt-in miniapp presentation', () => {
+  it.each([undefined, 'standard', 'focused'] as const)(
+    'accepts %s without loading or changing the descriptor',
+    (presentation) => {
+      const a = published('a');
+      const entry = { ...a, descriptor: { ...a.descriptor, presentation } };
+      expect(getPublishedMetadata([entry])).toEqual([entry.descriptor]);
+      expect(a.loadEntry).not.toHaveBeenCalled();
+    },
+  );
+  it.each([null, '', 'full', true, 7])(
+    'rejects unsupported presentation %j',
+    (presentation) => {
+      const a = published('a');
+      expect(() =>
+        validateRegistry(
+          malformed({ ...a, descriptor: { ...a.descriptor, presentation } }),
+        ),
+      ).toThrow('Invalid presentation');
+    },
+  );
+});
+
 describe('explicit locale routes', () => {
   it('defaults to Spanish while recognizing only the two approved locales', () => {
     expect(defaultLocale).toBe('es');

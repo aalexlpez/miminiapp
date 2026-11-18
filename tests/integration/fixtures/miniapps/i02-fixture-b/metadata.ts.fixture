@@ -5,6 +5,7 @@ export const metadata = {
   slug: 'i02-fixture-b',
   status: 'published',
   category: 'calculator',
+  presentation: 'focused',
   tags: ['fixture'],
   publishedAt: '2026-11-05',
   copy: {

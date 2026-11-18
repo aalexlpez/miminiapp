@@ -1,8 +1,8 @@
-# Plan B · Bad Day Plan — ficha funcional v06
+# Plan B · Bad Day Plan — ficha funcional v07
 
-* **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados.
-* **Situación:** I1–I5 integradas en staging; I6 autorizada y revisión técnica global realizada. PB-01 sigue `En curso`: pruebas físicas, revisión humana y validación remota de las correcciones pendientes. Staging de I5 identificado/validado; ADR-MMA-020/021 aprobadas.
-* **Creada:** 2026-11-15. **Actualizada:** 2026-11-17 (revisión global I6; contrato funcional v06 conservado).
+* **Estado de esta definición:** `Aprobada` por el propietario de MiMiniApp (Alexander / Ale) el 2026-11-16 al solicitar comenzar la primera iteración de Plan B conforme al plan y ficha revisados. Enmienda v07 aprobada el 2026-11-17 mediante «Vale, si, la apruebo» al revisar dirección/contrato FE-01/I3 (ADR-MMA-023) y pasar a I4.
+* **Situación:** I1–I5 integradas en staging; I6 autorizada y revisión técnica global realizada. PB-01 sigue `En curso`: pruebas físicas, revisión humana y validación remota de las correcciones pendientes. Correcciones PB-01/I6 integradas por PR #25; candidato frontend FE-01 aún local, con CI/staging pendientes. ADR-MMA-020/021/023 aprobadas.
+* **Creada:** 2026-11-15. **Actualizada:** 2026-11-18 (v07 aprobada; recorrido y resultado/PNG FE-01/I4–I5 implementados y verificados localmente, acabado I6 aprobado sobre 7f027f3; regresión local I7 satisfactoria en 2d213dd, deuda de dependencias no bloqueante aprobada; CI/staging pendientes).
 * **Origen:** [v05 aportada por el propietario](../references/plan-b-v05.md), contrastada con `staging` en `e203d73156a61a61138e9ff23de964a827221fad`.
 * **Categoría:** `everyday`. **ID / slug:** `plan-b`. Etiquetas opcionales omitidas; `publishedAt: 2026-11-17` en la candidata autorizada, como fecha prevista de primera incorporación (confirmar la real antes de integrar si cambia el día).
 * **Plan único:** [PB-01](../exec-plans/active/PB-01-plan-b.md), aprobado el 2026-11-16 y con I1–I5 integradas e I6 autorizada y revisada técnicamente, con seis iteraciones internas desde base lógica hasta [regresión global](../exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global). **Decisiones de Plan B:** [ADR-MMA-020/021](../design-docs/plan-b-contracts.md).
@@ -10,13 +10,22 @@
 
 ## 1. Propósito y alcance
 
+**Rediseño aprobado:** [ADR-MMA-023](../design-docs/plan-b-frontend-proposal.md)
+y [prototipo I3](../review/fe01/README.md) aprobados el 2026-11-17. Esta ficha v07
+es el contrato objetivo. FE-01/I4–I5 implementan y verifican localmente el recorrido,
+el calendario posterior y la composición de resultado/PNG. I6/I7 conservan la
+revisión del acabado por el propietario y la regresión final. La revisión técnica
+de I6 y sus tres correcciones locales quedan aprobadas por el propietario sobre
+7f027f3 mediante «aprobado, continua con la siguiente». I7 revalida 2d213dd sin cambiar la composición aprobada; sigue En curso por la entrega/CI/staging; la [revisión de dependencias](../reports/fe01/security-review.md) queda como deuda no bloqueante aprobada.
+PB-01 conserva sus pendientes físicos y de aceptación; el candidato FE sigue local.
+
 «Dime tu propósito, dime qué te hará dejarlo y prepara un plan B para ese día».
 
 Miniapp de una sola sesión y unos dos minutos para público general, móvil y escritorio, en ES/EN. Nombre ES: **Plan B**, subtítulo «para tu propósito». Nombre EN: **Bad Day Plan**; los nombres de archivo y textos ingleses usan ese nombre. Se inspira en planes «si… entonces» y contraste mental; no promete eficacia clínica ni se presenta como implementación completa o certificada de WOOP.
 
 La persona escribe un propósito, elige un obstáculo y redacta situación y acción. Obtiene el plan en pantalla, un PNG para fondo de bloqueo y, si añade hora y días, un evento recurrente exportable. La app prepara el evento; la persona decide guardarlo en su calendario. Las notificaciones dependen del calendario y de sus permisos.
 
-Se conservan tres pasos, portada, resultado, ejemplo, sello, calendario, imagen y compartir enlace. No hay seguimiento de hábitos, historial, cuentas, pagos, backend, APIs de datos, IA, sincronización, notificaciones propias, analítica, service worker ni dependencias nuevas. Quedan fuera stories, retos, varios propósitos o estilos, editor de fondos, partículas y cambios de plataforma o producción.
+Se muestran cuatro preguntas guiadas, resultado, ejemplo, calendario opcional, imagen y compartir enlace. La primera pregunta sustituye la portada obligatoria; se retiran el gris y el sello en favor del progreso y la frase en construcción. No hay seguimiento de hábitos, historial, cuentas, pagos, backend, APIs de datos, IA, sincronización, notificaciones propias, analítica, service worker ni dependencias nuevas. Quedan fuera stories, retos, varios propósitos o estilos, editor de fondos, partículas y cambios de plataforma o producción.
 
 ## 2. Encaje con la base actual
 
@@ -52,23 +61,62 @@ Cambiar ES/EN conserva entradas, paso, hora y días mediante esa clave; los text
 
 ## 4. Recorrido y demostración
 
-Una columna de hasta unos 480 px, móvil primero y escritorio cuidado. Portada y resultado no muestran «1 de 3»; cada paso muestra su posición y botón Atrás. El foco se mueve al título del paso sin duplicar anuncios. Los errores se asocian a sus campos; los cambios de estado importantes se anuncian sin mover foco innecesariamente.
+Dirección aprobada «El plan toma forma»: primera pregunta directa y cuatro
+preguntas visibles — propósito, obstáculo, situación y acción — antes del resultado.
+Vista previa lateral en escritorio y compacta después de la tarea en móvil.
+El marco acepta presentation focused solo por opción explícita; el default
+standard conserva su layout. h1, descripción, cabecera/pie, navegación y SEO se conservan.
 
-* **Portada:** titular, subtítulo, Empezar, Ver un ejemplo y privacidad. Empezar inicia una sesión nueva; una sesión válida recuperada muestra directamente su paso.
-* **Paso 1:** pregunta (variante de enero), propósito, seis sugerencias y Siguiente. No avanza con longitud inválida.
-* **Paso 2:** seis botones en dos columnas, etiqueta de mes y entrada al gris. Elegir un obstáculo predefinido avanza automáticamente; se anuncia antes que la selección abre el siguiente paso. «Otra cosa» abre campo y requiere Siguiente válido.
-* **Paso 3:** situación y acción con Si / entonces o If / then, ayudas y dos sugerencias por campo según obstáculo (ninguna de situación para «Otro»). Hora y siete botones de días opcionales. Ver mi plan exige frases válidas y, si hay hora, al menos un día.
-* **Resultado:** sello, frase grande, propósito pequeño. Bloques en orden: calendario; vista previa y guardado de PNG; compartir la herramienta. Sin hora, calendario muestra Añadir hora, que vuelve al paso 3 y enfoca ese control. Pie con Empezar otra vez y enlace al catálogo del idioma actual.
+* **Propósito:** pregunta (variante de enero), propósito, ejemplo y sugerencias
+  en «¿Necesitas una idea?». La acción nombra elegir el obstáculo. No se exige pulsar
+  Empezar antes de escribir ni se enfoca automáticamente el campo al cargar.
+* **Obstáculo:** seis botones en dos columnas y escenario del mes siguiente.
+  Se avisa que una selección predefinida avanza. Otro abre campo y requiere continuar.
+* **Situación:** Si / If, una entrada y ayuda concreta; sugerencias contextuales.
+  Atrás al obstáculo; la acción nombra elegir una respuesta.
+* **Acción:** entonces / then, entrada y sugerencias; «Ver mi plan» exige frases
+  válidas. Atrás a situación conserva todas las entradas. Hora/días no se interponen.
+* **Resultado:** frase, propósito, guardar PNG y editar primero. Calendario y
+  compartir son opciones progresivas. Editar/Atrás vuelve a acción. Reinicio y
+  enlace al catálogo del idioma actual mantienen sus garantías.
 
-Ver un ejemplo carga los valores de la tabla de ejemplo y abre paso 1. Mantiene la etiqueta Ejemplo hasta la primera modificación efectiva de un dato (incluidas sugerencias, hora o días); navegar sin editar no la elimina. Si se cambia idioma, se conservan literalmente los valores del ejemplo ya cargado. Un nuevo ejemplo se carga en el idioma actual.
+Progreso 1–4 sin duplicar anuncios; resultado no se numera. Al cambiar de vista se
+enfoca el título una sola vez. Errores asociados y foco al primer campo inválido.
+Sin truncado, recorte horizontal o bloqueo de zoom. Las acciones ordinarias deben
+ser alcanzables en los perfiles de referencia; zoom, errores, máximo o teclado
+móvil pueden requerir scroll natural.
 
-La fecha narrativa se toma del dispositivo al empezar o cargar ejemplo y se conserva en la sesión: mes actual, siguiente mes natural y año. El siguiente mes es el primer día del mes siguiente, no hoy + 31 días. En enero se usa la pregunta anual. Al entrar en paso 2, la etiqueta cambia de mes actual a mes siguiente. La restauración no cambia a mitad de sesión la historia; el calendario se calcula con la fecha local del día de exportación.
+Ejemplo rellena valores reales y abre propósito. La etiqueta permanece hasta el
+primer cambio efectivo de un dato, no al navegar o elegir de nuevo el mismo valor.
+Cambiar propósito/obstáculo no borra frases. Cambiar idioma conserva texto literal.
+Fecha narrativa capturada al empezar realmente a escribir/elegir sugerencia o
+cargar ejemplo; mes siguiente natural, enero y narrativa estable se conservan.
+
+### Restauración y horario
+
+Se conserva miminiapp.plan-b.v1 y version=1, sin migración o nueva clave. Los estados
+home/purpose/obstacle/plan/result permanecen; plan tiene dos vistas locales.
+Restaurar home/purpose muestra propósito; obstacle conserva su selección; plan
+abre situación si está incompleta y acción si situación ya es válida, aunque la
+acción esté completa. No salta al resultado por inferencia. result válido muestra
+resultado. Sin recarga, Atrás conserva la vista elegida; al cambiar idioma se
+aplica la misma restauración y nunca se traduce el texto personal.
+
+Calendario se edita desde resultado como borrador local de hora/días. Solo un
+horario válido se confirma atómicamente al preparar una exportación; nunca se
+persiste result con datos que el parser v1 rechace. Cerrar/reabrir el panel conserva
+el borrador en la visita. Recargar restaura el último horario confirmado. La ayuda
+lo explica; confirmar «Sin hora» elimina el horario. badInput no se interpreta como
+hora omitida. PNG y frase no dependen de ese borrador; consentimiento/Google intactos.
 
 ### Concepto visual
 
-Portada/paso 1 con color; paso 2 pasa a gris en 600 ms. Paso 3: gris 100 %, 50 % o 0 % según haya cero, uno o dos campos de frase válidos. Resultado: color completo, sello de −6° y escala 1,4 a 1 en 300 ms. El sello no tapa el texto ni es necesario para entender el plan.
-
-Aplicar el gris solo dentro de la miniapp; conservar contraste AA en claro y oscuro y estado seleccionado reconocible sin color. `prefers-reduced-motion: reduce` elimina giro/escala y vuelve instantáneos los cambios de color. Son animaciones propias: no se altera la política existente del logo/hero ni su control global. No se añade un sistema general de movimiento.
+Fuentes/tokens Laboratorio creativo, cuatro preguntas con progreso y frase que se
+construye. Entrada de vista 180 ms y resultado 240 ms con 8 px de desplazamiento y
+opacidad .7→1, contenido visible por defecto; hover 160 ms y foco independiente.
+Las acciones no esperan la animación ni duplican avances. reduced-motion conserva
+estados instantáneos, sin desplazamiento/transiciones. Sin bucles, gris o sello;
+el hero/global de movimiento mantiene su política aprobada.
 
 ## 5. Salidas y conexiones
 
@@ -86,7 +134,7 @@ La alternativa iOS con `data:text/calendar` de v05 se evalúa, no se promete. So
 
 ### Fondo de bloqueo
 
-PNG mediante canvas y fuentes locales ya cargadas. Propuesta v06: lienzo vertical fijo **1179 × 2556 px** en móvil y escritorio; evita exportar un fondo horizontal desde escritorio y limita memoria. Sin editor de dimensiones. Fondo con tokens del tema resuelto al generar, sin logotipo ni URL. Etiqueta pequeña y frase completa entre el 32 % y el 72 % de la altura, márgenes laterales del 10 %.
+PNG mediante canvas y fuentes locales ya cargadas. Contrato v07: lienzo vertical fijo **1179 × 2556 px** en móvil y escritorio; evita exportar un fondo horizontal desde escritorio y limita memoria. Sin editor de dimensiones. Fondo con tokens del tema resuelto al generar, sin logotipo ni URL. Etiqueta pequeña, frase alineada a la izquierda y línea de continuidad entre el 32 % y el 72 % de la altura, márgenes laterales del 10 %. Geometría discreta fuera de esa zona, sin reloj dibujado; una única dirección por tema.
 
 La frase parte de fuente al 7 % del ancho, baja hasta 4 % y ajusta líneas por palabras. Palabras largas se dividen en límites de grafema, sin omitir texto ni separar un emoji compuesto. Con las longitudes máximas, debe caber íntegra a ese mínimo; si no se consigue, se corrige el layout antes de aceptar, sin elipsis ni ampliar límites. Mantener contraste en ambos temas. La zona segura es una aproximación: comprobar el fondo real bajo el reloj y con el recorte del SO en ambos teléfonos.
 
@@ -108,12 +156,13 @@ Los placeholders de una misma clave tienen los mismos nombres internos en ambos 
 
 | Clave | ES | EN |
 |---|---|---|
-| subtitulo | Vamos a evitarlo. Tardas 2 minutos. | Let's stop that from happening. It takes 2 minutes. |
+| subtitulo | Un plan para seguir, incluso en un mal día. | A way to keep going, even on a bad day. |
 | p1_pregunta | ¿Qué quieres lograr? | What do you want to achieve? |
 | p1_pregunta_enero | ¿Qué quieres lograr este año? | What do you want to achieve this year? |
 | p1_sugerencias | Hacer ejercicio · Leer más · Ahorrar · Aprender un idioma · Dormir mejor · Usar menos el móvil | Exercise more · Read more · Save money · Learn a language · Sleep better · Use my phone less |
 | p2_otra_placeholder | Cuéntalo en pocas palabras | Say it in a few words |
-| p3_titulo | Tu plan para ese día | Your plan for that day |
+| p3_pregunta | ¿Cuándo aparece ese obstáculo? | When does that obstacle show up? |
+| p4_pregunta | ¿Qué harás en ese momento? | What will you do in that moment? |
 | p3_ayuda_situacion | ¿Lo podrías ver en una foto? Si no, concrétalo más. | Could you see it in a photo? If not, make it more specific. |
 | p3_ayuda_accion | Algo pequeño: 5 minutos o menos. | Something small: 5 minutes or less. |
 | p3_hora_pregunta | ¿A qué hora suele pasar? (opcional) | What time does it usually happen? (optional) |
@@ -159,7 +208,7 @@ Estas filas sustituyen las claves homónimas de v05 y completan controles, error
 | Clave | ES | EN |
 | --- | --- | --- |
 | metadata_titulo | Plan B | Bad Day Plan |
-| metadata_descripcion | Prepara un plan para el día en que tu propósito se complique. | Make a plan for the day your goal gets difficult. |
+| metadata_descripcion | Un plan para seguir, incluso en un mal día. | A way to keep going, even on a bad day. |
 | nombre_subtitulo | para tu propósito | for your goal |
 | pie_privacidad | Gratis y sin cuenta. Tu texto se procesa en este navegador y se guarda temporalmente si el navegador lo permite. Puedes borrarlo con «Empezar otra vez». Solo sale si lo exportas a Google o compartes la imagen. | Free, no account. Your text is processed in this browser and temporarily saved when your browser allows it. Clear it with “Start again”. It only leaves if you export it to Google or share the image. |
 | nota_offline | Con esta página completamente cargada y abierta, puedes completar tu plan y generar los archivos sin conexión. | Once this page is fully loaded and kept open, you can finish your plan and generate the files offline. |
@@ -167,7 +216,7 @@ Estas filas sustituyen las claves homónimas de v05 y completan controles, error
 | evento_titulo | Plan B: {accion} | Bad Day Plan: {accion} |
 | titular | Es {mesSiguiente} y ya has abandonado tu propósito. | It's {mesSiguiente} and you've already quit your goal. |
 | p2_pregunta | Imagina que es 1 de {mesSiguiente} y lo has dejado. ¿Qué ha pasado? | Imagine it's {mesSiguiente} 1 and you've stopped. What happened? |
-| sello | Este {mesSiguiente}, no. | Not this {mesSiguiente}. |
+| resultado_titulo | Ya tienes una forma de seguir. | You have a way to keep going. |
 | rec_resumen | {dias} a las {hora}, durante 4 semanas | {dias} at {hora}, for 4 weeks |
 | gcal_aviso | Se abrirá Google Calendar con tu plan. El texto se enviará a Google y puede quedar en la URL y el historial. Revisa y guarda el evento allí. | Google Calendar will open with your plan. The text will be sent to Google and may remain in the URL and history. Review and save the event there. |
 | fondo_ios | 1. Guarda el PNG desde el menú de compartir o la vista de imagen. 2. En Fotos, usa Compartir y «Usar como fondo de pantalla». Las opciones dependen de tu versión de iOS. | 1. Save the PNG from the share menu or image view. 2. In Photos, use Share and “Use as Wallpaper”. Options depend on your iOS version. |
@@ -185,7 +234,8 @@ Estas filas sustituyen las claves homónimas de v05 y completan controles, error
 | obstaculo_avance | Al elegir un obstáculo, pasarás al siguiente paso. | Choosing an obstacle takes you to the next step. |
 | recordatorio / calendario / google / anadir_hora | Recuérdamelo / Añadir a mi calendario / Añadir a Google Calendar / Añadir hora | Remind me / Add to my calendar / Add to Google Calendar / Add a time |
 | continuar / cancelar / cerrar | Continuar / Cancelar / Cerrar | Continue / Cancel / Close |
-| fondo / guardar_imagen / ver_imagen | Fondo de pantalla / Guardar imagen / Abrir imagen | Wallpaper / Save image / Open image |
+| fondo / guardar_imagen / ver_imagen | Tu fondo de pantalla / Guardar mi plan / Abrir imagen | Your wallpaper / Save my plan / Open image |
+| editar_plan / png_nota | Editar mi plan / PNG · 1179 × 2556 · imagen estática | Edit my plan / PNG · 1179 × 2556 · static image |
 | compartelo / compartir / copiar / catalogo | Compartir Plan B / Compartir / Copiar enlace / Más miniapps | Share Bad Day Plan / Share / Copy link / More miniapps |
 | error_longitud | Escribe entre {minimo} y {maximo} caracteres. | Enter between {minimo} and {maximo} characters. |
 | error_linea | Escribe una sola línea, sin saltos de línea. | Enter a single line without line breaks. |
@@ -215,7 +265,7 @@ Presupuesto propuesto: **≤ 50 KiB sin comprimir para JS/CSS propio adicional d
 
 El límite de Ale sigue siendo **6–12 h en 3–4 sesiones** de revisión/prueba, no una garantía de horas de desarrollo ni de fecha. Las pruebas de compatibilidad van primero. Si el núcleo no cabe, se entrega evidencia y se revisa el alcance; no se publica un resultado incompleto para cumplir el límite.
 
-Recortes, si hacen falta y se registran antes de aceptar: instrucciones de SO separadas → instrucciones conjuntas; gris progresivo → cambio al resultado; Google → solo si `.ics` permite importar correctamente en ambos móviles. Analítica ya está fuera y no supone ahorro pendiente. No se recortan tres pasos, plan, una vía de calendario por móvil, PNG, ES/EN, uso offline definido ni sello.
+Recortes, si hacen falta y se registran antes de aceptar: instrucciones de SO separadas → instrucciones conjuntas; Google → solo si `.ics` permite importar correctamente en ambos móviles. Analítica ya está fuera y no supone ahorro pendiente. No se recortan las cuatro preguntas, plan, una vía de calendario por móvil, PNG, ES/EN ni uso offline definido. La retirada de gris/sello ya fue aprobada en v07; no es un recorte pendiente.
 
 | ID | Resultado aceptable | Evidencia prevista |
 | --- | --- | --- |

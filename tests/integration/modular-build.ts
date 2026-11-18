@@ -373,6 +373,11 @@ async function assertStage(stageRoot: string, expectedModules: string[]) {
         'utf8',
       );
       assert(html.includes(`lang="${locale}"`));
+      assert.equal(
+        html.includes('data-presentation="focused"'),
+        name === 'i02-fixture-b',
+        'Only the opted-in fixture may compact its page heading',
+      );
       assert(
         html.includes(
           name === 'i02-fixture-a' ? 'I02_FIXTURE_A_UI' : 'I02_FIXTURE_B_UI',

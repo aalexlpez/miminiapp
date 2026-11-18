@@ -1,11 +1,47 @@
+import { calendarEn } from './calendar-messages.ts';
+
 export const en = {
-  calendar: {
-    summary: 'Bad Day Plan: {action}',
-    description:
-      'If {situation}, then {action}.\nYour goal: {purpose}\nMade with MiMiniApp',
+  calendar: calendarEn,
+  flow: {
+    purposePlaceholder: 'For example: read more',
+    purposeHint:
+      'Pick something that matters to you. Your bad day plan will help when that goal gets difficult.',
+    obstacleTitle: 'What could get in your way?',
+    situationTitle: 'When does that obstacle show up?',
+    actionTitle: 'What will you do in that moment?',
+    situationHint:
+      'A specific situation you can recognise. This will be your cue to act.',
+    actionHint:
+      'Something small and possible, even on a bad day. Five minutes can be enough.',
+    nextPurpose: 'Choose obstacle',
+    nextOther: 'Recognise the cue',
+    nextSituation: 'Choose response',
+    ideas: 'Need an idea?',
+    previewTitle: 'Your plan is taking shape',
+    previewExample: 'What it could look like · example',
+    previewGoal: 'One goal. Another way forward.',
+    previewSituation: 'the day gets difficult',
+    previewAction: 'I do a small version of my goal',
+    previewNote: 'A specific cue + a possible response.',
+    previewFooter:
+      "You don't need a perfect day. You need to know what to do when it isn't.",
+    privacyShort: 'No account. Only in this browser.',
+    privacyLabel: 'How it works and privacy',
+    resultTitle: 'You have a way to keep going.',
+    resultHint: 'Save it somewhere you can see on a difficult day.',
+    calendarHint:
+      'The app will prepare a four-week series. You choose to save it; alerts depend on your calendar settings.',
+    calendarOptional: 'Add a reminder (optional)',
+    scheduleHint:
+      'Your schedule is saved when you prepare the reminder. Reloading earlier restores the last prepared schedule.',
+    schedulePrepare: 'Prepare reminder',
+    scheduleReady:
+      'Schedule prepared. You can add it to your calendar or open Google Calendar.',
+    scheduleWithoutTime: 'Continue without a reminder',
+    scheduleCleared: 'No reminder. Your plan and image are still available.',
   },
   ui: {
-    subtitle: "Let's stop that from happening. It takes 2 minutes.",
+    subtitle: 'A way to keep going, even on a bad day.',
     headline: "It's {month} and you've already quit your goal.",
     question: 'What do you want to achieve?',
     januaryQuestion: 'What do you want to achieve this year?',
@@ -66,6 +102,12 @@ export const en = {
       'Enable JavaScript to prepare your plan. Your text is processed in this browser.',
   },
   exports: {
+    editPlan: 'Edit my plan',
+    imageOptions: 'Other ways to save',
+    downloadImage: 'Download PNG',
+    imageDimensions: 'PNG · 1179 × 2556 · static image',
+    shareHelp:
+      'A clean Bad Day Plan link will be shared, without your sentence or schedule.',
     calendarTitle: 'Remind me',
     calendarDownload: 'Add to my calendar',
     google: 'Add to Google Calendar',
@@ -74,8 +116,8 @@ export const en = {
     googleWarning:
       'Google Calendar will open with your plan. The text will be sent to Google and may remain in the URL and history. Review and save the event there.',
     duplicateWarning: 'Importing the file again may duplicate events.',
-    wallpaperTitle: 'Wallpaper',
-    saveImage: 'Save image',
+    wallpaperTitle: 'Your wallpaper',
+    saveImage: 'Save my plan',
     openImage: 'Open image',
     imageLabel: 'My bad day plan',
     imageNotice:

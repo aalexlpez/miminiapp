@@ -9,6 +9,8 @@ import {
   type Step,
 } from '../domain/session-state';
 import { createSessionStore, type SessionWarning } from './session';
+import { restoreView, sessionStep, type PlanView } from '../domain/flow';
+import { validatePlanInputs, type Weekday } from '../domain/validation';
 
 export interface Snapshot {
   readonly session: PlanSession;
@@ -16,6 +18,7 @@ export interface Snapshot {
   readonly memoryOnly: boolean;
   readonly warnings: readonly SessionWarning[];
   readonly previewDate: NarrativeDate | null;
+  readonly view: PlanView;
 }
 
 export function createPlanController(
@@ -28,12 +31,13 @@ export function createPlanController(
     memoryOnly: false,
     warnings: [],
     previewDate: null,
+    view: 'purpose',
   };
   let snapshot = initial;
   const listeners = new Set<() => void>();
-  function publish(session: PlanSession, persist = true) {
+  function publish(session: PlanSession, persist = true, view = snapshot.view) {
     if (persist) store.save(session);
-    snapshot = { ...snapshot, session, ...store.status() };
+    snapshot = { ...snapshot, session, view, ...store.status() };
     for (const listener of listeners) listener();
   }
   return {
@@ -53,6 +57,7 @@ export function createPlanController(
         ready: true,
         ...store.status(),
         previewDate: session.narrative ?? captureNarrativeDate(clock),
+        view: restoreView(session),
       };
       for (const listener of listeners) listener();
     },
@@ -65,7 +70,7 @@ export function createPlanController(
           ? { inputs: { ...example, days: [...example.days] }, example: true }
           : {}),
       };
-      publish(session);
+      publish(session, true, 'purpose');
     },
     update<K extends keyof DraftInputs>(field: K, value: DraftInputs[K]) {
       const session = snapshot.session;
@@ -73,17 +78,49 @@ export function createPlanController(
         return;
       publish({
         ...session,
+        ...(session.step === 'home'
+          ? { step: 'purpose' as const, narrative: captureNarrativeDate(clock) }
+          : {}),
         inputs: { ...session.inputs, [field]: value },
         example: false,
       });
     },
     go(step: Step) {
-      publish({ ...snapshot.session, step });
+      const session = { ...snapshot.session, step };
+      publish(session, true, restoreView(session));
+    },
+    show(view: PlanView) {
+      const step =
+        view === 'result' && !validatePlanInputs(snapshot.session.inputs).ok
+          ? 'plan'
+          : sessionStep(view);
+      publish(
+        {
+          ...snapshot.session,
+          step,
+          narrative: snapshot.session.narrative ?? captureNarrativeDate(clock),
+        },
+        true,
+        view,
+      );
+    },
+    commitSchedule(time: string, days: readonly Weekday[]) {
+      const session = snapshot.session;
+      const inputs = { ...session.inputs, time, days: [...days] };
+      if (snapshot.view !== 'result' || !validatePlanInputs(inputs).ok)
+        return false;
+      if (JSON.stringify(inputs) !== JSON.stringify(session.inputs))
+        publish({ ...session, step: 'result', inputs, example: false });
+      return true;
+    },
+    markEdited() {
+      if (snapshot.session.example)
+        publish({ ...snapshot.session, example: false });
     },
     reset() {
       store.clear();
       snapshot = { ...snapshot, previewDate: captureNarrativeDate(clock) };
-      publish(emptySession(), false);
+      publish(emptySession(), false, 'purpose');
     },
   };
 }

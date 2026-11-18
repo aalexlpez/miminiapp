@@ -5,11 +5,10 @@ import {
   type CalendarEvent,
   type CalendarText,
 } from '../domain/calendar.ts';
-import { es } from './es.ts';
-import { en } from './en.ts';
+import { calendarEs, calendarEn } from './calendar-messages.ts';
 import { validateText } from '../domain/validation.ts';
 
-validateTranslationParity(es, en);
+validateTranslationParity(calendarEs, calendarEn);
 
 export function formatCalendarText(
   event: CalendarEvent,
@@ -29,7 +28,7 @@ export function formatPlanText(
     if (!result.ok || result.value !== plan[field])
       throw new RangeError('Invalid plan text.');
   }
-  const copy = { es, en }[locale].calendar;
+  const copy = { es: calendarEs, en: calendarEn }[locale];
   const insert = (template: string) =>
     template.replace(
       /\{(purpose|situation|action)\}/g,

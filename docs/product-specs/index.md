@@ -1,11 +1,11 @@
 # MiMiniApp — definición del producto
 
 **Nombre:** MiMiniApp (provisional).
-**Fase:** plataforma y circuito I-03 aceptados; Plan B seleccionada, ficha aprobada y PB-01 en curso. I1–I5 integradas en staging; I6 autorizada y revisión técnica global realizada. PB-01 sigue `En curso`: pruebas físicas, revisión humana y validación remota de las correcciones pendientes.
+**Fase:** plataforma y circuito I-03 aceptados; Plan B seleccionada, ficha aprobada y PB-01 en curso. I1–I5 integradas en staging; I6 autorizada y revisión técnica global realizada. Correcciones históricas PB-01/I6 integradas por PR #25. Acabado FE-01/I6 aprobado y regresión local I7 satisfactoria; deuda de dependencias no bloqueante aprobada para esta entrega. CI/staging del nuevo candidato y pruebas físicas/aceptación de PB-01 pendientes.
 **Estado de la definición:** Aprobada.
 **Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
 **Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
-**Última actualización:** 2026-11-17 (I5 integrada/servida y revisión técnica I6 autorizada; contrato funcional conservado, cierre físico/humano y staging de las correcciones pendientes).
+**Última actualización:** 2026-11-18 (handoff frontend FE-01/I7; sin aceptación global o cambio de alcance).
 
 ## Procedencia y alcance de esta definición
 
