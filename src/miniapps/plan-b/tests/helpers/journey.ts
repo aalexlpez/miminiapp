@@ -51,6 +51,9 @@ export async function verifyPlanJourney(page: Page, locale: Locale) {
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await enterPlanResult(page, copy);
   const sentence =
     locale === 'es'

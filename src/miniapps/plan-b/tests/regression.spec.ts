@@ -27,6 +27,9 @@ test.describe('native keyboard time editor', () => {
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     await enterPlanResult(page, copy);
     await openCalendar(page, copy);
     const time = page.locator('#pb-time');
@@ -84,6 +87,9 @@ for (const locale of ['es', 'en'] as const) {
       .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
       .click();
     await page.clock.setFixedTime(new Date(2026, 1, 1, 12));
     await enterPlanResult(page, copy);

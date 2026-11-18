@@ -45,6 +45,7 @@ async function example(
   await user.click(screen.getByRole('button', { name: copy.ui.exampleButton }));
   await user.click(screen.getByRole('button', { name: copy.flow.nextPurpose }));
   await user.click(screen.getByRole('button', { name: copy.obstacles.time }));
+  await user.click(screen.getByRole('button', { name: copy.flow.nextOther }));
 }
 async function finish(
   user: ReturnType<typeof userEvent.setup>,
@@ -130,6 +131,7 @@ describe('guided plan journey', () => {
     await user.click(
       screen.getByRole('button', { name: copy.obstacles.motivation }),
     );
+    await user.click(screen.getByRole('button', { name: copy.flow.nextOther }));
     expect(
       screen.getByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`),
     ).toHaveValue(copy.example.situation);
@@ -312,6 +314,7 @@ it.each(['es', 'en'] as const)(
       screen.getByRole('button', { name: copy.flow.nextPurpose }),
     );
     await user.click(screen.getByRole('button', { name: copy.obstacles.time }));
+    await user.click(screen.getByRole('button', { name: copy.flow.nextOther }));
     fireEvent.change(
       screen.getByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`),
       { target: { value: '   ' } },

@@ -45,6 +45,9 @@ for (const locale of ['es', 'en'] as const) {
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     await expect(
       page.getByLabel(`${copy.ui.if} — ${copy.ui.situationLabel}`, {
         exact: true,
@@ -118,6 +121,9 @@ test('retains literal ES example and January narrative through locale/month chan
   await expect(page.locator('.pb-question-hint')).toContainText('February');
   await page
     .getByRole('button', { name: en.obstacles.time, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: en.flow.nextOther, exact: true })
     .click();
   await expect(page.getByLabel('If — Situation', { exact: true })).toHaveValue(
     es.example.situation,
@@ -291,6 +297,9 @@ test('explains invalid saved data and failed reset without touching appearance',
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await enterPlanResult(page, copy);
   await page.getByRole('button', { name: copy.ui.reset, exact: true }).click();
   await expect(page.locator('.pb-notices')).toContainText(copy.ui.deleteFailed);
@@ -327,6 +336,9 @@ test('checks accessibility at every guided view in dark mode', async ({
       await page
         .getByRole('button', { name: copy.obstacles.time, exact: true })
         .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     if (index === 2)
       await page
         .getByRole('button', { name: copy.flow.nextSituation, exact: true })
@@ -409,6 +421,9 @@ test('keeps one navigation per double-click while allowing normal keyboard advan
   );
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
     .click();
   await expect(page.getByTestId('plan-b-app')).toHaveAttribute(
     'data-view',

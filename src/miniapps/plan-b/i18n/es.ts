@@ -3,19 +3,39 @@ import { calendarEs } from './calendar-messages.ts';
 export const es = {
   calendar: calendarEs,
   flow: {
+    customChoice: 'Escribir la mía',
+    situationPlaceholder: 'Por ejemplo: llego tarde a casa',
+    actionPlaceholder: 'Por ejemplo: leo una página',
+    prefixHint: 'Escribe solo lo que sigue a «{prefix}».',
+    removePrefix: 'Quitar «{prefix}» repetido',
+    footerAbout: 'Acerca de Plan B',
+    quickActions: {
+      exercise: ['hago dos minutos de estiramientos', 'camino cinco minutos'],
+      reading: ['leo una página', 'leo durante dos minutos'],
+      saving: ['guardo una cantidad pequeña', 'reviso un gasto del día'],
+      language: ['practico una palabra nueva', 'repaso durante dos minutos'],
+      sleep: [
+        'dejo el móvil fuera de la cama',
+        'adelanto cinco minutos la hora de acostarme',
+      ],
+      phone: [
+        'dejo el móvil en otra habitación',
+        'desactivo las notificaciones durante diez minutos',
+      ],
+    },
     purposePlaceholder: 'Por ejemplo: leer más',
     purposeHint:
       'Elige algo que te importe. El plan B te ayudará cuando ese propósito se complique.',
     obstacleTitle: '¿Qué podría ponértelo difícil?',
-    situationTitle: '¿Cuándo aparece ese obstáculo?',
-    actionTitle: '¿Qué harás en ese momento?',
+    situationTitle: '¿En qué situación te cuesta hacerlo?',
+    actionTitle: '¿Qué harás para seguir?',
     situationHint:
       'Una situación concreta que puedas reconocer. Esa será tu señal para actuar.',
     actionHint:
       'Algo pequeño y posible, incluso en un mal día. Cinco minutos pueden bastar.',
-    nextPurpose: 'Elegir mi obstáculo',
-    nextOther: 'Reconocer la señal',
-    nextSituation: 'Elegir mi respuesta',
+    nextPurpose: 'Continuar',
+    nextOther: 'Continuar',
+    nextSituation: 'Continuar',
     ideas: '¿Necesitas una idea?',
     previewTitle: 'Tu plan va tomando forma',
     previewExample: 'Así puede quedar · ejemplo',
@@ -27,8 +47,8 @@ export const es = {
       'No necesitas un día perfecto. Necesitas saber qué hacer cuando no lo sea.',
     privacyShort: 'Sin cuenta. Solo en este navegador.',
     privacyLabel: 'Cómo funciona y privacidad',
-    resultTitle: 'Ya tienes una forma de seguir.',
-    resultHint: 'Guárdala donde puedas verla en un día difícil.',
+    resultTitle: 'Tu plan B',
+    resultHint: 'Una forma de seguir, incluso en un mal día.',
     calendarHint:
       'La app preparará una serie de cuatro semanas. Tú decides guardarla; los avisos dependen de tu calendario.',
     calendarOptional: 'Añadir un recordatorio (opcional)',
@@ -172,6 +192,7 @@ export const es = {
       'Usar menos el móvil',
     ],
     situation: {
+      other: ['el día se complica', 'cambia mi rutina'],
       time: ['llego tarde a casa', 'tengo el día lleno de reuniones'],
       motivation: ['no me apetece nada', 'llego sin energía'],
       unexpected: ['surge un imprevisto', 'cambian mis planes'],

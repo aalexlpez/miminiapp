@@ -92,6 +92,9 @@ for (const locale of ['es', 'en'] as const)
           await page
             .getByRole('button', { name: copy.obstacles.time, exact: true })
             .click();
+        await page
+          .getByRole('button', { name: copy.flow.nextOther, exact: true })
+          .click();
         if (phase === 1)
           await page
             .getByRole('button', { name: copy.flow.nextSituation, exact: true })
@@ -109,6 +112,9 @@ test('finite view motion remains interruptible and never delays a valid submissi
   const copy = await openPlan(page, 'en');
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
     .click();
   const motion = await page.locator('.pb-screen').evaluate((el) => {
     const animation = el
@@ -231,6 +237,9 @@ test('reflows every screen in both languages/themes and at doubled CSS size', as
           await page
             .getByRole('button', { name: copy.obstacles.time, exact: true })
             .click();
+        await page
+          .getByRole('button', { name: copy.flow.nextOther, exact: true })
+          .click();
         if (step === 2)
           await page
             .getByRole('button', { name: copy.flow.nextSituation, exact: true })

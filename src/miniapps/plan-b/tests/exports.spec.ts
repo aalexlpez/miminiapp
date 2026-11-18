@@ -24,6 +24,9 @@ async function result(
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await enterPlanResult(page, copy);
   await openCalendar(page, copy);
   await expect(
@@ -110,6 +113,9 @@ for (const locale of ['es', 'en'] as const) {
       .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
       .click();
     await enterPlanResult(page, copy);
     await openCalendar(page, copy);
@@ -357,6 +363,9 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
     .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
+    .click();
   await enterPlanResult(page, copy);
   await openCalendar(page, copy);
   await expect(
@@ -404,6 +413,9 @@ test('recovers from PNG encoding failure and releases all URLs over ten export/r
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
     await enterPlanResult(page, copy);
     await openCalendar(page, copy);
   }
@@ -448,6 +460,9 @@ for (const theme of ['light', 'dark'] as const) {
       .click();
     await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
+      .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
       .click();
     const situation = '界'.repeat(90);
     const action = 'W'.repeat(90);
@@ -528,6 +543,9 @@ test('recovers from an unavailable local font and regenerates the real image aft
     .click();
   await page
     .getByRole('button', { name: copy.obstacles.time, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextOther, exact: true })
     .click();
   await enterPlanResult(page, copy);
   await expect(
