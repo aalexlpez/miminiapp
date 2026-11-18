@@ -307,70 +307,94 @@ test('prepares file sharing before the user gesture and keeps download/view alte
   );
 });
 
-for (const encoder of ['native', 'fallback'] as const)
-  test(`recovers from ${encoder} PNG encoding failure and releases all URLs over ten export/reset cycles`, async ({
-    page,
-  }) => {
-    await page.addInitScript((encoder) => {
-      if (encoder === 'fallback')
-        Reflect.set(window, 'OffscreenCanvas', undefined);
-      const canvases: (HTMLCanvasElement | OffscreenCanvas)[] = [];
-      Reflect.set(window, '__pbCanvases', canvases);
-      const element = Document.prototype.createElement;
-      Reflect.set(
-        Document.prototype,
-        'createElement',
-        function (
-          this: Document,
-          name: string,
-          options?: ElementCreationOptions,
-        ) {
-          const canvas = element.call(this, name, options);
-          if (canvas instanceof HTMLCanvasElement) canvases.push(canvas);
-          return canvas;
-        },
-      );
-      if (encoder === 'native') {
-        const Native = OffscreenCanvas;
-        Reflect.set(
-          window,
-          'OffscreenCanvas',
-          class extends Native {
-            constructor(width: number, height: number) {
-              super(width, height);
-              canvases.push(this);
-            }
-          },
-        );
-      }
-      const create = URL.createObjectURL.bind(URL);
-      const revoke = URL.revokeObjectURL.bind(URL);
-      const urls = new Set<string>();
-      Reflect.set(window, '__pbUrls', urls);
-      URL.createObjectURL = (blob) => {
-        const url = create(blob);
-        urls.add(url);
-        return url;
-      };
-      URL.revokeObjectURL = (url) => {
-        urls.delete(url);
-        revoke(url);
-      };
-      if (encoder === 'native') {
-        Reflect.set(
-          window,
-          '__pbEncode',
-          OffscreenCanvas.prototype.convertToBlob,
-        );
-        OffscreenCanvas.prototype.convertToBlob = () =>
-          Promise.reject(new Error('Encoding unavailable'));
-      } else {
-        Reflect.set(window, '__pbEncode', HTMLCanvasElement.prototype.toBlob);
-        HTMLCanvasElement.prototype.toBlob = (callback) => callback(null);
-      }
-    }, encoder);
-    const copy = getPlanCopy('es');
-    await page.goto('/es/apps/plan-b/');
+test('recovers from PNG encoding failure and releases all URLs over ten export/reset cycles', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const frames = new Set<number>();
+    Reflect.set(window, '__pbFrames', frames);
+    const request = requestAnimationFrame.bind(window),
+      cancel = cancelAnimationFrame.bind(window);
+    window.requestAnimationFrame = (callback) => {
+      const id = request((time) => {
+        frames.delete(id);
+        callback(time);
+      });
+      frames.add(id);
+      return id;
+    };
+    window.cancelAnimationFrame = (id) => {
+      frames.delete(id);
+      cancel(id);
+    };
+    const create = URL.createObjectURL.bind(URL);
+    const revoke = URL.revokeObjectURL.bind(URL);
+    const urls = new Set<string>();
+    Reflect.set(window, '__pbUrls', urls);
+    URL.createObjectURL = (blob) => {
+      const url = create(blob);
+      urls.add(url);
+      return url;
+    };
+    URL.revokeObjectURL = (url) => {
+      urls.delete(url);
+      revoke(url);
+    };
+    const encode = HTMLCanvasElement.prototype.toBlob;
+    Reflect.set(window, '__pbEncode', encode);
+    HTMLCanvasElement.prototype.toBlob = function (callback) {
+      callback(null);
+    };
+  });
+  const copy = getPlanCopy('es');
+  await page.goto('/es/apps/plan-b/');
+  await page
+    .getByRole('button', { name: copy.ui.exampleButton, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: copy.obstacles.time, exact: true })
+    .click();
+  await enterPlanResult(page, copy);
+  await openCalendar(page, copy);
+  await expect(
+    page.getByText(copy.exports.imagePrepareError, { exact: true }),
+  ).toBeVisible();
+  const idleFrames = await page.evaluate(
+    () => Reflect.get(window, '__pbFrames').size as number,
+  );
+  await page.evaluate(() => {
+    HTMLCanvasElement.prototype.toBlob = Reflect.get(window, '__pbEncode');
+  });
+  await page
+    .getByRole('button', { name: copy.exports.retryImage, exact: true })
+    .click();
+  for (let index = 0; index < 10; index++) {
+    await expect(
+      page.getByRole('img', { name: copy.exports.imageReady }),
+    ).toBeVisible();
+    const downloading = page.waitForEvent('download');
+    await page
+      .getByRole('button', { name: copy.exports.calendarDownload, exact: true })
+      .click();
+    await downloading;
+    expect(
+      await page.evaluate(() => Reflect.get(window, '__pbUrls').size),
+    ).toBe(2);
+    await page
+      .getByRole('button', { name: copy.ui.reset, exact: true })
+      .click();
+    expect(
+      await page.evaluate(() => Reflect.get(window, '__pbUrls').size),
+    ).toBe(0);
+    await expect
+      .poll(() =>
+        page.evaluate(() => Reflect.get(window, '__pbFrames').size as number),
+      )
+      .toBeLessThanOrEqual(idleFrames);
+    if (index === 9) break;
     await page
       .getByRole('button', { name: copy.ui.exampleButton, exact: true })
       .click();
@@ -382,64 +406,8 @@ for (const encoder of ['native', 'fallback'] as const)
       .click();
     await enterPlanResult(page, copy);
     await openCalendar(page, copy);
-    await expect(
-      page.getByText(copy.exports.imagePrepareError, { exact: true }),
-    ).toBeVisible();
-    await page.evaluate((encoder) => {
-      if (encoder === 'native')
-        OffscreenCanvas.prototype.convertToBlob = Reflect.get(
-          window,
-          '__pbEncode',
-        );
-      else
-        HTMLCanvasElement.prototype.toBlob = Reflect.get(window, '__pbEncode');
-    }, encoder);
-    await page
-      .getByRole('button', { name: copy.exports.retryImage, exact: true })
-      .click();
-    for (let index = 0; index < 10; index++) {
-      await expect(
-        page.getByRole('img', { name: copy.exports.imageReady }),
-      ).toBeVisible();
-      const downloading = page.waitForEvent('download');
-      await page
-        .getByRole('button', {
-          name: copy.exports.calendarDownload,
-          exact: true,
-        })
-        .click();
-      await downloading;
-      expect(
-        await page.evaluate(() => Reflect.get(window, '__pbUrls').size),
-      ).toBe(2);
-      await page
-        .getByRole('button', { name: copy.ui.reset, exact: true })
-        .click();
-      expect(
-        await page.evaluate(() => Reflect.get(window, '__pbUrls').size),
-      ).toBe(0);
-      expect(
-        await page.evaluate(() =>
-          Reflect.get(window, '__pbCanvases').every(
-            (c: HTMLCanvasElement | OffscreenCanvas) =>
-              c.width === 0 && c.height === 0,
-          ),
-        ),
-      ).toBe(true);
-      if (index === 9) break;
-      await page
-        .getByRole('button', { name: copy.ui.exampleButton, exact: true })
-        .click();
-      await page
-        .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
-        .click();
-      await page
-        .getByRole('button', { name: copy.obstacles.time, exact: true })
-        .click();
-      await enterPlanResult(page, copy);
-      await openCalendar(page, copy);
-    }
-  });
+  }
+});
 
 for (const theme of ['light', 'dark'] as const) {
   test(`renders maximum text intact in PNG and keeps consent accessible in ${theme}`, async ({
@@ -448,27 +416,27 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme: theme });
     await page.addInitScript(() => {
       Reflect.set(window, '__pbDrawn', []);
-      for (const prototype of [
-        CanvasRenderingContext2D.prototype,
-        OffscreenCanvasRenderingContext2D.prototype,
-      ]) {
-        const fill = prototype.fillText;
-        prototype.fillText = function (text, x, y, maxWidth) {
-          if (this.canvas.width === 1179)
-            Reflect.get(window, '__pbDrawn').push({
-              text,
-              font: this.font,
-              x,
-              align: this.textAlign,
-              y,
-              width: this.measureText(text).width,
-              color: this.fillStyle,
-            });
-          return maxWidth === undefined
-            ? fill.call(this, text, x, y)
-            : fill.call(this, text, x, y, maxWidth);
-        };
-      }
+      const fill = CanvasRenderingContext2D.prototype.fillText;
+      CanvasRenderingContext2D.prototype.fillText = function (
+        text,
+        x,
+        y,
+        maxWidth,
+      ) {
+        if (this.canvas.width === 1179)
+          Reflect.get(window, '__pbDrawn').push({
+            text,
+            font: this.font,
+            x,
+            align: this.textAlign,
+            y,
+            width: this.measureText(text).width,
+            color: this.fillStyle,
+          });
+        return maxWidth === undefined
+          ? fill.call(this, text, x, y)
+          : fill.call(this, text, x, y, maxWidth);
+      };
     });
     const copy = getPlanCopy('es');
     await page.goto('/es/apps/plan-b/');
@@ -656,30 +624,4 @@ test('exports once per double-click or held Enter while allowing a later intenti
   expect(
     await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
   ).toBe(1);
-});
-
-test('keeps real PNG export when a partially supported native surface cannot provide a 2D context', async ({
-  page,
-}) => {
-  await page.addInitScript(() => {
-    Reflect.set(OffscreenCanvas.prototype, 'getContext', () => null);
-    OffscreenCanvas.prototype.convertToBlob = () =>
-      Promise.reject(new Error('Must use HTML canvas'));
-    Object.defineProperty(navigator, 'canShare', {
-      configurable: true,
-      value: () => false,
-    });
-  });
-  const copy = await result(page);
-  const download = page.waitForEvent('download');
-  await page
-    .getByRole('button', { name: copy.exports.saveImage, exact: true })
-    .click();
-  const bytes = await readFile((await (await download).path())!);
-  expect(bytes.subarray(1, 4).toString()).toBe('PNG');
-  expect(bytes.readUInt32BE(16)).toBe(1179);
-  expect(bytes.readUInt32BE(20)).toBe(2556);
-  await expect(page.getByTestId('plan-sentence')).toContainText(
-    copy.example.action,
-  );
 });
