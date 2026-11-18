@@ -44,3 +44,5 @@ Para las siguientes iteraciones de PB-01 quedan:
 * completar las pruebas físicas de I4/importaciones; acabado del piloto aprobado en FE-01/I6, nuevo candidato pendiente de entrega/merge humano y validación de identidad/recorrido en staging; I6 está autorizada y revisada técnicamente, sin aceptación global. I-03 permanece aceptado.
 
 La investigación de skills se retoma por solicitud del propietario y se planifica en FE-01. Selección/configuración aprobadas en H-008; su incorporación y uso manual fueron comprobados en I2, con el alcance aceptado por el propietario, según [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final). Aprobar la planificación y comenzar su ejecución son pasos distintos; el estado de cada plan es canónico.
+
+**FE-02 (2026-11-18):** [selección rápida e identidad de Plan B](exec-plans/active/FE-02-plan-b-seleccion-y-marca.md), aprobado/autorizado y en curso, cuatro iteraciones con regresión final. Reutiliza la rama FE por instrucción expresa, entrega conjunta y una sola imagen real.
