@@ -664,4 +664,19 @@ test('exports once per double-click or held Enter while allowing a later intenti
   expect(
     await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
   ).toBe(1);
+  await page.getByLabel(copy.ui.timeQuestion, { exact: true }).focus();
+  const fifth = page.waitForEvent('download');
+  await page.keyboard.down('Enter');
+  await page.keyboard.down('Enter');
+  await page.keyboard.up('Enter');
+  await fifth;
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
+  ).toBe(2);
+  const sixth = page.waitForEvent('download');
+  await calendar.click();
+  await sixth;
+  expect(
+    await page.evaluate(() => Reflect.get(window, '__pbExports').ics),
+  ).toBe(3);
 });

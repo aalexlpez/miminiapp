@@ -79,6 +79,9 @@ export default function ScheduleEditor({
     <form
       className="pb-schedule"
       noValidate
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' && event.repeat) event.preventDefault();
+      }}
       onSubmit={(event) => {
         event.preventDefault();
         prepare();
