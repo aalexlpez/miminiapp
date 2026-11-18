@@ -83,7 +83,7 @@ export default function ExportPanel({
   const [attempt, setAttempt] = useState(0);
   const [consent, setConsent] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const pendingGoogle = useRef(plan);
+  const [googlePlan, setGooglePlan] = useState(plan);
   const [notice, setNotice] = useState('');
   const [manual, setManual] = useState('');
   const [busy, setBusy] = useState(false);
@@ -162,7 +162,7 @@ export default function ExportPanel({
     }
     try {
       setNotice(
-        openGoogleCalendar(pendingGoogle.current, locale)
+        openGoogleCalendar(googlePlan, locale)
           ? text.googleOpened
           : text.popupError,
       );
@@ -282,7 +282,7 @@ export default function ExportPanel({
           data-pb-export
           type="button"
           onClick={() => {
-            pendingGoogle.current = plan;
+            setGooglePlan(plan);
             setConsent(true);
           }}
         >
@@ -423,7 +423,7 @@ export default function ExportPanel({
                 {calendarEditor((input, kind) => {
                   if (kind === 'ics') downloadCalendar(input);
                   else {
-                    pendingGoogle.current = input;
+                    setGooglePlan(input);
                     setConsent(true);
                   }
                 })}
