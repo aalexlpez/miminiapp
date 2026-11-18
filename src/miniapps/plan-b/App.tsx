@@ -163,6 +163,11 @@ export default function App({
   function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (controller.getSnapshot().view !== view || view === 'result') return;
+    if (view === 'obstacle' && !inputs.obstacle) {
+      setErrors({ obstacle: 'required' });
+      document.getElementById('pb-obstacle')?.focus();
+      return;
+    }
     if (view === 'obstacle' && inputs.obstacle && inputs.obstacle !== 'other') {
       go('situation');
       return;
@@ -409,6 +414,9 @@ export default function App({
                       className="pb-obstacles"
                       role="group"
                       aria-label={flow.obstacleTitle}
+                      aria-describedby={
+                        errors.obstacle ? 'pb-obstacle-error' : undefined
+                      }
                     >
                       {obstacleIds.map((id) => (
                         <button
@@ -429,6 +437,15 @@ export default function App({
                         </button>
                       ))}
                     </div>
+                    {errors.obstacle && (
+                      <p
+                        id="pb-obstacle-error"
+                        role="alert"
+                        className="pb-error"
+                      >
+                        {ui.errorObstacle}
+                      </p>
+                    )}
                     {obstacle === 'other' && (
                       <div className="pb-reveal">
                         {field('otherObstacle', ui.otherLabel)}
@@ -442,7 +459,7 @@ export default function App({
                     label={titles[view]}
                     value={inputs[view]}
                     customLabel={flow.customChoice}
-                    error={errors[view] ? ui.errorRequired : undefined}
+                    error={errors[view] ? flow.choiceRequired : undefined}
                     values={
                       view === 'situation'
                         ? copy.suggestions.situation[obstacle || 'other']

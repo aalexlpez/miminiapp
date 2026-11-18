@@ -684,3 +684,9 @@
   text-align: center;
   font-size: 0.8125rem;
 }
+
+@media (max-width: 760px) {
+  .pb-app .pb-days {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

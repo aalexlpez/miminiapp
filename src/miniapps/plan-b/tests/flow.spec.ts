@@ -476,6 +476,10 @@ for (const locale of ['es', 'en'] as const) {
       .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
       .click();
     await page
+      .getByRole('button', { name: copy.flow.nextOther, exact: true })
+      .click();
+    await expect(page.getByRole('alert')).toHaveText(copy.ui.errorObstacle);
+    await page
       .getByRole('button', { name: copy.obstacles.time, exact: true })
       .click();
     await expect(page.getByTestId('plan-b-app')).toHaveAttribute(
@@ -485,6 +489,10 @@ for (const locale of ['es', 'en'] as const) {
     await page
       .getByRole('button', { name: copy.flow.nextOther, exact: true })
       .click();
+    await page
+      .getByRole('button', { name: copy.flow.nextSituation, exact: true })
+      .click();
+    await expect(page.getByRole('alert')).toHaveText(copy.flow.choiceRequired);
     await page
       .getByRole('radio', {
         name: copy.suggestions.situation.time[0],

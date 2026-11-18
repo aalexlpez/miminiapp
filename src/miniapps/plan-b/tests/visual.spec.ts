@@ -211,7 +211,10 @@ test('reflows every screen in both languages/themes and at doubled CSS size', as
             .locator('button:visible, input:visible, textarea:visible')
             .evaluateAll((elements) =>
               elements.map((element) => {
-                const rect = element.getBoundingClientRect();
+                const target = element.matches('input[type="radio"]')
+                  ? element.closest('label') || element
+                  : element;
+                const rect = target.getBoundingClientRect();
                 return { width: rect.width, height: rect.height };
               }),
             )) {
@@ -234,13 +237,14 @@ test('reflows every screen in both languages/themes and at doubled CSS size', as
           await page
             .getByRole('button', { name: copy.flow.nextPurpose, exact: true })
             .click();
-        if (step === 1)
+        if (step === 1) {
           await page
             .getByRole('button', { name: copy.obstacles.time, exact: true })
             .click();
-        await page
-          .getByRole('button', { name: copy.flow.nextOther, exact: true })
-          .click();
+          await page
+            .getByRole('button', { name: copy.flow.nextOther, exact: true })
+            .click();
+        }
         if (step === 2)
           await page
             .getByRole('button', { name: copy.flow.nextSituation, exact: true })

@@ -3,6 +3,7 @@ import { calendarEn } from './calendar-messages.ts';
 export const en = {
   calendar: calendarEn,
   flow: {
+    choiceRequired: 'Choose an option or write your own.',
     customChoice: 'Write my own',
     situationPlaceholder: 'For example: I get home late',
     actionPlaceholder: 'For example: I read one page',
