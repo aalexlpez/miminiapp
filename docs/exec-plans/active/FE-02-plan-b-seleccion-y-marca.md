@@ -8,7 +8,7 @@
 * **Rama estable:** feature/fe01-frontend-quality, reutilizada por instrucción expresa del propietario; excepción acotada a H-007, sin trabajo concurrente de FE-01.
 * **Base:** staging 7cf32ca9cd2b9085600fac202f4455027c11becc, merge de PR #28. Rama sincronizada mediante fast-forward. FE-01 conserva historia y aceptación propia pendiente; FE-02 mejora el contenido integrado, no depende de aceptar FE-01 ni lo declara aceptado.
 * **Autorización:** «De resto me suena bien lo que planteaste» y «Vamos a generar un nuevo plan en la misma rama, hacemos las iteraciones y luego subimos la PR», incorporando selección simple/personalizada en Si/entonces y logo/identidad en el PNG. Aprueba este alcance y autoriza ejecución local secuencial y entrega conjunta final. No informes al usuario por iteración ni nuevas demos; una sola imagen de ejemplo real. Merge manual y revisión visual en staging.
-* **Iteración actual:** I2 — wizard de selección.
+* **Iteración actual:** I4 — regresión y análisis final.
 
 ## Objetivo y contrato aprobado
 
@@ -57,9 +57,9 @@ Riesgos: unificar exportación con validación sin usar el horario anterior, no 
 | Iteración | Inicio | Fin | Resultado / siguiente paso |
 | --- | --- | --- | --- |
 | I1 | 2026-11-18 | 2026-11-18 | Base PR #28 sincronizada; contrato y autorización registrados en a28cc7d. |
-| I2 | 2026-11-18 | — | Selección simple/personalizada, Otro sin autoFocus, pie y jerarquía implementados. Pruebas dirigidas de teclado/valor/restauración y tipos satisfactorios; regresión completa al final. |
-| I3 | — | — | Pendiente. |
-| I4 | — | — | Última regresión/análisis pendiente. |
+| I2 | 2026-11-18 | 2026-11-18 | Selección simple/personalizada, Otro sin autoFocus, pie y jerarquía implementados. Pruebas dirigidas de teclado/valor/restauración y tipos satisfactorios; regresión completa al final. |
+| I3 | 2026-11-18 | 2026-11-18 | Resultado, editor directo con presets, símbolo UI/PNG y firma MiMiniApp implementados. 27 componentes y 23 E2E dirigidas de escritorio satisfactorias, incluidos valores rápidos/personalizados, .ics directo/Google, branding máximo, diez ciclos y doble exportación; I4 repetirá la batería global sobre el candidato final. |
+| I4 | 2026-11-18 | — | Regresión global iniciada; ninguna escritura remota antes de terminar. |
 
 ## Historial
 

@@ -88,13 +88,14 @@ for (const locale of ['es', 'en'] as const)
           'animation-name',
           'none',
         );
-        if (phase === 0)
+        if (phase === 0) {
           await page
             .getByRole('button', { name: copy.obstacles.time, exact: true })
             .click();
-        await page
-          .getByRole('button', { name: copy.flow.nextOther, exact: true })
-          .click();
+          await page
+            .getByRole('button', { name: copy.flow.nextOther, exact: true })
+            .click();
+        }
         if (phase === 1)
           await page
             .getByRole('button', { name: copy.flow.nextSituation, exact: true })

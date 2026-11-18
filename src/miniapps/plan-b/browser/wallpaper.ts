@@ -1,3 +1,4 @@
+import { planBMarkPath, miminiappMarkPath } from '../domain/brand';
 import { layoutWallpaper, wallpaperSize } from '../domain/wallpaper-layout';
 
 export async function renderWallpaper(
@@ -39,7 +40,28 @@ export async function renderWallpaper(
     context.textAlign = 'left';
     context.fillStyle = color('--color-tint-ink');
     font(layout.labelSize);
-    context.fillText(label, layout.left, layout.labelTop);
+    context.save();
+    context.translate(layout.left, layout.labelTop - 3);
+    context.strokeStyle = color('--color-tint-ink');
+    context.lineWidth = 4;
+    context.lineCap = 'round';
+    context.stroke(new Path2D(planBMarkPath));
+    context.restore();
+    context.fillText(label, layout.left + 62, layout.labelTop);
+    // Brand signature is separate from the plan safe region and the phone clock.
+    context.save();
+    context.translate(layout.left, wallpaperSize.height * 0.82);
+    context.scale(0.55, 0.55);
+    context.fillStyle = color('--color-tint-ink');
+    context.fill(new Path2D(miminiappMarkPath));
+    context.restore();
+    font(34);
+    context.fillStyle = color('--color-muted');
+    context.fillText(
+      'MiMiniApp',
+      layout.left + 58,
+      wallpaperSize.height * 0.82 + 2,
+    );
     context.fillStyle = color('--color-ink');
     font(layout.fontSize);
     layout.lines.forEach((line, index) => {

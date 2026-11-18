@@ -7,6 +7,7 @@ export default function PhraseChoices({
   values,
   value,
   customLabel,
+  error,
   onChange,
   children,
 }: {
@@ -15,6 +16,7 @@ export default function PhraseChoices({
   values: readonly string[];
   value: string;
   customLabel: string;
+  error?: string;
   onChange: (value: string) => void;
   children: ReactNode;
 }) {
@@ -22,7 +24,12 @@ export default function PhraseChoices({
     () => !!value && !values.includes(value),
   );
   return (
-    <fieldset className="pb-phrase-options">
+    <fieldset
+      className="pb-phrase-options"
+      aria-describedby={
+        error && !custom ? `pb-choice-error-${name}` : undefined
+      }
+    >
       <legend className="pb-sr-only">{label}</legend>
       {values.map((option) => (
         <label key={option} className="pb-choice">
@@ -48,6 +55,11 @@ export default function PhraseChoices({
         />
         <span>{customLabel}</span>
       </label>
+      {error && !custom && (
+        <p role="alert" id={`pb-choice-error-${name}`} className="pb-error">
+          {error}
+        </p>
+      )}
       {custom && (
         <div id={`pb-custom-${name}`} className="pb-reveal">
           {children}

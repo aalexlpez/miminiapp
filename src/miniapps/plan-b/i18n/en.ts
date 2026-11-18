@@ -50,8 +50,8 @@ export const en = {
     resultTitle: 'Your Plan B',
     resultHint: 'A way to keep going, even on a bad day.',
     calendarHint:
-      'The app will prepare a four-week series. You choose to save it; alerts depend on your calendar settings.',
-    calendarOptional: 'Add a reminder (optional)',
+      'Choose a time and days. Repeats for 4 weeks; alerts depend on your calendar.',
+    calendarOptional: 'Add a reminder',
     scheduleHint:
       'Your schedule is saved when you prepare the reminder. Reloading earlier restores the last prepared schedule.',
     schedulePrepare: 'Prepare reminder',
@@ -88,7 +88,7 @@ export const en = {
     situationHint:
       'Could you see it in a photo? If not, make it more specific.',
     actionHint: 'Something small: 5 minutes or less.',
-    timeQuestion: 'What time does it usually happen? (optional)',
+    timeQuestion: 'What time?',
     timeHint: "Add a time and we'll make a reminder for your calendar.",
     stepTemplate: 'Step {current} of {total}',
     counterTemplate: '{current} of {max} characters',
@@ -122,6 +122,7 @@ export const en = {
       'Enable JavaScript to prepare your plan. Your text is processed in this browser.',
   },
   exports: {
+    shareImage: 'Share image',
     editPlan: 'Edit my plan',
     imageOptions: 'Other ways to save',
     downloadImage: 'Download PNG',
@@ -129,7 +130,7 @@ export const en = {
     shareHelp:
       'A clean Bad Day Plan link will be shared, without your sentence or schedule.',
     calendarTitle: 'Remind me',
-    calendarDownload: 'Add to my calendar',
+    calendarDownload: 'Download calendar (.ics)',
     google: 'Add to Google Calendar',
     continue: 'Continue',
     cancel: 'Cancel',
@@ -137,9 +138,9 @@ export const en = {
       'Google Calendar will open with your plan. The text will be sent to Google and may remain in the URL and history. Review and save the event there.',
     duplicateWarning: 'Importing the file again may duplicate events.',
     wallpaperTitle: 'Your wallpaper',
-    saveImage: 'Save my plan',
+    saveImage: 'Download image',
     openImage: 'Open image',
-    imageLabel: 'My bad day plan',
+    imageLabel: 'Plan B',
     imageNotice:
       'The image contains your plan. If you choose another app when sharing it, that app will receive the image.',
     imagePreparing: 'Preparing image…',

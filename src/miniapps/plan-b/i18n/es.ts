@@ -50,8 +50,8 @@ export const es = {
     resultTitle: 'Tu plan B',
     resultHint: 'Una forma de seguir, incluso en un mal día.',
     calendarHint:
-      'La app preparará una serie de cuatro semanas. Tú decides guardarla; los avisos dependen de tu calendario.',
-    calendarOptional: 'Añadir un recordatorio (opcional)',
+      'Elige hora y días. Se repetirá durante 4 semanas; los avisos dependen de tu calendario.',
+    calendarOptional: 'Añadir recordatorio',
     scheduleHint:
       'El horario se conserva al preparar el recordatorio. Recargar antes recupera el último horario preparado.',
     schedulePrepare: 'Preparar recordatorio',
@@ -88,7 +88,7 @@ export const es = {
     otherPlaceholder: 'Cuéntalo en pocas palabras',
     situationHint: '¿Lo podrías ver en una foto? Si no, concrétalo más.',
     actionHint: 'Algo pequeño: 5 minutos o menos.',
-    timeQuestion: '¿A qué hora suele pasar? (opcional)',
+    timeQuestion: '¿A qué hora?',
     timeHint: 'Con una hora, te preparamos un recordatorio para tu calendario.',
     stepTemplate: 'Paso {current} de {total}',
     counterTemplate: '{current} de {max} caracteres',
@@ -122,6 +122,7 @@ export const es = {
       'Activa JavaScript para preparar tu plan. Tu texto se procesa en este navegador.',
   },
   exports: {
+    shareImage: 'Compartir imagen',
     editPlan: 'Editar mi plan',
     imageOptions: 'Otras formas de guardar',
     downloadImage: 'Descargar PNG',
@@ -129,7 +130,7 @@ export const es = {
     shareHelp:
       'Se compartirá un enlace limpio de Plan B, sin tu frase ni tu horario.',
     calendarTitle: 'Recuérdamelo',
-    calendarDownload: 'Añadir a mi calendario',
+    calendarDownload: 'Descargar calendario (.ics)',
     google: 'Añadir a Google Calendar',
     continue: 'Continuar',
     cancel: 'Cancelar',
@@ -138,9 +139,9 @@ export const es = {
     duplicateWarning:
       'Importar el archivo otra vez puede duplicar los eventos.',
     wallpaperTitle: 'Tu fondo de pantalla',
-    saveImage: 'Guardar mi plan',
+    saveImage: 'Descargar imagen',
     openImage: 'Abrir imagen',
-    imageLabel: 'Mi plan B',
+    imageLabel: 'Plan B',
     imageNotice:
       'La imagen contiene tu plan. Si eliges otra app al compartirla, esa app recibirá la imagen.',
     imagePreparing: 'Preparando imagen…',

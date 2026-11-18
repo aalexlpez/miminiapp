@@ -171,7 +171,10 @@ export default function App({
     const checked = validateText(name, inputs[name]);
     if (!checked.ok) {
       setErrors({ [name]: checked.error });
-      document.getElementById(`pb-${name}`)?.focus({ preventScroll: true });
+      const target =
+        document.getElementById(`pb-${name}`) ||
+        document.querySelector<HTMLInputElement>('.pb-phrase-options input');
+      target?.focus();
       return;
     }
     if (view === 'purpose') go('obstacle');
@@ -439,6 +442,7 @@ export default function App({
                     label={titles[view]}
                     value={inputs[view]}
                     customLabel={flow.customChoice}
+                    error={errors[view] ? ui.errorRequired : undefined}
                     values={
                       view === 'situation'
                         ? copy.suggestions.situation[obstacle || 'other']
@@ -457,13 +461,6 @@ export default function App({
                     )}
                   </PhraseChoices>
                 )}
-                {(view === 'situation' || view === 'action') &&
-                  errors[view] &&
-                  !inputs[view] && (
-                    <p role="alert" className="pb-error">
-                      {ui.errorRequired}
-                    </p>
-                  )}
                 <div
                   className={`pb-actions ${view === 'purpose' ? 'pb-start-actions' : ''}`}
                 >
@@ -522,7 +519,7 @@ export default function App({
                     </>
                   }
                   onEdit={() => go('action')}
-                  calendarEditor={(calendarActions) => (
+                  calendarEditor={(exportSchedule) => (
                     <ScheduleEditor
                       plan={{
                         ...phrase.value,
@@ -533,9 +530,8 @@ export default function App({
                       copy={copy}
                       onCommit={controller.commitSchedule}
                       onEdit={controller.markEdited}
-                    >
-                      {calendarActions}
-                    </ScheduleEditor>
+                      onExport={exportSchedule}
+                    />
                   )}
                 />
                 <div className="pb-actions">

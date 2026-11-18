@@ -17,9 +17,12 @@ export async function enterPlanResult(page: Page, copy: PlanCopy) {
   await expect(app).toHaveAttribute('data-view', 'result');
 }
 export async function openCalendar(page: Page, copy: PlanCopy) {
-  const panel = page.locator('.pb-calendar-options');
-  if (!(await panel.evaluate((element: HTMLDetailsElement) => element.open)))
-    await page.getByText(copy.flow.calendarOptional, { exact: true }).click();
+  const button = page.getByRole('button', {
+    name: copy.flow.calendarOptional,
+    exact: true,
+  });
+  if ((await button.getAttribute('aria-expanded')) !== 'true')
+    await button.click();
 }
 
 /** Shared by the real local candidate and the identity-guarded remote suite. */

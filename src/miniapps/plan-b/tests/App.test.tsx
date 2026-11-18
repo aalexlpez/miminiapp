@@ -136,10 +136,7 @@ describe('guided plan journey', () => {
       screen.getByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`),
     ).toHaveValue(copy.example.situation);
     await user.click(
-      screen.getByText(copy.flow.ideas, { selector: 'summary' }),
-    );
-    await user.click(
-      screen.getByRole('button', {
+      screen.getByRole('radio', {
         name: copy.suggestions.situation.motivation[0],
       }),
     );
@@ -150,10 +147,7 @@ describe('guided plan journey', () => {
       screen.getByLabelText(`${copy.ui.then} — ${copy.ui.actionLabel}`),
     ).toHaveValue(copy.example.action);
     await user.click(
-      screen.getByText(copy.flow.ideas, { selector: 'summary' }),
-    );
-    await user.click(
-      screen.getByRole('button', {
+      screen.getByRole('radio', {
         name: copy.suggestions.action.motivation[0],
       }),
     );
@@ -182,6 +176,10 @@ describe('guided plan journey', () => {
       target: { value: 'Mi horario' },
     });
     await user.click(screen.getByRole('button', { name: copy.flow.nextOther }));
+    if (!screen.queryByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`))
+      await user.click(
+        screen.getByRole('radio', { name: copy.flow.customChoice }),
+      );
     fireEvent.change(
       screen.getByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`),
       { target: { value: 'llego tarde' } },
@@ -189,13 +187,17 @@ describe('guided plan journey', () => {
     await user.click(
       screen.getByRole('button', { name: copy.flow.nextSituation }),
     );
+    if (!screen.queryByLabelText(`${copy.ui.then} — ${copy.ui.actionLabel}`))
+      await user.click(
+        screen.getByRole('radio', { name: copy.flow.customChoice }),
+      );
     fireEvent.change(
       screen.getByLabelText(`${copy.ui.then} — ${copy.ui.actionLabel}`),
       { target: { value: 'leo una página' } },
     );
     await user.click(screen.getByRole('button', { name: copy.ui.viewPlan }));
     await user.click(
-      screen.getByText(copy.flow.calendarOptional, { selector: 'summary' }),
+      screen.getByRole('button', { name: copy.flow.calendarOptional }),
     );
     const time = screen.getByLabelText(copy.ui.timeQuestion);
     fireEvent.change(time, { target: { value: '21:30' } });
@@ -205,13 +207,13 @@ describe('guided plan journey', () => {
     for (const name of ['lunes', 'martes', 'miércoles', 'jueves', 'viernes'])
       await user.click(screen.getByRole('button', { name }));
     await user.click(
-      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+      screen.getByRole('button', { name: copy.exports.calendarDownload }),
     );
     expect(screen.getByRole('alert')).toHaveTextContent(copy.ui.errorDays);
     expect(screen.getByRole('button', { name: 'lunes' })).toHaveFocus();
     await user.click(screen.getByRole('button', { name: 'lunes' }));
     await user.click(
-      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+      screen.getByRole('button', { name: copy.exports.calendarDownload }),
     );
     expect(
       JSON.parse(window.sessionStorage.getItem(sessionKey)!).inputs,
@@ -221,8 +223,8 @@ describe('guided plan journey', () => {
     ).toBeVisible();
     fireEvent.change(time, { target: { value: '22:00' } });
     expect(
-      screen.queryByRole('button', { name: copy.exports.calendarDownload }),
-    ).not.toBeInTheDocument();
+      screen.getByRole('button', { name: copy.exports.calendarDownload }),
+    ).toBeEnabled();
     await user.click(
       screen.getByRole('button', { name: copy.flow.scheduleWithoutTime }),
     );
@@ -236,7 +238,7 @@ describe('guided plan journey', () => {
     await example(user);
     await finish(user);
     await user.click(
-      screen.getByText(copy.flow.calendarOptional, { selector: 'summary' }),
+      screen.getByRole('button', { name: copy.flow.calendarOptional }),
     );
     const time = screen.getByLabelText(copy.ui.timeQuestion);
     fireEvent.change(time, { target: { value: '' } });
@@ -245,7 +247,7 @@ describe('guided plan journey', () => {
       value: { badInput: true },
     });
     await user.click(
-      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+      screen.getByRole('button', { name: copy.exports.calendarDownload }),
     );
     expect(screen.getByRole('alert')).toHaveTextContent(copy.ui.errorTime);
     expect(time).toHaveFocus();
@@ -279,7 +281,7 @@ describe('guided plan journey', () => {
       copy.example.action,
     );
     await user.click(
-      screen.getByText(copy.flow.calendarOptional, { selector: 'summary' }),
+      screen.getByRole('button', { name: copy.flow.calendarOptional }),
     );
     expect(screen.getByLabelText(copy.ui.timeQuestion)).toHaveValue('20:00');
     expect(
@@ -315,6 +317,10 @@ it.each(['es', 'en'] as const)(
     );
     await user.click(screen.getByRole('button', { name: copy.obstacles.time }));
     await user.click(screen.getByRole('button', { name: copy.flow.nextOther }));
+    if (!screen.queryByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`))
+      await user.click(
+        screen.getByRole('radio', { name: copy.flow.customChoice }),
+      );
     fireEvent.change(
       screen.getByLabelText(`${copy.ui.if} — ${copy.ui.situationLabel}`),
       { target: { value: '   ' } },
@@ -336,7 +342,7 @@ it.each(['es', 'en'] as const)(
     await example(user, locale);
     await finish(user, locale);
     await user.click(
-      screen.getByText(copy.flow.calendarOptional, { selector: 'summary' }),
+      screen.getByRole('button', { name: copy.flow.calendarOptional }),
     );
     expect(screen.getByText(copy.flow.calendarHint)).toBeVisible();
     const summary = () => document.getElementById('pb-calendar-summary');
@@ -346,9 +352,9 @@ it.each(['es', 'en'] as const)(
     );
     const time = screen.getByLabelText(copy.ui.timeQuestion);
     fireEvent.change(time, { target: { value: '21:30' } });
-    expect(summary()).toBeNull();
+    expect(summary()).toHaveTextContent(locale === 'es' ? '21:30' : '9:30 PM');
     await user.click(
-      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+      screen.getByRole('button', { name: copy.exports.calendarDownload }),
     );
     expect(summary()).toHaveTextContent(locale === 'es' ? '21:30' : '9:30 PM');
     for (const name of locale === 'es'
@@ -356,7 +362,7 @@ it.each(['es', 'en'] as const)(
       : ['Saturday', 'Sunday'])
       await user.click(screen.getByRole('button', { name }));
     await user.click(
-      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+      screen.getByRole('button', { name: copy.exports.calendarDownload }),
     );
     expect(summary()).toHaveTextContent(copy.ui.allDays);
     for (const name of locale === 'es'
@@ -364,7 +370,7 @@ it.each(['es', 'en'] as const)(
       : ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
       await user.click(screen.getByRole('button', { name }));
     await user.click(
-      screen.getByRole('button', { name: copy.flow.schedulePrepare }),
+      screen.getByRole('button', { name: copy.exports.calendarDownload }),
     );
     expect(summary()).toHaveTextContent(locale === 'es' ? 'lun' : 'Mon');
     expect(summary()).not.toHaveTextContent(copy.ui.allDays);

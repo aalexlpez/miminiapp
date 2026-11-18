@@ -40,7 +40,7 @@ test.describe('native keyboard time editor', () => {
       await time.evaluate((el: HTMLInputElement) => el.validity.badInput),
     ).toBe(true);
     await page
-      .getByRole('button', { name: copy.flow.schedulePrepare, exact: true })
+      .getByRole('button', { name: copy.exports.calendarDownload, exact: true })
       .click();
     await expect(page.getByRole('alert')).toHaveText(copy.ui.errorTime);
     await expect(time).toBeFocused();
@@ -57,7 +57,7 @@ test.describe('native keyboard time editor', () => {
     ).toBe('20:00');
     await time.fill('21:30');
     await page
-      .getByRole('button', { name: copy.flow.schedulePrepare, exact: true })
+      .getByRole('button', { name: copy.exports.calendarDownload, exact: true })
       .click();
     expect(
       (
