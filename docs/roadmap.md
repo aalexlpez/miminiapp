@@ -25,7 +25,7 @@ I-04 quedó sin alcance propio: producción y el gate de promoción se incorpora
 
 | Plan frontend | Resultado | Estado y relación |
 | --- | --- | --- |
-| [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md) | Estándar frontend propio, skills integradas y revisión UX/UI de Plan B como piloto | En curso, I1–I6 completadas y acabado aprobado. I7 con regresión local satisfactoria sobre 2d213dd; excepción de dependencias pendiente bloquea entrega. CI/staging y aceptación global pendientes. Misma rama feature/fe01-frontend-quality, sin push/PR nuevos; pendientes físicos de PB-01 conservados |
+| [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md) | Estándar frontend propio, skills integradas y revisión UX/UI de Plan B como piloto | En curso, I1–I6 completadas y acabado aprobado. I7 con regresión local satisfactoria sobre 2d213dd; riesgo de dependencias aceptado como deuda no bloqueante con revisión mensual. CI/staging y aceptación global pendientes. Misma rama feature/fe01-frontend-quality, sin push/PR nuevos; pendientes físicos de PB-01 conservados |
 
 ## Cierres recientes
 

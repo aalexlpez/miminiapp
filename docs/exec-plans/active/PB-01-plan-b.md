@@ -19,7 +19,7 @@ El propietario considera funcional la base y solicita mejorar su experiencia UX/
 
 El [handoff de I7](../../reports/fe01/execution.md#i7--regresión-y-análisis-global) identifica evidencia reutilizable y cada PB-AC afectado. PB-01 mantiene su historia y estado En curso: la aprobación visual FE-01/I6 cubre el piloto revisado, pero no acredita importación de calendarios, destinos nativos, fondo bajo reloj o compatibilidad física. No ejecutar cambios paralelos de UI en PB-01 durante FE-01. La revisión I6 de PB-01 debe referirse al candidato que finalmente se integre y revalidar la evidencia afectada por cambios posteriores.
 
-Las correcciones históricas de PB-01/I6 quedaron integradas por PR #25 (staging 1b2046), y staging actual e4b42f1 incluye además FE-01/I1. El candidato funcional FE-01 todavía es local: CI/staging propios pendientes y entrega bloqueada por [revisión de dependencias](../../reports/fe01/security-review.md). Ninguna de estas comprobaciones cierra I4/I5/I6 de PB-01 ni acepta el producto.
+Las correcciones históricas de PB-01/I6 quedaron integradas por PR #25 (staging 1b2046), y staging actual e4b42f1 incluye además FE-01/I1. El candidato funcional FE-01 todavía es local: CI/staging propios pendientes; [riesgo de dependencias](../../reports/fe01/security-review.md) aceptado como deuda no bloqueante para esta entrega. Ninguna de estas comprobaciones cierra I4/I5/I6 de PB-01 ni acepta el producto.
 
 ## Objetivo, alcance y decisiones
 

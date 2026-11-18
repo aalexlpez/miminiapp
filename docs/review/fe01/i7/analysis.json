@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "iteration": "FE-01/I7",
   "date": "2026-11-18",
-  "status": "local regression complete; dependency exception pending; CI/staging and global acceptance pending",
+  "status": "local regression complete; dependency risk accepted as non-blocking debt; CI/staging and global acceptance pending",
   "candidate": {
     "functionalCommit": "2d213dd863d5efd49645b81fa80398adfa8295aa",
     "branch": "feature/fe01-frontend-quality",
@@ -2913,8 +2913,14 @@
     "picomatchInstalled": ["4.0.7", "2.3.2"],
     "latestPublishedPicomatch": "4.0.7",
     "firstPatchedVersion": null,
-    "exception": "pending owner decision; docs/reports/fe01/security-review.md",
-    "delivery": "blocked by QUALITY_SCORE dependency policy"
+    "exception": "approved by owner 2026-11-18 for audited FE-01 functional candidate/lockfile; docs/reports/fe01/security-review.md",
+    "delivery": "dependency gate satisfied by justified human exception; PEND-007 remains open",
+    "followUp": {
+      "cadence": "monthly and on new fix/advisory, candidate/lockfile change, or expanded untrusted input",
+      "nextReviewTarget": "2026-12-18",
+      "responsible": "MiMiniApp owner",
+      "automation": "none activated"
+    }
   },
   "invariants": {
     "unchangedAreas": [
@@ -2957,7 +2963,6 @@
     "review": "one context, not independent; Vercel adapted rules and manual review; no hooks/subagents/new services; native discovery not accredited"
   },
   "pending": [
-    "Scoped human dependency exception before push/PR",
     "Final-head CI, manual merge and identified staging checks",
     "Owner global FE-01 acceptance",
     "PB-01 physical imports/share/save/wallpaper/offline and real-browser compatibility remain separate"

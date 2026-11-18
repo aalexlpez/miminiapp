@@ -15,7 +15,7 @@ Este mapa dirige a las fuentes del proyecto. La autoridad y los estados se defin
 | Consultar trabajo y pendientes | [Roadmap](roadmap.md), [planes activos](exec-plans/active/) y [deuda](exec-plans/tech-debt-tracker.md) |
 | Revisar Plan B | [Ficha v07](product-specs/plan-b.md) aprobada y [PB-01](exec-plans/active/PB-01-plan-b.md) en curso: correcciones históricas integradas y handoff FE-01/I7 documentado; pruebas físicas, aceptación y CI/staging del nuevo candidato pendientes, una rama estable y commits por iteración; su [iteración 6](exec-plans/active/PB-01-plan-b.md#iteración-6--regresión-y-análisis-global) cierra con regresión y análisis global |
 | Usar las skills frontend locales | [Guía de uso y límites comprobados](guides/frontend-skills.md), sin hooks ni dependencias de producto |
-| Adoptar el estándar frontend y mejorar la UX | [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), I1–I6 completadas: estándar/skills aprobados, uso manual comprobado y acabado del piloto aprobado. I7 con regresión local satisfactoria; excepción de dependencias, CI/staging y aceptación global pendientes. Siete iteraciones, aprobación humana del propietario y última regresión global; relación explícita con PB-01 |
+| Adoptar el estándar frontend y mejorar la UX | [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md), I1–I6 completadas: estándar/skills aprobados, uso manual comprobado y acabado del piloto aprobado. I7 con regresión local satisfactoria; deuda de dependencias no bloqueante aprobada, CI/staging y aceptación global pendientes. Siete iteraciones, aprobación humana del propietario y última regresión global; relación explícita con PB-01 |
 
 ## Dónde vive cada tipo de documento
 
