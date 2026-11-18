@@ -1,5 +1,21 @@
 import { layoutWallpaper, wallpaperSize } from '../domain/wallpaper-layout';
 
+/** Prefer native promise encoding; HTML canvas remains the compatibility path. */
+function createCanvas() {
+  if (
+    typeof OffscreenCanvas !== 'undefined' &&
+    typeof OffscreenCanvas.prototype.convertToBlob === 'function'
+  ) {
+    try {
+      const canvas = new OffscreenCanvas(0, 0);
+      if (canvas.getContext('2d')) return canvas;
+    } catch {
+      // A partially implemented API must not prevent the existing HTML path.
+    }
+  }
+  return document.createElement('canvas');
+}
+
 export async function renderWallpaper(
   sentence: string,
   label: string,
@@ -7,11 +23,12 @@ export async function renderWallpaper(
   await document.fonts.ready;
   const faces = await document.fonts.load('600 48px "Space Grotesk"');
   if (!faces.length) throw new Error('Local font unavailable.');
-  const canvas = document.createElement('canvas');
+  const canvas = createCanvas();
   canvas.width = wallpaperSize.width;
   canvas.height = wallpaperSize.height;
   try {
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d') as
+      CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null;
     if (!context) throw new Error('Canvas unavailable.');
     const theme = getComputedStyle(document.documentElement);
     const color = (name: string) => {
@@ -61,6 +78,8 @@ export async function renderWallpaper(
     context.quadraticCurveTo(x + 300, y - 36, x + 320, y - 12);
     context.lineTo(x + 360, y - 12);
     context.stroke();
+    if ('convertToBlob' in canvas)
+      return await canvas.convertToBlob({ type: 'image/png' });
     return await new Promise<Blob>((resolve, reject) => {
       canvas.toBlob(
         (blob) =>
