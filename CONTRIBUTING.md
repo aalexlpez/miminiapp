@@ -32,21 +32,33 @@ Notas:
 | Rama | Papel |
 | --- | --- |
 | `staging` | Tronco de trabajo. Cada merge se publica en staging. |
-| `main` | Producción. Solo recibe promociones desde `staging`; hoy bloqueadas. |
+| `main` de `soycerobytes/miminiapp` | Producción independiente. Recibe snapshots por rama y PR; merge manual y Workers Builds. El main del repositorio de desarrollo no publica producción. |
 | `master` | Rama por defecto heredada. No participa en la entrega. |
 | `feature/*`, `fix/*`, `docs/*` | Trabajo. Nacen de `staging` y vuelven a él por PR. |
+
+Cuando hay ExecPlan, se utiliza una única rama estable por plan para todas sus iteraciones, por ejemplo `feature/pb01-plan-b`. El campo Rama de trabajo del plan identifica la vigente. Se conserva después de cada entrega parcial y se actualiza desde staging antes de continuar. La regla canónica está en [PLANS.md](docs/PLANS.md#rama-e-identificación-de-commits-por-plan), aprobada como H-007.
 
 No se hace push directo, force push ni borrado sobre `staging` o `main`.
 
 ## Flujo de un cambio
 
-1. Crea la rama desde `staging` actualizado.
-2. Haz el cambio con sus pruebas. Ejecuta `npm run verify`.
+1. Si el trabajo pertenece a un ExecPlan, usa su rama estable: créala desde `staging` actualizado al comenzar o sincronízala desde staging al reanudar. Mantén ese nombre durante las iteraciones. Las tareas pequeñas sin plan siguen una rama acotada al cambio.
+2. Haz el cambio con sus pruebas. Identifica plan/iteración en sus commits. Ejecuta las verificaciones correspondientes; los cambios de producto requieren `npm run verify` y las tareas documentales siguen PLANS.md.
 3. Abre un PR hacia `staging`. CI vuelve a ejecutar `npm run verify`.
 4. Una persona con permiso revisa y fusiona con merge commit. No hay squash, rebase ni auto-merge.
 5. El push del merge publica en staging y ejecuta las pruebas remotas. Comprueba el resultado en la URL.
 
 Un agente de IA no fusiona PR ni publica por iniciativa propia, aunque CI esté en verde.
+
+El número de PR depende de las entregas revisables: pueden acumular iteraciones o integrar una parte comprobada, siempre desde la misma rama del plan. Tras un merge parcial, traer staging a esa rama mediante fast-forward cuando sea posible o merge sin reescribir commits publicados. No eliminarla mientras el plan siga activo; si se ha eliminado, restaurar el mismo nombre desde el contenido integrado. Este procedimiento no cambia los ajustes automáticos de GitHub.
+
+Para producción, el propietario selecciona el SHA completo publicado y validado en staging e inicia manualmente prepare-release en `soycerobytes/miminiapp`. Se sincroniza el proyecto completo con controles preservados y sin secretos, mediante commit propio y una única quality ligera. Después decide el merge manual a main; Workers Builds reconstruye y publica. Véase [fiabilidad](docs/standards/RELIABILITY.md).
+
+## Commits por iteración
+
+Los commits de trabajo de un ExecPlan usan `tipo(ID-PLAN/Ix): descripción en inglés`. Ejemplos: `feat(PB-01/I3): implement the plan flow`, `test(PB-01/I3): cover blocked session storage` o `chore(PB-01/I2): sync staging after the partial merge`. Un commit corresponde a una iteración; el progreso y sus evidencias se registran en el único plan. Las tareas sin ExecPlan conservan los prefijos convencionales habituales.
+
+Las PR de un plan identifican el plan y las iteraciones que integran en su título. Conservar esa referencia en el cuerpo del commit de merge de GitHub, sin alterar el encabezado habitual del proveedor. No renombrar ni reescribir commits históricos para adoptar la nueva convención.
 
 ## Cuándo hace falta algo más que un PR
 
@@ -56,7 +68,7 @@ Un agente de IA no fusiona PR ni publica por iniciativa propia, aunque CI esté 
 | elige o cambia tecnología, dependencias, contratos compartidos, persistencia, seguridad o despliegue | Una decisión aprobada en [docs/design-docs/index.md](docs/design-docs/index.md) antes de implementar. |
 | afecta a varias partes, es arriesgado o difícil de revertir | Un ExecPlan aprobado y autorizado, según [docs/PLANS.md](docs/PLANS.md). |
 | cambia el alcance del producto | Actualizar primero [docs/product-specs/index.md](docs/product-specs/index.md). |
-| añade una miniapp | Su ficha funcional y la [guía de miniapps](docs/miniapps.md). |
+| añade una miniapp | Su ficha funcional y la [guía de miniapps](docs/guides/miniapps.md). |
 
 En caso de duda, pregunta antes de implementar.
 
@@ -69,7 +81,7 @@ Las reglas siguientes proceden de [H-003](docs/harness-decisions.md#h-003--colab
 * **Con un solo mantenedor**, una indicación expresa suya en cualquier canal es válida. Quien la recibe la registra en el artefacto con fecha y actor.
 * **Con más de un mantenedor**, la aprobación debe quedar en GitHub: una revisión aprobatoria o un comentario del responsable en el PR que cambia el estado del artefacto. El artefacto enlaza ese PR. Una cita transcrita de un chat ya no basta.
 
-Varias iteraciones pueden avanzar en paralelo si son independientes y cada una tiene su plan y su responsable. Dos iteraciones que tocan el mismo contrato se ordenan o se coordinan antes de empezar.
+Varios planes pueden avanzar en paralelo si son independientes y cada uno tiene su responsable. Un mismo ExecPlan puede contener iteraciones internas ordenadas, con un único estado y autorización; su avance sigue las condiciones y revisiones previstas en el plan. Los trabajos que tocan el mismo contrato se ordenan o se coordinan antes de empezar. Detalle en [PLANS.md](docs/PLANS.md#iteraciones-de-miminiapp).
 
 ## Incorporar a otra persona
 
@@ -95,7 +107,7 @@ No se omiten, desactivan ni debilitan pruebas para conseguir un verde. No hay un
 
 ## Evidencias
 
-La política completa está en [docs/QUALITY_SCORE.md](docs/QUALITY_SCORE.md#política-de-evidencias). En resumen:
+La política completa está en [docs/standards/QUALITY_SCORE.md](docs/standards/QUALITY_SCORE.md#política-de-evidencias). En resumen:
 
 * Los resultados de pruebas se citan por su ejecución de GitHub Actions, no por archivos locales.
 * `.local/` está ignorado por Git: nada de lo que hay ahí es evidencia para otra persona.
@@ -113,4 +125,4 @@ La política completa está en [docs/QUALITY_SCORE.md](docs/QUALITY_SCORE.md#pol
 * `npm run lint` y `npm run format:check` deben pasar. Prettier decide el formato del código.
 * La documentación del proyecto se escribe en español. El código, los nombres de pruebas y los mensajes de commit, en inglés.
 * Los documentos vivos (README, ARCHITECTURE, roadmap, guías) describen el presente. La historia va en los planes de ejecución y sus informes.
-* Mensajes de commit con prefijo convencional: `feat:`, `fix:`, `docs:`, `test:`, `ci:`, `chore:`.
+* Mensajes de commit en inglés con prefijo convencional: `feat`, `fix`, `docs`, `test`, `ci`, `chore`. En trabajo con ExecPlan, incluir el alcance plan/iteración de [Commits por iteración](#commits-por-iteración).

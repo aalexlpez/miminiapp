@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "iteration": "FE-01/I5",
+  "date": "2026-11-17",
+  "status": "local implementation; owner finish review in I6 still pending",
+  "candidate": {
+    "parentCommit": "d33f55b77910ad1705bf5abab86f0460945e2ee5",
+    "branch": "feature/fe01-frontend-quality",
+    "identification": "source/dist hashes identify the local runtime captured; committed with this manifest",
+    "srcSha256": "902d05beca84dacbe3d7710c775025dd1c1c5b273b5503953b9b72f8284727f4",
+    "distFiles": {
+      "404.html": {
+        "bytes": 20889,
+        "sha256": "55f378c352e55a4a3bc22bd1e6cf53097a1fdd8116caa9556f494001891738bd"
+      },
+      "_astro/App.BGOcez3t.js": {
+        "bytes": 33552,
+        "sha256": "7146e2a349ff67ad6dff6908dcc7f5de31fa4f3d95eb5d2358432a582ed9389e"
+      },
+      "_astro/client.Cd-EeyjT.js": {
+        "bytes": 212836,
+        "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+      },
+      "_astro/global.MWueQfGS.css": {
+        "bytes": 34900,
+        "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+      },
+      "_astro/react.CvnImTBr.js": {
+        "bytes": 7909,
+        "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+      },
+      "_redirects": {
+        "bytes": 11,
+        "sha256": "a9d6dec64b325263010f05fd6dc63095d7d5c364caec31914bfc0e986db6e557"
+      },
+      "brand/M-isotype-dark.svg": {
+        "bytes": 427,
+        "sha256": "bcd66afee1657856c6d019a07cc7b6c7246db61de59186b6c8a5255434de2e3d"
+      },
+      "brand/M-isotype.svg": {
+        "bytes": 427,
+        "sha256": "ecd694054d3a6c197349ed345f5fc5a1866229d6a98cae51c6ffac19d2c56b51"
+      },
+      "brand/wordmark-compact-dark.svg": {
+        "bytes": 4710,
+        "sha256": "5fed474e74da2838fd63cce2fe1296341c3ce56837cf32299e49d6ff30238af0"
+      },
+      "brand/wordmark-compact.svg": {
+        "bytes": 4710,
+        "sha256": "964d92e68c1966351883c1aba73d8b2c99f294ab3eec922e633f6be9797f3e4a"
+      },
+      "brand/wordmark-editorial-dark.svg": {
+        "bytes": 5011,
+        "sha256": "4ea29ea25179d5a2fcbc8502dc7fb170978abfa4f6bd24932206c25e539b0d27"
+      },
+      "brand/wordmark-editorial.svg": {
+        "bytes": 5011,
+        "sha256": "bf48b80949bd90151ded4eda4ecdfb378934a8b78b30cf9fa5ef97509e7b0429"
+      },
+      "en/apps/plan-b/index.html": {
+        "bytes": 50145,
+        "sha256": "6cd36871c46b37be8013898b74776c75a7b793557db9c91b1af32fa9741fe747"
+      },
+      "en/index.html": {
+        "bytes": 23105,
+        "sha256": "78ce7aa6d63c027db734acfabc390a70f4a2ebee037e26c50b6f464a359ce154"
+      },
+      "es/apps/plan-b/index.html": {
+        "bytes": 50528,
+        "sha256": "b4502260e35003dfe8d52d480d50cbb09970b208499ab893e14156423121a5d9"
+      },
+      "es/index.html": {
+        "bytes": 23181,
+        "sha256": "ce4802f90feeefc07290c866b4c4e078f2088fe17bb13bf7be7f1f1a0d4a182b"
+      },
+      "favicon.svg": {
+        "bytes": 484,
+        "sha256": "8a32226444b7f92bb57ab9b4be11395a06cff5f4508ee3842a1fc66ca1a178ed"
+      },
+      "fonts/DMSans-OFL.txt": {
+        "bytes": 4482,
+        "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1"
+      },
+      "fonts/DMSans.woff2": {
+        "bytes": 88820,
+        "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+      },
+      "fonts/README.md": {
+        "bytes": 3105,
+        "sha256": "f3bff941d4ce91d70cbfbf7381250a022175365917414d189100893d92ea356c"
+      },
+      "fonts/SpaceGrotesk-OFL.txt": {
+        "bytes": 4495,
+        "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+      },
+      "fonts/SpaceGrotesk.woff2": {
+        "bytes": 49256,
+        "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+      },
+      "index.html": {
+        "bytes": 868,
+        "sha256": "7b82713d53b43e757a00286284e2bc2b7c83821da415806b4cac28c199b5c266"
+      }
+    }
+  },
+  "conditions": {
+    "node": "24.22.2",
+    "npm": "11.19.1",
+    "playwright": "1.64.1",
+    "browser": "Chromium 156.0.8078.4",
+    "timezone": "Europe/Madrid",
+    "fixedScreenshotDate": "2026-11-17T12:00:00+01:00",
+    "reducedMotion": "reduce",
+    "data": "synthetic; example and maximum lengths with composed emoji and CJK",
+    "physicalDevice": false
+  },
+  "captures": [
+    {
+      "file": "en-dark-393-maximum-result.png",
+      "bytes": 137756,
+      "sha256": "51d40e9edcaeb667d80bcfa029a4881912fbfe91d3dcd1f7b1b02fdb6270e5bf"
+    },
+    {
+      "file": "en-dark-393-maximum-wallpaper.png",
+      "bytes": 141647,
+      "sha256": "6ab2435a353476d8dc3891d3c47d66fcaac644f8cc1e3692923e54ca5e71a219"
+    },
+    {
+      "file": "es-light-1440-example-result.png",
+      "bytes": 128440,
+      "sha256": "013f7f828bfbfcffe679f2332afcdb392e869471d139cdafa13b80b320833e0f"
+    },
+    {
+      "file": "es-light-1440-example-wallpaper.png",
+      "bytes": 161467,
+      "sha256": "13191ccda155bce4accdb87dd99f54410f37933518be524065fcbf01b1a0441c"
+    }
+  ],
+  "renderChecks": [
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 1440,
+      "height": 900,
+      "maximum": false,
+      "expectedCodePoints": {
+        "purpose": 34,
+        "situation": 33,
+        "action": 60
+      },
+      "saveBottom": 707.140625,
+      "overflow": false,
+      "pageHeight": 1302,
+      "external": [],
+      "pageErrors": [],
+      "files": [
+        "es-light-1440-example-result.png",
+        "es-light-1440-example-wallpaper.png"
+      ],
+      "bodyLines": 6,
+      "inkBounds": {
+        "top": 946.5138750000001,
+        "bottom": 1632.0343750000002,
+        "left": 117.9,
+        "right": 1058.9
+      },
+      "fullLiteralTextVerified": true,
+      "alignment": "left"
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 393,
+      "height": 851,
+      "maximum": true,
+      "expectedCodePoints": {
+        "purpose": 80,
+        "situation": 90,
+        "action": 90
+      },
+      "saveBottom": 1106.15625,
+      "overflow": false,
+      "pageHeight": 2391,
+      "external": [],
+      "pageErrors": [],
+      "files": [
+        "en-dark-393-maximum-result.png",
+        "en-dark-393-maximum-wallpaper.png"
+      ],
+      "bodyLines": 11,
+      "inkBounds": {
+        "top": 849.8913750000002,
+        "bottom": 1754.3568750000002,
+        "left": 117.9,
+        "right": 1053.9
+      },
+      "fullLiteralTextVerified": true,
+      "alignment": "left"
+    }
+  ],
+  "review": {
+    "method": "single context; not independent",
+    "skills": [
+      "Impeccable 4.9.2 / engine 0.1.25",
+      "Vercel guidelines 434b7f91364665f2f733b310ec54809bf8f37937"
+    ],
+    "detectorFindings": 0,
+    "exceptions": [
+      "canonical product/brand overrides generic style bans",
+      "literal text and newline-paste contract",
+      "hero policy outside pilot scope"
+    ],
+    "excluded": [
+      "physical phone/native sharing and wallpaper under clock",
+      "human completion time or retention",
+      "production performance",
+      "final global regression I7",
+      "owner approval I6"
+    ]
+  }
+}

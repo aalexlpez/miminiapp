@@ -1,0 +1,329 @@
+{
+  "format": 1,
+  "date": "2026-11-17",
+  "status": "owner-approved-direction-and-contract",
+  "baseCommit": "ef14beca7f3e638f86725ae15c529fe8a9ae6ab2",
+  "direction": "El plan toma forma",
+  "method": "Explicit Impeccable/Vercel; single context, not independent critique",
+  "rules": {
+    "impeccableVersion": "4.9.2",
+    "impeccableRevision": "d41d9860b0094dcb68030657da63461212835aaa",
+    "engineVersion": "0.1.25",
+    "vercelSkillRevision": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+    "vercelRulesRevision": "434b7f91364665f2f733b310ec54809bf8f37937"
+  },
+  "conditions": {
+    "browser": "Chromium 156.0.8078.4",
+    "runtime": "Node 24.22.2 / Playwright 1.64.1",
+    "timezone": "Europe/Madrid",
+    "nativeLocale": "en-US",
+    "dateForCapture": "2026-11-17T12:00:00+01:00",
+    "reducedMotionForCaptures": true,
+    "realMobileDevices": false,
+    "prototypePersistence": false,
+    "prototypeCalendarAndShare": "proposal states only; no services or event generation"
+  },
+  "sourceFiles": {
+    "i3-prototype/build-standalone.mjs": "4ebe9a13bad9e872dcbc70ee1d16507539d94a967f0b8ef50f19193f655c3f2f",
+    "i3-prototype/index.html": "04313928a3857de03b9342822584e1c9fd32a2ff4578487106c5b261a409242a",
+    "i3-prototype/prototype.css": "245edcb014a182ee13996a510c185650744f8730311e370b020cde6612072731",
+    "i3-prototype/prototype.js": "0414d9d80fe9895b418ec70466dc49de7203dfe38f1c1590b21189ad97a41ca7",
+    "i3-prototype/standalone.html": "60d693ee4a30914dfd1f3d9b9de8c027beea22397d1afb575f9b1da1cecf243e"
+  },
+  "artifacts": {
+    "i3-desktop-purpose.png": {
+      "sourceCapture": "es-light-1440-purpose.png",
+      "sha256": "0bde1d65c0c74b5b6518e0349325b700688a121fbce7f85ed8036a549ab62a28",
+      "bytes": 84225,
+      "provenance": "Local Chromium screenshot or prototype canvas PNG; synthetic example/maximum text; no image service."
+    },
+    "i3-mobile-purpose.png": {
+      "sourceCapture": "en-dark-393-purpose.png",
+      "sha256": "b4e0b2311464b567cc4627de4aafd7e08e15f34a1f816ccf84bad6751e7503a1",
+      "bytes": 54481,
+      "provenance": "Local Chromium screenshot or prototype canvas PNG; synthetic example/maximum text; no image service."
+    },
+    "i3-desktop-result.png": {
+      "sourceCapture": "es-light-1440-result.png",
+      "sha256": "812662602a782797194134325222aa243f5be22576e7a84ceaf58de1c6849875",
+      "bytes": 89505,
+      "provenance": "Local Chromium screenshot or prototype canvas PNG; synthetic example/maximum text; no image service."
+    },
+    "i3-mobile-result.png": {
+      "sourceCapture": "en-dark-393-result.png",
+      "sha256": "f122cc063da028895c8f2fe675123dd7fe019ce02824776c5b12a4fe938e195e",
+      "bytes": 73588,
+      "provenance": "Local Chromium screenshot or prototype canvas PNG; synthetic example/maximum text; no image service."
+    },
+    "i3-wallpaper-example.png": {
+      "sourceCapture": "es-light-1440-wallpaper.png",
+      "sha256": "884c4b106f22c2b7db6532a6765da290caae1a782edc148b4af23bfb7c5fd025",
+      "bytes": 157943,
+      "provenance": "Local Chromium screenshot or prototype canvas PNG; synthetic example/maximum text; no image service."
+    },
+    "i3-wallpaper-maximum.png": {
+      "sourceCapture": "en-dark-393-maximum.png",
+      "sha256": "c2f73c2341a3b51e5b936745ef254ac33110fe64d151dcd32c00e4af4a87172f",
+      "bytes": 133708,
+      "provenance": "Local Chromium screenshot or prototype canvas PNG; synthetic example/maximum text; no image service."
+    }
+  },
+  "prototypeChecks": {
+    "profiles": [
+      {
+        "locale": "es",
+        "theme": "light",
+        "width": 1440,
+        "height": 900,
+        "states": [
+          {
+            "state": "purpose",
+            "pageHeight": 950,
+            "horizontalOverflow": false,
+            "primaryBottom": 697.296875,
+            "focusedId": ""
+          },
+          {
+            "state": "situation",
+            "pageHeight": 1039,
+            "horizontalOverflow": false,
+            "primaryBottom": 793.09375,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "action",
+            "pageHeight": 1039,
+            "horizontalOverflow": false,
+            "primaryBottom": 793.09375,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "result",
+            "pageHeight": 1195,
+            "horizontalOverflow": false,
+            "primaryBottom": 674.125,
+            "focusedId": "step-title"
+          }
+        ],
+        "axeViolations": [],
+        "maximumPng": {
+          "fontSize": 57,
+          "textTop": 821.9,
+          "textBottom": 1819.1,
+          "literal": "true",
+          "lines": 12
+        }
+      },
+      {
+        "locale": "es",
+        "theme": "light",
+        "width": 393,
+        "height": 851,
+        "states": [
+          {
+            "state": "purpose",
+            "pageHeight": 1034,
+            "horizontalOverflow": false,
+            "primaryBottom": 625.328125,
+            "focusedId": ""
+          },
+          {
+            "state": "situation",
+            "pageHeight": 1124,
+            "horizontalOverflow": false,
+            "primaryBottom": 705.15625,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "action",
+            "pageHeight": 1124,
+            "horizontalOverflow": false,
+            "primaryBottom": 705.15625,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "result",
+            "pageHeight": 1638,
+            "horizontalOverflow": false,
+            "primaryBottom": 631.21875,
+            "focusedId": "step-title"
+          }
+        ],
+        "axeViolations": [],
+        "maximumPng": {
+          "fontSize": 57,
+          "textTop": 821.9,
+          "textBottom": 1819.1,
+          "literal": "true",
+          "lines": 12
+        }
+      },
+      {
+        "locale": "en",
+        "theme": "dark",
+        "width": 1440,
+        "height": 900,
+        "states": [
+          {
+            "state": "purpose",
+            "pageHeight": 988,
+            "horizontalOverflow": false,
+            "primaryBottom": 742.09375,
+            "focusedId": "theme"
+          },
+          {
+            "state": "situation",
+            "pageHeight": 1015,
+            "horizontalOverflow": false,
+            "primaryBottom": 769.09375,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "action",
+            "pageHeight": 1039,
+            "horizontalOverflow": false,
+            "primaryBottom": 793.09375,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "result",
+            "pageHeight": 1162,
+            "horizontalOverflow": false,
+            "primaryBottom": 640.78125,
+            "focusedId": "step-title"
+          }
+        ],
+        "axeViolations": [],
+        "maximumPng": {
+          "fontSize": 57,
+          "textTop": 821.9,
+          "textBottom": 1819.1,
+          "literal": "true",
+          "lines": 12
+        }
+      },
+      {
+        "locale": "en",
+        "theme": "dark",
+        "width": 393,
+        "height": 851,
+        "states": [
+          {
+            "state": "purpose",
+            "pageHeight": 1070,
+            "horizontalOverflow": false,
+            "primaryBottom": 661.15625,
+            "focusedId": "theme"
+          },
+          {
+            "state": "situation",
+            "pageHeight": 1097,
+            "horizontalOverflow": false,
+            "primaryBottom": 705.15625,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "action",
+            "pageHeight": 1097,
+            "horizontalOverflow": false,
+            "primaryBottom": 705.15625,
+            "focusedId": "step-title"
+          },
+          {
+            "state": "result",
+            "pageHeight": 1606,
+            "horizontalOverflow": false,
+            "primaryBottom": 599.328125,
+            "focusedId": "step-title"
+          }
+        ],
+        "axeViolations": [],
+        "maximumPng": {
+          "fontSize": 57,
+          "textTop": 821.9,
+          "textBottom": 1819.1,
+          "literal": "true",
+          "lines": 12
+        }
+      }
+    ],
+    "checks": [
+      "320 px reflow",
+      "keyboard Enter/Tab, focus transfer",
+      "newline paste rejected without changing field",
+      "91 code points rejected without truncation",
+      "markup displayed literally",
+      "composed emoji preserved in PNG layout",
+      "reduced motion disables transition animation"
+    ],
+    "externalRequests": [],
+    "pageErrors": []
+  },
+  "standaloneChecks": {
+    "offlineFile": true,
+    "httpRequests": [],
+    "pageErrors": [],
+    "checks": [
+      "self-contained HTML works from file URL offline",
+      "local fonts loaded",
+      "ordinary step animation present",
+      "canvas failure preserves result",
+      "Save retries PNG successfully",
+      "theme switches to embedded SVG",
+      "empty days show validation and focus",
+      "valid calendar summary remains local"
+    ]
+  },
+  "detector": {
+    "initialWarningCount": 11,
+    "byRule": {
+      "tiny-text": 2,
+      "overused-font": 7,
+      "cream-palette": 2
+    },
+    "resolved": "Two tiny-text warnings refer to the 10px mobile review banner and its standalone copy; source updated to 12px and standalone rebuilt.",
+    "retained": "Nine font/palette warnings map to the approved Space Grotesk/warm-paper brand; retained under FE-M11.",
+    "rerun": false
+  },
+  "limitations": [
+    "Owner direction and ADR-MMA-023 not approved yet",
+    "No physical mobile, OS wallpaper crop/clock or calendar import evidence",
+    "No native file-sharing validation",
+    "No native 200% browser zoom or screen-reader certification",
+    "Prototype header/footer representative; product components must be preserved in I4",
+    "No public preview/desktop tools exposed; standalone file provides local review",
+    "No application persistence or budget proven by the prototype"
+  ],
+  "delivery": "Local only; no push, PR or publication",
+  "repositoryChecks": {
+    "check": 0,
+    "lint": 0,
+    "format": 0,
+    "prototypeFormat": 0,
+    "hosting": 0,
+    "build": 0,
+    "integration": 0,
+    "prototypeFinalLintAndFormat": 0,
+    "finalBuildAndIntegration": 0
+  },
+  "publicBuild": {
+    "identicalToI1": true,
+    "publicFiles": 23,
+    "reference": "../../reports/fe01/i1-baseline.json",
+    "sourceExclusions": [
+      ".agents",
+      "docs/review/fe01"
+    ]
+  },
+  "documentationCheck": {
+    "markdownFiles": 123,
+    "localReferences": 762,
+    "actualBrokenLinks": 0,
+    "knownParserFalsePositive": ".agents/skills/impeccable/reference/document.md: oklch(...) template interpreted as a link"
+  },
+  "ownerApproval": {
+    "date": "2026-11-17",
+    "evidence": "Vale, si, la apruebo",
+    "scope": "Direction, ADR-MMA-023 contract, I3 closure and I4 execution; not future implementation acceptance"
+  }
+}

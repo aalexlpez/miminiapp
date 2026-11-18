@@ -1,0 +1,180 @@
+{
+  "format": 1,
+  "date": "2026-11-17",
+  "sourceSha": "e4b42f121674a24aacc4a3add473111bc7e36c34",
+  "sourceTree": "de2ab70cab9849b7d50325a5d7372c5a97017adb",
+  "method": "manual single context; no independent critique; native client loading unresolved",
+  "nativeSkillsList": {
+    "skills": [],
+    "warnings": []
+  },
+  "additionalDiscoveryAttempt": {
+    "client": "codex-cli 0.166.0-alpha.1",
+    "operation": "app-server initialize, then skills/list (not reached)",
+    "failure": "read-only installation_id under /home/agent/.codex",
+    "modelTurns": 0,
+    "globalConfigurationChanges": false
+  },
+  "guardChecks": {
+    "world": 64,
+    "detect https://example.invalid": 64,
+    "telemetry on": 64,
+    "corruptedEngine": 65,
+    "restoredEngine": "impeccable-engine 0.1.25",
+    "sha256": "f48aca43294a9ba1ea3eb7b1d0a0b2d595c480e8c65003e410247b9884820ddd"
+  },
+  "engine": {
+    "version": "0.1.25",
+    "detectorResult": [],
+    "detectorReadTargets": [
+      "App.tsx",
+      "ExportPanel.tsx",
+      "app.css",
+      "entry.astro"
+    ],
+    "effects": {
+      "engine-probe-network.log": {
+        "sha256": "e9492fd6ac3136db5c89dcc800de2624d198733313c2b3356e08c454848aefef",
+        "ipNetworkSyscalls": 0
+      },
+      "context-network.log": {
+        "sha256": "666fe50be4b1f308fe18014498c11873af7bbafd6109e1f36e6303eb80a3e60d",
+        "ipNetworkSyscalls": 0
+      },
+      "detect-effects.log": {
+        "sha256": "cb0a142d54ad66aae5b07ffce15efe6cd690cc27f79a3d478bb11410c053210f",
+        "ipNetworkSyscalls": 0,
+        "fileWriteSyscalls": 0
+      }
+    }
+  },
+  "runtime": {
+    "publicFileCount": 23,
+    "identicalToI1": true,
+    "publicFilesReference": "i1-baseline.json",
+    "applicationCodeTestsDependenciesWorkflowsUnchanged": true,
+    "buildSourceChange": "src/styles/global.css: exclude .agents from Tailwind candidate scanning",
+    "rejectedInitialBuildCssBytes": 39105,
+    "finalCssBytes": 34923
+  },
+  "validation": {
+    "check": 0,
+    "lint": 0,
+    "format": 0,
+    "hosting": 0,
+    "build": 0,
+    "integration": 0
+  },
+  "browser": {
+    "engine": "Chromium 156.0.8078.4",
+    "timezone": "Europe/Madrid",
+    "nativeLocale": "en-US",
+    "reducedMotion": "reduce",
+    "syntheticExample": true,
+    "physicalMobile": false,
+    "observations": [
+      {
+        "locale": "es",
+        "theme": "light",
+        "width": 1440,
+        "height": 900,
+        "plan": {
+          "height": 1727,
+          "overflow": false,
+          "primaryBottom": 1417.078125,
+          "active": "pb-step-title"
+        },
+        "result": {
+          "height": 2380,
+          "overflow": false,
+          "sections": [
+            "Recuérdamelo",
+            "Fondo de pantalla",
+            "Compartir Plan B"
+          ],
+          "image": [
+            1179,
+            2556
+          ]
+        },
+        "hoverChanged": false,
+        "rest": {
+          "background": "rgb(101, 58, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgb(101, 58, 203)",
+          "transform": "none",
+          "boxShadow": "none"
+        },
+        "hover": {
+          "background": "rgb(101, 58, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgb(101, 58, 203)",
+          "transform": "none",
+          "boxShadow": "none"
+        },
+        "requests": [],
+        "errors": []
+      },
+      {
+        "locale": "en",
+        "theme": "dark",
+        "width": 393,
+        "height": 851,
+        "plan": {
+          "height": 1880,
+          "overflow": false,
+          "primaryBottom": 1554.6875,
+          "active": "pb-step-title"
+        },
+        "result": {
+          "height": 2630,
+          "overflow": false,
+          "sections": [
+            "Remind me",
+            "Wallpaper",
+            "Share Bad Day Plan"
+          ],
+          "image": [
+            1179,
+            2556
+          ]
+        },
+        "hoverChanged": false,
+        "rest": {
+          "background": "rgb(166, 138, 255)",
+          "color": "rgb(23, 20, 33)",
+          "border": "rgb(166, 138, 255)",
+          "transform": "none",
+          "boxShadow": "none"
+        },
+        "hover": {
+          "background": "rgb(166, 138, 255)",
+          "color": "rgb(23, 20, 33)",
+          "border": "rgb(166, 138, 255)",
+          "transform": "none",
+          "boxShadow": "none"
+        },
+        "requests": [],
+        "errors": []
+      }
+    ]
+  },
+  "artifacts": {
+    "en-dark-plan.png": {
+      "sha256": "59762a79257ce2a59945ae937cabf27af0c9d443bb73beb4516c616ae1d552a3",
+      "bytes": 93811
+    },
+    "en-dark-result.png": {
+      "sha256": "3fdc4af20f0910511483440db84403e48364c151f6b2813b12b0949f84c09b11",
+      "bytes": 127537
+    },
+    "es-light-plan.png": {
+      "sha256": "a1660d2f86396f1ff3e732bf18607cfc9a9864865a680a99be6f4fd2be0a6f6b",
+      "bytes": 105940
+    },
+    "es-light-result.png": {
+      "sha256": "7787a4193dacde8a8432e01b6439591969846b82fe7500f620aa890791efb2f8",
+      "bytes": 154383
+    }
+  }
+}

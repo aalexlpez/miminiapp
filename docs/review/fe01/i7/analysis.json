@@ -1,0 +1,2970 @@
+{
+  "schemaVersion": 1,
+  "iteration": "FE-01/I7",
+  "date": "2026-11-18",
+  "status": "local regression complete; dependency risk accepted as non-blocking debt; CI/staging and global acceptance pending",
+  "candidate": {
+    "functionalCommit": "2d213dd863d5efd49645b81fa80398adfa8295aa",
+    "branch": "feature/fe01-frontend-quality",
+    "srcSha256": "f305c7ba7e57d93085783482e521d72a529983c3c464d7b6063330388967788f",
+    "srcHashMethod": "SHA-256 of sorted git ls-files src lines: path + space + content SHA-256 + newline",
+    "distFiles": {
+      "404.html": {
+        "bytes": 20889,
+        "sha256": "55f378c352e55a4a3bc22bd1e6cf53097a1fdd8116caa9556f494001891738bd"
+      },
+      "_astro/App.Bv0Tig-C.js": {
+        "bytes": 34798,
+        "sha256": "65a946294e533bab6ec486f7b6b5a5ee084d1f8548c69a56f1be63565f9e9a32"
+      },
+      "_astro/client.Cd-EeyjT.js": {
+        "bytes": 212836,
+        "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+      },
+      "_astro/global.MWueQfGS.css": {
+        "bytes": 34900,
+        "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+      },
+      "_astro/react.CvnImTBr.js": {
+        "bytes": 7909,
+        "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+      },
+      "_redirects": {
+        "bytes": 11,
+        "sha256": "a9d6dec64b325263010f05fd6dc63095d7d5c364caec31914bfc0e986db6e557"
+      },
+      "brand/M-isotype-dark.svg": {
+        "bytes": 427,
+        "sha256": "bcd66afee1657856c6d019a07cc7b6c7246db61de59186b6c8a5255434de2e3d"
+      },
+      "brand/M-isotype.svg": {
+        "bytes": 427,
+        "sha256": "ecd694054d3a6c197349ed345f5fc5a1866229d6a98cae51c6ffac19d2c56b51"
+      },
+      "brand/wordmark-compact-dark.svg": {
+        "bytes": 4710,
+        "sha256": "5fed474e74da2838fd63cce2fe1296341c3ce56837cf32299e49d6ff30238af0"
+      },
+      "brand/wordmark-compact.svg": {
+        "bytes": 4710,
+        "sha256": "964d92e68c1966351883c1aba73d8b2c99f294ab3eec922e633f6be9797f3e4a"
+      },
+      "brand/wordmark-editorial-dark.svg": {
+        "bytes": 5011,
+        "sha256": "4ea29ea25179d5a2fcbc8502dc7fb170978abfa4f6bd24932206c25e539b0d27"
+      },
+      "brand/wordmark-editorial.svg": {
+        "bytes": 5011,
+        "sha256": "bf48b80949bd90151ded4eda4ecdfb378934a8b78b30cf9fa5ef97509e7b0429"
+      },
+      "en/apps/plan-b/index.html": {
+        "bytes": 50291,
+        "sha256": "4ba9420ae07ece3074c883734dd95ee8cf4af9cd88f3e1879d180f09f602ee4a"
+      },
+      "en/index.html": {
+        "bytes": 23105,
+        "sha256": "78ce7aa6d63c027db734acfabc390a70f4a2ebee037e26c50b6f464a359ce154"
+      },
+      "es/apps/plan-b/index.html": {
+        "bytes": 50675,
+        "sha256": "074efe9715fe7ecab6956057cd00ca880f85649cc784b354cf173c0cbdcef410"
+      },
+      "es/index.html": {
+        "bytes": 23181,
+        "sha256": "ce4802f90feeefc07290c866b4c4e078f2088fe17bb13bf7be7f1f1a0d4a182b"
+      },
+      "favicon.svg": {
+        "bytes": 484,
+        "sha256": "8a32226444b7f92bb57ab9b4be11395a06cff5f4508ee3842a1fc66ca1a178ed"
+      },
+      "fonts/DMSans-OFL.txt": {
+        "bytes": 4482,
+        "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1"
+      },
+      "fonts/DMSans.woff2": {
+        "bytes": 88820,
+        "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+      },
+      "fonts/README.md": {
+        "bytes": 3105,
+        "sha256": "f3bff941d4ce91d70cbfbf7381250a022175365917414d189100893d92ea356c"
+      },
+      "fonts/SpaceGrotesk-OFL.txt": {
+        "bytes": 4495,
+        "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+      },
+      "fonts/SpaceGrotesk.woff2": {
+        "bytes": 49256,
+        "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+      },
+      "index.html": {
+        "bytes": 868,
+        "sha256": "7b82713d53b43e757a00286284e2bc2b7c83821da415806b4cac28c199b5c266"
+      }
+    }
+  },
+  "baseline": {
+    "commit": "1b204633ddd0ad782096d5377a3ee1c35d05c796",
+    "tree": "af9deb7d47fb9bd86dea690467f54577f3b214b7",
+    "archivedPublicFilesVerified": 23,
+    "allHashesMatchI1": true
+  },
+  "localChecks": {
+    "command": "npm run verify",
+    "node": "v24.22.2",
+    "npm": "11.19.1",
+    "chromium": "156.0.8078.4/r1248",
+    "typesErrors": 0,
+    "typesWarnings": 0,
+    "unit": 518,
+    "components": 25,
+    "e2e": 156,
+    "integrationBuilds": 2,
+    "integrationScreens": 4,
+    "targetedExports": 20,
+    "CI": "not executed for final local candidate",
+    "staging": "not deployed for final local candidate"
+  },
+  "resources": {
+    "conditions": {
+      "browser": "156.0.8078.4",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "cache": "fresh context per route",
+      "timezone": "browser default; no timing measurements",
+      "compression": "gzip estimate of each full response body; not wire size"
+    },
+    "own": {
+      "js": {
+        "path": "_astro/App.Bv0Tig-C.js",
+        "bytes": 34798,
+        "sha256": "65a946294e533bab6ec486f7b6b5a5ee084d1f8548c69a56f1be63565f9e9a32"
+      },
+      "inlineCss": {
+        "bytes": 8671,
+        "sha256": "b65f3fca18c6874d4bae2d9b60817484563911dbe1ee1e2aaff7fe36eee37a32"
+      },
+      "totalBytes": 43469,
+      "budgetBytes": 51200
+    },
+    "routes": [
+      {
+        "route": "/es/",
+        "requests": [
+          {
+            "url": "/_astro/global.MWueQfGS.css",
+            "status": 200,
+            "bytes": 34900,
+            "gzipEstimate": 8122,
+            "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+          },
+          {
+            "url": "/es/",
+            "status": 200,
+            "bytes": 23181,
+            "gzipEstimate": 5534,
+            "sha256": "ce4802f90feeefc07290c866b4c4e078f2088fe17bb13bf7be7f1f1a0d4a182b"
+          },
+          {
+            "url": "/fonts/DMSans.woff2",
+            "status": 200,
+            "bytes": 88820,
+            "gzipEstimate": 88581,
+            "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+          },
+          {
+            "url": "/fonts/SpaceGrotesk.woff2",
+            "status": 200,
+            "bytes": 49256,
+            "gzipEstimate": 49255,
+            "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+          }
+        ],
+        "requestCount": 4,
+        "rawBytes": 196157,
+        "gzipEstimate": 151492,
+        "external": []
+      },
+      {
+        "route": "/en/",
+        "requests": [
+          {
+            "url": "/_astro/global.MWueQfGS.css",
+            "status": 200,
+            "bytes": 34900,
+            "gzipEstimate": 8122,
+            "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+          },
+          {
+            "url": "/en/",
+            "status": 200,
+            "bytes": 23105,
+            "gzipEstimate": 5478,
+            "sha256": "78ce7aa6d63c027db734acfabc390a70f4a2ebee037e26c50b6f464a359ce154"
+          },
+          {
+            "url": "/fonts/DMSans.woff2",
+            "status": 200,
+            "bytes": 88820,
+            "gzipEstimate": 88581,
+            "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+          },
+          {
+            "url": "/fonts/SpaceGrotesk.woff2",
+            "status": 200,
+            "bytes": 49256,
+            "gzipEstimate": 49255,
+            "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+          }
+        ],
+        "requestCount": 4,
+        "rawBytes": 196081,
+        "gzipEstimate": 151436,
+        "external": []
+      },
+      {
+        "route": "/fe01-missing/",
+        "requests": [
+          {
+            "url": "/_astro/global.MWueQfGS.css",
+            "status": 200,
+            "bytes": 34900,
+            "gzipEstimate": 8122,
+            "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+          },
+          {
+            "url": "/fe01-missing/",
+            "status": 404,
+            "bytes": 20889,
+            "gzipEstimate": 5046,
+            "sha256": "55f378c352e55a4a3bc22bd1e6cf53097a1fdd8116caa9556f494001891738bd"
+          },
+          {
+            "url": "/fonts/DMSans.woff2",
+            "status": 200,
+            "bytes": 88820,
+            "gzipEstimate": 88581,
+            "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+          },
+          {
+            "url": "/fonts/SpaceGrotesk.woff2",
+            "status": 200,
+            "bytes": 49256,
+            "gzipEstimate": 49255,
+            "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+          }
+        ],
+        "requestCount": 4,
+        "rawBytes": 193865,
+        "gzipEstimate": 151004,
+        "external": []
+      },
+      {
+        "route": "/es/apps/plan-b/",
+        "requests": [
+          {
+            "url": "/_astro/App.Bv0Tig-C.js",
+            "status": 200,
+            "bytes": 34798,
+            "gzipEstimate": 11491,
+            "sha256": "65a946294e533bab6ec486f7b6b5a5ee084d1f8548c69a56f1be63565f9e9a32"
+          },
+          {
+            "url": "/_astro/client.Cd-EeyjT.js",
+            "status": 200,
+            "bytes": 212836,
+            "gzipEstimate": 65804,
+            "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+          },
+          {
+            "url": "/_astro/global.MWueQfGS.css",
+            "status": 200,
+            "bytes": 34900,
+            "gzipEstimate": 8122,
+            "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+          },
+          {
+            "url": "/_astro/react.CvnImTBr.js",
+            "status": 200,
+            "bytes": 7909,
+            "gzipEstimate": 3009,
+            "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+          },
+          {
+            "url": "/es/apps/plan-b/",
+            "status": 200,
+            "bytes": 50675,
+            "gzipEstimate": 14918,
+            "sha256": "074efe9715fe7ecab6956057cd00ca880f85649cc784b354cf173c0cbdcef410"
+          },
+          {
+            "url": "/fonts/DMSans.woff2",
+            "status": 200,
+            "bytes": 88820,
+            "gzipEstimate": 88581,
+            "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+          },
+          {
+            "url": "/fonts/SpaceGrotesk.woff2",
+            "status": 200,
+            "bytes": 49256,
+            "gzipEstimate": 49255,
+            "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+          }
+        ],
+        "requestCount": 7,
+        "rawBytes": 479194,
+        "gzipEstimate": 241180,
+        "external": []
+      },
+      {
+        "route": "/en/apps/plan-b/",
+        "requests": [
+          {
+            "url": "/_astro/App.Bv0Tig-C.js",
+            "status": 200,
+            "bytes": 34798,
+            "gzipEstimate": 11491,
+            "sha256": "65a946294e533bab6ec486f7b6b5a5ee084d1f8548c69a56f1be63565f9e9a32"
+          },
+          {
+            "url": "/_astro/client.Cd-EeyjT.js",
+            "status": 200,
+            "bytes": 212836,
+            "gzipEstimate": 65804,
+            "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+          },
+          {
+            "url": "/_astro/global.MWueQfGS.css",
+            "status": 200,
+            "bytes": 34900,
+            "gzipEstimate": 8122,
+            "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+          },
+          {
+            "url": "/_astro/react.CvnImTBr.js",
+            "status": 200,
+            "bytes": 7909,
+            "gzipEstimate": 3009,
+            "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+          },
+          {
+            "url": "/en/apps/plan-b/",
+            "status": 200,
+            "bytes": 50291,
+            "gzipEstimate": 14591,
+            "sha256": "4ba9420ae07ece3074c883734dd95ee8cf4af9cd88f3e1879d180f09f602ee4a"
+          },
+          {
+            "url": "/fonts/DMSans.woff2",
+            "status": 200,
+            "bytes": 88820,
+            "gzipEstimate": 88581,
+            "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+          },
+          {
+            "url": "/fonts/SpaceGrotesk.woff2",
+            "status": 200,
+            "bytes": 49256,
+            "gzipEstimate": 49255,
+            "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+          }
+        ],
+        "requestCount": 7,
+        "rawBytes": 478810,
+        "gzipEstimate": 240853,
+        "external": []
+      }
+    ]
+  },
+  "performance": {
+    "conditions": {
+      "browser": "156.0.8078.4",
+      "node": "v24.22.2",
+      "passes": 5,
+      "viewports": [
+        {
+          "width": 393,
+          "height": 851
+        },
+        {
+          "width": 1440,
+          "height": 900
+        }
+      ],
+      "timezone": "Europe/Madrid",
+      "colorScheme": "light",
+      "reducedMotion": "reduce",
+      "serviceWorkers": "block",
+      "throttle": "none",
+      "clock": "real; not screenshot clock",
+      "server": "same Node static handler for both variants, no compression, no-cache + ETag, real static 404",
+      "ordering": "base/candidate alternated per pass; separate origins/contexts",
+      "cold": "new browser context; OS/font caches not reset",
+      "warm": "same context; only Plan B session cleared; about:blank between visits",
+      "interaction": "common See an example action to two animation frames; proxy, not INP",
+      "differenceFromI1": "remeasured both builds in one session with matched static server; previous I1 used Astro preview and Start action"
+    },
+    "observations": 160,
+    "groups": [
+      {
+        "width": 393,
+        "route": "/es/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 48,
+          "min": 40,
+          "max": 112
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 200757,
+          "min": 200757,
+          "max": 200757
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/es/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 60,
+          "min": 56,
+          "max": 72
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 197357,
+          "min": 197357,
+          "max": 197357
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/es/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 36,
+          "min": 28,
+          "max": 52
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/es/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 32,
+          "min": 20,
+          "max": 48
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/en/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 56,
+          "min": 52,
+          "max": 84
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 200672,
+          "min": 200672,
+          "max": 200672
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/en/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 52,
+          "min": 44,
+          "max": 60
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 197281,
+          "min": 197281,
+          "max": 197281
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/en/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 32,
+          "min": 24,
+          "max": 40
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/en/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 40,
+          "min": 24,
+          "max": 52
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/fe01-missing/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 44,
+          "min": 40,
+          "max": 52
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 195088,
+          "min": 195088,
+          "max": 195088
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/fe01-missing/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 48,
+          "min": 36,
+          "max": 64
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 195065,
+          "min": 195065,
+          "max": 195065
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/fe01-missing/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 28,
+          "min": 24,
+          "max": 40
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 22089,
+          "min": 22089,
+          "max": 22089
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/fe01-missing/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 24,
+          "min": 20,
+          "max": 40
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 22089,
+          "min": 22089,
+          "max": 22089
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 393,
+        "route": "/es/apps/plan-b/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 52,
+          "min": 48,
+          "max": 64
+        },
+        "cls": {
+          "median": 0.028,
+          "min": 0.028,
+          "max": 0.028
+        },
+        "transferBytes": {
+          "median": 474342,
+          "min": 474342,
+          "max": 474342
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 27.5,
+          "min": 26.1,
+          "max": 27.9
+        }
+      },
+      {
+        "width": 393,
+        "route": "/es/apps/plan-b/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 64,
+          "min": 48,
+          "max": 68
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 481294,
+          "min": 481294,
+          "max": 481294
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 27.1,
+          "min": 25.1,
+          "max": 27.8
+        }
+      },
+      {
+        "width": 393,
+        "route": "/es/apps/plan-b/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 32,
+          "min": 28,
+          "max": 36
+        },
+        "cls": {
+          "median": 0.028,
+          "min": 0.028,
+          "max": 0.028
+        },
+        "transferBytes": {
+          "median": 2100,
+          "min": 2100,
+          "max": 2100
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 29.2,
+          "min": 28.7,
+          "max": 29.3
+        }
+      },
+      {
+        "width": 393,
+        "route": "/es/apps/plan-b/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 28,
+          "min": 24,
+          "max": 52
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 2100,
+          "min": 2100,
+          "max": 2100
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 28.8,
+          "min": 27.8,
+          "max": 29.4
+        }
+      },
+      {
+        "width": 1440,
+        "route": "/es/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 56,
+          "min": 52,
+          "max": 72
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 200757,
+          "min": 200757,
+          "max": 200757
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/es/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 56,
+          "min": 52,
+          "max": 84
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 197357,
+          "min": 197357,
+          "max": 197357
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/es/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 36,
+          "min": 28,
+          "max": 52
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/es/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 40,
+          "min": 24,
+          "max": 56
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/en/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 60,
+          "min": 48,
+          "max": 64
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 200672,
+          "min": 200672,
+          "max": 200672
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/en/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 64,
+          "min": 56,
+          "max": 80
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 197281,
+          "min": 197281,
+          "max": 197281
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/en/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 36,
+          "min": 28,
+          "max": 40
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/en/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 32,
+          "min": 32,
+          "max": 44
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 1200,
+          "min": 1200,
+          "max": 1200
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/fe01-missing/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 44,
+          "min": 44,
+          "max": 56
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 195088,
+          "min": 195088,
+          "max": 195088
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/fe01-missing/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 48,
+          "min": 44,
+          "max": 52
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 195065,
+          "min": 195065,
+          "max": 195065
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/fe01-missing/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 28,
+          "min": 28,
+          "max": 40
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 22089,
+          "min": 22089,
+          "max": 22089
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/fe01-missing/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 32,
+          "min": 24,
+          "max": 40
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 22089,
+          "min": 22089,
+          "max": 22089
+        },
+        "requests": {
+          "median": 4,
+          "min": 4,
+          "max": 4
+        },
+        "clickToTwoFramesMs": null
+      },
+      {
+        "width": 1440,
+        "route": "/es/apps/plan-b/",
+        "cache": "cold",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 56,
+          "min": 52,
+          "max": 68
+        },
+        "cls": {
+          "median": 0.006,
+          "min": 0.006,
+          "max": 0.006
+        },
+        "transferBytes": {
+          "median": 474342,
+          "min": 474342,
+          "max": 474342
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 27.9,
+          "min": 27.2,
+          "max": 28.8
+        }
+      },
+      {
+        "width": 1440,
+        "route": "/es/apps/plan-b/",
+        "cache": "cold",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 88,
+          "min": 52,
+          "max": 100
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 481294,
+          "min": 481294,
+          "max": 481294
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 26.1,
+          "min": 25,
+          "max": 28.1
+        }
+      },
+      {
+        "width": 1440,
+        "route": "/es/apps/plan-b/",
+        "cache": "warm",
+        "variant": "base",
+        "samples": 5,
+        "lcpMs": {
+          "median": 36,
+          "min": 32,
+          "max": 36
+        },
+        "cls": {
+          "median": 0.006,
+          "min": 0.006,
+          "max": 0.006
+        },
+        "transferBytes": {
+          "median": 2100,
+          "min": 2100,
+          "max": 2100
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 29.8,
+          "min": 28,
+          "max": 30.1
+        }
+      },
+      {
+        "width": 1440,
+        "route": "/es/apps/plan-b/",
+        "cache": "warm",
+        "variant": "candidate",
+        "samples": 5,
+        "lcpMs": {
+          "median": 36,
+          "min": 32,
+          "max": 44
+        },
+        "cls": {
+          "median": 0,
+          "min": 0,
+          "max": 0
+        },
+        "transferBytes": {
+          "median": 2100,
+          "min": 2100,
+          "max": 2100
+        },
+        "requests": {
+          "median": 7,
+          "min": 7,
+          "max": 7
+        },
+        "clickToTwoFramesMs": {
+          "median": 27.4,
+          "min": 25.6,
+          "max": 28.8
+        }
+      }
+    ]
+  },
+  "png": {
+    "conditions": {
+      "browser": "156.0.8078.4",
+      "node": "v24.22.2",
+      "passes": 5,
+      "viewport": {
+        "width": 393,
+        "height": 851
+      },
+      "fonts": "ready before journey; timing starts at canvas creation, excludes font-load await and OS share/save",
+      "ordering": "alternated base/candidate per pass",
+      "clock": "real"
+    },
+    "observations": 40,
+    "groups": [
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "example",
+        "samples": 5,
+        "drawMs": {
+          "median": 6.3,
+          "min": 5.8,
+          "max": 12.5
+        },
+        "encodeMs": {
+          "median": 16.2,
+          "min": 14.4,
+          "max": 17.6
+        },
+        "totalMs": {
+          "median": 22,
+          "min": 20.9,
+          "max": 30.1
+        },
+        "bytes": {
+          "median": 145828,
+          "min": 145828,
+          "max": 145828
+        }
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "maximum",
+        "samples": 5,
+        "drawMs": {
+          "median": 25.8,
+          "min": 24,
+          "max": 34.5
+        },
+        "encodeMs": {
+          "median": 17.7,
+          "min": 15.8,
+          "max": 21.3
+        },
+        "totalMs": {
+          "median": 43.5,
+          "min": 42.7,
+          "max": 50.3
+        },
+        "bytes": {
+          "median": 120283,
+          "min": 120283,
+          "max": 120283
+        }
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "example",
+        "samples": 5,
+        "drawMs": {
+          "median": 6.4,
+          "min": 6.3,
+          "max": 6.6
+        },
+        "encodeMs": {
+          "median": 15.2,
+          "min": 14.7,
+          "max": 22.3
+        },
+        "totalMs": {
+          "median": 21.7,
+          "min": 21.1,
+          "max": 28.9
+        },
+        "bytes": {
+          "median": 146001,
+          "min": 146001,
+          "max": 146001
+        }
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "maximum",
+        "samples": 5,
+        "drawMs": {
+          "median": 24.5,
+          "min": 23.6,
+          "max": 79.9
+        },
+        "encodeMs": {
+          "median": 18.3,
+          "min": 15.6,
+          "max": 22.8
+        },
+        "totalMs": {
+          "median": 42.8,
+          "min": 39.2,
+          "max": 102.7
+        },
+        "bytes": {
+          "median": 120810,
+          "min": 120810,
+          "max": 120810
+        }
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "example",
+        "samples": 5,
+        "drawMs": {
+          "median": 6.4,
+          "min": 6.1,
+          "max": 6.9
+        },
+        "encodeMs": {
+          "median": 14.8,
+          "min": 13.6,
+          "max": 18.1
+        },
+        "totalMs": {
+          "median": 21.2,
+          "min": 19.7,
+          "max": 24.3
+        },
+        "bytes": {
+          "median": 161467,
+          "min": 161467,
+          "max": 161467
+        }
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "maximum",
+        "samples": 5,
+        "drawMs": {
+          "median": 25.4,
+          "min": 23.1,
+          "max": 30.4
+        },
+        "encodeMs": {
+          "median": 18.5,
+          "min": 15.6,
+          "max": 19.5
+        },
+        "totalMs": {
+          "median": 43.9,
+          "min": 38.7,
+          "max": 49.4
+        },
+        "bytes": {
+          "median": 136410,
+          "min": 136410,
+          "max": 136410
+        }
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "example",
+        "samples": 5,
+        "drawMs": {
+          "median": 6.6,
+          "min": 6.2,
+          "max": 7.3
+        },
+        "encodeMs": {
+          "median": 14.9,
+          "min": 14.2,
+          "max": 16.6
+        },
+        "totalMs": {
+          "median": 21.4,
+          "min": 20.4,
+          "max": 23.9
+        },
+        "bytes": {
+          "median": 162941,
+          "min": 162941,
+          "max": 162941
+        }
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "maximum",
+        "samples": 5,
+        "drawMs": {
+          "median": 28.9,
+          "min": 25,
+          "max": 30.2
+        },
+        "encodeMs": {
+          "median": 17.2,
+          "min": 14.1,
+          "max": 20.7
+        },
+        "totalMs": {
+          "median": 46.3,
+          "min": 39.1,
+          "max": 49.6
+        },
+        "bytes": {
+          "median": 138442,
+          "min": 138442,
+          "max": 138442
+        }
+      }
+    ],
+    "samples": [
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "example",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.300000000279397,
+        "encode": 14.599999999627471,
+        "total": 20.899999999906868,
+        "bytes": 145828
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "example",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.199999999720603,
+        "encode": 18.100000000093132,
+        "total": 24.299999999813735,
+        "bytes": 161467
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "example",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.899999999906868,
+        "encode": 14.299999999813735,
+        "total": 21.199999999720603,
+        "bytes": 161467
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "example",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 12.5,
+        "encode": 17.600000000093132,
+        "total": 30.100000000093132,
+        "bytes": 145828
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "example",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 5.7999999998137355,
+        "encode": 16.200000000186265,
+        "total": 22,
+        "bytes": 145828
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "example",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.400000000372529,
+        "encode": 14.799999999813735,
+        "total": 21.200000000186265,
+        "bytes": 161467
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "example",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.100000000093132,
+        "encode": 13.600000000093132,
+        "total": 19.700000000186265,
+        "bytes": 161467
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "example",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 7.2999999998137355,
+        "encode": 14.399999999906868,
+        "total": 21.699999999720603,
+        "bytes": 145828
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "example",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 5.800000000279397,
+        "encode": 16.5,
+        "total": 22.300000000279397,
+        "bytes": 145828
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "example",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.899999999906868,
+        "encode": 17.300000000279397,
+        "total": 24.200000000186265,
+        "bytes": 161467
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 24,
+        "encode": 18.699999999720603,
+        "total": 42.6999999997206,
+        "bytes": 120283
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 30.399999999906868,
+        "encode": 19,
+        "total": 49.39999999990687,
+        "bytes": 136410
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 23.100000000093132,
+        "encode": 15.600000000093132,
+        "total": 38.700000000186265,
+        "bytes": 136410
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 26.200000000186265,
+        "encode": 16.5,
+        "total": 42.700000000186265,
+        "bytes": 120283
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 34.5,
+        "encode": 15.799999999813735,
+        "total": 50.299999999813735,
+        "bytes": 120283
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 28.399999999906868,
+        "encode": 19.5,
+        "total": 47.89999999990687,
+        "bytes": 136410
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 25.399999999906868,
+        "encode": 18.5,
+        "total": 43.89999999990687,
+        "bytes": 136410
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 25.800000000279397,
+        "encode": 17.699999999720603,
+        "total": 43.5,
+        "bytes": 120283
+      },
+      {
+        "variant": "base",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 24.199999999720603,
+        "encode": 21.300000000279397,
+        "total": 45.5,
+        "bytes": 120283
+      },
+      {
+        "variant": "candidate",
+        "theme": "light",
+        "kind": "maximum",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 25,
+        "encode": 18.300000000279397,
+        "total": 43.3000000002794,
+        "bytes": 136410
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.300000000279397,
+        "encode": 15.199999999720603,
+        "total": 21.5,
+        "bytes": 146001
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.2000000001862645,
+        "encode": 14.199999999720603,
+        "total": 20.399999999906868,
+        "bytes": 162941
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 7.300000000279397,
+        "encode": 16.59999999962747,
+        "total": 23.899999999906868,
+        "bytes": 162941
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.399999999906868,
+        "encode": 14.699999999720603,
+        "total": 21.09999999962747,
+        "bytes": 146001
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.5,
+        "encode": 15.200000000186265,
+        "total": 21.700000000186265,
+        "bytes": 146001
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.5,
+        "encode": 14.899999999906868,
+        "total": 21.399999999906868,
+        "bytes": 162941
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.699999999720603,
+        "encode": 14.600000000093132,
+        "total": 21.299999999813735,
+        "bytes": 162941
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.400000000372529,
+        "encode": 15.799999999813735,
+        "total": 22.200000000186265,
+        "bytes": 146001
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.600000000093132,
+        "encode": 22.299999999813735,
+        "total": 28.899999999906868,
+        "bytes": 146001
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "example",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 6.600000000093132,
+        "encode": 14.899999999906868,
+        "total": 21.5,
+        "bytes": 162941
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 24.5,
+        "encode": 18.299999999813735,
+        "total": 42.799999999813735,
+        "bytes": 120810
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 0,
+        "width": 1179,
+        "height": 2556,
+        "draw": 25,
+        "encode": 14.100000000093132,
+        "total": 39.10000000009313,
+        "bytes": 138442
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 30.199999999720603,
+        "encode": 16.700000000186265,
+        "total": 46.89999999990687,
+        "bytes": 138442
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 1,
+        "width": 1179,
+        "height": 2556,
+        "draw": 24.40000000037253,
+        "encode": 17.299999999813735,
+        "total": 41.700000000186265,
+        "bytes": 120810
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 23.600000000093132,
+        "encode": 15.600000000093132,
+        "total": 39.200000000186265,
+        "bytes": 120810
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 2,
+        "width": 1179,
+        "height": 2556,
+        "draw": 26.200000000186265,
+        "encode": 17.299999999813735,
+        "total": 43.5,
+        "bytes": 138442
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 29.09999999962747,
+        "encode": 17.200000000186265,
+        "total": 46.299999999813735,
+        "bytes": 138442
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 3,
+        "width": 1179,
+        "height": 2556,
+        "draw": 63,
+        "encode": 22.799999999813735,
+        "total": 85.79999999981374,
+        "bytes": 120810
+      },
+      {
+        "variant": "base",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 79.89999999990687,
+        "encode": 22.799999999813735,
+        "total": 102.6999999997206,
+        "bytes": 120810
+      },
+      {
+        "variant": "candidate",
+        "theme": "dark",
+        "kind": "maximum",
+        "pass": 4,
+        "width": 1179,
+        "height": 2556,
+        "draw": 28.899999999906868,
+        "encode": 20.699999999720603,
+        "total": 49.59999999962747,
+        "bytes": 138442
+      }
+    ],
+    "approvedOutputChecks": [
+      {
+        "locale": "es",
+        "theme": "light",
+        "width": 1440,
+        "height": 900,
+        "maximum": false,
+        "expectedCodePoints": {
+          "purpose": 34,
+          "situation": 33,
+          "action": 60
+        },
+        "saveBottom": 707.140625,
+        "overflow": false,
+        "pageHeight": 1302,
+        "external": [],
+        "pageErrors": [],
+        "files": [],
+        "pngSha256": "13191ccda155bce4accdb87dd99f54410f37933518be524065fcbf01b1a0441c",
+        "pngBytes": 161467,
+        "identicalApprovedPng": "docs/review/fe01/i5/es-light-1440-example-wallpaper.png"
+      },
+      {
+        "locale": "en",
+        "theme": "dark",
+        "width": 393,
+        "height": 851,
+        "maximum": true,
+        "expectedCodePoints": {
+          "purpose": 80,
+          "situation": 90,
+          "action": 90
+        },
+        "saveBottom": 1106.15625,
+        "overflow": false,
+        "pageHeight": 2391,
+        "external": [],
+        "pageErrors": [],
+        "files": [],
+        "pngSha256": "6ab2435a353476d8dc3891d3c47d66fcaac644f8cc1e3692923e54ca5e71a219",
+        "pngBytes": 141647,
+        "identicalApprovedPng": "docs/review/fe01/i5/en-dark-393-maximum-wallpaper.png"
+      }
+    ],
+    "diagnosis": {
+      "issue": "I6 renderer intermittently waited about one second for Chromium idle canvas encoding; drawing itself was not a one-second operation",
+      "samePixelsSchedulerProbe": [
+        {
+          "mode": "html-front",
+          "pass": 0,
+          "ms": 1016.8999999999069,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "pulse-front",
+          "pass": 0,
+          "ms": 20.100000000093132,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 3,
+          "bytes": 138442
+        },
+        {
+          "mode": "native",
+          "pass": 0,
+          "ms": 1019.7999999998137,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "pulse-front",
+          "pass": 1,
+          "ms": 22.100000000093132,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 3,
+          "bytes": 138442
+        },
+        {
+          "mode": "native",
+          "pass": 1,
+          "ms": 1012.0999999996275,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "html-front",
+          "pass": 1,
+          "ms": 1015.7000000001863,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "native",
+          "pass": 2,
+          "ms": 1016,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "html-front",
+          "pass": 2,
+          "ms": 1012.1000000000931,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "pulse-front",
+          "pass": 2,
+          "ms": 17.199999999720603,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 3,
+          "bytes": 138442
+        },
+        {
+          "mode": "html-front",
+          "pass": 3,
+          "ms": 1011.6999999997206,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "pulse-front",
+          "pass": 3,
+          "ms": 22.299999999813735,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 2,
+          "bytes": 138442
+        },
+        {
+          "mode": "native",
+          "pass": 3,
+          "ms": 1012.3000000002794,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "pulse-front",
+          "pass": 4,
+          "ms": 19.300000000279397,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 3,
+          "bytes": 138442
+        },
+        {
+          "mode": "native",
+          "pass": 4,
+          "ms": 1016.2000000001863,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        },
+        {
+          "mode": "html-front",
+          "pass": 4,
+          "ms": 1012.4000000003725,
+          "before": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "after": {
+            "visibility": "visible",
+            "focus": true
+          },
+          "frames": 0,
+          "bytes": 138442
+        }
+      ],
+      "correction": "Keep classic canvas renderer; at most five requested frames during toBlob; cancel on settle/failure; no visible animation, native encoder, worker, extra dependency or unbounded loop",
+      "discardedExperiment": "OffscreenCanvas fast path commit af7d1bd was tested but did not consistently resolve scheduling; superseded by 2d213dd. Experimental measurements are not final-candidate evidence."
+    }
+  },
+  "memory": {
+    "conditions": {
+      "browser": "156.0.8078.4",
+      "node": "v24.22.2",
+      "cycles": 10,
+      "profiles": [393, 1440],
+      "instrumentation": "object URLs; theme MutationObserver; media listener balance; weak canvas references; real .ics/PNG downloads; CDP GC at 0/1/5/10; pending requestAnimationFrame set",
+      "limitations": "synthetic local contexts, not a proof of all memory behavior; instrumentation itself retains small counters/WeakRefs; matches both variants"
+    },
+    "totalCycles": 40,
+    "rows": [
+      {
+        "variant": "base",
+        "width": 393,
+        "cycles": 10,
+        "initialResources": {
+          "urls": 0,
+          "created": 0,
+          "revoked": 0,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 0
+        },
+        "finalResources": {
+          "urls": 0,
+          "created": 40,
+          "revoked": 40,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 3013524
+        },
+        "allCyclesRelease": true,
+        "checkpoints": [
+          {
+            "cycle": 0,
+            "heap": {
+              "usedSize": 2244916,
+              "totalSize": 3215360,
+              "embedderHeapUsedSize": 1481520,
+              "backingStorageSize": 270903
+            },
+            "dom": {
+              "documents": 1,
+              "nodes": 148,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 0,
+              "revoked": 0,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "heap": {
+              "usedSize": 3016200,
+              "totalSize": 4001792,
+              "embedderHeapUsedSize": 1602056,
+              "backingStorageSize": 273767
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 154,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 4,
+              "revoked": 4,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 5,
+            "heap": {
+              "usedSize": 3353044,
+              "totalSize": 4001792,
+              "embedderHeapUsedSize": 1660624,
+              "backingStorageSize": 273784
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 154,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 20,
+              "revoked": 20,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 10,
+            "heap": {
+              "usedSize": 3513880,
+              "totalSize": 4526080,
+              "embedderHeapUsedSize": 1654408,
+              "backingStorageSize": 273784
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 154,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 40,
+              "revoked": 40,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          }
+        ]
+      },
+      {
+        "variant": "candidate",
+        "width": 393,
+        "cycles": 10,
+        "initialResources": {
+          "urls": 0,
+          "created": 0,
+          "revoked": 0,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 0
+        },
+        "finalResources": {
+          "urls": 0,
+          "created": 40,
+          "revoked": 40,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 3013524
+        },
+        "allCyclesRelease": true,
+        "checkpoints": [
+          {
+            "cycle": 0,
+            "heap": {
+              "usedSize": 2303460,
+              "totalSize": 3215360,
+              "embedderHeapUsedSize": 1151928,
+              "backingStorageSize": 266260
+            },
+            "dom": {
+              "documents": 1,
+              "nodes": 233,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 0,
+              "revoked": 0,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "heap": {
+              "usedSize": 3123936,
+              "totalSize": 4001792,
+              "embedderHeapUsedSize": 1666048,
+              "backingStorageSize": 270796
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 239,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 4,
+              "revoked": 4,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 5,
+            "heap": {
+              "usedSize": 3511224,
+              "totalSize": 4526080,
+              "embedderHeapUsedSize": 1981264,
+              "backingStorageSize": 270796
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 239,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 20,
+              "revoked": 20,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 10,
+            "heap": {
+              "usedSize": 3664020,
+              "totalSize": 4788224,
+              "embedderHeapUsedSize": 1800528,
+              "backingStorageSize": 270796
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 239,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 40,
+              "revoked": 40,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          }
+        ]
+      },
+      {
+        "variant": "base",
+        "width": 1440,
+        "cycles": 10,
+        "initialResources": {
+          "urls": 0,
+          "created": 0,
+          "revoked": 0,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 0
+        },
+        "finalResources": {
+          "urls": 0,
+          "created": 40,
+          "revoked": 40,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 3013524
+        },
+        "allCyclesRelease": true,
+        "checkpoints": [
+          {
+            "cycle": 0,
+            "heap": {
+              "usedSize": 2264580,
+              "totalSize": 2953216,
+              "embedderHeapUsedSize": 1307416,
+              "backingStorageSize": 270917
+            },
+            "dom": {
+              "documents": 1,
+              "nodes": 148,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 0,
+              "revoked": 0,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "heap": {
+              "usedSize": 3015976,
+              "totalSize": 3739648,
+              "embedderHeapUsedSize": 1595992,
+              "backingStorageSize": 273767
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 154,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 4,
+              "revoked": 4,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 5,
+            "heap": {
+              "usedSize": 3351164,
+              "totalSize": 4263936,
+              "embedderHeapUsedSize": 1724640,
+              "backingStorageSize": 273781
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 154,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 20,
+              "revoked": 20,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 10,
+            "heap": {
+              "usedSize": 3514472,
+              "totalSize": 4526080,
+              "embedderHeapUsedSize": 1558536,
+              "backingStorageSize": 273784
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 154,
+              "jsEventListeners": 173
+            },
+            "resources": {
+              "urls": 0,
+              "created": 40,
+              "revoked": 40,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          }
+        ]
+      },
+      {
+        "variant": "candidate",
+        "width": 1440,
+        "cycles": 10,
+        "initialResources": {
+          "urls": 0,
+          "created": 0,
+          "revoked": 0,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 0
+        },
+        "finalResources": {
+          "urls": 0,
+          "created": 40,
+          "revoked": 40,
+          "observers": 0,
+          "media": 1,
+          "activeCanvas": 0,
+          "frames": 0,
+          "downloadAnchors": 0,
+          "peakCanvasPixels": 3013524
+        },
+        "allCyclesRelease": true,
+        "checkpoints": [
+          {
+            "cycle": 0,
+            "heap": {
+              "usedSize": 2303460,
+              "totalSize": 3215360,
+              "embedderHeapUsedSize": 1229368,
+              "backingStorageSize": 266260
+            },
+            "dom": {
+              "documents": 1,
+              "nodes": 233,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 0,
+              "revoked": 0,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 0
+            }
+          },
+          {
+            "cycle": 1,
+            "heap": {
+              "usedSize": 3108152,
+              "totalSize": 3739648,
+              "embedderHeapUsedSize": 1781016,
+              "backingStorageSize": 270790
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 239,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 4,
+              "revoked": 4,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 5,
+            "heap": {
+              "usedSize": 3511520,
+              "totalSize": 4526080,
+              "embedderHeapUsedSize": 1949160,
+              "backingStorageSize": 270807
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 239,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 20,
+              "revoked": 20,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          },
+          {
+            "cycle": 10,
+            "heap": {
+              "usedSize": 3653024,
+              "totalSize": 4788224,
+              "embedderHeapUsedSize": 1669984,
+              "backingStorageSize": 270807
+            },
+            "dom": {
+              "documents": 2,
+              "nodes": 239,
+              "jsEventListeners": 181
+            },
+            "resources": {
+              "urls": 0,
+              "created": 40,
+              "revoked": 40,
+              "observers": 0,
+              "media": 1,
+              "activeCanvas": 0,
+              "frames": 0,
+              "downloadAnchors": 0,
+              "peakCanvasPixels": 3013524
+            }
+          }
+        ]
+      }
+    ],
+    "interpretation": "No retained live export resources after reset in observed cycles; heap cache growth remains in both variants. CDP counters do not prove absence of all heap/RSS/GPU leaks."
+  },
+  "dependencyAudit": {
+    "date": "2026-11-18",
+    "command": "npm audit --package-lock-only --json",
+    "base": {
+      "info": 0,
+      "low": 0,
+      "moderate": 8,
+      "high": 17,
+      "critical": 0,
+      "total": 25
+    },
+    "candidate": {
+      "info": 0,
+      "low": 0,
+      "moderate": 8,
+      "high": 17,
+      "critical": 0,
+      "total": 25
+    },
+    "productionOmitDev": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "samePackageAndLockfile": true,
+    "rootAdvisories": {
+      "https://github.com/advisories/GHSA-r3h5-4585-7x3w": {
+        "name": "astro",
+        "title": "Astro: Image endpoint in @astrojs/node can read files from a case-variant sibling of the output directory on case-sensitive filesystems",
+        "severity": "moderate",
+        "range": ">=5.14.3 <=7.4.6"
+      },
+      "https://github.com/advisories/GHSA-g3hv-75wg-m249": {
+        "name": "minimatch",
+        "title": "minimatch has potential denial of service via globparts amplification",
+        "severity": "moderate",
+        "range": ">=7.0.0 <11.0.1"
+      },
+      "https://github.com/advisories/GHSA-fc5q-39xc-vjpf": {
+        "name": "picomatch",
+        "title": "picomatch vulnerable to ReDoS through single-branch repeated extglobs",
+        "severity": "high",
+        "range": "<=4.0.7"
+      }
+    },
+    "initial20261117Observation": {
+      "high": 21,
+      "moderate": 11,
+      "critical": 0,
+      "note": "Initial audit, not mixed into normalized lock-only base/candidate comparison"
+    },
+    "picomatchInstalled": ["4.0.7", "2.3.2"],
+    "latestPublishedPicomatch": "4.0.7",
+    "firstPatchedVersion": null,
+    "exception": "approved by owner 2026-11-18 for audited FE-01 functional candidate/lockfile; docs/reports/fe01/security-review.md",
+    "delivery": "dependency gate satisfied by justified human exception; PEND-007 remains open",
+    "followUp": {
+      "cadence": "monthly and on new fix/advisory, candidate/lockfile change, or expanded untrusted input",
+      "nextReviewTarget": "2026-12-18",
+      "responsible": "MiMiniApp owner",
+      "automation": "none activated"
+    }
+  },
+  "invariants": {
+    "unchangedAreas": [
+      "package.json",
+      "package-lock.json",
+      ".github",
+      "deploy",
+      "scripts/release",
+      "src/components",
+      "src/layouts",
+      "src/i18n",
+      "src/styles/appearance.css",
+      "src/styles/motion.css",
+      "public"
+    ],
+    "unchangedDomainFiles": [
+      "src/miniapps/plan-b/domain/session-state.ts",
+      "src/miniapps/plan-b/domain/icalendar.ts",
+      "src/miniapps/plan-b/domain/calendar.ts",
+      "src/miniapps/plan-b/domain/validation.ts",
+      "src/miniapps/plan-b/domain/narrative-date.ts",
+      "src/miniapps/plan-b/domain/google-calendar.ts"
+    ],
+    "browserSessionAndExportsUnchanged": true,
+    "esCalendarCopyUnchanged": true,
+    "noTestSkipsOrOnlyInPlanB": true,
+    "onlySharedRuntimeChanges": "approved optional focused miniapp presentation; development skill/review Tailwind exclusions",
+    "globalCssBytes": 34900,
+    "baseGlobalCssBytes": 34923,
+    "globalCssDifference": "only unused --radius-panel declaration removed by generation; identity/appearance/motion unchanged"
+  },
+  "skills": {
+    "profile": "manual-local-context-and-source-review",
+    "integrityFiles": 62,
+    "allHashesMatch": true,
+    "impeccableVersion": "4.9.2",
+    "engineVersion": "0.1.25",
+    "vercelRulesRevision": "434b7f91364665f2f733b310ec54809bf8f37937",
+    "detectorResult": [],
+    "review": "one context, not independent; Vercel adapted rules and manual review; no hooks/subagents/new services; native discovery not accredited"
+  },
+  "pending": [
+    "Final-head CI, manual merge and identified staging checks",
+    "Owner global FE-01 acceptance",
+    "PB-01 physical imports/share/save/wallpaper/offline and real-browser compatibility remain separate"
+  ]
+}

@@ -16,7 +16,7 @@ La paleta de tarjeta/ilustración de las siguientes capturas es **histórica y s
 
 # Apariencia — propuesta para revisión
 
-**Estado:** Propuesta; no aprobada ni implementada. **Fecha:** 2026-11-09 (Europe/Madrid). **Responsable de aprobación:** propietario de MiMiniApp. Decisión propuesta ADR-MMA-019; [ExecPlan en Borrador](../exec-plans/active/CP-02-apariencia.md).
+**Estado:** Propuesta; no aprobada ni implementada. **Fecha:** 2026-11-09 (Europe/Madrid). **Responsable de aprobación:** propietario de MiMiniApp. Decisión propuesta ADR-MMA-019; [ExecPlan en Borrador](../exec-plans/completed/CP-02-apariencia.md).
 
 ## Auditoría y base comprobada
 
@@ -146,7 +146,7 @@ Contraste calculado con luminancia relativa sRGB WCAG: `(Lmayor + .05) / (Lmenor
 | dark  | Éxito / superficie         | `#b9f65a` | `#242033` | 12.33:1 |  4.5:1 |
 | dark  | Error / superficie         | `#ffad91` | `#242033` |  8.75:1 |  4.5:1 |
 
-[Mediciones originales](assets/appearance/contrasts.json). Ver [informe de implementación](../cp02-execution-report.md) para colores computados finales y correcciones aprobadas.
+[Mediciones originales](assets/appearance/contrasts.json). Ver [informe de implementación](../reports/cp02/execution.md) para colores computados finales y correcciones aprobadas.
 
 ## Preferencias y carga inicial propuestas (ADR-MMA-019)
 

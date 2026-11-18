@@ -9,9 +9,9 @@ Colección pública de miniapps bilingües (ES/EN): calculadoras, utilidades, ex
 | Área | Situación |
 | --- | --- |
 | Plataforma | Portada y catálogo ES/EN, identidad animada y apariencia clara/oscura/sistema. |
-| Miniapps | Ninguna publicada: el catálogo está vacío a propósito. La primera sigue sin elegir. |
+| Miniapps | Plan B integrada en staging con catálogo/rutas ES/EN, recorrido, sesión y exportaciones. FE-01 integrada por PR #28; refinamiento FE-02 de selección rápida, recordatorio y marca en regresión local. Deuda de dependencias no bloqueante aprobada; entrega/CI/staging FE-02 y pruebas físicas pendientes. PB-01 sigue En curso. |
 | Staging | Publicado automáticamente con cada merge a `staging`. |
-| Producción | Sin desplegar. Promoción y rollback están preparados y bloqueados. |
+| Producción | Publicada desde `soycerobytes/miminiapp` mediante Workers Builds tras merge manual; promoción por snapshot del SHA validado en staging. |
 | Licencia | Sin decidir (`UNLICENSED`). El código no es todavía software libre. |
 
 El detalle de cada iteración está en el [roadmap](docs/roadmap.md). Lo que existe hoy se describe en [ARCHITECTURE.md](ARCHITECTURE.md).
@@ -53,23 +53,25 @@ npm run dev
 3. Revisión y merge manual.
 4. GitHub Actions publica en staging y prueba el sitio desplegado.
 
-Los detalles, incluido cómo se aprueban los cambios, están en [CONTRIBUTING.md](CONTRIBUTING.md). Para añadir una herramienta, sigue la [guía de miniapps](docs/miniapps.md).
+Los detalles, incluido cómo se aprueban los cambios, están en [CONTRIBUTING.md](CONTRIBUTING.md). Para añadir una herramienta, sigue la [guía de miniapps](docs/guides/miniapps.md).
 
 ## Documentación
+
+El [mapa documental](docs/README.md) reúne las fuentes, guías, normas e informes por iteración.
 
 | Documento | Contenido |
 | --- | --- |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Entorno, ramas, PR, aprobaciones y evidencias. |
-| [docs/miniapps.md](docs/miniapps.md) | Cómo añadir una miniapp. |
+| [docs/guides/miniapps.md](docs/guides/miniapps.md) | Cómo añadir una miniapp. |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Mapa del código y de la infraestructura que existen. |
 | [docs/product-specs/index.md](docs/product-specs/index.md) | Definición y alcance del producto. |
 | [docs/design-docs/index.md](docs/design-docs/index.md) | Decisiones técnicas y su estado. |
 | [docs/roadmap.md](docs/roadmap.md) | Iteraciones y su situación. |
-| [docs/i03-operations.md](docs/i03-operations.md) | Operación de staging. |
+| [docs/guides/staging.md](docs/guides/staging.md) | Operación de staging. |
 | [docs/exec-plans/tech-debt-tracker.md](docs/exec-plans/tech-debt-tracker.md) | Pendientes y deuda. |
 
 ## Trabajar con agentes de IA
 
 [AGENTS.md](AGENTS.md) contiene las reglas de gobierno compartidas; [CLAUDE.md](CLAUDE.md) y [GEMINI.md](GEMINI.md) solo lo importan. El proyecto procede de la plantilla `aalexlpez/harness-engineering` y sus adaptaciones se registran en [harness-decisions.md](docs/harness-decisions.md).
 
-La historia de cómo se llegó hasta aquí vive en los [planes de ejecución](docs/exec-plans/) y en sus informes, no en este archivo.
+La historia de cómo se llegó hasta aquí vive en los [planes de ejecución](docs/exec-plans) y en sus informes, no en este archivo.

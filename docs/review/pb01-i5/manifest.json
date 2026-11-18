@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-17",
+  "purpose": "Revisión humana de identidad de la preparación local de PB-01/I5; no implica aprobación ni pruebas físicas.",
+  "base": "beed90cbb418e0c0f9525353c806ca9582ee7226",
+  "browser": "156.0.8078.4",
+  "viewport": "393x851",
+  "theme": "Según cada captura",
+  "reducedMotion": "reduce; la animación normal se contrasta numéricamente en E2E, no se representa en estas capturas.",
+  "data": "Ejemplo sintético de ficha v06; sin datos personales. ES con frases vaciadas para enseñar recuperación de color.",
+  "build": "Build real de la rama candidata con registro autorizado: published, fecha 2026-11-17. Aún sin merge/despliegue.",
+  "sourceHashes": {
+    "src/miniapps/plan-b/App.tsx": "5ed7c32ad4f3045529273a511f2473dccaa2c9f2fdad1024df9b40f9dbb97550",
+    "src/miniapps/plan-b/app.css": "7bad6464237c09a259668c43447bae65725c690298020c8f8eed233de80d4af3",
+    "src/miniapps/plan-b/metadata.ts": "cf350b5a5361c27aea9ebcdc243b946b83da0d844977511764d314da344b2b5b",
+    "src/miniapps/registry.ts": "d68e2c2005ba0ea78ef15275c57cc34c3b628d93fbc988c9412616d1dffde080"
+  },
+  "captures": [
+    {
+      "file": "es-light-gray.png",
+      "description": "ES/claro, plan sin frases válidas: gris completo y foco visible.",
+      "bytes": 78284,
+      "sha256": "9eb33ce2f7ee6638f863208d6f58f3a57b64f15dd932c73368dcaa5ab79f38ed"
+    },
+    {
+      "file": "es-light-half.png",
+      "description": "ES/claro, una frase válida: gris parcial y entradas conservadas.",
+      "bytes": 87247,
+      "sha256": "58f432fbd7a6142f8155d37c5e07df3bf14ebc0d3ef019e431daa80b1b75ba36"
+    },
+    {
+      "file": "en-dark-result.png",
+      "description": "EN/oscuro, resultado y exportaciones; movimiento reducido, sello sin giro/escala.",
+      "bytes": 126673,
+      "sha256": "1249e173a4e2ffcb822e26c9193c56591ed015ba82259da5af866160a6bcb13a"
+    }
+  ],
+  "registrationAuthorization": "Propietario: Autorizar el registro en la rama candidata (2026-11-17, tras revisar PR #24)."
+}

@@ -17,7 +17,7 @@ Las adaptaciones multiherramienta y de trabajo sin skills se adoptan bajo [H-002
 
 Las capacidades necesarias son investigar, implementar trabajo autorizado, revisar, verificar y, cuando exista frontend, diseñar e inspeccionar la interfaz. Las skills `fix-bug`, `implement-feature`, `review-change` y `frontend-design` son posibles ayudas, no requisitos de arranque ni dependencias del repositorio. Si no están disponibles, usa los procedimientos normales del agente, las fuentes canónicas y los comandos del proyecto cuando existan; no inventes skills ni afirmes haberlas usado. Si falta una capacidad material para verificar el resultado, registra el bloqueo antes de depender de ella.
 
-En MiMiniApp las skills se dejan **para el final**, tras estabilizar el flujo: consulta [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final). No se instalan ni activan como parte de esta preparación documental.
+El aplazamiento inicial de skills se retoma el 2026-11-17 en [FE-01](exec-plans/active/FE-01-estandar-frontend-y-piloto-plan-b.md). I1 está completada: ADR-MMA-022 y H-008 aprobadas; la aprobación del propietario basta como aceptación humana y las pruebas con otras personas son opcionales. [PEND-001](exec-plans/tech-debt-tracker.md#pend-001--skills-opcionales-al-final) queda resuelto para el uso explícito aceptado por el propietario; I2 completada e I3 autorizada. La carga nativa sigue sin acreditar y ya no bloquea ese alcance. Consultar [uso y límites observados](guides/frontend-skills.md); no atribuir descubrimiento automático a una lectura manual. Se conserva la ruta sin skills.
 
 ### Comprobar instrucciones por herramienta
 
@@ -29,7 +29,7 @@ En MiMiniApp las skills se dejan **para el final**, tras estabilizar el flujo: c
 
 No configures simultáneamente otra entrada que duplique la misma política. Si una versión no admite un comando o import, consulta su documentación oficial y registra la incompatibilidad; no supongas equivalencia por tener los archivos.
 
-En cada herramienta comprueba estos escenarios: un plan `Aprobado` no permite instalar el stack; una skill ausente no se crea por iniciativa propia; una API con clave privada exige decisión y autorización; un PR con checks verdes no se fusiona por iniciativa del agente; una aprobación histórica debe reflejarse en la fuente canónica antes de actuar. Registra herramienta, versión, respuesta y limitaciones en la [auditoría](onboarding-audit.md). No marques las pruebas de otros agentes como realizadas si no se ejecutaron.
+En cada herramienta comprueba estos escenarios: un plan `Aprobado` no permite instalar el stack; una skill ausente no se crea por iniciativa propia; una API con clave privada exige decisión y autorización; un PR con checks verdes no se fusiona por iniciativa del agente; una aprobación histórica debe reflejarse en la fuente canónica antes de actuar. Registra herramienta, versión, respuesta y limitaciones en la [auditoría](reports/i00/onboarding-audit.md). No marques las pruebas de otros agentes como realizadas si no se ejecutaron.
 
 ## 2. Definir el proyecto
 
@@ -94,4 +94,4 @@ Cuando el agente no pueda ejecutar, observar o verificar una tarea, identifica l
 
 Promueve una regla documental a una comprobación mecánica solo cuando sea un invariante aprobado y exista evidencia de que la automatización aporta valor. Las tareas recurrentes, revisiones automáticas, controles de arquitectura, publicación y despliegue permanecen desactivados hasta recibir aprobación expresa.
 
-Los Markdown orientan el comportamiento; las restricciones de merge, despliegue y secretos deben respaldarse con permisos mínimos y protecciones reales cuando se autorice la infraestructura. No supongas que esas barreras existen por estar descritas. El estado observado de esta instancia está en la [auditoría](onboarding-audit.md).
+Los Markdown orientan el comportamiento; las restricciones de merge, despliegue y secretos deben respaldarse con permisos mínimos y protecciones reales cuando se autorice la infraestructura. No supongas que esas barreras existen por estar descritas. El estado observado de esta instancia está en la [auditoría](reports/i00/onboarding-audit.md).

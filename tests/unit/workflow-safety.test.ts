@@ -899,7 +899,7 @@ describe('Phase A deployment safety', () => {
       }
       const patchPath = resolve(
         root,
-        'docs/staging-publication-activation.patch',
+        'docs/reports/i03/staging-publication-activation.patch',
       );
       const patch = await readFile(patchPath, 'utf8');
       expect(

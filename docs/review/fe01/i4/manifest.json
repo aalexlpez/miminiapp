@@ -1,0 +1,353 @@
+{
+  "schemaVersion": 1,
+  "iteration": "FE-01/I4",
+  "date": "2026-11-17",
+  "status": "local technical review; owner finish approval in I6",
+  "candidate": {
+    "parentCommit": "99b94d67f1374368bbe028c983a98d9e92c88969",
+    "branch": "feature/fe01-frontend-quality",
+    "identification": "source and dist hashes below identify the uncommitted runtime captured; committed with this manifest",
+    "srcSha256": "54bcb2228eedc139eff00b78c20d94110a2226a9435fce9f680e5dd917a9f0ce",
+    "distFiles": {
+      "404.html": {
+        "bytes": 20889,
+        "sha256": "55f378c352e55a4a3bc22bd1e6cf53097a1fdd8116caa9556f494001891738bd"
+      },
+      "_astro/App.CRcZ6Wje.js": {
+        "bytes": 31588,
+        "sha256": "2f2b3880cc0744177b59c128e95dbeace77ba58aadc678fd99314e8314a1f596"
+      },
+      "_astro/client.Cd-EeyjT.js": {
+        "bytes": 212836,
+        "sha256": "14ebb7cfeea0e5881068a3dd70b180dd21faf1e3c6b1a55bd2d9b7d7540b8edb"
+      },
+      "_astro/global.MWueQfGS.css": {
+        "bytes": 34900,
+        "sha256": "9cd28cb45430a9a52a68814dd75c7632e268791541454dc77ce9d5655a76f4f7"
+      },
+      "_astro/react.CvnImTBr.js": {
+        "bytes": 7909,
+        "sha256": "7866ec6c62357fd6b4355d1306d143ca3b008b6ac0e77a37fd51196f21cf5afe"
+      },
+      "_redirects": {
+        "bytes": 11,
+        "sha256": "a9d6dec64b325263010f05fd6dc63095d7d5c364caec31914bfc0e986db6e557"
+      },
+      "brand/M-isotype-dark.svg": {
+        "bytes": 427,
+        "sha256": "bcd66afee1657856c6d019a07cc7b6c7246db61de59186b6c8a5255434de2e3d"
+      },
+      "brand/M-isotype.svg": {
+        "bytes": 427,
+        "sha256": "ecd694054d3a6c197349ed345f5fc5a1866229d6a98cae51c6ffac19d2c56b51"
+      },
+      "brand/wordmark-compact-dark.svg": {
+        "bytes": 4710,
+        "sha256": "5fed474e74da2838fd63cce2fe1296341c3ce56837cf32299e49d6ff30238af0"
+      },
+      "brand/wordmark-compact.svg": {
+        "bytes": 4710,
+        "sha256": "964d92e68c1966351883c1aba73d8b2c99f294ab3eec922e633f6be9797f3e4a"
+      },
+      "brand/wordmark-editorial-dark.svg": {
+        "bytes": 5011,
+        "sha256": "4ea29ea25179d5a2fcbc8502dc7fb170978abfa4f6bd24932206c25e539b0d27"
+      },
+      "brand/wordmark-editorial.svg": {
+        "bytes": 5011,
+        "sha256": "bf48b80949bd90151ded4eda4ecdfb378934a8b78b30cf9fa5ef97509e7b0429"
+      },
+      "en/apps/plan-b/index.html": {
+        "bytes": 49028,
+        "sha256": "55b5387b4ea86f0faacd69900eb1c8f22e97273130916245a86537732d4cb2c7"
+      },
+      "en/index.html": {
+        "bytes": 23105,
+        "sha256": "78ce7aa6d63c027db734acfabc390a70f4a2ebee037e26c50b6f464a359ce154"
+      },
+      "es/apps/plan-b/index.html": {
+        "bytes": 49406,
+        "sha256": "ac85be873f91ba532c219b9050626658ec550d3734d3f940c49f0f387ebc4252"
+      },
+      "es/index.html": {
+        "bytes": 23181,
+        "sha256": "ce4802f90feeefc07290c866b4c4e078f2088fe17bb13bf7be7f1f1a0d4a182b"
+      },
+      "favicon.svg": {
+        "bytes": 484,
+        "sha256": "8a32226444b7f92bb57ab9b4be11395a06cff5f4508ee3842a1fc66ca1a178ed"
+      },
+      "fonts/DMSans-OFL.txt": {
+        "bytes": 4482,
+        "sha256": "9af36190332437f5ecd09974de43c1f7c77a310a996cdd8ceb25628b458840e1"
+      },
+      "fonts/DMSans.woff2": {
+        "bytes": 88820,
+        "sha256": "40c3837c53c103a38fbce7faaa590b76edd61a8ede14672eb1e2f7eab0e0c6a4"
+      },
+      "fonts/README.md": {
+        "bytes": 3105,
+        "sha256": "f3bff941d4ce91d70cbfbf7381250a022175365917414d189100893d92ea356c"
+      },
+      "fonts/SpaceGrotesk-OFL.txt": {
+        "bytes": 4495,
+        "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+      },
+      "fonts/SpaceGrotesk.woff2": {
+        "bytes": 49256,
+        "sha256": "8e085aa438094f11487a836652edd5c054fa6a96f63fc7c282105ee3a4b08c07"
+      },
+      "index.html": {
+        "bytes": 868,
+        "sha256": "7b82713d53b43e757a00286284e2bc2b7c83821da415806b4cac28c199b5c266"
+      }
+    }
+  },
+  "conditions": {
+    "browser": "Chromium 156.0.8078.4",
+    "playwright": "1.64.1",
+    "node": "24.22.2",
+    "npm": "11.19.1",
+    "timezone": "Europe/Madrid",
+    "fixedScreenshotDate": "2026-11-17T12:00:00+01:00",
+    "reducedMotion": "reduce",
+    "data": "synthetic examples; no account",
+    "viewports": [
+      [
+        1440,
+        900
+      ],
+      [
+        393,
+        851
+      ]
+    ],
+    "observedMatrix": [
+      "es/light",
+      "en/dark"
+    ],
+    "physicalDevice": false,
+    "externalRequests": 0,
+    "pageErrors": 0
+  },
+  "captures": [
+    {
+      "file": "en-dark-393-action.png",
+      "bytes": 57772,
+      "sha256": "1d67e17dd8971f81dbdafc0211073fb323a65f1f934015f10b7caf05adf43b07"
+    },
+    {
+      "file": "en-dark-393-situation.png",
+      "bytes": 57449,
+      "sha256": "9efe3e372ad6e8de0b6c5b44c2212f716f9c695fc540cfa3229c812bdc877685"
+    },
+    {
+      "file": "es-light-1440-obstacle.png",
+      "bytes": 100299,
+      "sha256": "bf83378185affa6ec69bbfff27e9b666010a911975e37ffdb202a1d1409e14de"
+    },
+    {
+      "file": "es-light-1440-purpose.png",
+      "bytes": 85200,
+      "sha256": "f7474443c364e78e1af64ae87acb41850bb0a980c27f63086a7f43d2850a3b70"
+    }
+  ],
+  "questionLayout": [
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 1440,
+      "height": 900,
+      "view": "purpose",
+      "pageHeight": 900,
+      "overflow": false,
+      "primaryBottom": 643.359375,
+      "focusedId": ""
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 1440,
+      "height": 900,
+      "view": "obstacle",
+      "pageHeight": 1009,
+      "overflow": false,
+      "primaryBottom": 709.96875,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 1440,
+      "height": 900,
+      "view": "situation",
+      "pageHeight": 994,
+      "overflow": false,
+      "primaryBottom": 770.953125,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 1440,
+      "height": 900,
+      "view": "action",
+      "pageHeight": 994,
+      "overflow": false,
+      "primaryBottom": 770.953125,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 393,
+      "height": 851,
+      "view": "purpose",
+      "pageHeight": 1061,
+      "overflow": false,
+      "primaryBottom": 634.1875,
+      "focusedId": ""
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 393,
+      "height": 851,
+      "view": "obstacle",
+      "pageHeight": 1213,
+      "overflow": false,
+      "primaryBottom": 713.03125,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 393,
+      "height": 851,
+      "view": "situation",
+      "pageHeight": 1175,
+      "overflow": false,
+      "primaryBottom": 746.015625,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "es",
+      "theme": "light",
+      "width": 393,
+      "height": 851,
+      "view": "action",
+      "pageHeight": 1175,
+      "overflow": false,
+      "primaryBottom": 746.015625,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 1440,
+      "height": 900,
+      "view": "purpose",
+      "pageHeight": 911,
+      "overflow": false,
+      "primaryBottom": 688.15625,
+      "focusedId": ""
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 1440,
+      "height": 900,
+      "view": "obstacle",
+      "pageHeight": 965,
+      "overflow": false,
+      "primaryBottom": 665.171875,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 1440,
+      "height": 900,
+      "view": "situation",
+      "pageHeight": 968,
+      "overflow": false,
+      "primaryBottom": 745.359375,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 1440,
+      "height": 900,
+      "view": "action",
+      "pageHeight": 994,
+      "overflow": false,
+      "primaryBottom": 770.953125,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 393,
+      "height": 851,
+      "view": "purpose",
+      "pageHeight": 1070,
+      "overflow": false,
+      "primaryBottom": 670.015625,
+      "focusedId": ""
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 393,
+      "height": 851,
+      "view": "obstacle",
+      "pageHeight": 1167,
+      "overflow": false,
+      "primaryBottom": 721.8125,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 393,
+      "height": 851,
+      "view": "situation",
+      "pageHeight": 1121,
+      "overflow": false,
+      "primaryBottom": 746.015625,
+      "focusedId": "pb-step-title"
+    },
+    {
+      "locale": "en",
+      "theme": "dark",
+      "width": 393,
+      "height": 851,
+      "view": "action",
+      "pageHeight": 1121,
+      "overflow": false,
+      "primaryBottom": 746.015625,
+      "focusedId": "pb-step-title"
+    }
+  ],
+  "review": {
+    "method": "single context; not independent",
+    "skills": [
+      "Impeccable 4.9.2 / engine 0.1.25",
+      "Vercel guidelines 434b7f91364665f2f733b310ec54809bf8f37937"
+    ],
+    "detectorFindings": 0,
+    "exceptions": [
+      "approved brand and tokens",
+      "literal user text and newline-paste rejection",
+      "hero motion outside pilot scope"
+    ],
+    "excluded": [
+      "physical phone or native keyboard compatibility",
+      "production performance",
+      "human completion time or retention",
+      "new result and PNG finish (I5)",
+      "global final regression (I7)"
+    ]
+  }
+}

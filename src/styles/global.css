@@ -2,6 +2,11 @@
 @import './motion.css';
 @import './appearance.css';
 
+/* Development skill examples must never contribute utilities to the product. */
+@source not '../../.agents';
+/* Local review evidence must never contribute utilities to the product. */
+@source not '../../docs/review/fe01';
+
 @font-face {
   font-family: 'Space Grotesk';
   src: url('/fonts/SpaceGrotesk.woff2') format('woff2');

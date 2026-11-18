@@ -1,4 +1,9 @@
 import { expect, test } from './fixtures';
+import { miniappRegistry } from '../../src/miniapps/registry';
+import { getPublishedMetadata } from '../../src/lib/miniapp-registry';
+import { miniappPath } from '../../src/lib/locales';
+
+const published = getPublishedMetadata(miniappRegistry);
 
 const homes = [
   {
@@ -6,8 +11,6 @@ const homes = [
     otherLocale: 'en',
     heading: 'Ideas que se vuelven herramientas.',
     catalogue: 'El catálogo',
-    empty: 'Un espacio para lo que viene.',
-    description: /Aún no hay miniapps publicadas/,
     cta: 'Ver el catálogo',
   },
   {
@@ -15,14 +18,12 @@ const homes = [
     otherLocale: 'es',
     heading: 'Ideas become little tools.',
     catalogue: 'The catalogue',
-    empty: 'A place for what comes next.',
-    description: /No miniapps are published yet/,
     cta: 'Explore the catalogue',
   },
 ] as const;
 
 for (const home of homes) {
-  test(`opens the truthful ${home.locale} home and navigates the empty catalogue`, async ({
+  test(`opens the truthful ${home.locale} home and navigates the published catalogue`, async ({
     page,
   }) => {
     const response = await page.goto(`/${home.locale}/`);
@@ -34,16 +35,27 @@ for (const home of homes) {
     await expect(page.getByRole('heading', { level: 2 })).toHaveText(
       home.catalogue,
     );
-    await expect(page.getByRole('heading', { level: 3 })).toHaveText(
-      home.empty,
-    );
-    await expect(page.locator('#catalogo')).toContainText(home.description);
+    await expect(page.locator('.empty-catalogue')).toHaveCount(0);
+    for (const app of published) {
+      const card = page.locator('article').filter({
+        has: page.getByRole('heading', {
+          name: app.copy[home.locale].title,
+          exact: true,
+        }),
+      });
+      await expect(card).toContainText(app.copy[home.locale].description);
+      await expect(
+        card.locator(`a[href="${miniappPath(home.locale, app.slug)}"]`),
+      ).toBeVisible();
+    }
     await expect(page).toHaveTitle(/MiMiniApp/);
     expect(
       await page.locator('meta[name="description"]').getAttribute('content'),
     ).toBeTruthy();
-    await expect(page.locator('a[href*="/apps/"]')).toHaveCount(0);
-    await expect(page.locator('article')).toHaveCount(0);
+    await expect(page.locator('a[href*="/apps/"]')).toHaveCount(
+      published.length,
+    );
+    await expect(page.locator('article')).toHaveCount(published.length);
     await expect(page.locator('astro-island')).toHaveCount(0);
 
     await page.getByRole('link', { name: home.cta, exact: true }).click();

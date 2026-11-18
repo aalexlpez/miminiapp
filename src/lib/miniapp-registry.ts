@@ -28,6 +28,8 @@ export interface MiniappDescriptor {
   readonly tags?: readonly string[];
   /** Calendar date of first publication, YYYY-MM-DD; required once published. */
   readonly publishedAt?: string;
+  /** Opt-in compact page heading; omitted retains the standard presentation. */
+  readonly presentation?: 'standard' | 'focused';
   readonly copy: Readonly<Record<Locale, MiniappCopy>>;
 }
 
@@ -113,6 +115,13 @@ export function validateRegistry(
       );
     }
     const tags: unknown = descriptor.tags;
+    if (
+      descriptor.presentation !== undefined &&
+      descriptor.presentation !== 'standard' &&
+      descriptor.presentation !== 'focused'
+    ) {
+      throw new Error(`Invalid presentation for miniapp: ${descriptor.id}`);
+    }
     if (
       tags !== undefined &&
       (!Array.isArray(tags) ||

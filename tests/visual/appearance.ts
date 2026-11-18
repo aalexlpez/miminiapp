@@ -73,7 +73,10 @@ try {
             text: color('html', 'color'),
             canvas: color('html', 'background-color'),
             muted: color('.hero-lead', 'color'),
-            panel: color('.empty-catalogue', 'background-color'),
+            panel: color(
+              '.empty-catalogue, .catalogue-card',
+              'background-color',
+            ),
             buttonText: color('.primary-action', 'color'),
             button: color('.primary-action', 'background-color'),
             control: color('.appearance-options', 'background-color'),

@@ -16,6 +16,14 @@ export default defineConfig([
     'coverage/**',
   ]),
   js.configs.recommended,
+  {
+    files: ['docs/review/fe01/i3-prototype/*.js'],
+    languageOptions: { globals: globals.browser },
+  },
+  {
+    files: ['docs/review/fe01/i3-prototype/*.mjs'],
+    languageOptions: { globals: globals.node },
+  },
   ...tseslint.configs.recommended,
   ...astro.configs['flat/recommended'],
   {
