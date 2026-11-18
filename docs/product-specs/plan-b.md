@@ -19,6 +19,10 @@ El propietario acepta la propuesta de simplificación y añade selección simple
 * Logo vectorial Plan B y firma MiMiniApp en UI/PNG, sin URL o datos adicionales; sustituye el PNG sin logotipo de v07. Lienzo fijo, composición/legibilidad y texto íntegro conservados. No cambiar identidad global.
 * Una sola imagen real de revisión, entrega conjunta tras iteraciones/regresión. Aceptación visual en staging; no se exigen informes humanos por iteración o más demos.
 
+## Enmienda de identidad — aprobada el 2026-11-18
+
+Después de rechazar la propuesta C simplificada, el propietario suministra una imagen morada con trazo blanco y punto lima y solicita usarla como icono principal. ADR-MMA-025 sustituye la elección del símbolo propio anterior por ese recurso original, sin redibujarlo. Se conserva la misma identidad en catálogo, cabecera y marcas de Plan B; lienzo, firma MiMiniApp y texto seguro mantienen v08. El propietario entrega el archivo mediante GitHub y autoriza corregir su nombre: recurso local `public/brand/plan-b/icon.png`, 202×190 con transparencia, sin alterar sus bytes. El catálogo pasa a icono/nombre con utilidad bajo interacción conforme a CAT-09.
+
 ## 1. Propósito y alcance
 
 **Rediseño aprobado:** [ADR-MMA-023](../design-docs/plan-b-frontend-proposal.md)

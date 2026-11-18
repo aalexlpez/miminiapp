@@ -1,7 +1,7 @@
 # MiMiniApp — definición del producto
 
 **Nombre:** MiMiniApp (provisional).
-**Fase:** plataforma e I-03 aceptados. Plan B/FE-01 integrada por PR #28; ficha v08 y ADR-MMA-024 aprobadas para selección rápida, acciones visibles e identidad. FE-02 en regresión local, pendiente de entrega/CI/staging y aceptación humana; PB-01 conserva su matriz física y aceptación global pendientes.
+**Fase:** plataforma e I-03 aceptados. Plan B/FE-01 integrada por PR #28; FE-02/I1–I4 integrada por PR #29 en staging 0d78dd3. Ficha v08 y ADR-MMA-024 aprobadas para selección rápida, acciones visibles e identidad. Ampliación de catálogo/icono CAT-09/ADR-MMA-025 autorizada, implementada localmente en FE-02/I5 con el archivo original recibido; I6 con regresión local satisfactoria, pendiente de CI/entrega y staging. La aceptación humana y la matriz física/aceptación global de PB-01 siguen pendientes.
 **Estado de la definición:** Aprobada.
 **Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
 **Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
@@ -64,6 +64,7 @@ Quedan fuera perfiles, login, pagos, administración, votaciones, formularios in
 | CAT-06 | Móvil y escritorio utilizables, sin recortes ni scroll horizontal accidental. |
 | CAT-07 | Objetivo de catálogo estático generado en build, sujeto a la decisión técnica correspondiente. |
 | CAT-08 | Enlaces reales a GitHub/redes; sin simular comunidad o funciones inexistentes. |
+| CAT-09 | Catálogo compacto: icono propio y nombre pequeño enlazados a cada herramienta, sin tarjetas grandes ni descripción permanente. Utilidad breve al hover/foco y mediante información táctil. Aprobado por el propietario el 2026-11-18; Plan B usará la imagen suministrada sin reinterpretarla. |
 
 Cada miniapp se definirá con la [ficha funcional](miniapp-template.md) antes de implementar: entradas, resultados esperados independientes, errores, límites, privacidad, idiomas, demo, pruebas y exclusiones. El diseño debe permitir grabar una interacción auténtica y legible en vertical sin convertir la web en una interfaz exclusiva para vídeo. El equipo de grabación no pertenece al runtime.
 

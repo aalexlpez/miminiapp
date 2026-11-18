@@ -81,6 +81,38 @@ describe('explicit miniapp registry', () => {
     expect(getPublishedMetadata([a, d])[0]).not.toHaveProperty('loadEntry');
   });
 
+  it('projects a local logo as metadata without loading the miniapp', () => {
+    const app = published('logo');
+    const withIcon = {
+      ...app,
+      descriptor: { ...app.descriptor, icon: '/brand/plan-b/icon.png' },
+    };
+    expect(getPublishedMetadata([withIcon])[0].icon).toBe(
+      '/brand/plan-b/icon.png',
+    );
+    expect(app.loadEntry).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    'https://example.com/icon.png',
+    '//example.com/icon.png',
+    '/brand/../icon.svg',
+    '/brand/icon.svg?tracking=1',
+    '/brand/icon.svg#fragment',
+    'data:image/png;base64,AAAA',
+    '/brand/icon.html',
+    '/brand//icon.png',
+    42,
+    null,
+  ])('rejects an unsafe or non-image icon: %s', (icon) => {
+    const app = published('icon');
+    expect(() =>
+      validateRegistry(
+        malformed({ ...app, descriptor: { ...app.descriptor, icon } }),
+      ),
+    ).toThrow('Invalid local icon');
+  });
+
   it('adds B by one registration, retaining A and excluding D in both languages', () => {
     const a = published('a');
     const b = published('b');

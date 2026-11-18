@@ -1,4 +1,5 @@
 import type { MiniappDescriptor } from '../../lib/miniapp-registry';
+import { planBIcon } from './domain/brand';
 
 export const metadata = {
   id: 'plan-b',
@@ -7,6 +8,7 @@ export const metadata = {
   publishedAt: '2026-11-17',
   category: 'everyday',
   presentation: 'focused',
+  icon: planBIcon,
   copy: {
     es: {
       title: 'Plan B',

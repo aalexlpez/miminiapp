@@ -23,6 +23,63 @@ const homes = [
 ] as const;
 
 for (const home of homes) {
+  test(`shows compact apps and dismissible descriptions in ${home.locale}`, async ({
+    page,
+    isMobile,
+  }) => {
+    await page.goto(`/${home.locale}/`);
+    const card = page.locator('.catalogue-card').first();
+    const link = card.locator('a');
+    const hint = card.getByRole('tooltip', { includeHidden: true });
+    const information = card.getByRole('button');
+    const logo = card.locator('.app-icon img');
+    await expect(logo).toHaveAttribute('src', published[0].icon!);
+    await expect(logo).toBeVisible();
+    expect(
+      await logo.evaluate(
+        (img: HTMLImageElement) =>
+          img.complete && img.naturalWidth > 0 && img.naturalHeight > 0,
+      ),
+    ).toBe(true);
+    await expect(card.locator('.app-icon-placeholder')).toHaveCount(0);
+    await card.scrollIntoViewIfNeeded();
+    await expect(hint).toBeHidden();
+    const bounds = await card.boundingBox();
+    expect(bounds?.width).toBeLessThanOrEqual(128);
+    expect(bounds?.height).toBeLessThanOrEqual(168);
+    await expect(link).toHaveAccessibleName(
+      published[0].copy[home.locale].title,
+    );
+
+    if (isMobile) {
+      await information.tap();
+    } else {
+      await link.hover();
+    }
+    await expect(hint).toBeVisible();
+    await expect(hint).toHaveText(published[0].copy[home.locale].description);
+    if (!isMobile) {
+      await hint.hover();
+      // Remain readable while the pointer travels from the tile to its hint.
+      await expect(hint).toBeVisible();
+    }
+    await page.keyboard.press('Escape');
+    await expect(hint).toBeHidden();
+
+    // A keyboard focus event opens the same explanation without navigating.
+    await page.getByRole('heading', { level: 2 }).click();
+    await page.keyboard.press('Tab');
+    await link.focus();
+    await expect(link).toBeFocused();
+    await expect(hint).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(hint).toBeHidden();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL(
+      new RegExp(`${miniappPath(home.locale, published[0].slug)}$`),
+    );
+  });
+
   test(`opens the truthful ${home.locale} home and navigates the published catalogue`, async ({
     page,
   }) => {

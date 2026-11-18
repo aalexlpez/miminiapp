@@ -499,6 +499,33 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(
       page.getByRole('img', { name: copy.exports.imageReady }),
     ).toBeVisible();
+    // The owner-supplied purple/lime mark must reach the real exported pixels,
+    // alongside the label, in both themes (not just appear in the HTML UI).
+    const identity = await page
+      .getByRole('img', { name: copy.exports.imageReady })
+      .evaluate(async (image: HTMLImageElement) => {
+        const bitmap = await createImageBitmap(
+          await (await fetch(image.src)).blob(),
+        );
+        const canvas = document.createElement('canvas');
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const context = canvas.getContext('2d')!;
+        context.drawImage(bitmap, 0, 0);
+        const pixels = context.getImageData(100, 800, 70, 1040).data;
+        let purple = 0;
+        let lime = 0;
+        for (let i = 0; i < pixels.length; i += 4) {
+          const [r, g, b] = pixels.slice(i, i + 3);
+          if (b > 150 && b > r * 1.5 && b > g * 2) purple++;
+          if (r > 130 && g > 200 && b < 130) lime++;
+        }
+        bitmap.close();
+        canvas.width = canvas.height = 0;
+        return { purple, lime };
+      });
+    expect(identity.purple).toBeGreaterThan(200);
+    expect(identity.lime).toBeGreaterThan(10);
     const drawn: {
       text: string;
       font: string;

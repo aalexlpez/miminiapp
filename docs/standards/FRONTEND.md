@@ -23,6 +23,8 @@
 
 Estos criterios se aplican al trabajo nuevo y las mejoras autorizadas. No reabren aceptaciones históricas ni autorizan un rediseño completo de portada/catálogo/hero. Plan B es el piloto; mover sus controles o cambiar sus pasos requiere actualizar/aprobar la ficha en FE-01/I3. Se conserva el texto y comportamiento vigente mientras esa decisión esté pendiente.
 
+El propietario amplía expresamente el alcance del catálogo el 2026-11-18 (CAT-09 / ADR-MMA-025): icono propio y nombre pequeño, sin tarjetas grandes o descripción permanente; utilidad al hover/foco y mediante información táctil. Se conservan hero, fuentes, tokens y rutas; las skills se aplican a este alcance autorizado.
+
 ### Matriz de adopción y conflictos de I1
 
 Integración de desarrollo y límites observados en I2: [guía de uso local](../guides/frontend-skills.md).

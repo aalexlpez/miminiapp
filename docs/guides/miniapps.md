@@ -54,6 +54,7 @@ export const metadata = {
 | `tags` | Opcional. Palabras clave estables con forma de slug, sin repetir. No son texto traducido. |
 | `publishedAt` | Fecha `AAAA-MM-DD` de la primera publicación. Obligatoria al publicar. |
 | `presentation` | Opcional: `standard` (también si se omite) o `focused`. ADR-MMA-023 permite compactar el encabezado del marco solo mediante esta opción explícita, sin retirar cabecera, pie o controles de plataforma. |
+| `icon` | Opcional: recurso propio local bajo `/brand/`, extensión `svg`, `png` o `webp`, sin parámetros, fragmentos o traversal (ADR-MMA-025). Guardarlo en `public/brand/`; no importar UI desde metadatos ni usar imágenes remotas. Catálogo con icono/nombre y descripción bajo interacción. Comprobar que el archivo existe antes de publicar; monograma solo como reserva temporal sin recurso. |
 | `copy` | Título y descripción no vacíos en `es` y `en`. |
 
 Este archivo no puede importar componentes ni estilos: el catálogo lo lee sin cargar la interfaz.

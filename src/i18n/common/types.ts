@@ -22,6 +22,7 @@ export interface CommonCopy {
     title: string;
     quietLines: readonly string[];
     open: string;
+    information: string;
     emptyTitleLines: readonly string[];
     emptyDescription: string;
     emptyNoteLines: readonly string[];
