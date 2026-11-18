@@ -1,0 +1,57 @@
+<!-- Native popovers keep Escape/light dismissal and stay above clipping containers.
+     The catalogue remains static HTML; this inline module imports no miniapp UI. -->
+<script is:inline type="module">
+  for (const card of document.querySelectorAll('.catalogue-card')) {
+    const link = card.querySelector('.card-link');
+    const hint = card.querySelector('.app-tooltip');
+    if (!(link instanceof HTMLElement) || !(hint instanceof HTMLElement))
+      continue;
+    let closeTimer;
+    const cancelClose = () => clearTimeout(closeTimer);
+    const close = () => {
+      cancelClose();
+      if (hint.matches(':popover-open')) hint.hidePopover();
+    };
+    const place = () => {
+      const rect = link.getBoundingClientRect();
+      const margin = 12;
+      const left = Math.max(
+        margin,
+        Math.min(rect.left, innerWidth - hint.offsetWidth - margin),
+      );
+      const below = rect.bottom + 8;
+      const top =
+        below + hint.offsetHeight <= innerHeight - margin
+          ? below
+          : Math.max(margin, rect.top - hint.offsetHeight - 8);
+      hint.style.left = `${left}px`;
+      hint.style.top = `${top}px`;
+    };
+    const open = () => {
+      cancelClose();
+      if (!hint.matches(':popover-open')) hint.showPopover();
+      place();
+    };
+    const deferClose = () => {
+      cancelClose();
+      closeTimer = setTimeout(() => {
+        if (!card.matches(':focus-within') && !hint.matches(':hover')) close();
+      }, 140);
+    };
+    card.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') open();
+    });
+    card.addEventListener('pointerleave', deferClose);
+    link.addEventListener('focus', () => {
+      if (link.matches(':focus-visible')) open();
+    });
+    card.addEventListener('focusout', deferClose);
+    hint.addEventListener('pointerenter', cancelClose);
+    hint.addEventListener('pointerleave', deferClose);
+    hint.addEventListener('toggle', () => {
+      if (hint.matches(':popover-open')) place();
+    });
+    window.addEventListener('resize', close);
+    window.addEventListener('scroll', close, { passive: true });
+  }
+</script>

@@ -2,6 +2,7 @@
 import SiteLayout from '../layouts/SiteLayout.astro';
 import LaboratoryArt from './LaboratoryArt.astro';
 import CatalogueCard from './CatalogueCard.astro';
+import CatalogueHints from './CatalogueHints.astro';
 import EmptyCatalogue from './EmptyCatalogue.astro';
 import { getCommon } from '../i18n/common';
 import type { Locale } from '../lib/locales';
@@ -67,6 +68,7 @@ const copy = getCommon(locale);
         {apps.map((app) => (
           <CatalogueCard locale={locale} app={app} />
         ))}
+        <CatalogueHints />
       </div>
     )}
   </section>

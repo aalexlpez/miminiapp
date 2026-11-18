@@ -8,7 +8,7 @@
 * **Rama estable:** feature/fe01-frontend-quality, reutilizada por instrucción expresa del propietario; excepción acotada a H-007, sin trabajo concurrente de FE-01.
 * **Base:** staging 7cf32ca9cd2b9085600fac202f4455027c11becc, merge de PR #28. Rama sincronizada mediante fast-forward. FE-01 conserva historia y aceptación propia pendiente; FE-02 mejora el contenido integrado, no depende de aceptar FE-01 ni lo declara aceptado.
 * **Autorización:** «De resto me suena bien lo que planteaste» y «Vamos a generar un nuevo plan en la misma rama, hacemos las iteraciones y luego subimos la PR», incorporando selección simple/personalizada en Si/entonces y logo/identidad en el PNG. Aprueba este alcance y autoriza ejecución local secuencial y entrega conjunta final. No informes al usuario por iteración ni nuevas demos; una sola imagen de ejemplo real. Merge manual y revisión visual en staging.
-* **Iteración actual:** I4 — regresión local completada; entrega/CI y staging pendientes.
+* **Iteración actual:** I6 — regresión final de catálogo e identidad, tras completar I5.
 
 ## Objetivo y contrato aprobado
 
@@ -18,7 +18,7 @@ Pregunta, campo/opciones y acción principal tienen prioridad. Una sola indicaci
 
 Privacidad general en pie de la herramienta, fuera del workspace, sin overlay fijo. Avisos operativos y consentimiento se conservan donde corresponden. Resultado con dos acciones visibles: descargar imagen y añadir recordatorio. Este último abre editor inline con hora nativa, presets todos/laborables y selección de días. Exportar confirma atómicamente el borrador válido y descarga .ics o pide consentimiento Google, sin un paso obligatorio intermedio de preparar. Guardado de imagen conserva alternativas compatibles y cancelación; editar y compartir herramienta son secundarios.
 
-Logo vectorial propio de Plan B, con un trazo B y continuidad; usar en UI y PNG junto a la firma MiMiniApp. Identidad/tokens/fuentes existentes, sin sustituir la marca matriz. PNG 1179×2556, texto íntegro en zona segura, marca separada de la frase. Enmienda aprobada ADR-MMA-024 y ficha v08; reemplazan las cláusulas v07 de texto libre inicial, calendario oculto y PNG sin marca.
+Logo vectorial propio de Plan B, con un trazo B y continuidad; usar en UI y PNG junto a la firma MiMiniApp. Identidad/tokens/fuentes existentes, sin sustituir la marca matriz. PNG 1179×2556, texto íntegro en zona segura, marca separada de la frase. Enmienda aprobada ADR-MMA-024 y ficha v08; reemplazan las cláusulas v07 de texto libre inicial, calendario oculto y PNG sin marca. La ampliación I5/ADR-MMA-025 sustituye el símbolo vectorial inicial por el recurso original suministrado por el propietario, conservando su identidad en catálogo, cabecera y UI/PNG.
 
 ## Exclusiones
 
@@ -32,6 +32,8 @@ Sin backend, IA generativa en producto, analítica, dependencias nuevas, cambio 
 | I2 — wizard | App, componente de selección simple, diccionarios ES/EN y CSS. Ideas de propósito, opciones/personalizada, Otro suave, continuar coherente, jerarquía y pie. | Pruebas dirigidas de selección/personalizada, conservar textos/estado, teclado y reflujo; commit FE-02/I2. |
 | I3 — resultado e identidad | ScheduleEditor, ExportPanel, logo compartido UI/canvas, renderer y traducciones. Acciones visibles, presets, exportación directa del horario validado y PNG con marcas. | Exportaciones/errores/consentimiento/offline, branding, texto máximo y recursos probados; commit FE-02/I3. |
 | I4 — regresión y análisis final | Revisar diff contra base, repetir verify, medir bytes/PNG/limpieza y deuda; una sola imagen real. Actualizar este plan con resumen final y entregar PR conjunta. | Tests/estáticos/build y evidencia final identificados, límites y deuda declarados; CI del head y staging tras merge humano. Sin cambios funcionales posteriores sin revalidación. |
+| I5 — catálogo e icono suministrado | Ampliación expresa del propietario: sustituir tarjetas por icono/nombre, utilidad breve al hover/foco y acceso táctil. Metadato de recurso estático local. Incorporar la imagen original de Plan B cuando su archivo esté accesible, sin usar la propuesta C rechazada o recrear el gráfico. | Catálogo ES/EN compacto, navegación directa, popover descartable con Escape y hover persistente; original de marca integrado. |
+| I6 — regresión de la ampliación | Revisar cambios compartidos, rutas/catálogo/aislamiento, accesibilidad, reflujo y marca en ambos temas. Actualizar este resumen único y entregar por PR tras completar el recurso. | Comprobaciones dirigidas durante preparación; verificación final al completar I5. Sin nuevas demos ni publicación incompleta. |
 
 ## Criterios de aceptación
 
@@ -43,6 +45,7 @@ Sin backend, IA generativa en producto, analítica, dependencias nuevas, cambio 
 * FE2-AC06: sesión v1, privacidad, fechas/DST/recurrencia, reset y offline tras carga mantienen su contrato.
 * FE2-AC07: presupuesto propio de 50 KiB medido, generación PNG y diez ciclos sin retenciones introducidas; comparación con base y deuda revisadas.
 * FE2-AC08: verify y CI satisfactorios, PR identificada; validación de staging y aprobación humana posteriores al merge. Una sola imagen real para revisión, sin prometer medición humana en dos minutos.
+* FE2-AC09: icono y nombre sustituyen las tarjetas grandes; descripción solo bajo interacción, accesible con teclado y tacto, sin hidratar Plan B. La imagen principal corresponde al archivo exacto suministrado por el propietario, sin reinterpretación.
 
 ## Verificación, riesgos y recuperación
 
@@ -59,7 +62,9 @@ Riesgos: unificar exportación con validación sin usar el horario anterior, no 
 | I1 | 2026-11-18 | 2026-11-18 | Base PR #28 sincronizada; contrato y autorización registrados en a28cc7d. |
 | I2 | 2026-11-18 | 2026-11-18 | Selección simple/personalizada, Otro sin autoFocus, pie y jerarquía implementados. Pruebas dirigidas de teclado/valor/restauración y tipos satisfactorios; regresión completa al final. |
 | I3 | 2026-11-18 | 2026-11-18 | Resultado, editor directo con presets, símbolo UI/PNG y firma MiMiniApp implementados. 27 componentes y 23 E2E dirigidas de escritorio satisfactorias, incluidos valores rápidos/personalizados, .ics directo/Google, branding máximo, diez ciclos y doble exportación; I4 repetirá la batería global sobre el candidato final. |
-| I4 | 2026-11-18 | — | Regresión local final satisfactoria sobre b37f5a5: 518 unitarias, 27 componentes, 162 E2E e integración. Una imagen real y resumen abajo. PR #29 en borrador: pendiente CI del head corregido, merge manual, staging y aceptación humana. |
+| I4 | 2026-11-18 | 2026-11-18 | Regresión local satisfactoria sobre b37f5a5: 518 unitarias, 27 componentes, 162 E2E e integración. CI del head aaf5aba satisfactorio (Actions 44304268344); PR #29 merged manualmente en 0d78dd3. Evidencia histórica anterior a la ampliación I5; no equivale a aceptación humana global. |
+| I5 | 2026-11-18 | 2026-11-18 | Catálogo compacto y ayudas accesibles implementados; original recibido por GitHub y renombrado sin alterar sus bytes, integrado en catálogo/cabecera/Plan B/PNG. Base c918c4c incorpora únicamente la carga del recurso frente a staging 0d78dd3. Pruebas dirigidas de marca, exportación/offline y catálogo antes de la regresión global I6. |
+| I6 | 2026-11-18 | — | Regresión global sobre catálogo e identidad finales. Las comprobaciones anteriores son evidencia histórica; actualizar este mismo resumen tras la batería final. |
 
 ## Historial
 
@@ -92,3 +97,9 @@ FE2-AC01–07 comprobados localmente con los límites anteriores. FE2-AC08 conse
 Cierre documental: 126 Markdown/823 enlaces locales revisados sin roturas reales; solo el ejemplo literal upstream ya conocido. diff --check satisfactorio y los 23 archivos públicos idénticos tras la documentación. La validación CI remota se enlazará en la PR del head final; no se presenta esta evidencia local como remota.
 
 **Reanudación I4 — 2026-11-18:** la PR #29 ya existe. CI anterior satisfactorio sobre 3cdb571 (Actions 44288791142), pero no acredita el último arreglo. Una sonda nativa encontró dos descargas al mantener Enter en el campo de hora; b37f5a5 cancela únicamente el keydown repetido y la regresión de exportación verifica una sola descarga y una pulsación posterior válida. Verify completo sobre b37f5a5 satisfactorio con los recuentos anteriores. Renderer, marca, traducciones y CSS son idénticos al candidato de la imagen: se reutiliza la misma imagen y las observaciones visuales/PNG, sin crear otra demo. PR temporalmente en borrador hasta entregar y validar el head corregido; merge manual/staging/aceptación pendientes.
+
+**Ampliación I5 — preparación local sobre 0d78dd3:** catálogo sin paneles grandes, enlace en icono/nombre, utilidad traducida en popover nativo con Escape/cierre exterior y botón táctil de 48 px. Iconos de 80 px, nombres de 14 px y celdas hasta 128 px; movimiento reducido respetado. Descriptor `icon` opcional local bajo `/brand/`, sin imports de UI, dominios externos, traversal o parámetros. No cambian código funcional/exportaciones de Plan B, package/lockfile o publicación. Impeccable/distill/craft-floor y reglas Vercel aplicadas manualmente, un solo contexto; detector sin hallazgos.
+
+Tipos, lint, formato y build satisfactorios; 55 pruebas dirigidas de registro y 30 E2E de catálogo/accesibilidad en ES/EN y perfiles Chromium escritorio/móvil pasan. Integración modular satisfactoria: dos builds aislados, fixture A estable al añadir B, borradores excluidos y seis pruebas de módulo acumuladas (2 + 4). Sonda adicional con popover abierto en claro/oscuro a 320/1440: sin desbordamientos o violaciones axe; botón informativo funciona sin JavaScript. Revisión visual interna del layout, sin añadir otra demo al entregable. No se repite verify global antes de disponer de la marca final.
+
+**Recurso recibido — 2026-11-18:** el propietario aporta `master/public/brand/icon.png.png` por enlace GitHub y autoriza corregir el nombre. Rama sincronizada mediante fast-forward a c918c4c: frente a staging 0d78dd3 solo añade ese PNG. Se renombra a `public/brand/plan-b/icon.png`, conservando sus 27348 B, dimensiones 202×190, RGBA/transparencia y SHA-256 8828ac8a17a4c450005e2f3d91058729697c0b5e4323b4f6d82fcda0d248e608 (blob Git 9c72909251e2bc106b836b3904fc3f5dbcaf1c5f). Integración autorizada en catálogo, cabecera y marcas UI/PNG, sin recrear el original. I6 revisará también la carga local, offline y errores del recurso.

@@ -1,11 +1,13 @@
-import { planBMarkPath, miminiappMarkPath } from '../domain/brand';
+import { planBIcon, miminiappMarkPath } from '../domain/brand';
 import { layoutWallpaper, wallpaperSize } from '../domain/wallpaper-layout';
 
 export async function renderWallpaper(
   sentence: string,
   label: string,
 ): Promise<Blob> {
-  await document.fonts.ready;
+  const icon = new Image();
+  icon.src = planBIcon;
+  await Promise.all([document.fonts.ready, icon.decode()]);
   const faces = await document.fonts.load('600 48px "Space Grotesk"');
   if (!faces.length) throw new Error('Local font unavailable.');
   const canvas = document.createElement('canvas');
@@ -40,14 +42,9 @@ export async function renderWallpaper(
     context.textAlign = 'left';
     context.fillStyle = color('--color-tint-ink');
     font(layout.labelSize);
-    context.save();
-    context.translate(layout.left, layout.labelTop - 3);
-    context.strokeStyle = color('--color-tint-ink');
-    context.lineWidth = 4;
-    context.lineCap = 'round';
-    context.stroke(new Path2D(planBMarkPath));
-    context.restore();
-    context.fillText(label, layout.left + 62, layout.labelTop);
+    const iconWidth = (48 * icon.naturalWidth) / icon.naturalHeight;
+    context.drawImage(icon, layout.left, layout.labelTop - 8, iconWidth, 48);
+    context.fillText(label, layout.left + iconWidth + 16, layout.labelTop);
     // Brand signature is separate from the plan safe region and the phone clock.
     context.save();
     context.translate(layout.left, wallpaperSize.height * 0.82);

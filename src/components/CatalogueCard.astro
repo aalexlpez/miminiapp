@@ -10,19 +10,42 @@ interface Props {
 const { locale, app } = Astro.props;
 const copy = getCommon(locale);
 const metadata = app.copy[locale];
+const hintId = `app-hint-${app.id}`;
 ---
 
 <article class="catalogue-card">
-  <div class="card-symbol" aria-hidden="true">
-    ↗
-  </div>
-  <h3>{metadata.title}</h3>
-  <p>{metadata.description}</p>
-  <a class="card-link" href={miniappPath(locale, app.slug)}>
-    <span>
-      {copy.catalogue.open}
-      <span class="sr-only">: {metadata.title}</span>
+  <a
+    class="card-link"
+    href={miniappPath(locale, app.slug)}
+    aria-describedby={hintId}
+  >
+    <span class="app-icon" aria-hidden="true">
+      {app.icon ? (
+        <img src={app.icon} alt="" width="80" height="80" decoding="async" />
+      ) : (
+        <span class="app-icon-placeholder">{metadata.title.slice(0, 1)}</span>
+      )}
     </span>
-    <span aria-hidden="true">↗</span>
+    <h3>{metadata.title}</h3>
   </a>
+  <button
+    type="button"
+    class="app-info"
+    popovertarget={hintId}
+    aria-label={`${copy.catalogue.information}: ${metadata.title}`}
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v6M12 7v1" />
+    </svg>
+  </button>
+  <p class="app-tooltip" id={hintId} popover="auto" role="tooltip">
+    {metadata.description}
+  </p>
 </article>

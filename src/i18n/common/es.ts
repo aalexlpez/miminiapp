@@ -30,6 +30,7 @@ export const es = {
     title: 'El catálogo',
     quietLines: ['Pequeñas herramientas.', 'A su ritmo.'],
     open: 'Abrir herramienta',
+    information: 'Para qué sirve',
     emptyTitleLines: ['Un espacio para', 'lo que viene.'],
     emptyDescription:
       'Aún no hay miniapps publicadas. Aquí aparecerán las herramientas cuando estén listas.',

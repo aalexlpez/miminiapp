@@ -624,7 +624,7 @@
   }
 }
 .pb-brand-mark {
-  color: var(--color-tint-ink);
+  object-fit: contain;
   flex: 0 0 auto;
 }
 .pb-day-presets {

@@ -30,6 +30,7 @@ export const en = {
     title: 'The catalogue',
     quietLines: ['Small tools.', 'At their own pace.'],
     open: 'Open tool',
+    information: 'What it does',
     emptyTitleLines: ['A place for', 'what comes next.'],
     emptyDescription:
       'No miniapps are published yet. Tools will appear here once they’re ready.',

@@ -30,6 +30,8 @@ export interface MiniappDescriptor {
   readonly publishedAt?: string;
   /** Opt-in compact page heading; omitted retains the standard presentation. */
   readonly presentation?: 'standard' | 'focused';
+  /** Own static logo under /brand/, never a remote image or a UI import. */
+  readonly icon?: string;
   readonly copy: Readonly<Record<Locale, MiniappCopy>>;
 }
 
@@ -115,6 +117,15 @@ export function validateRegistry(
       );
     }
     const tags: unknown = descriptor.tags;
+    if (
+      descriptor.icon !== undefined &&
+      (typeof descriptor.icon !== 'string' ||
+        !/^\/brand\/(?:[a-z0-9-]+\/)*[a-z0-9-]+\.(?:svg|png|webp)$/.test(
+          descriptor.icon,
+        ))
+    ) {
+      throw new Error(`Invalid local icon for miniapp: ${descriptor.id}`);
+    }
     if (
       descriptor.presentation !== undefined &&
       descriptor.presentation !== 'standard' &&
