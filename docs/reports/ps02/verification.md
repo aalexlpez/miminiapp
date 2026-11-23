@@ -21,7 +21,7 @@ Los controles de producción se congelan como archivos exactos `.fixture` con ha
 Node 24.22.2/npm 11.19.1, lockfile existente y Chromium fijado. Sin nuevas dependencias.
 
 * Desarrollo: `npm run verify` satisfactorio: tipos, lint, formato, hosting, **560 unitarias, 27 componentes, 166 E2E**, integración modular, selector PS-01 e integración PS-02. El nuevo `test:promotion` está incluido en `verify`.
-* Producción: tipos, lint, formato y **487 unitarias** satisfactorios. Se comprueban también el checkout versionado real y los workflows reales mediante pruebas de mutación.
+* Producción: tipos, lint, formato y **488 unitarias** satisfactorios. Se comprueban también el checkout versionado real y los workflows reales mediante pruebas de mutación.
 * Comparación con staging `b81bc517f79e43a3060f30307c724bda0f941348`: **24 archivos antes/después, 22 idénticos byte a byte**. Solo varían los UIDs opacos de Astro en los HTML ES/EN de Plan B; al normalizarlos, esos HTML son idénticos. JavaScript, CSS, fuentes, imágenes y rutas no cambian; no se añade coste al bundle servido.
 * El build integrado reutiliza las dependencias ya instaladas desde el lockfile. Un proceso Node hijo verifica por separado el entorno sin credenciales. La receta futura instala dependencias en su job de lectura, nunca en el writer.
 
@@ -38,15 +38,16 @@ Logs, recibos, inventarios y comparación quedan en `.local/verification/ps02/`,
 | Verificar varias veces todos los blobs gastaba cuota innecesaria. | Descarga pública concurrente con hashes, sin token del destino; del merge solo se lee ascendencia y de cada PR abierta solo procedencia. El escritor solicita blobs solo para los archivos añadidos/modificados y también proyecta los borrados. |
 | Un marcador literal de clave privada hacía que el escáner rechazara sus propios tests. | Marcador construido en memoria y prueba del checkout versionado completo; resuelto sin relajar el escáner. |
 | Comentarios o etiquetas nuevos podían invalidar una candidata sin cambios materiales. | Comparar solo identidad, base/head, repositorio, estado y commit de merge; la actividad normal de revisión se admite y las mutaciones de identidad fallan. |
+| Un índice ausente en el recibo podía alcanzar el fallback del parser antes de rechazarlo. | Índice obligatorio de datos, digest verificado antes del contexto y exportación del índice fresco. Los recibos incompletos se rechazan antes de cargar herramientas del origen; el vacío explícito sí es válido. |
 | Las fixtures podían introducir utilidades Tailwind ajenas. | Exclusión explícita del escaneo; el CSS generado es idéntico a la base. |
 
 Los permisos, acciones fijadas, condiciones desactivadas, rama/base/head, identidad del origen, intento/run, recibos, secretos, blobs y fallos parciales tienen verificaciones negativas. El preparador rechaza escrituras live antes de cualquier acceso al origen; no existe un flag que habilite la publicación. La deuda previa de dependencias se conserva sin cambios y sin añadir dependencias a este trabajo.
 
 ## CI de la entrega
 
-La implementación de desarrollo `da2ae94120d5d968bd7a429149fee47346fae200` pasa [CI 45261742307](https://github.com/aalexlpez/miminiapp/actions/runs/45261742307): 560 unitarias, 27 componentes, 166 E2E y todas las integraciones. El cierre documental y la revisión de productor fijada en las fixtures conservan los mismos hashes de los diez archivos ejecutados. Los checks de #33 validan también el head final de la entrega.
+Desarrollo `86a93a6ca62faae4d70cc1e2c499aed9ecb271f4` pasa [CI 45263686872](https://github.com/aalexlpez/miminiapp/actions/runs/45263686872): 560 unitarias, 27 componentes, 166 E2E y todas las integraciones. El cierre documental y la revisión de productor fijada en las fixtures conservan los mismos hashes de los diez archivos ejecutados. Los checks de #33 validan también el head final de la entrega.
 
-Producción `293411b8d9ecc9fd95d11cbf36ce807951943be2` pasa [CI 45263209826](https://github.com/soycerobytes/miminiapp/actions/runs/45263209826): lint, formato y **158 pruebas de configuración/controles**, sin ejecutar la suite funcional de aplicación. Los recibos y pruebas locales se contrastan con ese productor final limpio. Ambos CI usan lectura; no son ejecuciones de preparación o publicación.
+Producción `93aa7125ebf79bf0a96a6f5a71d25c03b297738a` pasa [CI 45264865786](https://github.com/soycerobytes/miminiapp/actions/runs/45264865786): lint, formato y **159 pruebas de configuración/controles**, sin ejecutar la suite funcional de aplicación. Los recibos y pruebas locales se contrastan con ese productor final limpio. Ambos CI usan lectura; no son ejecuciones de preparación o publicación.
 
 ## Entrega y límites
 
