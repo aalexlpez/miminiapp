@@ -2,13 +2,13 @@
 
 ## Control
 
-* **Estado:** `Borrador`.
+* **Estado:** `En curso`.
 * **ID:** PS-02.
 * **Rama estable:** `feature/ps02-release-integration-tests`, única por repositorio para todas las iteraciones.
-* **Iteración actual:** I1 — no iniciada; solo se prepara el borrador.
+* **Iteración actual:** I1 — contrato y aislamiento en ejecución.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
-* **Dependencias de inicio:** aceptación expresa de PS-01, aprobación del contrato PS-02 propuesto en el índice técnico y aprobación/autorización de este plan. El merge de #32 acredita integración de código; no sustituye por sí solo la aceptación de toda la preparación PS-01.
+* **Dependencias de inicio:** resueltas por la confirmación del propietario «si lo autorizo» el 2026-11-23: PS-01 aceptado, contrato PS-02 aprobado y ejecución autorizada. El merge de #32 se conserva como evidencia de integración, no como fuente de esa aceptación.
 
 ## Objetivo
 
@@ -39,7 +39,7 @@ Fuera: merge a main, cambios en Cloudflare, cambio del build remoto, instalació
 6. Conservar staging elegible al preparar y al ejecutar su comprobación. Un avance posterior de staging no invalida automáticamente un verde anterior: documentar la ventana operativa y cuándo volver a preparar, sin prometer sellado de candidatas antiguas.
 7. El preparador instalado en main permanece intacto. Instalar/activar la nueva implementación requiere una decisión posterior; un check verde no lo autoriza.
 
-Estos puntos figuran como propuesta en el índice técnico, no como decisiones ya aprobadas.
+El propietario aprueba este contrato junto con el plan el 2026-11-23; el índice técnico registra su alcance de pruebas, sin instalación/activación.
 
 ## Iteraciones secuenciales
 
@@ -80,7 +80,7 @@ Esperar aceptación de PS-01 y aprobación/autorización de contrato y plan ante
 
 | Iteración | Trabajo | Evidencia |
 | --- | --- | --- |
-| I1 | No iniciada | Solo borrador; sin autorización de implementación. |
+| I1 | En ejecución | Autorización registrada; bases releídas y ramas separadas. |
 | I2 | No iniciada | Depende de I1. |
 | I3 | No iniciada | Depende de I2. |
 | I4 | No iniciada | Regresión final. |
@@ -88,3 +88,7 @@ Esperar aceptación de PS-01 y aprobación/autorización de contrato y plan ante
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |
 | 2026-11-23 | `Borrador` | Agente | Preparar el siguiente resultado revisable tras integrar desarrollo #32. No inferir aceptación o autorización del merge. |
+
+## Aprobación y autorización — 2026-11-23
+
+El propietario confirma «si lo autorizo» tras la petición conjunta de aceptación de PS-01 y aprobación/autorización de PS-02. Se registran `Aprobado` → `Autorizado` → `En curso`, sin ampliar el límite de pruebas. I1 comienza en las ramas estables; producción sigue sin instalación ni activación.

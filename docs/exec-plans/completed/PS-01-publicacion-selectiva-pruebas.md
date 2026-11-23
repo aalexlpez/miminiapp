@@ -2,10 +2,10 @@
 
 ## Control
 
-* **Estado:** `Verificado`.
+* **Estado:** `Aceptado`.
 * **ID:** PS-01.
 * **Rama estable:** `feature/ps01-selective-publication`, en cada repositorio afectado.
-* **Iteración actual:** I4 — preparación y pruebas entregadas; pendiente de aceptación humana.
+* **Iteración actual:** I4 — completada y aceptada.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Autorización:** el propietario indica «Vamos a ello. Haz lo que esté a tu alcance» y limita expresamente el trabajo a pruebas: Plan B no está en producción y no debe publicarse. Se registra aprobación y autorización del alcance de preparación descrito en la revisión anterior; no se autoriza activar publicaciones.
@@ -88,3 +88,11 @@ El resultado vuelve a `Verificado` tras la evidencia de CI y la lectura final de
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |
 | 2026-11-23 | `Verificado` | Agente | Ambos CI satisfactorios y dependencia de protección acreditada por API; sin merge, activación ni publicación. |
+
+## Aceptación de la preparación
+
+El 2026-11-23 el propietario responde «si lo autorizo» a la petición conjunta de aceptar PS-01 y aprobar/autorizar PS-02. Se registra aceptación del alcance de preparación y pruebas de PS-01, sin aceptar por inferencia el producto Plan B ni autorizar producción. La PR de producción #8 permanece en borrador.
+
+| Fecha | Estado | Actor | Motivo |
+| --- | --- | --- | --- |
+| 2026-11-23 | `Aceptado` | Propietario | Aceptación expresa dentro de la confirmación conjunta de PS-01/PS-02. |

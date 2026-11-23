@@ -1,6 +1,6 @@
 # PS-01 · Preparación local y regresión
 
-**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación y pruebas locales/remotas verificadas; pendiente de aceptación humana; el estado canónico está en [PS-01](../../exec-plans/active/PS-01-publicacion-selectiva-pruebas.md).
+**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación y pruebas locales/remotas verificadas; pendiente de aceptación humana; el estado canónico está en [PS-01](../../exec-plans/completed/PS-01-publicacion-selectiva-pruebas.md).
 
 ## Resultado y límites
 
