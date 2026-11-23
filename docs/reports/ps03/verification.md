@@ -1,6 +1,6 @@
 # PS-03 · evidencia de instalación con catálogo vacío
 
-2026-11-23. Plan aprobado y autorizado por Alexander López mediante «confirmado». [Plan canónico](../../exec-plans/active/PS-03-instalacion-selectiva-catalogo-vacio.md). I1 prepara la candidata; I2–I4 pendientes. No hay instalación, merge de producción o publicación realizados por este trabajo.
+2026-11-23. Plan aprobado y autorizado por Alexander López mediante «confirmado». [Plan canónico](../../exec-plans/active/PS-03-instalacion-selectiva-catalogo-vacio.md). I1 completada; I2 espera intervención del propietario e I3–I4 siguen pendientes. No hay instalación, merge de producción o publicación realizados por este trabajo.
 
 ## Candidata local
 
@@ -10,13 +10,17 @@ El digest del snapshot es `ea96f3f6b86f8e866b345719c926bc207c3d31425a15bb8b5a774
 
 ## Verificaciones realizadas
 
-* El staging de origen pasó [45272190937](https://github.com/aalexlpez/miminiapp/actions/runs/45272190937), prepare y remote-test. El acceso HTTP directo desde este entorno al manifiesto devuelve 403; esa respuesta no acredita su contenido ni determina la causa. El CI de la candidata deberá ejecutar la inspección real desde el contexto de preparación.
-* Build local explícito satisfactorio: 4 páginas, **20 archivos** incluyendo identidad. `production-identity.ts` marca el resultado `local-validation`; no es una prueba de despliegue.
-* Servidor localhost real: `/es/` y `/en/` responden 200 con catálogo vacío; rutas ES/EN e icono PNG de Plan B responden 404.
-* Tipos, lint y formato de la candidata pasan; **170 pruebas específicas de controles** satisfactorias. Las pruebas comprueban snapshot completo y controles preservados, altas rechazadas, política/contexto, recibos de candidata, cierre del CLI legacy, identidad/inventario, checkout sucio, auditoría de módulos, cambios de main y actividad normal de revisión. La recuperación de una plataforma conocida se ensaya mediante un nuevo origen validado y una release vacía, con API en memoria; no se presenta como rollback real.
-* Desarrollo pasa tipos/lint/formato e integración del compilador/motor con las fixtures actualizadas: vacío/A/A+B en memoria, sin escrituras remotas de release.
+- El staging de origen pasó [45272190937](https://github.com/aalexlpez/miminiapp/actions/runs/45272190937), prepare y remote-test. El acceso HTTP directo desde este entorno al manifiesto devuelve 403; esa respuesta no acredita su contenido ni determina la causa. El CI de producción [45284021865](https://github.com/soycerobytes/miminiapp/actions/runs/45284021865), job `quality` [138075517301](https://github.com/soycerobytes/miminiapp/actions/runs/45284021865/job/138075517301), sí pasó la inspección real de staging, comprobó repositorio/identidad/pruebas/procedencia y contrastó todos los archivos importados con su árbol inmutable.
+- Build local explícito satisfactorio: 4 páginas, **20 archivos** incluyendo identidad. `production-identity.ts` marca el resultado `local-validation`; no es una prueba de despliegue.
+- Servidor localhost real: `/es/` y `/en/` responden 200 con catálogo vacío; rutas ES/EN e icono PNG de Plan B responden 404.
+- Tipos, lint y formato de la candidata pasan; **170 pruebas específicas de controles** satisfactorias. Las pruebas comprueban snapshot completo y controles preservados, altas rechazadas, política/contexto, recibos de candidata, cierre del CLI legacy, identidad/inventario, checkout sucio, auditoría de módulos, cambios de main y actividad normal de revisión. La recuperación de una plataforma conocida se ensaya mediante un nuevo origen validado y una release vacía, con API en memoria; no se presenta como rollback real.
+- Desarrollo pasa tipos/lint/formato e integración del compilador/motor con las fixtures actualizadas: vacío/A/A+B en memoria, sin escrituras remotas de release.
 
-Los resultados completos y los heads exactos de CI se consolidarán tras abrir las PR de I1. Los logs y recibos locales quedan en `.local/verification/ps03/`; no se preparan demos adicionales.
+La [PR de instalación #10](https://github.com/soycerobytes/miminiapp/pull/10), head `943ff78381a63d2b425c3a2748048caec2d8925a`, pasó `quality` en el árbol de merge de prueba `ee87dc1c4bb64820c359172f589038adbeeda27d` contra main `f3474bab54c97f5d3ee50879874541b45161096e`. Su identidad de build es `local-validation`, no Workers Builds. La [PR de desarrollo #34](https://github.com/aalexlpez/miminiapp/pull/34) pasó [45283152235](https://github.com/aalexlpez/miminiapp/actions/runs/45283152235) en `5cb2bb1d60ec47ec6e4a1844d1358c6dfd69cf76`; los commits documentales posteriores registran esta evidencia. Ambas siguen en borrador y sin merge.
+
+La inspección viva registró el payload de staging `1eea16aaccf4ef1e7a46535093c118be0e13c5849bcee0397d704ed1758a5efc`, el árbol `89711fa42b769af2376e6167aca4f289bc01d7ca` y el run/intento `45272190937/1`. En la ejecución anterior, GitHub devolvió 403 al consultar los metadatos públicos del origen. La candidata vigente pasó sin cambiar credenciales ni enviar el token del destino al origen; no se atribuye una causa no acreditada. Se añadieron diagnósticos acotados de cuota, conservando el fallo cerrado y el reintento previsto por la guía.
+
+Los logs y recibos locales quedan en `.local/verification/ps03/`, incluido `remote-i1.json` en el checkout de producción. No se preparan demos adicionales.
 
 ## Controles de publicación y comprobación
 
@@ -28,4 +32,4 @@ El workflow manual **Verify served empty production** es de lectura, sin instala
 
 ## Pendientes esenciales
 
-Validación remota del bootstrap en CI; confirmación del propietario de pausa/configuración; instalación en main; preparación real de una release vacía; build real de Workers Builds; verificación del sitio y regresión final I4. PS-03 permanece En curso. La aceptación de PS-02 y estas pruebas de I1 no sustituyen esos pasos.
+Confirmación del propietario de pausa/configuración; instalación en main; preparación real de una release vacía; build real de Workers Builds; verificación del sitio y regresión final I4. La primera dependencia es pausar los builds del Worker `miminiapp`, guardarlo y confirmarlo, sin merge todavía. PS-03 permanece En curso. La aceptación de PS-02 y estas pruebas de I1 no sustituyen esos pasos.
