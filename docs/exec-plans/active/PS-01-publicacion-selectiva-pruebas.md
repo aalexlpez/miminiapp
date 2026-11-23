@@ -2,10 +2,10 @@
 
 ## Control
 
-* **Estado:** `En curso`.
+* **Estado:** `Verificado`.
 * **ID:** PS-01.
 * **Rama estable:** `feature/ps01-selective-publication`, en cada repositorio afectado.
-* **Iteración actual:** I4 — entrega de pruebas en PR y comprobación de CI.
+* **Iteración actual:** I4 — preparación y pruebas entregadas; pendiente de aceptación humana.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Autorización:** el propietario indica «Vamos a ello. Haz lo que esté a tu alcance» y limita expresamente el trabajo a pruebas: Plan B no está en producción y no debe publicarse. Se registra aprobación y autorización del alcance de preparación descrito en la revisión anterior; no se autoriza activar publicaciones.
@@ -80,5 +80,11 @@ El propietario aporta las capturas solicitadas: producción usa `soycerobytes/mi
 
 * [Desarrollo #32](https://github.com/aalexlpez/miminiapp/pull/32), borrador hacia `staging`: run `45209995019` satisfactorio, con 560 unitarias, 27 componentes, 166 E2E y las dos integraciones.
 * [Producción #8](https://github.com/soycerobytes/miminiapp/pull/8), borrador hacia `main`: run `45210054633` satisfactorio, 111 unitarias de controles más siete del simulador, lint/formato correctos.
-* El propietario configura `quality` obligatorio de GitHub Actions. Falta acreditar `strict_required_status_checks_policy: true`; se solicita únicamente esa casilla.
+* El propietario configura `quality` obligatorio de GitHub Actions (`integration_id: 15368`) y base actualizada: la API acredita `strict_required_status_checks_policy: true`. Las otras reglas se conservan.
 * La integración del preparador real y la activación de publicación siguen fuera de esta entrega. Las dos PR permanecen en borrador, sin merge ni despliegue. El cierre documental conserva los checks automáticos del head actual.
+
+El resultado vuelve a `Verificado` tras la evidencia de CI y la lectura final del ruleset. El cierre añade únicamente documentación y conserva el CI automático de ambas PR. No se marca `Aceptado`: la aceptación humana sigue pendiente.
+
+| Fecha | Estado | Actor | Motivo |
+| --- | --- | --- | --- |
+| 2026-11-23 | `Verificado` | Agente | Ambos CI satisfactorios y dependencia de protección acreditada por API; sin merge, activación ni publicación. |

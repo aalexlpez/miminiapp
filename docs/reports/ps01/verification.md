@@ -1,6 +1,6 @@
 # PS-01 · Preparación local y regresión
 
-**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación y pruebas locales/remotas comprobadas; cierre documental en curso; el estado canónico está en [PS-01](../../exec-plans/active/PS-01-publicacion-selectiva-pruebas.md).
+**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación y pruebas locales/remotas verificadas; pendiente de aceptación humana; el estado canónico está en [PS-01](../../exec-plans/active/PS-01-publicacion-selectiva-pruebas.md).
 
 ## Resultado y límites
 
@@ -49,8 +49,14 @@ Capturas del propietario confirman `soycerobytes/miminiapp`, producción en `mai
 
 * Desarrollo: [PR #32](https://github.com/aalexlpez/miminiapp/pull/32), base `staging`, en borrador. `quality` satisfactorio sobre `5ef3366c9aa8ad5accc740fff342d17e6b3c9134`, run [45209995019](https://github.com/aalexlpez/miminiapp/actions/runs/45209995019), job `137815905574`. Logs contrastados: 560 unitarias, 27 componentes, 166 E2E y ambas integraciones, incluidas las tres selecciones y los casos de rechazo.
 * Producción: [PR #8](https://github.com/soycerobytes/miminiapp/pull/8), base `main`, en borrador. `quality` satisfactorio sobre `a09fd018e34c55f5fca6f0493d2997af58cf764d`, run [45210054633](https://github.com/soycerobytes/miminiapp/actions/runs/45210054633), job `137816113717`. Logs contrastados: 111 pruebas de controles más 7 del simulador; lint y formato correctos. El paso de verificar una release se omite como corresponde a una PR de configuración; no hay publicación.
-* El propietario incorpora `required_status_checks` al ruleset `27191603`: `quality` obligatorio, vinculado a GitHub Actions (`integration_id: 15368`). Primera lectura posterior: `strict_required_status_checks_policy: false`; se solicita activar también la base actualizada. La conexión conserva `push: true`, `admin: false`. Esta configuración de protección no autoriza merge, migración ni alta de Plan B.
+* El propietario incorpora `required_status_checks` al ruleset `27191603`: `quality` obligatorio, vinculado a GitHub Actions (`integration_id: 15368`). La primera lectura posterior tenía `strict_required_status_checks_policy: false`; el propietario lo activa y la segunda lectura acredita `true`. Las otras reglas se conservan. La conexión conserva `push: true`, `admin: false`. Esta configuración de protección no autoriza merge, migración ni alta de Plan B.
 
 La captura del panel se usa como evidencia humana del ajuste de previews. No se han cambiado ajustes de Cloudflare ni creado releases. Las URLs de PR ficticias impresas por los tests de API son fixtures; no son PR adicionales creadas por la prueba.
 
 Los SHAs anteriores identifican los candidatos de implementación que pasaron CI. El commit de cierre cambia únicamente documentación: cada PR expone también el check de su head documental actual, que debe quedar satisfactorio antes de entregar el resultado. La preparación real del workflow de promoción selectiva sigue pendiente; estas PR prueban selector y simulador, sin activar publicación.
+
+### Protección confirmada y límite de la entrega
+
+La lectura final del ruleset `27191603` confirma `quality` de GitHub Actions (`integration_id: 15368`) obligatorio, `strict_required_status_checks_policy: true`, PR requerido, cero aprobaciones externas, protección frente a borrado/force push y ninguna vía de bypass para la conexión. El propietario realiza el cambio administrativo; el agente solo lo consulta. Las ramas base permanecen en `5a830a9f90f835c583e38bbf05f8a97afa6ab2f0` (staging) y `f3474bab54c97f5d3ee50879874541b45161096e` (producción). No se ha integrado ningún cambio en ellas.
+
+La preparación se entrega para aceptación, sin autorizar fusión de producción. Conectar el selector al preparador real, la migración con manifiesto vacío y el recibo de despliegue siguen pendientes de una fase posterior; no se presentan como implementados por el simulador.

@@ -30,7 +30,7 @@ Una candidata local con cambios sin commit se identifica como tal, con SHA de ba
 
 1. Resultado local verificado y pendiente de aceptación. El propietario confirma mediante capturas que los previews están desactivados; se preparan PR de pruebas en borrador. No fusionar `main` para ensayar porque su merge puede disparar Workers Builds.
 2. Incorporar pruebas a ramas/PR de configuración y verificar su check real, sin merge de producción. El CI de configuración de producción añade las siete pruebas del simulador al check existente, manteniendo lectura y sin secretos. La captura acredita previews apagados en el momento de preparar la entrega.
-3. El administrador configura `quality` obligatorio en `main`, sin exigir un segundo revisor al único desarrollador. Volver a leer la regla y acreditar su asociación al candidato exacto.
+3. Dependencia administrativa resuelta el 2026-11-23: el propietario exige `quality` de GitHub Actions y base actualizada en `main`; la API confirma ambos ajustes y cero aprobaciones externas. Los checks de las PR identifican sus heads exactos.
 4. Preparar la conexión del selector al workflow manual, con una PR de release activa, hashes/evidencia y build sin permisos de escritura. El job con escritura no puede ejecutar los módulos importados de staging; debe usar sus controles propios revisados. Revalidar base/head, y explicitar el límite de staging vivo: un verde antiguo no se invalida solo porque avance staging.
 5. Migrar con manifiesto vacío, entrada de build de producción explícita en Workers Builds y comprobación posterior. Cualquier activación o merge necesita instrucción propia. **Plan B sigue fuera** hasta que el propietario autorice expresamente su alta.
 
