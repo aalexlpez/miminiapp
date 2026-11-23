@@ -1,0 +1,635 @@
+import {
+  addToRelease,
+  isCalendarDate,
+  readRelease,
+  releaseText,
+  slugPattern,
+  type MiniappRelease,
+} from './miniapp-manifest.ts';
+import {
+  provenancePath,
+  requireValue,
+  treeEntries,
+  validatePolicy,
+  type Entry,
+} from './core.ts';
+import {
+  assertSourceIdentity,
+  canonical,
+  gitBlob,
+  hash,
+  hashPattern,
+  isApplicationPath,
+  projectDigest,
+  receiptHash,
+  schemaPath,
+  selectionPath,
+  selectivePolicyPath,
+  shaPattern,
+  validateProjectFiles,
+  validateReceipt,
+  validateSelectivePolicy,
+  type BuildReceipt,
+  type DestinationSnapshot,
+  type ProjectFiles,
+  type SelectionRequest,
+  type SelectivePolicy,
+  type SourceIdentity,
+  type SourceSnapshot,
+} from './selective-contract.ts';
+
+export interface SelectiveCandidate {
+  candidateId: string;
+  inputSha256: string;
+  policySha256: string;
+  base: DestinationSnapshot;
+  source: SourceIdentity;
+  registrations: SourceSnapshot['registrations'];
+  manifest: MiniappRelease;
+  files: ProjectFiles;
+  changes: { path: string; kind: 'added' | 'modified' | 'deleted' }[];
+  noChange: boolean;
+}
+export interface PreparedRelease {
+  number: number;
+  headSha: string;
+  candidateId: string | null;
+}
+export interface SelectivePorts {
+  /** No CLI option can select the fixture transport. Tests construct it in memory. */
+  kind: 'live' | 'test-fixture';
+  observe(): Promise<{ baseSha: string; source: SourceIdentity }>;
+  openReleases(): Promise<PreparedRelease[]>;
+  request<T>(path: string, method: 'GET' | 'POST', body?: unknown): Promise<T>;
+}
+
+function cloneFiles(files: ProjectFiles): ProjectFiles {
+  return Object.fromEntries(
+    Object.entries(files).map(([path, file]) => [
+      path,
+      { mode: file.mode, bytes: Buffer.from(file.bytes) },
+    ]),
+  );
+}
+export function changedPaths(
+  before: ProjectFiles,
+  after: ProjectFiles,
+): SelectiveCandidate['changes'] {
+  return [...new Set([...Object.keys(before), ...Object.keys(after)])]
+    .sort()
+    .filter((path) => {
+      const a = before[path],
+        b = after[path];
+      return (
+        a?.mode !== b?.mode || (a && b ? !a.bytes.equals(b.bytes) : a !== b)
+      );
+    })
+    .map((path) => ({
+      path,
+      kind: !before[path] ? 'added' : !after[path] ? 'deleted' : 'modified',
+    }));
+}
+export function createSelectiveCandidate(
+  policy: SelectivePolicy,
+  request: SelectionRequest,
+  source: SourceSnapshot,
+  base: DestinationSnapshot,
+): SelectiveCandidate {
+  validateSelectivePolicy(policy);
+  assertSourceIdentity(source.identity);
+  validateProjectFiles(source.files);
+  validateProjectFiles(base.files);
+  requireValue(
+    shaPattern.test(base.sha) &&
+      shaPattern.test(base.tree) &&
+      request.expectedBaseSha === base.sha &&
+      request.stagingSha === source.identity.sourceSha,
+    'Source/base candidate changed.',
+  );
+  requireValue(
+    Object.keys(request).sort().join(',') ===
+      'addMiniapps,expectedBaseSha,initializeEmpty,plannedReleaseDate,releaseId,stagingSha' &&
+      typeof request.initializeEmpty === 'boolean' &&
+      isCalendarDate(request.plannedReleaseDate) &&
+      Array.isArray(request.addMiniapps) &&
+      request.addMiniapps.every(
+        (slug) => typeof slug === 'string' && slugPattern.test(slug),
+      ),
+    'Invalid selective release request.',
+  );
+  requireValue(
+    source.files[schemaPath] &&
+      base.files[schemaPath] &&
+      gitBlob(source.files[schemaPath].bytes) === policy.sourceSchemaBlob &&
+      gitBlob(base.files[schemaPath].bytes) === policy.sourceSchemaBlob,
+    'Shared manifest schema differs from reviewed production controls.',
+  );
+  requireValue(
+    base.files['.github/promotion-policy.json'] &&
+      hash(base.files['.github/promotion-policy.json'].bytes) ===
+        policy.sourcePolicySha256,
+    'Reviewed source promotion policy changed.',
+  );
+  const sourcePolicy = JSON.parse(
+    base.files['.github/promotion-policy.json'].bytes.toString('utf8'),
+  );
+  validatePolicy(sourcePolicy);
+  requireValue(
+    source.identity.workflowBlob === sourcePolicy.source.workflowBlob &&
+      source.files[sourcePolicy.source.workflow] &&
+      gitBlob(source.files[sourcePolicy.source.workflow].bytes) ===
+        sourcePolicy.source.workflowBlob,
+    'Source workflow differs from the reviewed verifier.',
+  );
+  const installed: unknown = JSON.parse(
+    base.files[selectivePolicyPath]?.bytes.toString('utf8') ?? 'null',
+  );
+  requireValue(
+    canonical(installed) === canonical(policy),
+    'Selective controls are not installed in the tested destination base.',
+  );
+  requireValue(
+    Array.isArray(source.registrations) &&
+      source.registrations.every(
+        (e) =>
+          e && slugPattern.test(e.slug) && typeof e.published === 'boolean',
+      ) &&
+      new Set(source.registrations.map((e) => e.slug)).size ===
+        source.registrations.length,
+    'Invalid source registration index.',
+  );
+  const candidates = source.registrations
+    .filter((e) => e.published)
+    .map((e) => e.slug);
+  const previousBytes = base.files[selectionPath]?.bytes;
+  if (!previousBytes)
+    requireValue(
+      request.initializeEmpty && request.addMiniapps.length === 0,
+      'An explicit empty initialization is required.',
+    );
+  else
+    requireValue(
+      !request.initializeEmpty,
+      'An existing production selection cannot be reset.',
+    );
+  const previous: MiniappRelease = previousBytes
+    ? readRelease(previousBytes.toString('utf8'))
+    : {
+        schemaVersion: 1,
+        releaseId: request.releaseId,
+        sourceSha: request.stagingSha,
+        destinationBaseSha: base.sha,
+        miniapps: [],
+      };
+  const manifest = addToRelease(previous, {
+    ...request,
+    sourceSha: request.stagingSha,
+    destinationBaseSha: base.sha,
+    candidates,
+  });
+  const files = cloneFiles(
+    Object.fromEntries(
+      Object.entries(base.files).filter(([path]) => !isApplicationPath(path)),
+    ),
+  );
+  for (const [path, value] of Object.entries(source.files))
+    if (isApplicationPath(path))
+      files[path] = { mode: value.mode, bytes: Buffer.from(value.bytes) };
+  files[selectionPath] = {
+    mode: '100644',
+    bytes: Buffer.from(releaseText(manifest)),
+  };
+  const inputSha256 = projectDigest(files);
+  const policySha256 = hash(canonical(policy));
+  const sourceIdentity = structuredClone(source.identity);
+  const registrations = structuredClone(source.registrations);
+  const candidateId = hash(
+    canonical({
+      source: sourceIdentity,
+      baseSha: base.sha,
+      inputSha256,
+      policySha256,
+      registrations,
+    }),
+  );
+  const changes = changedPaths(base.files, files);
+  return {
+    candidateId,
+    inputSha256,
+    policySha256,
+    base: { ...base, files: cloneFiles(base.files) },
+    source: sourceIdentity,
+    registrations,
+    manifest,
+    files,
+    changes,
+    noChange: changes.length === 0,
+  };
+}
+
+export function assertCandidate(candidate: SelectiveCandidate) {
+  validateProjectFiles(candidate.files);
+  requireValue(
+    projectDigest(candidate.files) === candidate.inputSha256 &&
+      hash(
+        canonical({
+          source: candidate.source,
+          baseSha: candidate.base.sha,
+          inputSha256: candidate.inputSha256,
+          policySha256: candidate.policySha256,
+          registrations: candidate.registrations,
+        }),
+      ) === candidate.candidateId &&
+      candidate.files[selectionPath]?.bytes.toString('utf8') ===
+        releaseText(candidate.manifest),
+    'Candidate bytes/selection changed after inspection.',
+  );
+  requireValue(
+    canonical(changedPaths(candidate.base.files, candidate.files)) ===
+      canonical(candidate.changes) &&
+      candidate.noChange === (candidate.changes.length === 0),
+    'Candidate change list is inconsistent.',
+  );
+}
+export function bindReceipt(
+  candidate: SelectiveCandidate,
+  receipt: BuildReceipt,
+  expectedHash: string,
+) {
+  assertCandidate(candidate);
+  validateReceipt(receipt);
+  requireValue(
+    hashPattern.test(expectedHash) &&
+      receiptHash(receipt) === expectedHash &&
+      receipt.candidateId === candidate.candidateId &&
+      receipt.inputSha256 === candidate.inputSha256 &&
+      receipt.manifestSha256 === hash(releaseText(candidate.manifest)),
+    'Build evidence is obsolete or differs from the exact candidate.',
+  );
+}
+async function assertCurrent(
+  candidate: SelectiveCandidate,
+  ports: SelectivePorts,
+) {
+  const current = await ports.observe();
+  requireValue(
+    current.baseSha === candidate.base.sha &&
+      canonical(current.source) === canonical(candidate.source),
+    'Source, staging evidence or production base advanced; prepare again.',
+  );
+}
+export interface SelectiveProof {
+  schemaVersion: 2;
+  mode: 'selective-test';
+  candidateId: string;
+  source: SourceIdentity;
+  destinationBaseSha: string;
+  policySha256: string;
+  selectionSha256: string;
+  registrations: SourceSnapshot['registrations'];
+  receipt: BuildReceipt;
+  receiptSha256: string;
+}
+export function selectiveProof(
+  candidate: SelectiveCandidate,
+  receipt: BuildReceipt,
+): SelectiveProof {
+  return {
+    schemaVersion: 2,
+    mode: 'selective-test',
+    candidateId: candidate.candidateId,
+    source: candidate.source,
+    destinationBaseSha: candidate.base.sha,
+    policySha256: candidate.policySha256,
+    selectionSha256: hash(releaseText(candidate.manifest)),
+    registrations: candidate.registrations,
+    receipt,
+    receiptSha256: receiptHash(receipt),
+  };
+}
+export function assertLiveWritesDisabled(
+  policy: SelectivePolicy,
+  ports: Pick<SelectivePorts, 'kind'>,
+) {
+  validateSelectivePolicy(policy);
+  requireValue(
+    ports.kind === 'test-fixture',
+    'Selective live writes are disabled; this phase only permits intercepted API fixtures.',
+  );
+}
+
+export async function readGitProject(
+  ports: Pick<SelectivePorts, 'request'>,
+  sha: string,
+) {
+  requireValue(shaPattern.test(sha), 'Invalid commit reference.');
+  const commit = await ports.request<{
+    tree: { sha: string };
+    parents: { sha: string }[];
+  }>(`/git/commits/${sha}`, 'GET');
+  requireValue(
+    shaPattern.test(commit.tree.sha) &&
+      Array.isArray(commit.parents) &&
+      commit.parents.every((p) => shaPattern.test(p.sha)),
+    'Invalid Git commit metadata.',
+  );
+  const listing = await ports.request<{ tree: Entry[]; truncated: boolean }>(
+    `/git/trees/${commit.tree.sha}?recursive=1`,
+    'GET',
+  );
+  const entries = treeEntries(listing.tree, listing.truncated);
+  const files: ProjectFiles = Object.create(null);
+  for (const [path, entry] of Object.entries(entries)) {
+    const blob = await ports.request<{
+      encoding: string;
+      content: string;
+      size: number;
+    }>(`/git/blobs/${entry.sha}`, 'GET');
+    requireValue(
+      blob.encoding === 'base64' &&
+        Number.isSafeInteger(blob.size) &&
+        blob.size >= 0 &&
+        blob.size <= 100 * 1024 * 1024,
+      'Unsupported Git blob.',
+    );
+    const bytes = Buffer.from(blob.content, 'base64');
+    requireValue(
+      bytes.length === blob.size && gitBlob(bytes) === entry.sha,
+      'Git blob differs from its immutable identity.',
+    );
+    files[path] = { mode: entry.mode as '100644' | '100755', bytes };
+  }
+  validateProjectFiles(files);
+  return {
+    sha,
+    tree: commit.tree.sha,
+    parents: commit.parents.map((p) => p.sha),
+    files,
+  };
+}
+function checkStoredProjection(
+  candidate: SelectiveCandidate,
+  files: ProjectFiles,
+  parents: string[],
+) {
+  requireValue(
+    canonical(parents) === canonical([candidate.base.sha]),
+    'Stored release ancestry differs from its production base.',
+  );
+  validateProjectFiles(files);
+  const bytes = files[provenancePath]?.bytes;
+  requireValue(bytes, 'Selective provenance is missing.');
+  const proof = JSON.parse(bytes.toString('utf8')) as SelectiveProof;
+  validateReceipt(proof.receipt);
+  requireValue(
+    canonical(proof) === canonical(selectiveProof(candidate, proof.receipt)),
+    'Selective provenance differs from verified source, base or policy.',
+  );
+  bindReceipt(candidate, proof.receipt, proof.receiptSha256);
+  const expected = cloneFiles(candidate.files);
+  expected[provenancePath] = {
+    mode: '100644',
+    bytes: Buffer.from(`${JSON.stringify(proof, null, 2)}\n`),
+  };
+  requireValue(
+    projectDigest(files) === projectDigest(expected),
+    'PR files differ from the exact projection or overwrite protected controls.',
+  );
+}
+async function ensureQuality(
+  ports: SelectivePorts,
+  branch: string,
+  headSha: string,
+  pr: number,
+) {
+  const runs = await ports.request<{
+    workflow_runs: { head_sha: string; head_branch: string }[];
+  }>(
+    `/actions/workflows/ci.yml/runs?event=workflow_dispatch&head_sha=${headSha}`,
+    'GET',
+  );
+  requireValue(
+    Array.isArray(runs.workflow_runs),
+    'Missing quality dispatch state.',
+  );
+  if (
+    !runs.workflow_runs.some(
+      (run) => run.head_sha === headSha && run.head_branch === branch,
+    )
+  )
+    await ports.request('/actions/workflows/ci.yml/dispatches', 'POST', {
+      ref: branch,
+      inputs: { pr_number: String(pr) },
+    });
+}
+async function reuseRelease(
+  candidate: SelectiveCandidate,
+  ports: SelectivePorts,
+  release: PreparedRelease,
+) {
+  const existing = await readGitProject(ports, release.headSha);
+  checkStoredProjection(candidate, existing.files, existing.parents);
+  await assertCurrent(candidate, ports);
+  await ensureQuality(
+    ports,
+    `release/selective/${candidate.candidateId}`,
+    release.headSha,
+    release.number,
+  );
+  return {
+    outcome: 'existing' as const,
+    pr: release.number,
+    headSha: release.headSha,
+  };
+}
+
+/** This is the preparer: the same GitHub operations are exercised by fixtures. */
+export async function prepareSelectiveRelease(
+  policy: SelectivePolicy,
+  candidate: SelectiveCandidate,
+  receipt: BuildReceipt,
+  expectedReceiptHash: string,
+  ports: SelectivePorts,
+): Promise<
+  | { outcome: 'no-change' }
+  | { outcome: 'existing'; pr: number; headSha: string }
+  | { outcome: 'prepared'; pr: number; headSha: string; url: string }
+> {
+  assertLiveWritesDisabled(policy, ports);
+  requireValue(
+    hash(canonical(policy)) === candidate.policySha256,
+    'Preparation policy changed.',
+  );
+  bindReceipt(candidate, receipt, expectedReceiptHash);
+  await assertCurrent(candidate, ports);
+  if (candidate.noChange) return { outcome: 'no-change' as const };
+  const releases = await ports.openReleases();
+  requireValue(
+    releases.length <= 1,
+    'Multiple open release proposals require reconciliation.',
+  );
+  if (releases.length) {
+    requireValue(
+      releases[0].candidateId === candidate.candidateId &&
+        shaPattern.test(releases[0].headSha),
+      'Another release proposal is active; preserve its selection and prepare again after review.',
+    );
+    return reuseRelease(candidate, ports, releases[0]);
+  }
+  const proof = selectiveProof(candidate, receipt);
+  const projected = cloneFiles(candidate.files);
+  projected[provenancePath] = {
+    mode: '100644',
+    bytes: Buffer.from(`${JSON.stringify(proof, null, 2)}\n`),
+  };
+  const changes = changedPaths(candidate.base.files, projected);
+  const entries: {
+    path: string;
+    mode: string;
+    type: 'blob';
+    sha: string | null;
+  }[] = [];
+  for (const change of changes) {
+    const file = projected[change.path];
+    if (!file) {
+      entries.push({
+        path: change.path,
+        mode: candidate.base.files[change.path].mode,
+        type: 'blob',
+        sha: null,
+      });
+      continue;
+    }
+    const created = await ports.request<{ sha: string }>('/git/blobs', 'POST', {
+      content: file.bytes.toString('base64'),
+      encoding: 'base64',
+    });
+    requireValue(
+      created.sha === gitBlob(file.bytes),
+      'Destination blob differs from planned bytes.',
+    );
+    entries.push({
+      path: change.path,
+      mode: file.mode,
+      type: 'blob',
+      sha: created.sha,
+    });
+  }
+  const tree = await ports.request<{ sha: string }>('/git/trees', 'POST', {
+    base_tree: candidate.base.tree,
+    tree: entries,
+  });
+  requireValue(shaPattern.test(tree.sha), 'Invalid destination tree.');
+  const commit = await ports.request<{
+    sha: string;
+    parents: { sha: string }[];
+  }>('/git/commits', 'POST', {
+    message: `Selective release ${candidate.manifest.releaseId} from verified staging ${candidate.source.sourceSha}`,
+    tree: tree.sha,
+    parents: [candidate.base.sha],
+  });
+  requireValue(
+    shaPattern.test(commit.sha) &&
+      canonical(commit.parents) === canonical([{ sha: candidate.base.sha }]),
+    'Destination ancestry must have exactly its production parent.',
+  );
+  await assertCurrent(candidate, ports);
+  assertCandidate(candidate);
+  const raced = await ports.openReleases();
+  if (raced.length) {
+    requireValue(
+      raced.length === 1 && raced[0].candidateId === candidate.candidateId,
+      'A concurrent release proposal appeared; no branch created.',
+    );
+    return reuseRelease(candidate, ports, raced[0]);
+  }
+  const branch = `release/selective/${candidate.candidateId}`;
+  // If a previous attempt created only the branch, reuse its verified projection.
+  const refs = await ports.request<{ ref: string; object: { sha: string } }[]>(
+    `/git/matching-refs/heads/${branch}`,
+    'GET',
+  );
+  let headSha = commit.sha;
+  if (refs.length) {
+    requireValue(
+      refs.length === 1 && refs[0].ref === `refs/heads/${branch}`,
+      'Ambiguous retry branch.',
+    );
+    headSha = refs[0].object.sha;
+    const existing = await readGitProject(ports, headSha);
+    checkStoredProjection(candidate, existing.files, existing.parents);
+  } else
+    await ports.request('/git/refs', 'POST', {
+      ref: `refs/heads/${branch}`,
+      sha: headSha,
+    });
+  await assertCurrent(candidate, ports);
+  const pr = await ports.request<{ number: number; html_url: string }>(
+    '/pulls',
+    'POST',
+    {
+      head: branch,
+      base: 'main',
+      draft: true,
+      title: `Selective release ${candidate.manifest.releaseId}`,
+      body: `Source ${candidate.source.sourceSha}; production base ${candidate.base.sha}.\n\nSelection: ${candidate.manifest.miniapps.map((e) => e.slug).join(', ') || '(explicitly empty)'}.\nCandidate ${candidate.candidateId}.\n\nReviewed snapshot updates also affect shared platform and already selected applications. This phase is test-only. No automatic merge or publication is authorized.`,
+    },
+  );
+  requireValue(
+    Number.isSafeInteger(pr.number) && pr.number > 0,
+    'Invalid created PR.',
+  );
+  await ensureQuality(ports, branch, headSha, pr.number);
+  return {
+    outcome: 'prepared' as const,
+    pr: pr.number,
+    headSha,
+    url: pr.html_url,
+  };
+}
+
+export interface SelectivePR {
+  state: 'open' | 'closed';
+  number: number;
+  baseSha: string;
+  headSha: string;
+  headRef: string;
+  repositoryId: string;
+  parents: string[];
+  mergeParents: string[];
+  files: ProjectFiles;
+}
+/** Do not execute PR code: compare its complete projected tree and fresh build proof. */
+export function checkSelectivePR(
+  policy: SelectivePolicy,
+  candidate: SelectiveCandidate,
+  pr: SelectivePR,
+  receipt: BuildReceipt,
+  expectedReceiptHash: string,
+) {
+  validateSelectivePolicy(policy);
+  bindReceipt(candidate, receipt, expectedReceiptHash);
+  requireValue(
+    pr.state === 'open' &&
+      Number.isSafeInteger(pr.number) &&
+      pr.number > 0 &&
+      pr.repositoryId === '1455524397' &&
+      pr.baseSha === candidate.base.sha &&
+      shaPattern.test(pr.headSha) &&
+      pr.headRef === `release/selective/${candidate.candidateId}` &&
+      canonical(pr.parents) === canonical([candidate.base.sha]) &&
+      canonical(pr.mergeParents) ===
+        canonical([candidate.base.sha, pr.headSha]),
+    'PR identity, ancestry or merge candidate is obsolete.',
+  );
+  requireValue(
+    hash(canonical(policy)) === candidate.policySha256,
+    'Verification policy changed.',
+  );
+  checkStoredProjection(candidate, pr.files, pr.parents);
+  return {
+    headSha: pr.headSha,
+    candidateId: candidate.candidateId,
+    verified: true as const,
+  };
+}

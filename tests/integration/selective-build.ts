@@ -33,6 +33,7 @@ for (const name of [
   'src',
   'public',
   'scripts/publication',
+  'scripts/promotion',
 ]) {
   await mkdir(resolve(root, name, '..'), { recursive: true });
   await cp(join(project, name), join(root, name), { recursive: true });

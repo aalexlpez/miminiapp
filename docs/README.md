@@ -44,6 +44,8 @@ La raíz de `docs/` contiene este mapa, [BOOTSTRAP.md](BOOTSTRAP.md), [PLANS.md]
 | CP-02 | [Implementación de apariencia](reports/cp02/execution.md) |
 | PB-01 | [Ejecución única de Plan B, I1–I6](reports/pb01/execution.md) e [investigación de skills y revisión UX](reports/pb01/frontend-skills-review.md) |
 | FE-01 | [Ejecución única del estándar/skills y piloto frontend](reports/fe01/execution.md), con [referencia I1 reproducible](reports/fe01/i1-baseline.json) |
+| PS-01 | [Preparación y pruebas del selector](reports/ps01/verification.md) |
+| PS-02 | [Integración selectiva y regresión bajo pruebas](reports/ps02/verification.md) |
 
 ## Mantener el orden
 

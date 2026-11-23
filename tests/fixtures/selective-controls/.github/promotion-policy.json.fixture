@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 2,
+  "source": {
+    "repository": "aalexlpez/miminiapp",
+    "id": "1445849027",
+    "branch": "staging",
+    "workflow": ".github/workflows/staging.yml",
+    "workflowBlob": "12a6159028993e9213fc1d99cde61354d80ae223",
+    "manifest": "https://miminiapp-staging.miminiapp-lab.workers.dev/release-manifest.json"
+  },
+  "destination": {
+    "repository": "soycerobytes/miminiapp",
+    "id": "1455524397",
+    "branch": "main"
+  },
+  "selection": "snapshot"
+}
