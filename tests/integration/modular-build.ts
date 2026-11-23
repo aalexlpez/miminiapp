@@ -107,6 +107,11 @@ async function prepareProject(
   await cp(path.join(projectRoot, 'public'), path.join(stageRoot, 'public'), {
     recursive: true,
   });
+  await cp(
+    path.join(projectRoot, 'scripts/publication'),
+    path.join(stageRoot, 'scripts/publication'),
+    { recursive: true },
+  );
   await symlink(
     path.join(projectRoot, 'node_modules'),
     path.join(stageRoot, 'node_modules'),

@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "shared": ["favicon.svg", "_redirects", "fonts/**", "brand/*.svg"],
+  "miniapps": { "plan-b": ["brand/plan-b/**"] }
+}

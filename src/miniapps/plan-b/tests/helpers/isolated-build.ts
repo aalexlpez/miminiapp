@@ -68,6 +68,11 @@ export async function createIsolatedBuild(
       await cp(path.join(projectRoot, directory), path.join(root, directory), {
         recursive: true,
       });
+    await cp(
+      path.join(projectRoot, 'scripts/publication'),
+      path.join(root, 'scripts/publication'),
+      { recursive: true },
+    );
     await symlink(
       path.join(projectRoot, 'node_modules'),
       path.join(root, 'node_modules'),
