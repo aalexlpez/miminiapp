@@ -4,6 +4,7 @@
 
 * **Estado:** `En curso`.
 * **ID:** PS-03.
+* **Plan canónico:** este archivo en `aalexlpez/miminiapp`; las copias de proyecto del destino no mantienen un estado independiente.
 * **Rama estable:** `feature/ps03-selective-release-installation`, una por repositorio y todas las iteraciones. La rama de producción se creará solo al autorizar I1, sin importar historia de desarrollo.
 * **Iteración actual:** I1 — candidata de instalación.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
@@ -25,10 +26,12 @@ Instalar consumidor, manifiesto y preparador selectivos; comprobar una promoció
 
 1. Conservar repositorios/historiales independientes, fuente elegible por SHA completo, selección acumulativa, controles preservados, `quality` obligatorio/strict y merge humano. Workers Builds sigue siendo el único publicador.
 2. La primera instalación sincroniza el proyecto de un staging validado y los controles revisados en un commit propio de producción. Incluir consumidor, configuración Astro, scripts comunes y manifiesto vacío coherentes entre sí; no etiquetar una copia parcial como snapshot completo de staging.
-3. La selección seguirá siendo explícita y fallará si falta el manifiesto. Workers Builds usará `npm run build:production` y `MINIAPP_BUILD_TARGET=production`, sin modificar el build de staging ni recurrir a un fallback que publique todo.
+3. La selección seguirá siendo explícita y fallará si falta el manifiesto. Workers Builds usará `npm run build:production && node scripts/promotion/production-identity.ts` y `MINIAPP_BUILD_TARGET=production`: compilación explícita seguida del emisor de identidad, propiedad del destino. No se modifica el build de staging ni se recurre a un fallback que publique todo.
 4. Sustituir el contrato exclusivamente de pruebas por una política operativa revisada y un modo inicial limitado a selección vacía: rechazar toda alta, incluida Plan B. Mantener simulación separada, validación del recibo/inputs/índice antes del contexto y escritor sin instalaciones ni ejecución de código importado. No basta cambiar un `if: false` o añadir una variable de activación.
 5. Deshabilitar el preparador legacy de snapshot completo antes de habilitar el selectivo. Conservar bloqueo compartido, una propuesta activa y recuperación sin force push. No habilitar publicadores o rollback de Actions.
 6. Registrar identidad de build y evidencia posterior del despliegue: SHA de main servido, SHA de staging, selección, build de Workers Builds y comprobaciones del sitio. Verificar el mecanismo real de identidad antes de implementarlo; una fecha prevista no acredita publicación ni se exige identidad binaria con staging.
+
+Concreción I1: el emisor usa las variables automáticas [documentadas por Cloudflare](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/#default-variables), `WORKERS_CI_COMMIT_SHA`, `WORKERS_CI_BUILD_UUID`, `WORKERS_CI_BRANCH` y `WORKERS_CI`. Una ejecución local/CI se distingue de Workers Builds y no acredita despliegue. El postpaso del comando debe terminar satisfactoriamente antes de continuar al publicador.
 7. El permiso de este plan alcanza una instalación y comprobación de catálogo vacío. Publicar Plan B, altas sintéticas en producción, retiradas, embargo del código y versiones independientes por app quedan fuera. La copia del código al repositorio público no equivale a servir sus rutas, módulos o iconos.
 
 ## Iteraciones secuenciales
@@ -68,6 +71,13 @@ Releer base/head/staging antes de preparar y comprobar una release. El avance po
 ## Estado y punto de parada
 
 I1 en curso; I2–I4 no iniciadas. La confirmación del propietario autoriza preparar y ejecutar este plan dentro del catálogo vacío. Las acciones operativas y merges siguen los puntos de intervención humana definidos arriba; no se dan por realizados ni se ejecutan por iniciativa del agente. Plan B continúa excluida.
+
+| Iteración | Progreso | Evidencia / siguiente condición |
+| --- | --- | --- |
+| I1 | Código y pruebas locales preparados; CI de la candidata pendiente | Snapshot completo `23424fc…`, manifiesto vacío, política `empty-catalog`, legacy bloqueado, recibo de candidata y emisor/verificador de identidad. Build real de 20 archivos; localhost ES/EN vacío y 404 de rutas/icono de Plan B. Staging vivo debe validarse desde el CI del preparador, sin inferirlo del 403 del entorno. |
+| I2 | No iniciada | Espera candidata y CI satisfactorios; después se pedirá primero pausar Workers Builds, sin merge todavía. |
+| I3 | No iniciada | Espera instalación y cambios de staging publicados/validados. |
+| I4 | No iniciada | Regresión y contraste remoto final, siempre la última etapa. |
 
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |

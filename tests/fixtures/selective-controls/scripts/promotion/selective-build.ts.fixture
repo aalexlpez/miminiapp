@@ -79,7 +79,9 @@ async function unchangedInput(root: string, expected: ProjectFiles) {
   }
   await visit('');
 }
-async function outputInventory(root: string): Promise<Record<string, string>> {
+export async function outputInventory(
+  root: string,
+): Promise<Record<string, string>> {
   const files: Record<string, string> = Object.create(null);
   async function visit(relative: string) {
     for (const entry of await readdir(join(root, relative), {
@@ -205,8 +207,8 @@ export async function verifySelectiveBuild(
     'Missing module audit for this exact release manifest.',
   );
   const receipt: BuildReceipt = {
-    schemaVersion: 1,
-    testOnly: true,
+    schemaVersion: 2,
+    purpose: 'candidate-build',
     candidateId: candidate.candidateId,
     inputSha256: projectDigest(candidate.files),
     manifestSha256: hash(releaseText(candidate.manifest)),

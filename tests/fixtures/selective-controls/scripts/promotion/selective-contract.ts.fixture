@@ -6,9 +6,9 @@ export const selectionPath = '.github/miniapp-release.json';
 export const schemaPath = 'scripts/promotion/miniapp-manifest.ts';
 export const selectivePolicyPath = '.github/selective-promotion-policy.json';
 export interface SelectivePolicy {
-  schemaVersion: 1;
-  mode: 'test-only';
-  writesEnabled: false;
+  schemaVersion: 1 | 2;
+  mode: 'test-only' | 'empty-catalog';
+  writesEnabled: boolean;
   selectionManifest: typeof selectionPath;
   sourceSchemaBlob: string;
   sourcePolicySha256: string;
@@ -76,13 +76,16 @@ export function validateSelectivePolicy(
     p &&
       Object.keys(p).sort().join(',') ===
         'mode,schemaVersion,selectionManifest,sourcePolicySha256,sourceSchemaBlob,writesEnabled' &&
-      p.schemaVersion === 1 &&
-      p.mode === 'test-only' &&
-      p.writesEnabled === false &&
+      ((p.schemaVersion === 1 &&
+        p.mode === 'test-only' &&
+        p.writesEnabled === false) ||
+        (p.schemaVersion === 2 &&
+          p.mode === 'empty-catalog' &&
+          p.writesEnabled === true)) &&
       p.selectionManifest === selectionPath &&
       shaPattern.test(p.sourceSchemaBlob) &&
       hashPattern.test(p.sourcePolicySha256),
-    'Selective policy is not the approved test-only contract.',
+    'Selective policy is not an approved test-only or empty-catalog contract.',
   );
 }
 export function assertSourceIdentity(value: SourceIdentity) {
@@ -160,8 +163,8 @@ export function assertManifest(value: MiniappRelease, sha: string) {
 }
 
 export interface BuildReceipt {
-  schemaVersion: 1;
-  testOnly: true;
+  schemaVersion: 2;
+  purpose: 'candidate-build';
   candidateId: string;
   inputSha256: string;
   manifestSha256: string;
@@ -178,9 +181,9 @@ export function validateReceipt(value: unknown): asserts value is BuildReceipt {
   requireValue(
     r &&
       Object.keys(r).sort().join(',') ===
-        'candidateId,checks,command,distSha256,files,inputSha256,manifestSha256,schemaVersion,testOnly' &&
-      r.schemaVersion === 1 &&
-      r.testOnly === true &&
+        'candidateId,checks,command,distSha256,files,inputSha256,manifestSha256,purpose,schemaVersion' &&
+      r.schemaVersion === 2 &&
+      r.purpose === 'candidate-build' &&
       hashPattern.test(r.candidateId) &&
       hashPattern.test(r.inputSha256) &&
       hashPattern.test(r.manifestSha256) &&
