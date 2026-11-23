@@ -75,3 +75,10 @@ El propietario aporta las capturas solicitadas: producción usa `soycerobytes/mi
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |
 | 2026-11-23 | `En curso` | Agente | Dependencia de previews resuelta por capturas; preparar entrega y comprobar checks remotos. |
+
+## Evidencia de la entrega
+
+* [Desarrollo #32](https://github.com/aalexlpez/miminiapp/pull/32), borrador hacia `staging`: run `45209995019` satisfactorio, con 560 unitarias, 27 componentes, 166 E2E y las dos integraciones.
+* [Producción #8](https://github.com/soycerobytes/miminiapp/pull/8), borrador hacia `main`: run `45210054633` satisfactorio, 111 unitarias de controles más siete del simulador, lint/formato correctos.
+* El propietario configura `quality` obligatorio de GitHub Actions. Falta acreditar `strict_required_status_checks_policy: true`; se solicita únicamente esa casilla.
+* La integración del preparador real y la activación de publicación siguen fuera de esta entrega. Las dos PR permanecen en borrador, sin merge ni despliegue. El cierre documental conserva los checks automáticos del head actual.

@@ -1,6 +1,6 @@
 # PS-01 · Preparación local y regresión
 
-**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación local verificada; entrega de pruebas en GitHub en curso; el estado canónico está en [PS-01](../../exec-plans/active/PS-01-publicacion-selectiva-pruebas.md).
+**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación y pruebas locales/remotas comprobadas; cierre documental en curso; el estado canónico está en [PS-01](../../exec-plans/active/PS-01-publicacion-selectiva-pruebas.md).
 
 ## Resultado y límites
 
@@ -44,3 +44,13 @@ Consultar la [guía](../../guides/selective-publication.md). Primero confirmar q
 ## Dependencia de previews resuelta — 2026-11-23
 
 Capturas del propietario confirman `soycerobytes/miminiapp`, producción en `main`, builds de producción habilitados y `Builds for Preview branches` apagado. Se preparan PR de pruebas en borrador en ambos repositorios, sin merge ni despliegue. Producción añade al paso de configuración de `quality` las siete unitarias del simulador, con los permisos de lectura existentes. La limitación anterior sobre ausencia de PR/push describe el cierre local; la entrega remota se registrará por separado tras comprobar el resultado real de CI.
+
+## PR de pruebas y evidencia de CI — 2026-11-23
+
+* Desarrollo: [PR #32](https://github.com/aalexlpez/miminiapp/pull/32), base `staging`, en borrador. `quality` satisfactorio sobre `5ef3366c9aa8ad5accc740fff342d17e6b3c9134`, run [45209995019](https://github.com/aalexlpez/miminiapp/actions/runs/45209995019), job `137815905574`. Logs contrastados: 560 unitarias, 27 componentes, 166 E2E y ambas integraciones, incluidas las tres selecciones y los casos de rechazo.
+* Producción: [PR #8](https://github.com/soycerobytes/miminiapp/pull/8), base `main`, en borrador. `quality` satisfactorio sobre `a09fd018e34c55f5fca6f0493d2997af58cf764d`, run [45210054633](https://github.com/soycerobytes/miminiapp/actions/runs/45210054633), job `137816113717`. Logs contrastados: 111 pruebas de controles más 7 del simulador; lint y formato correctos. El paso de verificar una release se omite como corresponde a una PR de configuración; no hay publicación.
+* El propietario incorpora `required_status_checks` al ruleset `27191603`: `quality` obligatorio, vinculado a GitHub Actions (`integration_id: 15368`). Primera lectura posterior: `strict_required_status_checks_policy: false`; se solicita activar también la base actualizada. La conexión conserva `push: true`, `admin: false`. Esta configuración de protección no autoriza merge, migración ni alta de Plan B.
+
+La captura del panel se usa como evidencia humana del ajuste de previews. No se han cambiado ajustes de Cloudflare ni creado releases. Las URLs de PR ficticias impresas por los tests de API son fixtures; no son PR adicionales creadas por la prueba.
+
+Los SHAs anteriores identifican los candidatos de implementación que pasaron CI. El commit de cierre cambia únicamente documentación: cada PR expone también el check de su head documental actual, que debe quedar satisfactorio antes de entregar el resultado. La preparación real del workflow de promoción selectiva sigue pendiente; estas PR prueban selector y simulador, sin activar publicación.
