@@ -63,7 +63,7 @@ Solo se escriben ramas locales y candidatos en directorios temporales nuevos. La
 
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |
-| 2026-11-23 | `Aprobado` / `Autorizado` | Propietario | Continuar con la propuesta revisada; únicamente preparación y pruebas, sin publicar Plan B. |
+| 2026-11-23 | `Aprobado` | Propietario | Continuar con la propuesta revisada; únicamente preparación y pruebas, sin publicar Plan B. |
+| 2026-11-23 | `Autorizado` | Propietario | «Haz lo que esté a tu alcance», limitado a pruebas. |
 | 2026-11-23 | `En curso` | Agente | Registro del alcance autorizado y comienzo de I1. |
-
 | 2026-11-23 | `Verificado` | Agente | Criterios locales comprobados y regresión concluida. Sin publicar Plan B, sin activar workflows y sin declarar pruebas remotas. |
