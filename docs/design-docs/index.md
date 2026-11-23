@@ -216,3 +216,12 @@ Producción vive en `soycerobytes/miminiapp`: commit propio con padre de producc
 Sustituye el anterior flujo de producción en el mismo repositorio mediante Actions y el requisito de reutilizar el artefacto binario. Las pruebas de rollback antiguo, dos promociones del mismo artefacto y el gate antiguo no condicionan el cierre actual de I-03. No se rebajan ni modifican protecciones mediante esta documentación. Los demás controles de seguridad y el aislamiento de staging se conservan; no se presenta la prueba GET/403 como aislamiento de escritura verificado.
 
 El [plan I-03](../exec-plans/completed/I-03-github-actions-y-cloudflare.md) y su [informe de contraste](../reports/i03/contract-verification-2026-11-16.md) distinguen contrato aprobado, implementación observada y limitaciones. Esta indicación autoriza registrar y revisar lo existente; no ejecutar una nueva promoción, merge o despliegue.
+
+
+## Enmienda del 2026-11-23 — Publicación selectiva, preparación y pruebas
+
+**Estado:** `Aprobada` para preparación y pruebas locales. **Responsable:** Alexander López, propietario. Autoriza continuar con la propuesta revisada y precisa que Plan B no está en producción ni debe publicarse; «hay que limitarnos a hacer pruebas». No autoriza activar el circuito ni alterar reglas remotas.
+
+Preparar un manifiesto acumulativo, selección antes de compilar de imports/rutas/activos, build explícito por entorno y simulación local de promoción. Staging mantiene candidatas y producción exige manifiesto válido, incluido vacío intencional. Se conserva el descriptor actual y se evita duplicar el registro: el generador interpreta su forma estática documentada. Los activos públicos requieren propiedad inequívoca. Cambiar solo la selección cuenta como release; repetirla es idempotente. Todas las apps autorizadas comparten snapshot y plataforma. El merge sigue siendo humano y Workers Builds, el único publicador futuro.
+
+Implementación acotada a ramas locales y pruebas sintéticas; cero altas reales en producción, workflows activos sin cambios. La integración remota, `quality` obligatorio, entrada de build en Cloudflare, recibo de despliegue y migración se preparan como dependencias de activación, sin ejecutarlas. No se promete congelación de candidatas antiguas, embargo ni versiones independientes. Plan canónico: PS-01, `docs/exec-plans/active/PS-01-publicacion-selectiva-pruebas.md` en desarrollo.
