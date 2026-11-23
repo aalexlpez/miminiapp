@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "mode": "test-only",
+  "writesEnabled": false,
+  "selectionManifest": ".github/miniapp-release.json",
+  "sourceSchemaBlob": "8e1c184cddc2262380091306660e65dbec5846cd",
+  "sourcePolicySha256": "f209f5081d4ba6ab65bdf74f8b74b971ff5f2bc1ec013d8475c847e30485de3e"
+}

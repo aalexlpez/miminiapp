@@ -1,0 +1,321 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import {
+  canonical,
+  gitBlob,
+  hash,
+  projectDigest,
+  selectivePolicyPath,
+  schemaPath,
+  type DestinationSnapshot,
+  type ProjectFile,
+  type ProjectFiles,
+  type SelectionRequest,
+  type SelectivePolicy,
+  type SourceSnapshot,
+} from '../../scripts/promotion/selective-contract.ts';
+import {
+  releaseText,
+  type MiniappRelease,
+} from '../../scripts/promotion/miniapp-manifest.ts';
+import { provenancePath } from '../../scripts/promotion/core.ts';
+import type { SelectivePorts } from '../../scripts/promotion/selective-engine.ts';
+
+export const file = (text: string | Buffer): ProjectFile => ({
+  mode: '100644',
+  bytes: Buffer.from(text),
+});
+const sha1 = (value: string) => createHash('sha1').update(value).digest('hex');
+const clone = (files: ProjectFiles): ProjectFiles =>
+  Object.fromEntries(
+    Object.entries(files).map(([path, value]) => [
+      path,
+      { mode: value.mode, bytes: Buffer.from(value.bytes) },
+    ]),
+  );
+
+export function selectiveFixture() {
+  const policyBytes = readFileSync(
+    new URL('../../.github/selective-promotion-policy.json', import.meta.url),
+  );
+  const sourcePolicyBytes = readFileSync(
+    new URL('../../.github/promotion-policy.json', import.meta.url),
+  );
+  const policy = JSON.parse(policyBytes.toString('utf8')) as SelectivePolicy;
+  const sourcePolicy = JSON.parse(sourcePolicyBytes.toString('utf8'));
+  const schema = file(
+    readFileSync(
+      new URL('../../scripts/promotion/miniapp-manifest.ts', import.meta.url),
+    ),
+  );
+  const source: SourceSnapshot = {
+    identity: {
+      repository: 'aalexlpez/miminiapp',
+      repositoryId: '1445849027',
+      sourceSha: 'a'.repeat(40),
+      sourceTree: 'c'.repeat(40),
+      runId: '12',
+      runAttempt: 1,
+      workflowBlob: sourcePolicy.source.workflowBlob,
+      stagingPayloadSha256: 'd'.repeat(64),
+    },
+    registrations: [
+      { slug: 'plan-b', published: true },
+      { slug: 'ps02-a', published: true },
+      { slug: 'ps02-b', published: true },
+      { slug: 'ps02-draft', published: false },
+    ],
+    files: {
+      [schemaPath]: schema,
+      [sourcePolicy.source.workflow]: file(
+        readFileSync(
+          new URL(
+            '../fixtures/source-release/workflows/staging.yml',
+            import.meta.url,
+          ),
+        ),
+      ),
+      'src/miniapps/registry.ts': file('source registry'),
+      'src/platform.ts': file('current source platform'),
+      'src/new.ts': file('new project file'),
+      'public/brand/plan-b/icon.png': file('source icon'),
+      '.github/untrusted-control.yml': file('never copy source controls'),
+    },
+  };
+  const base: DestinationSnapshot = {
+    sha: 'b'.repeat(40),
+    tree: 'e'.repeat(40),
+    files: {
+      [schemaPath]: schema,
+      [selectivePolicyPath]: file(policyBytes),
+      '.github/promotion-policy.json': file(sourcePolicyBytes),
+      '.github/workflows/ci.yml': file('owned production control'),
+      'README.md': file('owned production readme'),
+      'src/platform.ts': file('previous production platform'),
+      'src/obsolete.ts': file('obsolete source file'),
+    },
+  };
+  const request: SelectionRequest = {
+    stagingSha: source.identity.sourceSha,
+    expectedBaseSha: base.sha,
+    releaseId: 'ps02-empty',
+    plannedReleaseDate: '2027-01-01',
+    addMiniapps: [],
+    initializeEmpty: true,
+  };
+  return { policy, source, base, request };
+}
+
+/** Strict in-memory GitHub API. Unknown calls fail; no network fallback exists. */
+export class MemorySelectiveGitHub implements SelectivePorts {
+  readonly kind = 'test-fixture' as const;
+  source: SourceSnapshot;
+  base: DestinationSnapshot;
+  calls: { path: string; method: string; body?: unknown }[] = [];
+  blobs = new Map<string, Buffer>();
+  trees = new Map<string, ProjectFiles>();
+  commits = new Map<
+    string,
+    { tree: string; parents: { sha: string }[]; files: ProjectFiles }
+  >();
+  refs = new Map<string, string>();
+  pulls: {
+    number: number;
+    headRef: string;
+    headSha: string;
+    baseSha: string;
+    draft: boolean;
+  }[] = [];
+  runs: { head_sha: string; head_branch: string }[] = [];
+  failOnce: string | undefined;
+  onCall: ((path: string, method: string) => void) | undefined;
+  sequence = 0;
+  constructor(source: SourceSnapshot, base: DestinationSnapshot) {
+    this.source = {
+      ...source,
+      files: clone(source.files),
+      identity: structuredClone(source.identity),
+    };
+    this.base = { ...base, files: clone(base.files) };
+    this.storeCommit(base.sha, base.tree, [], base.files);
+  }
+  storeCommit(
+    sha: string,
+    tree: string,
+    parents: { sha: string }[],
+    files: ProjectFiles,
+  ) {
+    const copy = clone(files);
+    this.commits.set(sha, { tree, parents, files: copy });
+    this.trees.set(tree, copy);
+    for (const value of Object.values(copy))
+      this.blobs.set(gitBlob(value.bytes), value.bytes);
+  }
+  async observe() {
+    return {
+      baseSha: this.base.sha,
+      source: structuredClone(this.source.identity),
+    };
+  }
+  async openReleases() {
+    return this.pulls.map((pr) => {
+      const bytes = this.commits.get(pr.headSha)?.files[provenancePath]?.bytes;
+      const proof = bytes ? JSON.parse(bytes.toString('utf8')) : null;
+      return {
+        number: pr.number,
+        headSha: pr.headSha,
+        candidateId: proof?.candidateId ?? null,
+      };
+    });
+  }
+  async request<T>(
+    path: string,
+    method: 'GET' | 'POST',
+    body?: unknown,
+  ): Promise<T> {
+    this.calls.push({ path, method, body });
+    this.onCall?.(path, method);
+    if (this.failOnce === path) {
+      this.failOnce = undefined;
+      throw new Error(`Simulated API failure: ${path}`);
+    }
+    let result: unknown;
+    const b = body as Record<string, unknown>;
+    if (method === 'GET' && path.startsWith('/git/matching-refs/heads/')) {
+      const prefix = `refs/heads/${path.slice('/git/matching-refs/heads/'.length)}`;
+      result = [...this.refs]
+        .filter(([ref]) => ref.startsWith(prefix))
+        .map(([ref, sha]) => ({ ref, object: { sha } }));
+    } else if (method === 'GET' && path.startsWith('/git/commits/')) {
+      const value = this.commits.get(path.slice('/git/commits/'.length));
+      if (!value) throw new Error('Missing simulated commit.');
+      result = { tree: { sha: value.tree }, parents: value.parents };
+    } else if (method === 'GET' && path.startsWith('/git/trees/')) {
+      const files = this.trees.get(
+        path.slice('/git/trees/'.length).split('?')[0],
+      );
+      if (!files) throw new Error('Missing simulated tree.');
+      result = {
+        truncated: false,
+        tree: Object.entries(files).map(([path, value]) => ({
+          path,
+          type: 'blob',
+          mode: value.mode,
+          sha: gitBlob(value.bytes),
+        })),
+      };
+    } else if (method === 'GET' && path.startsWith('/git/blobs/')) {
+      const bytes = this.blobs.get(path.slice('/git/blobs/'.length));
+      if (!bytes) throw new Error('Missing simulated blob.');
+      result = {
+        encoding: 'base64',
+        content: bytes.toString('base64'),
+        size: bytes.length,
+      };
+    } else if (
+      method === 'GET' &&
+      path.startsWith('/actions/workflows/ci.yml/runs')
+    ) {
+      const sha = new URL(`https://example.invalid${path}`).searchParams.get(
+        'head_sha',
+      );
+      result = {
+        workflow_runs: this.runs.filter((run) => run.head_sha === sha),
+      };
+    } else if (method === 'POST' && path === '/git/blobs') {
+      const bytes = Buffer.from(
+        String(b.content),
+        b.encoding === 'base64' ? 'base64' : 'utf8',
+      );
+      const sha = gitBlob(bytes);
+      this.blobs.set(sha, bytes);
+      result = { sha };
+    } else if (method === 'POST' && path === '/git/trees') {
+      const previous = this.trees.get(String(b.base_tree));
+      if (!previous) throw new Error('Unknown simulated base tree.');
+      const files = clone(previous);
+      for (const entry of b.tree as {
+        path: string;
+        mode: '100644' | '100755';
+        sha: string | null;
+      }[]) {
+        if (entry.sha === null) delete files[entry.path];
+        else {
+          const bytes = this.blobs.get(entry.sha);
+          if (!bytes) throw new Error('Unknown simulated blob.');
+          files[entry.path] = { mode: entry.mode, bytes };
+        }
+      }
+      const sha = sha1(projectDigest(files));
+      this.trees.set(sha, files);
+      result = { sha };
+    } else if (method === 'POST' && path === '/git/commits') {
+      const tree = String(b.tree);
+      const files = this.trees.get(tree);
+      if (!files) throw new Error('Unknown simulated commit tree.');
+      const parents = (b.parents as string[]).map((sha) => ({ sha }));
+      const sha = sha1(canonical({ ...b, sequence: ++this.sequence }));
+      this.storeCommit(sha, tree, parents, files);
+      result = { sha, parents };
+    } else if (method === 'POST' && path === '/git/refs') {
+      const ref = String(b.ref);
+      if (this.refs.has(ref)) throw new Error('Simulated ref already exists.');
+      this.refs.set(ref, String(b.sha));
+      result = { ref, object: { sha: b.sha } };
+    } else if (method === 'POST' && path === '/pulls') {
+      const headRef = String(b.head);
+      const headSha = this.refs.get(`refs/heads/${headRef}`);
+      if (!headSha || this.pulls.some((pr) => pr.headRef === headRef))
+        throw new Error('Missing or duplicate simulated PR branch.');
+      const number = this.pulls.length + 20;
+      this.pulls.push({
+        number,
+        headRef,
+        headSha,
+        baseSha: this.base.sha,
+        draft: b.draft === true,
+      });
+      result = { number, html_url: `https://example.invalid/pr/${number}` };
+    } else if (
+      method === 'POST' &&
+      path === '/actions/workflows/ci.yml/dispatches'
+    ) {
+      const head_branch = String(b.ref),
+        head_sha = this.refs.get(`refs/heads/${head_branch}`);
+      if (!head_sha) throw new Error('Missing simulated dispatch head.');
+      this.runs.push({ head_sha, head_branch });
+    } else throw new Error(`Unmocked GitHub operation: ${method} ${path}`);
+    return result as T;
+  }
+  accept(sha: string) {
+    const commit = this.commits.get(sha);
+    if (!commit) throw new Error('Unknown simulated accepted commit.');
+    this.base = { sha, tree: commit.tree, files: clone(commit.files) };
+    this.pulls = [];
+  }
+}
+export function syntheticReceipt(candidate: {
+  candidateId: string;
+  inputSha256: string;
+  manifest: MiniappRelease;
+}) {
+  const files = {
+    'es/index.html': hash('es catalogue'),
+    'en/index.html': hash('en catalogue'),
+  };
+  return {
+    schemaVersion: 1 as const,
+    testOnly: true as const,
+    candidateId: candidate.candidateId,
+    inputSha256: candidate.inputSha256,
+    manifestSha256: hash(releaseText(candidate.manifest)),
+    files,
+    distSha256: hash(canonical(files)),
+    command: 'node scripts/publication/cli.ts' as const,
+    checks: {
+      routes: true as const,
+      excludedAssets: true as const,
+      sourceUnchanged: true as const,
+    },
+  };
+}

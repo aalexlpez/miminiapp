@@ -1,0 +1,213 @@
+import { createHash } from 'node:crypto';
+import { isSnapshotPath, requireValue, safePath } from './core.ts';
+import { validateRelease, type MiniappRelease } from './miniapp-manifest.ts';
+
+export const selectionPath = '.github/miniapp-release.json';
+export const schemaPath = 'scripts/promotion/miniapp-manifest.ts';
+export const selectivePolicyPath = '.github/selective-promotion-policy.json';
+export interface SelectivePolicy {
+  schemaVersion: 1;
+  mode: 'test-only';
+  writesEnabled: false;
+  selectionManifest: typeof selectionPath;
+  sourceSchemaBlob: string;
+  sourcePolicySha256: string;
+}
+export interface ProjectFile {
+  bytes: Buffer;
+  mode: '100644' | '100755';
+}
+export type ProjectFiles = Record<string, ProjectFile>;
+export interface SourceIdentity {
+  repository: 'aalexlpez/miminiapp';
+  repositoryId: '1445849027';
+  sourceSha: string;
+  sourceTree: string;
+  runId: string;
+  runAttempt: number;
+  workflowBlob: string;
+  stagingPayloadSha256: string;
+}
+export interface SourceSnapshot {
+  identity: SourceIdentity;
+  files: ProjectFiles;
+  registrations: { slug: string; published: boolean }[];
+}
+export interface DestinationSnapshot {
+  sha: string;
+  tree: string;
+  files: ProjectFiles;
+}
+export interface SelectionRequest {
+  stagingSha: string;
+  expectedBaseSha: string;
+  releaseId: string;
+  plannedReleaseDate: string;
+  addMiniapps: string[];
+  initializeEmpty: boolean;
+}
+export const shaPattern = /^[a-f0-9]{40}$/;
+export const hashPattern = /^[a-f0-9]{64}$/;
+export const hash = (bytes: string | Uint8Array) =>
+  createHash('sha256').update(bytes).digest('hex');
+export const gitBlob = (bytes: Uint8Array) =>
+  createHash('sha1')
+    .update(`blob ${bytes.byteLength}\0`)
+    .update(bytes)
+    .digest('hex');
+
+/** Canonical data only, independent of insertion order. */
+export function canonical(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
+  if (value && typeof value === 'object')
+    return `{${Object.entries(value)
+      .sort(([a], [b]) => a.localeCompare(b, 'en'))
+      .map(([key, entry]) => `${JSON.stringify(key)}:${canonical(entry)}`)
+      .join(',')}}`;
+  const result = JSON.stringify(value);
+  requireValue(result !== undefined, 'Undefined data cannot be signed.');
+  return result;
+}
+export function validateSelectivePolicy(
+  value: unknown,
+): asserts value is SelectivePolicy {
+  const p = value as SelectivePolicy;
+  requireValue(
+    p &&
+      Object.keys(p).sort().join(',') ===
+        'mode,schemaVersion,selectionManifest,sourcePolicySha256,sourceSchemaBlob,writesEnabled' &&
+      p.schemaVersion === 1 &&
+      p.mode === 'test-only' &&
+      p.writesEnabled === false &&
+      p.selectionManifest === selectionPath &&
+      shaPattern.test(p.sourceSchemaBlob) &&
+      hashPattern.test(p.sourcePolicySha256),
+    'Selective policy is not the approved test-only contract.',
+  );
+}
+export function assertSourceIdentity(value: SourceIdentity) {
+  requireValue(
+    value &&
+      value.repository === 'aalexlpez/miminiapp' &&
+      value.repositoryId === '1445849027' &&
+      shaPattern.test(value.sourceSha) &&
+      shaPattern.test(value.sourceTree) &&
+      shaPattern.test(value.workflowBlob) &&
+      /^[1-9]\d*$/.test(value.runId) &&
+      Number.isSafeInteger(value.runAttempt) &&
+      value.runAttempt > 0 &&
+      hashPattern.test(value.stagingPayloadSha256),
+    'Invalid source evidence.',
+  );
+}
+export function validateProjectFiles(files: ProjectFiles) {
+  requireValue(
+    files && typeof files === 'object' && !Array.isArray(files),
+    'Invalid project files.',
+  );
+  for (const [path, file] of Object.entries(files)) {
+    requireValue(
+      safePath(path) &&
+        file &&
+        ['100644', '100755'].includes(file.mode) &&
+        Buffer.isBuffer(file.bytes) &&
+        file.bytes.length <= 100 * 1024 * 1024,
+      `Unsupported project file: ${path}`,
+    );
+    const text = file.bytes.toString('utf8');
+    requireValue(
+      !/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bgh[pousr]_[A-Za-z0-9]{30,}|\bgithub_pat_[A-Za-z0-9_]{40,}/.test(
+        text,
+      ),
+      `Credential-shaped project content: ${path}`,
+    );
+    if (path === '.npmrc')
+      requireValue(
+        text
+          .split('\n')
+          .every(
+            (line) =>
+              !line.trim() ||
+              /^(?:engine-strict|strict-peer-deps|save-exact)=true$/.test(
+                line.trim(),
+              ),
+          ),
+        'Unreviewed npm configuration.',
+      );
+  }
+}
+export function projectDigest(files: ProjectFiles) {
+  return hash(
+    canonical(
+      Object.fromEntries(
+        Object.entries(files).map(([path, file]) => [
+          path,
+          { mode: file.mode, sha256: hash(file.bytes) },
+        ]),
+      ),
+    ),
+  );
+}
+export function isApplicationPath(path: string) {
+  return isSnapshotPath(path) && path !== selectionPath;
+}
+export function assertManifest(value: MiniappRelease, sha: string) {
+  validateRelease(value);
+  requireValue(
+    value.sourceSha === sha,
+    'Selection source differs from the candidate.',
+  );
+}
+
+export interface BuildReceipt {
+  schemaVersion: 1;
+  testOnly: true;
+  candidateId: string;
+  inputSha256: string;
+  manifestSha256: string;
+  files: Record<string, string>;
+  distSha256: string;
+  command: 'node scripts/publication/cli.ts';
+  checks: { routes: true; excludedAssets: true; sourceUnchanged: true };
+}
+export function receiptHash(receipt: BuildReceipt) {
+  return hash(canonical(receipt));
+}
+export function validateReceipt(value: unknown): asserts value is BuildReceipt {
+  const r = value as BuildReceipt;
+  requireValue(
+    r &&
+      Object.keys(r).sort().join(',') ===
+        'candidateId,checks,command,distSha256,files,inputSha256,manifestSha256,schemaVersion,testOnly' &&
+      r.schemaVersion === 1 &&
+      r.testOnly === true &&
+      hashPattern.test(r.candidateId) &&
+      hashPattern.test(r.inputSha256) &&
+      hashPattern.test(r.manifestSha256) &&
+      hashPattern.test(r.distSha256) &&
+      r.command === 'node scripts/publication/cli.ts',
+    'Invalid selective build receipt.',
+  );
+  requireValue(
+    canonical(r.checks) ===
+      canonical({
+        routes: true,
+        excludedAssets: true,
+        sourceUnchanged: true,
+      }) &&
+      r.files &&
+      typeof r.files === 'object' &&
+      !Array.isArray(r.files) &&
+      Object.keys(r.files).length > 0 &&
+      Object.entries(r.files).every(
+        ([path, digest]) =>
+          safePath(path) &&
+          !/(^|\/)(?:src|tests|scripts|node_modules|\.local)(\/|$)/.test(
+            path,
+          ) &&
+          hashPattern.test(digest),
+      ) &&
+      hash(canonical(r.files)) === r.distSha256,
+    'Build receipt inventory/checks are inconsistent.',
+  );
+}

@@ -5,7 +5,7 @@
 * **Estado:** `En curso`.
 * **ID:** PS-02.
 * **Rama estable:** `feature/ps02-release-integration-tests`, única por repositorio para todas las iteraciones.
-* **Iteración actual:** I2 — candidata exacta y conexión al compilador.
+* **Iteración actual:** I3 — workflow propuesto y fallos.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Dependencias de inicio:** resueltas por la confirmación del propietario «si lo autorizo» el 2026-11-23: PS-01 aceptado, contrato PS-02 aprobado y ejecución autorizada. El merge de #32 se conserva como evidencia de integración, no como fuente de esa aceptación.
@@ -81,8 +81,8 @@ Esperar aceptación de PS-01 y aprobación/autorización de contrato y plan ante
 | Iteración | Trabajo | Evidencia |
 | --- | --- | --- |
 | I1 | Completada | Esquema controlado, política con escrituras desactivadas, puertos GitHub e índice/evidencia tipados. 17 pruebas iniciales del motor y 31 del contrato/selector de desarrollo. |
-| I2 | En ejecución | Preparar materialización y build real del candidato. |
-| I3 | No iniciada | Depende de I2. |
+| I2 | Completada | Compilador real y transporte GitHub estricto en memoria: vacío/A/A+B, rutas servidas y 404 de Plan B, ascendencia propia, reintentos y fechas acumulativas. 23 pruebas del motor/build/CLI; tipos y lint de ambos repositorios pasan. |
+| I3 | En ejecución | Preparar receta desactivada, CI de lectura y ensayos de concurrencia/recuperación. |
 | I4 | No iniciada | Regresión final. |
 
 | Fecha | Estado | Actor | Motivo |

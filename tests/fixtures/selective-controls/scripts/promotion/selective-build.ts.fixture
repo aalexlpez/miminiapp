@@ -1,0 +1,238 @@
+import { spawnSync } from 'node:child_process';
+import {
+  chmod,
+  lstat,
+  mkdir,
+  readdir,
+  readFile,
+  writeFile,
+} from 'node:fs/promises';
+import { dirname, join, resolve } from 'node:path';
+import { requireValue, safePath } from './core.ts';
+import {
+  canonical,
+  hash,
+  projectDigest,
+  receiptHash,
+  type BuildReceipt,
+  type ProjectFiles,
+} from './selective-contract.ts';
+import {
+  assertCandidate,
+  type SelectiveCandidate,
+} from './selective-engine.ts';
+import { releaseText } from './miniapp-manifest.ts';
+
+export async function writeCandidate(
+  root: string,
+  candidate: SelectiveCandidate,
+) {
+  assertCandidate(candidate);
+  requireValue(
+    !(await lstat(root).catch((e: NodeJS.ErrnoException) => {
+      if (e.code === 'ENOENT') return null;
+      throw e;
+    })),
+    'Candidate output must be a new directory.',
+  );
+  await mkdir(root, { recursive: true });
+  for (const [path, file] of Object.entries(candidate.files)) {
+    const target = join(root, path);
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(target, file.bytes, { flag: 'wx' });
+    await chmod(target, file.mode === '100755' ? 0o755 : 0o644);
+  }
+}
+async function unchangedInput(root: string, expected: ProjectFiles) {
+  for (const [path, file] of Object.entries(expected)) {
+    const filename = join(root, path);
+    const stat = await lstat(filename);
+    requireValue(
+      stat.isFile() &&
+        !stat.isSymbolicLink() &&
+        (stat.mode & 0o111 ? '100755' : '100644') === file.mode &&
+        (await readFile(filename)).equals(file.bytes),
+      `Build changed its candidate input: ${path}`,
+    );
+  }
+}
+async function outputInventory(root: string): Promise<Record<string, string>> {
+  const files: Record<string, string> = Object.create(null);
+  async function visit(relative: string) {
+    for (const entry of await readdir(join(root, relative), {
+      withFileTypes: true,
+    })) {
+      const path = relative ? `${relative}/${entry.name}` : entry.name;
+      requireValue(
+        safePath(path) &&
+          !/(^|\/)(src|tests|scripts|node_modules|\.local)(\/|$)/.test(path),
+        'Unservable build output.',
+      );
+      const filename = join(root, path);
+      const info = await lstat(filename);
+      requireValue(
+        !info.isSymbolicLink(),
+        'Build output must not contain symlinks.',
+      );
+      if (info.isDirectory()) await visit(path);
+      else {
+        requireValue(info.isFile(), 'Unsupported build output entry.');
+        files[path] = hash(await readFile(filename));
+      }
+    }
+  }
+  requireValue(
+    (await lstat(root)).isDirectory() && !(await lstat(root)).isSymbolicLink(),
+    'Invalid build directory.',
+  );
+  await visit('');
+  return Object.fromEntries(
+    Object.entries(files).sort(([a], [b]) => a.localeCompare(b, 'en')),
+  );
+}
+
+/** Run after the explicit production compiler in a read-only, isolated job. */
+export async function verifySelectiveBuild(
+  root: string,
+  candidate: SelectiveCandidate,
+) {
+  assertCandidate(candidate);
+  await unchangedInput(root, candidate.files);
+  const directory = join(root, 'dist');
+  const files = await outputInventory(directory);
+  const selected = new Set(
+    candidate.manifest.miniapps.map((entry) => entry.slug),
+  );
+  const expectedRoutes = [...selected]
+    .flatMap((slug) =>
+      ['es', 'en'].map((locale) => `${locale}/apps/${slug}/index.html`),
+    )
+    .sort();
+  const actualRoutes = Object.keys(files)
+    .filter((path) => /^(es|en)\/apps\//.test(path) && path.endsWith('.html'))
+    .sort();
+  requireValue(
+    canonical(expectedRoutes) === canonical(actualRoutes),
+    'Build routes do not match the exact release selection.',
+  );
+  const excluded = candidate.registrations
+    .filter((entry) => !selected.has(entry.slug))
+    .map((entry) => entry.slug);
+  for (const locale of ['es', 'en']) {
+    const catalogue = await readFile(
+      join(directory, locale, 'index.html'),
+      'utf8',
+    );
+    for (const slug of selected)
+      requireValue(
+        catalogue.includes(`/${locale}/apps/${slug}/`),
+        'Selected miniapp missing from catalogue.',
+      );
+    for (const slug of excluded)
+      requireValue(
+        !catalogue.includes(`/apps/${slug}/`),
+        'Excluded miniapp appears in catalogue.',
+      );
+  }
+  for (const path of Object.keys(files)) {
+    requireValue(
+      !excluded.some(
+        (slug) =>
+          path.includes(`brand/${slug}/`) || path.includes(`apps/${slug}/`),
+      ),
+      'Excluded miniapp asset reached the build.',
+    );
+  }
+  // The reviewed selector audits module graphs outside dist. Match the current
+  // manifest and output root instead of trusting a stale audit from a past build.
+  const auditRoot = join(root, '.local/publication');
+  const audits = (await readdir(auditRoot)).filter((name) =>
+    name.endsWith('-modules.json'),
+  );
+  let matched = false;
+  for (const name of audits) {
+    const audit = JSON.parse(await readFile(join(auditRoot, name), 'utf8')) as {
+      release: unknown;
+      modules: string[];
+      publicFiles: string[];
+    };
+    if (canonical(audit.release) !== canonical(candidate.manifest)) continue;
+    requireValue(
+      Array.isArray(audit.modules) &&
+        audit.modules.every((id) => typeof id === 'string') &&
+        Array.isArray(audit.publicFiles),
+      'Invalid module graph audit.',
+    );
+    for (const id of audit.modules) {
+      const match = /\/src\/miniapps\/([^/]+)\//.exec(id);
+      requireValue(
+        !match || selected.has(match[1]),
+        'Excluded miniapp module reached the build graph.',
+      );
+    }
+    for (const path of audit.publicFiles)
+      requireValue(
+        typeof path === 'string' && Object.hasOwn(files, path),
+        'Audited public asset missing from the build.',
+      );
+    matched = true;
+  }
+  requireValue(
+    matched,
+    'Missing module audit for this exact release manifest.',
+  );
+  const receipt: BuildReceipt = {
+    schemaVersion: 1,
+    testOnly: true,
+    candidateId: candidate.candidateId,
+    inputSha256: projectDigest(candidate.files),
+    manifestSha256: hash(releaseText(candidate.manifest)),
+    files,
+    distSha256: hash(canonical(files)),
+    command: 'node scripts/publication/cli.ts',
+    checks: { routes: true, excludedAssets: true, sourceUnchanged: true },
+  };
+  return {
+    receipt,
+    sha256: receiptHash(receipt),
+    directory: resolve(directory),
+  };
+}
+
+export function isolatedBuildEnvironment(env = process.env): NodeJS.ProcessEnv {
+  // Source install/build receives no GitHub, Actions runtime or Cloudflare token.
+  const selected: NodeJS.ProcessEnv = {
+    CI: 'true',
+    ASTRO_TELEMETRY_DISABLED: '1',
+    WRANGLER_SEND_METRICS: 'false',
+  };
+  for (const name of [
+    'PATH',
+    'HOME',
+    'TMPDIR',
+    'LANG',
+    'LC_ALL',
+    'SYSTEMROOT',
+    'NPM_CONFIG_CACHE',
+  ])
+    if (env[name]) selected[name] = env[name];
+  return selected;
+}
+
+export function runSelectiveCompiler(project: string, install = true) {
+  const commands: [string, string[]][] = [
+    ...(install ? [['npm', ['ci']] as [string, string[]]] : []),
+    [process.execPath, ['scripts/publication/cli.ts']],
+  ];
+  for (const [program, args] of commands) {
+    const result = spawnSync(program, args, {
+      cwd: project,
+      env: isolatedBuildEnvironment(),
+      stdio: 'inherit',
+    });
+    requireValue(
+      !result.error && result.status === 0,
+      'Selective candidate install/build failed.',
+    );
+  }
+}

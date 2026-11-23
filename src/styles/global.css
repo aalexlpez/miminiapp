@@ -6,6 +6,8 @@
 @source not '../../.agents';
 /* Local review evidence must never contribute utilities to the product. */
 @source not '../../docs/review/fe01';
+/* Frozen cross-repository controls are test data, not UI utility sources. */
+@source not '../../tests/fixtures/selective-controls';
 
 @font-face {
   font-family: 'Space Grotesk';
