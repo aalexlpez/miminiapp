@@ -1,6 +1,6 @@
 # PS-02 · integración selectiva verificada bajo pruebas
 
-2026-11-23. Responsable: Alexander López. Cuatro iteraciones secuenciales en `feature/ps02-release-integration-tests`, con aceptación final pendiente. El propietario aceptó PS-01 y aprobó/autorizó PS-02, exclusivamente preparación y pruebas. Este informe no autoriza instalación, merge de producción ni publicación.
+2026-11-23. Responsable: Alexander López. Cuatro iteraciones secuenciales en `feature/ps02-release-integration-tests`, aceptadas por el propietario mediante «Acepto el resultado». El [plan PS-02](../../exec-plans/completed/PS-02-integracion-workflow-selectivo-pruebas.md) queda cerrado y archivado. La aceptación conserva el alcance exclusivo de preparación y pruebas; no autoriza instalación, merge de producción ni publicación.
 
 ## Resultado y evidencia
 

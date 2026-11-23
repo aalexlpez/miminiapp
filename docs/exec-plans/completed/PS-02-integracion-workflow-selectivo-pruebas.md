@@ -2,10 +2,10 @@
 
 ## Control
 
-* **Estado:** `Verificado`.
+* **Estado:** `Aceptado`.
 * **ID:** PS-02.
 * **Rama estable:** `feature/ps02-release-integration-tests`, única por repositorio para todas las iteraciones.
-* **Iteración actual:** I4 completada — pendiente de aceptación del propietario.
+* **Iteración actual:** I4 completada — resultado aceptado y plan cerrado.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Dependencias de inicio:** resueltas por la confirmación del propietario «si lo autorizo» el 2026-11-23: PS-01 aceptado, contrato PS-02 aprobado y ejecución autorizada. El merge de #32 se conserva como evidencia de integración, no como fuente de esa aceptación.
@@ -91,9 +91,14 @@ Aceptación de PS-01 y aprobación/autorización de contrato y plan registradas 
 | 2026-11-23 | `Aprobado` → `Autorizado` → `En curso` | Propietario / registro del agente | Confirmación «si lo autorizo» tras solicitar aceptación PS-01 y aprobación/autorización PS-02; alcance exclusivo de pruebas. |
 | 2026-11-23 | `Verificado` | Agente | Cuatro iteraciones completas, regresión local y CI de implementación satisfactorios en ambos repositorios. Entrega en borrador #33/#9, con cierre documental y checks del head final. Aceptación final pendiente; producción permanece sin instalar ni activar. |
 | 2026-11-23 | `En curso` → `Verificado` | Agente | Revisar el caso negativo de índice ausente en un recibo. Se rechaza antes del fallback, se exporta el índice fresco y se valida el digest antes del contexto. Repetición satisfactoria de tipos/lint/formato, 488 unitarias y CI final de producción; desarrollo vuelve a pasar su CI completo. Se conserva la misma I4 y el mismo alcance. |
+| 2026-11-23 | `Aceptado` | Alexander López / registro del agente | El propietario confirma «Acepto el resultado» tras recibir la entrega verificada de PS-02. Se cierra el plan y se archiva en completed. La aceptación se limita a preparación y pruebas; no autoriza merge, instalación, activación o publicación de Plan B. |
 
 Evidencia consolidada: [verificación PS-02](../../reports/ps02/verification.md). CI de desarrollo [45263686872](https://github.com/aalexlpez/miminiapp/actions/runs/45263686872) y configuración final de producción [45264865786](https://github.com/soycerobytes/miminiapp/actions/runs/45264865786); las PR conservan los checks del último head. Los diez archivos congelados coinciden byte a byte con los probados y con la revisión final limpia `93aa7125ebf79bf0a96a6f5a71d25c03b297738a` del destino. La entrega no ejecuta el preparador instalado, el workflow selectivo propuesto ni un despliegue real.
 
 ## Aprobación y autorización — 2026-11-23
 
 El propietario confirma «si lo autorizo» tras la petición conjunta de aceptación de PS-01 y aprobación/autorización de PS-02. Se registran `Aprobado` → `Autorizado` → `En curso`, sin ampliar el límite de pruebas. I1 comienza en las ramas estables; producción sigue sin instalación ni activación.
+
+## Aceptación y cierre — 2026-11-23
+
+Alexander López confirma «Acepto el resultado» después de aclarar que esta aceptación cierra el plan de pruebas y que la instalación/activación se aprobarán por separado. Se registra `Verificado` → `Aceptado` y se mueve este único plan a `docs/exec-plans/completed/`. Las PR #33 y #9 siguen en borrador y sin merge; el preparador selectivo permanece desactivado, Workers Builds sin cambios y Plan B sin alta autorizada en producción. Este cierre documental conserva el código y la evidencia verificados.
