@@ -2,13 +2,13 @@
 
 ## Control
 
-* **Estado:** `Borrador`. No autoriza implementar, instalar o activar.
+* **Estado:** `En curso`.
 * **ID:** PS-03.
 * **Rama estable:** `feature/ps03-selective-release-installation`, una por repositorio y todas las iteraciones. La rama de producción se creará solo al autorizar I1, sin importar historia de desarrollo.
-* **Iteración actual:** preparación del plan; I1 no iniciada.
+* **Iteración actual:** I1 — candidata de instalación.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
-* **Dependencias:** PS-01 y PS-02 aceptados. Desarrollo #33 integrado y despliegue/pruebas remotas satisfactorios; revalidar identidad al fijar una candidata elegible. Aprobar el contrato propuesto en el índice técnico, este plan y su ejecución antes de implementar.
+* **Dependencias:** PS-01 y PS-02 aceptados. Desarrollo #33 integrado y despliegue/pruebas remotas satisfactorios; revalidar identidad al fijar una candidata elegible. El propietario aprueba el contrato, el plan y su ejecución mediante «confirmado» el 2026-11-23, después de aclarar el alcance real de instalación con catálogo vacío.
 
 ## Objetivo
 
@@ -21,7 +21,7 @@ Instalar consumidor, manifiesto y preparador selectivos; comprobar una promoció
 * [#9](https://github.com/soycerobytes/miminiapp/pull/9), head `2e61d91e57fb1f84b89e818cad6962e1d6bb7eee`, conserva los controles probados en borrador; #8 también sigue sin merge. Ninguna de ellas equivale a una instalación preparada para publicar. I1 reutilizará su código revisado en una candidata coherente; no fusionarlas por separado para ensayar.
 * Cloudflare Workers Builds publica main, con previews apagados según las capturas previas. Reconfirmar esa configuración antes del cambio operativo; no pedir credenciales nuevas por anticipado.
 
-## Contrato propuesto — requiere aprobación
+## Contrato aprobado
 
 1. Conservar repositorios/historiales independientes, fuente elegible por SHA completo, selección acumulativa, controles preservados, `quality` obligatorio/strict y merge humano. Workers Builds sigue siendo el único publicador.
 2. La primera instalación sincroniza el proyecto de un staging validado y los controles revisados en un commit propio de producción. Incluir consumidor, configuración Astro, scripts comunes y manifiesto vacío coherentes entre sí; no etiquetar una copia parcial como snapshot completo de staging.
@@ -29,7 +29,7 @@ Instalar consumidor, manifiesto y preparador selectivos; comprobar una promoció
 4. Sustituir el contrato exclusivamente de pruebas por una política operativa revisada y un modo inicial limitado a selección vacía: rechazar toda alta, incluida Plan B. Mantener simulación separada, validación del recibo/inputs/índice antes del contexto y escritor sin instalaciones ni ejecución de código importado. No basta cambiar un `if: false` o añadir una variable de activación.
 5. Deshabilitar el preparador legacy de snapshot completo antes de habilitar el selectivo. Conservar bloqueo compartido, una propuesta activa y recuperación sin force push. No habilitar publicadores o rollback de Actions.
 6. Registrar identidad de build y evidencia posterior del despliegue: SHA de main servido, SHA de staging, selección, build de Workers Builds y comprobaciones del sitio. Verificar el mecanismo real de identidad antes de implementarlo; una fecha prevista no acredita publicación ni se exige identidad binaria con staging.
-7. El permiso de este plan, si se concede, alcanza una instalación y comprobación de catálogo vacío. Publicar Plan B, altas sintéticas en producción, retiradas, embargo del código y versiones independientes por app quedan fuera. La copia del código al repositorio público no equivale a servir sus rutas, módulos o iconos.
+7. El permiso de este plan alcanza una instalación y comprobación de catálogo vacío. Publicar Plan B, altas sintéticas en producción, retiradas, embargo del código y versiones independientes por app quedan fuera. La copia del código al repositorio público no equivale a servir sus rutas, módulos o iconos.
 
 ## Iteraciones secuenciales
 
@@ -44,7 +44,7 @@ No publicar nada antes de I3 ni presentar una simulación como ensayo remoto. Si
 
 ## Dependencias del propietario, una por vez
 
-* Primero: aprobación del contrato/plan y autorización para preparar el código de I1; hoy no están concedidas.
+* Aprobación del contrato/plan y autorización de ejecución concedidas el 2026-11-23 mediante «confirmado». I1 empieza sin cambios remotos de publicación.
 * Después de I1 verificada: revisión de la candidata y coordinación de pausa/configuración/merge. Cada instrucción indicará repositorio/Worker, ajuste concreto, resultado esperado y evidencia; no pedir todo de una vez ni pedir tokens sin necesidad acreditada.
 * Después de I2: dispatch vacío con SHA publicado, revisión de la PR generada, reactivación de builds y merge humano. Los pasos dependientes esperan confirmación; no interpretar tiempo transcurrido como aprobación.
 * Al concluir I4: aceptación del resultado. Aprobar este borrador no significa que ya se hayan realizado estas acciones.
@@ -67,8 +67,9 @@ Releer base/head/staging antes de preparar y comprobar una release. El avance po
 
 ## Estado y punto de parada
 
-I1–I4 no iniciadas. Esta rama contiene solo propuesta documental. La aceptación de PS-02 y el merge de desarrollo #33 no autorizan instalación, reactivación de builds, dispatch de promoción, merge de producción o alta de Plan B. No ejecutar el contrato propuesto sin su aprobación y la autorización del plan.
+I1 en curso; I2–I4 no iniciadas. La confirmación del propietario autoriza preparar y ejecutar este plan dentro del catálogo vacío. Las acciones operativas y merges siguen los puntos de intervención humana definidos arriba; no se dan por realizados ni se ejecutan por iniciativa del agente. Plan B continúa excluida.
 
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |
 | 2026-11-23 | `Borrador` | Agente | Preparar el siguiente resultado revisable tras confirmar el merge de #33; conservar el límite actual de pruebas hasta una decisión expresa del propietario. |
+| 2026-11-23 | `Aprobado` → `Autorizado` → `En curso` | Alexander López / registro del agente | «confirmado», en respuesta a la solicitud de aprobación/autorización de PS-03 y su explicación. Comienza I1; no hay cambios de Cloudflare ni merges automáticos. |
