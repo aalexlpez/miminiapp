@@ -2,10 +2,10 @@
 
 ## Control
 
-* **Estado:** `Verificado`.
+* **Estado:** `En curso`.
 * **ID:** PS-01.
 * **Rama estable:** `feature/ps01-selective-publication`, en cada repositorio afectado.
-* **Iteración actual:** I4 — completada; preparación local pendiente de aceptación humana.
+* **Iteración actual:** I4 — entrega de pruebas en PR y comprobación de CI.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Autorización:** el propietario indica «Vamos a ello. Haz lo que esté a tu alcance» y limita expresamente el trabajo a pruebas: Plan B no está en producción y no debe publicarse. Se registra aprobación y autorización del alcance de preparación descrito en la revisión anterior; no se autoriza activar publicaciones.
@@ -43,12 +43,12 @@ Enmienda de pruebas del 2026-11-23 en el índice técnico; ADR-MMA-001/004/008/0
 3. Manifiesto ausente, inválido, duplicado, con desconocidos o borradores y recursos ambiguos fallan antes de generar un artefacto utilizable.
 4. Cambiar solo el manifiesto produce una candidata local; repetir la misma solicitud resulta en ausencia de cambio semántico.
 5. El simulador conserva controles y rechaza una base distinta, sin ejecutar código del origen en funciones de escritura.
-6. Staging mantiene registro, comportamiento funcional y artefactos esperados. Los workflows y configuración remota no cambian.
+6. Staging mantiene registro, comportamiento funcional y artefactos esperados. Los publicadores y la configuración remota no cambian; el CI de configuración de producción incorpora únicamente las siete pruebas nuevas en el job `quality` existente.
 7. Se distinguen pruebas locales, integración remota pendiente y activación no autorizada. El propietario acepta el resultado por separado.
 
 ## Riesgos, recuperación y dependencias
 
-Solo se escriben ramas locales y candidatos en directorios temporales nuevos. La recuperación consiste en descartar estos cambios/candidatos, sin tocar ramas compartidas. No crear PR de release, disparar workflows, fusionar, cambiar rulesets o Cloudflare. Las futuras pruebas alojadas necesitan confirmar destino aislado y permisos; exigir `quality` en producción es una dependencia administrativa de activación, no un motivo para publicar Plan B. Las candidatas archivadas, embargo y versiones independientes por app quedan fuera.
+La primera fase escribe ramas locales y candidatos en directorios temporales nuevos; tras resolver la dependencia de previews se entregan ramas y PR de pruebas en borrador. La recuperación consiste en descartar estos cambios/candidatos, sin tocar ramas compartidas. No crear PR de release, disparar workflows, fusionar, cambiar rulesets o Cloudflare. Las futuras pruebas alojadas necesitan confirmar destino aislado y permisos; exigir `quality` en producción es una dependencia administrativa de activación, no un motivo para publicar Plan B. Las candidatas archivadas, embargo y versiones independientes por app quedan fuera.
 
 ## Progreso
 
@@ -67,3 +67,11 @@ Solo se escriben ramas locales y candidatos en directorios temporales nuevos. La
 | 2026-11-23 | `Autorizado` | Propietario | «Haz lo que esté a tu alcance», limitado a pruebas. |
 | 2026-11-23 | `En curso` | Agente | Registro del alcance autorizado y comienzo de I1. |
 | 2026-11-23 | `Verificado` | Agente | Criterios locales comprobados y regresión concluida. Sin publicar Plan B, sin activar workflows y sin declarar pruebas remotas. |
+
+## Entrega de pruebas en GitHub — 2026-11-23
+
+El propietario aporta las capturas solicitadas: producción usa `soycerobytes/miminiapp`/`main`, builds de producción activos y `Builds for Preview branches` apagado. Esa evidencia resuelve la dependencia de pruebas alojadas dentro de la autorización original «limitarse a pruebas». Se preparan PR de pruebas en borrador de ambas ramas, sin merge, activación del selector, dispatch de releases ni cambios de Cloudflare/rulesets. El simulador continúa sin crear PR; las PR de entrega las prepara el agente. La aceptación humana del plan y la activación siguen separadas. Se vuelve a `En curso` para añadir evidencia del CI del candidato entregado. No se reejecutan pruebas funcionales locales sin cambios de aplicación; el CI de staging ejecuta la suite completa y el de producción, controles y siete pruebas del simulador.
+
+| Fecha | Estado | Actor | Motivo |
+| --- | --- | --- | --- |
+| 2026-11-23 | `En curso` | Agente | Dependencia de previews resuelta por capturas; preparar entrega y comprobar checks remotos. |

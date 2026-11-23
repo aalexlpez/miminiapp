@@ -1,10 +1,10 @@
 # PS-01 · Preparación local y regresión
 
-**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación local verificada; pendiente de aceptación humana; el estado canónico está en [PS-01](../../exec-plans/active/PS-01-publicacion-selectiva-pruebas.md).
+**Fecha:** 2026-11-23. **Responsable de aceptación:** Alexander López. **Estado de ejecución:** preparación local verificada; entrega de pruebas en GitHub en curso; el estado canónico está en [PS-01](../../exec-plans/active/PS-01-publicacion-selectiva-pruebas.md).
 
 ## Resultado y límites
 
-Solo se preparan builds y candidatos locales. El propietario confirma que Plan B no está en producción y no quiere publicarla. No se han hecho push, PR remotas, merge, dispatch, cambios de reglas, credenciales o Cloudflare. Los publicadores existentes no se modifican ni ejecutan; la integración de un workflow selectivo real queda fuera de esta activación y requiere su propia conexión revisada. No se presenta esta entrega como validación remota del nuevo flujo.
+Solo se preparan builds y candidatos locales. El propietario confirma que Plan B no está en producción y no quiere publicarla. En el cierre local no se habían hecho push ni PR remotas. No se hacen merge, dispatch de releases, cambios de reglas, credenciales o Cloudflare. La entrega de pruebas en PR se registra al final. Los publicadores existentes no se modifican ni ejecutan; la integración de un workflow selectivo real queda fuera de esta activación y requiere su propia conexión revisada. No se presenta esta entrega como validación remota del nuevo flujo.
 
 ## Bases y entorno
 
@@ -40,3 +40,7 @@ Logs de esta sesión en `/workspace/work/ps01-*.log`; evidencia reproducible del
 ## Dependencias para continuar fuera de localhost
 
 Consultar la [guía](../../guides/selective-publication.md). Primero confirmar que las ramas/PR de prueba no disparan previews de Cloudflare. Después se podrán preparar PR de pruebas, todavía sin merge. La activación posterior necesitará `quality` obligatorio, clasificación del manifiesto generado en los filtros del CI, controles propios en jobs de escritura, validación de candidato exacto y migración con selección vacía. Los cambios de `main` pueden disparar Workers Builds. Un check verde no se invalida solo al avanzar staging. El rollback debe preservar expresamente la selección que se quiera conservar. Nada de esto autoriza el alta de Plan B.
+
+## Dependencia de previews resuelta — 2026-11-23
+
+Capturas del propietario confirman `soycerobytes/miminiapp`, producción en `main`, builds de producción habilitados y `Builds for Preview branches` apagado. Se preparan PR de pruebas en borrador en ambos repositorios, sin merge ni despliegue. Producción añade al paso de configuración de `quality` las siete unitarias del simulador, con los permisos de lectura existentes. La limitación anterior sobre ausencia de PR/push describe el cierre local; la entrega remota se registrará por separado tras comprobar el resultado real de CI.
