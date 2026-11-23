@@ -2,6 +2,8 @@
 
 El propietario autoriza **solo preparación y pruebas**. Plan B continúa en staging, no está autorizada en producción. No ejecutar el preparador legacy de releases para probar este cambio: seguiría importando el snapshot completo con la visibilidad de staging. No hay workflow selectivo activo ni cambio en Workers Builds.
 
+El [informe PS-02](../reports/ps02/verification.md) reúne los resultados del circuito, la regresión y los límites de la entrega.
+
 ## Builds
 
 `npm run build` conserva el build de staging existente. `npm run build:production -- /ruta/al/manifiesto.json` compila explícitamente producción; sin argumento exige `.github/miniapp-release.json`. Si ese archivo no existe o es inválido, falla. `NODE_ENV` no selecciona aplicaciones. El manifiesto contiene `schemaVersion: 1`, `releaseId`, `sourceSha`, `destinationBaseSha` y `miniapps`, cada una con `slug` y `plannedReleaseDate`. La lista vacía es intencional y válida; la ausencia del archivo nunca equivale a vacío.

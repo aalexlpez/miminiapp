@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "repository": "soycerobytes/miminiapp",
-  "revision": "019f2ec76629e05e19b58a685fb285e8f256a58d",
+  "revision": "293411b8d9ecc9fd95d11cbf36ce807951943be2",
   "dirty": false,
   "files": {
     "scripts/promotion/core.ts": "066598351edc734108f680f204095430a367f9d3d8af354de35f1fabbf76d6ea",

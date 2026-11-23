@@ -2,10 +2,10 @@
 
 ## Control
 
-* **Estado:** `En curso`.
+* **Estado:** `Verificado`.
 * **ID:** PS-02.
 * **Rama estable:** `feature/ps02-release-integration-tests`, única por repositorio para todas las iteraciones.
-* **Iteración actual:** I4 — regresión y análisis final.
+* **Iteración actual:** I4 completada — pendiente de aceptación del propietario.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Dependencias de inicio:** resueltas por la confirmación del propietario «si lo autorizo» el 2026-11-23: PS-01 aceptado, contrato PS-02 aprobado y ejecución autorizada. El merge de #32 se conserva como evidencia de integración, no como fuente de esa aceptación.
@@ -83,11 +83,15 @@ Aceptación de PS-01 y aprobación/autorización de contrato y plan registradas 
 | I1 | Completada | Esquema controlado, política con escrituras desactivadas, puertos GitHub e índice/evidencia tipados. 17 pruebas iniciales del motor y 31 del contrato/selector de desarrollo. |
 | I2 | Completada | Compilador real y transporte GitHub estricto en memoria: vacío/A/A+B, rutas servidas y 404 de Plan B, ascendencia propia, reintentos y fechas acumulativas. 23 pruebas del motor/build/CLI; tipos y lint de ambos repositorios pasan. |
 | I3 | Completada | Receta manual desactivada y writer sin bypass; `quality` único de lectura, manifiesto generado sin segundo trigger. 149 pruebas de controles/motor/build/CLI pasan, incluidas mutaciones de permisos/recibos, conflictos, avance de origen/base y recuperación acumulativa. Guía de migración vacía preparada, sin ejecutar. |
-| I4 | En ejecución | Regresión completa, comparación con base y CI de PR de pruebas. |
+| I4 | Completada | `verify` completo de desarrollo (560 unitarias, 27 componentes, 166 E2E y las tres integraciones); 487 unitarias y tipos/lint/formato de producción. Staging conserva 24 archivos y los mismos JS/CSS/fuentes/imágenes. CI de implementación #33 y controles #9 satisfactorios; hallazgos corregidos, evidencia y límites en el informe único. Sin instalación/activación. |
 
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |
 | 2026-11-23 | `Borrador` | Agente | Preparar el siguiente resultado revisable tras integrar desarrollo #32. No inferir aceptación o autorización del merge. |
+| 2026-11-23 | `Aprobado` → `Autorizado` → `En curso` | Propietario / registro del agente | Confirmación «si lo autorizo» tras solicitar aceptación PS-01 y aprobación/autorización PS-02; alcance exclusivo de pruebas. |
+| 2026-11-23 | `Verificado` | Agente | Cuatro iteraciones completas, regresión local y CI de implementación satisfactorios en ambos repositorios. Entrega en borrador #33/#9, con cierre documental y checks del head final. Aceptación final pendiente; producción permanece sin instalar ni activar. |
+
+Evidencia consolidada: [verificación PS-02](../../reports/ps02/verification.md). CI de implementación de desarrollo [45261742307](https://github.com/aalexlpez/miminiapp/actions/runs/45261742307) y configuración final de producción [45263209826](https://github.com/soycerobytes/miminiapp/actions/runs/45263209826); las PR conservan los checks del último head. Los diez archivos congelados coinciden byte a byte con los probados y con la revisión final limpia `293411b8d9ecc9fd95d11cbf36ce807951943be2` del destino. La entrega no ejecuta el preparador instalado, el workflow selectivo propuesto ni un despliegue real.
 
 ## Aprobación y autorización — 2026-11-23
 
