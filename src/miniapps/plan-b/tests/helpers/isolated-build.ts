@@ -68,6 +68,11 @@ export async function createIsolatedBuild(
       await cp(path.join(projectRoot, directory), path.join(root, directory), {
         recursive: true,
       });
+    await mkdir(path.join(root, 'scripts/promotion'), { recursive: true });
+    await cp(
+      path.join(projectRoot, 'scripts/promotion/miniapp-manifest.ts'),
+      path.join(root, 'scripts/promotion/miniapp-manifest.ts'),
+    );
     await cp(
       path.join(projectRoot, 'scripts/publication'),
       path.join(root, 'scripts/publication'),

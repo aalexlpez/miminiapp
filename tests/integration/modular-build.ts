@@ -107,6 +107,11 @@ async function prepareProject(
   await cp(path.join(projectRoot, 'public'), path.join(stageRoot, 'public'), {
     recursive: true,
   });
+  await mkdir(path.join(stageRoot, 'scripts/promotion'), { recursive: true });
+  await cp(
+    path.join(projectRoot, 'scripts/promotion/miniapp-manifest.ts'),
+    path.join(stageRoot, 'scripts/promotion/miniapp-manifest.ts'),
+  );
   await cp(
     path.join(projectRoot, 'scripts/publication'),
     path.join(stageRoot, 'scripts/publication'),
