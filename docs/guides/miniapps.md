@@ -4,6 +4,8 @@
 
 Guía práctica del contrato aprobado en ADR-MMA-011 y ADR-MMA-016. Una miniapp es una carpeta autocontenida más una línea en el registro: añadirla no debe exigir tocar rutas, layouts, estilos globales ni otras herramientas.
 
+**PS-01, preparación local:** `published` conserva su significado actual de candidata disponible en staging. La publicación selectiva de producción y la propiedad de los activos se prueban mediante el [selector local](selective-publication.md); no hay activación ni alta de Plan B en producción. Añadir archivos a `public/` exige asignarles propietario en `scripts/publication/public-assets.json` para que el build selectivo los admita.
+
 ## Antes de escribir código
 
 1. El propietario elige la herramienta. Nadie más la selecciona.

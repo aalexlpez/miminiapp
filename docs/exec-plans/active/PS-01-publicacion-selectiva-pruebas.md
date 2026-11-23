@@ -5,7 +5,7 @@
 * **Estado:** `En curso`.
 * **ID:** PS-01.
 * **Rama estable:** `feature/ps01-selective-publication`, en cada repositorio afectado.
-* **Iteración actual:** I2 — selector por build y activos.
+* **Iteración actual:** I3 — simulación local de preparación.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Autorización:** el propietario indica «Vamos a ello. Haz lo que esté a tu alcance» y limita expresamente el trabajo a pruebas: Plan B no está en producción y no debe publicarse. Se registra aprobación y autorización del alcance de preparación descrito en la revisión anterior; no se autoriza activar publicaciones.
@@ -55,7 +55,7 @@ Solo se escriben ramas locales y candidatos en directorios temporales nuevos. La
 | Iteración | Inicio | Fin | Evidencia | Siguiente paso |
 | --- | --- | --- | --- | --- |
 | I1 | 2026-11-23 | 2026-11-23 | Contrato estricto y pruebas unitarias de selección, acumulación, idempotencia y concurrencia. | I2. |
-| I2 | — | — | — | Espera salida de I1. |
+| I2 | 2026-11-23 | 2026-11-23 | 29 unitarias de contrato/selector; builds vacío/A/A+B, 404, módulos y navegación/hidratación ES/EN; Plan B excluida. | I3. |
 | I3 | — | — | — | Espera salida de I2. |
 | I4 | — | — | — | Regresión sobre candidato definitivo. |
 

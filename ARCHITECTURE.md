@@ -145,6 +145,8 @@ El navegador de pruebas es el Chromium que fija Playwright 1.64.1, en perfiles d
 
 ## Límites conocidos
 
+PS-01 añade únicamente preparación local: `scripts/publication/` valida un manifiesto, genera el registro antes de compilar y proyecta activos públicos. `build:production` es una entrada explícita y falla sin manifiesto; los workflows y el comando remoto de Workers Builds siguen sin cambios. El [procedimiento](docs/guides/selective-publication.md) distingue las pruebas de la activación futura; Plan B no tiene autorización de alta en producción.
+
 * Promoción y producción verificadas en el repositorio independiente `soycerobytes/miminiapp`; rollback antiguo de Actions no ensayado ni activado.
 * quality de producción pasó, pero el ruleset observado no lo exige como check obligatorio; la revisión y el merge siguen siendo manuales.
 * El aislamiento de escritura entre los dos Workers no está probado; solo el de lectura.
