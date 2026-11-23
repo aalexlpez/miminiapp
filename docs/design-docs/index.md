@@ -237,3 +237,11 @@ El 2026-11-23 el propietario confirma «Acepto el resultado»: PS-02 queda acept
 
 
 Concreción de PS-02/I1: el esquema común pasa a `scripts/promotion/miniapp-manifest.ts`, con propiedad del destino y reexportación desde `scripts/publication/manifest.ts`. La política fija su blob de origen/destino; una incompatibilidad requiere revisar controles, no ejecutar automáticamente código importado con escritura. Las pruebas de desarrollo usarán fixtures de los controles reales identificados por hash, sin red de escritura.
+
+## PS-03 — Instalación selectiva con catálogo vacío
+
+**Estado:** `Propuesta`, 2026-11-23. Responsable: Alexander López. PS-02 está aceptado e integrado en desarrollo; esta propuesta no autoriza instalarlo en producción.
+
+Preparar una candidata coherente de configuración que reúna controles revisados, snapshot completo de un staging elegible, consumidor, manifiesto vacío e identidad verificable. Coordinar una pausa temporal de Workers Builds y su configuración explícita de producción antes del merge humano de instalación. Sustituir los bloqueos de pruebas por un contrato operativo revisado que, durante esta fase, rechace toda alta. Desactivar el preparador legacy antes de habilitar el selectivo, conservar escritor sin ejecución importada, `quality`/strict, selección acumulativa e historiales independientes. Comprobar una promoción real mediante un cambio documental necesario, sin aplicaciones sintéticas ni Plan B; publicar únicamente mediante el merge humano y Workers Builds. La identidad y evidencia remota deben acreditar el catálogo vacío realmente servido.
+
+La propuesta conserva el límite de staging vivo y la falta de equivalencia binaria, embargo o versiones por app. Requiere aprobación del contrato, del [plan PS-03](../exec-plans/active/PS-03-instalacion-selectiva-catalogo-vacio.md) y autorización antes de implementar. Las acciones de Cloudflare, dispatch y merges se presentarán al propietario de forma secuencial, con una candidata verificada y recuperación preparada. Plan B no tiene autorización de alta.
