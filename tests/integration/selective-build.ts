@@ -7,6 +7,7 @@ import {
   mkdtemp,
   readFile,
   readdir,
+  rm,
   symlink,
   writeFile,
 } from 'node:fs/promises';
@@ -71,7 +72,7 @@ const syntheticRegistry = originalRegistry
     `import { metadata as a } from './ps01-a/metadata';\nimport { metadata as b } from './ps01-b/metadata';\nimport { metadata as draft } from './ps01-draft/metadata';\nimport { metadata as planB }`,
   )
   .replace(
-    /\[\n  \{ descriptor: planB/,
+    /\[\n {2}\{ descriptor: planB/,
     `[\n  { descriptor: a, loadEntry: () => import('./ps01-a/entry.astro') },\n  { descriptor: b, loadEntry: () => import('./ps01-b/entry.astro') },\n  { descriptor: draft },\n  { descriptor: planB`,
   );
 await writeFile(join(root, 'src/miniapps/registry.ts'), syntheticRegistry);
@@ -275,6 +276,14 @@ await build('production-a', ['ps01-a']);
 await build('production-ab', ['ps01-a', 'ps01-b']);
 await build('production-unknown', ['unknown'], 'Unknown or draft');
 await build('production-draft', ['ps01-draft'], 'Unknown or draft');
+await writeFile(
+  join(root, 'src/pages/[locale]/apps/ps01-b.astro'),
+  '<p>Direct route must not bypass selection</p>',
+);
+await build('production-direct-route', [], 'single registry-driven');
+await rm(join(root, 'src/pages/[locale]/apps/ps01-b.astro'));
+await rm(join(root, 'public/brand/ps01-a/icon.svg'));
+await build('production-missing-icon', ['ps01-a'], 'icon is missing');
 await writeFile(join(root, 'public/unowned.txt'), 'must fail closed');
 await build('production-unowned', [], 'exactly one owner');
 await writeFile(

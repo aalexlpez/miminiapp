@@ -118,7 +118,11 @@ export function registrations(source: string): Registration[] {
   });
 }
 
-export function productionRegistry(source: string, release: MiniappRelease) {
+export function productionRegistry(
+  source: string,
+  release: MiniappRelease,
+  assetFiles?: readonly string[],
+) {
   validateRelease(release);
   const registered = registrations(source);
   const selected = new Map(
@@ -140,6 +144,15 @@ export function productionRegistry(source: string, release: MiniappRelease) {
       ({ slug }, index) =>
         `if (app${index}.slug !== ${JSON.stringify(slug)} || app${index}.status !== 'published') throw new Error('Registry metadata does not match the authorized miniapp.');`,
     ),
+    ...(assetFiles
+      ? [
+          `const publicAssets = new Set(${JSON.stringify(assetFiles)});`,
+          ...entries.map(
+            (_, index) =>
+              `if (app${index}.icon && !publicAssets.has(app${index}.icon.slice(1))) throw new Error('Selected miniapp icon is missing from production assets.');`,
+          ),
+        ]
+      : []),
     'export const miniappRegistry = validateRegistry([',
     ...entries.map(
       ({ slug }, index) =>

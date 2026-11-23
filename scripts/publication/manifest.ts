@@ -73,7 +73,16 @@ export function readRelease(text: string): MiniappRelease {
 
 export function releaseText(value: MiniappRelease) {
   validateRelease(value);
-  return `${JSON.stringify({ ...value, miniapps: [...value.miniapps].sort((a, b) => a.slug.localeCompare(b.slug, 'en')) }, null, 2)}\n`;
+  const normalized = {
+    schemaVersion: value.schemaVersion,
+    releaseId: value.releaseId,
+    sourceSha: value.sourceSha,
+    destinationBaseSha: value.destinationBaseSha,
+    miniapps: value.miniapps
+      .map(({ slug, plannedReleaseDate }) => ({ slug, plannedReleaseDate }))
+      .sort((a, b) => a.slug.localeCompare(b.slug, 'en')),
+  };
+  return `${JSON.stringify(normalized, null, 2)}\n`;
 }
 
 /** All previous entries survive; removal is deliberately outside this API. */
@@ -97,7 +106,10 @@ export function addToRelease(
   if (new Set(request.addMiniapps).size !== request.addMiniapps.length)
     throw new Error('Duplicate requested miniapp.');
   const entries = new Map(
-    previous.miniapps.map((entry) => [entry.slug, { ...entry }]),
+    previous.miniapps.map(({ slug, plannedReleaseDate }) => [
+      slug,
+      { slug, plannedReleaseDate },
+    ]),
   );
   for (const slug of [...entries.keys(), ...request.addMiniapps]) {
     if (!request.candidates.includes(slug))
@@ -123,7 +135,9 @@ export function addToRelease(
   const sameSelection =
     JSON.stringify(next.miniapps) ===
     JSON.stringify(
-      [...previous.miniapps].sort((a, b) => a.slug.localeCompare(b.slug, 'en')),
+      previous.miniapps
+        .map(({ slug, plannedReleaseDate }) => ({ slug, plannedReleaseDate }))
+        .sort((a, b) => a.slug.localeCompare(b.slug, 'en')),
     );
   if (sameSelection && previous.sourceSha === next.sourceSha)
     return structuredClone(previous);

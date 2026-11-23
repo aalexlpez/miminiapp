@@ -2,10 +2,10 @@
 
 ## Control
 
-* **Estado:** `En curso`.
+* **Estado:** `Verificado`.
 * **ID:** PS-01.
 * **Rama estable:** `feature/ps01-selective-publication`, en cada repositorio afectado.
-* **Iteración actual:** I4 — regresión y análisis final.
+* **Iteración actual:** I4 — completada; preparación local pendiente de aceptación humana.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Autorización:** el propietario indica «Vamos a ello. Haz lo que esté a tu alcance» y limita expresamente el trabajo a pruebas: Plan B no está en producción y no debe publicarse. Se registra aprobación y autorización del alcance de preparación descrito en la revisión anterior; no se autoriza activar publicaciones.
@@ -57,7 +57,7 @@ Solo se escriben ramas locales y candidatos en directorios temporales nuevos. La
 | I1 | 2026-11-23 | 2026-11-23 | Contrato estricto y pruebas unitarias de selección, acumulación, idempotencia y concurrencia. | I2. |
 | I2 | 2026-11-23 | 2026-11-23 | 29 unitarias de contrato/selector; builds vacío/A/A+B, 404, módulos y navegación/hidratación ES/EN; Plan B excluida. | I3. |
 | I3 | 2026-11-23 | 2026-11-23 | Producción: b480c96; 7 unitarias, proyección de checkouts reales y build vacío local con 19 archivos, sin Plan B. | I4. |
-| I4 | 2026-11-23 | — | Comparación de artefactos con base; hallazgos corregidos y pruebas en curso. | Finalizar regresión. |
+| I4 | 2026-11-23 | 2026-11-23 | [Informe](../../reports/ps01/verification.md): verify completo, 560 unitarias finales, 27 componentes, 166 E2E, integraciones y 447 unitarias de producción. Artefactos de staging conservados; hallazgos corregidos. | Aceptación del alcance local; integración/activación remota excluidas. |
 
 ## Historial
 
@@ -65,3 +65,5 @@ Solo se escriben ramas locales y candidatos en directorios temporales nuevos. La
 | --- | --- | --- | --- |
 | 2026-11-23 | `Aprobado` / `Autorizado` | Propietario | Continuar con la propuesta revisada; únicamente preparación y pruebas, sin publicar Plan B. |
 | 2026-11-23 | `En curso` | Agente | Registro del alcance autorizado y comienzo de I1. |
+
+| 2026-11-23 | `Verificado` | Agente | Criterios locales comprobados y regresión concluida. Sin publicar Plan B, sin activar workflows y sin declarar pruebas remotas. |

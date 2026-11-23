@@ -102,6 +102,20 @@ describe('production registry and asset projection', () => {
       selectedAssets(files, ownership, ['fixture-a', 'fixture-b'], []),
     ).toEqual(files.slice(0, 2));
   });
+  it('does not confuse an app named shared with platform asset ownership', () => {
+    expect(
+      selectedAssets(
+        ['brand/shared/icon.svg'],
+        {
+          schemaVersion: 1,
+          shared: [],
+          miniapps: { shared: ['brand/shared/**'] },
+        },
+        ['shared'],
+        [],
+      ),
+    ).toEqual([]);
+  });
   it('rejects unknown, ambiguous and unsafe asset declarations', () => {
     expect(() =>
       selectedAssets(

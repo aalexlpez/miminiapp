@@ -2,7 +2,6 @@ import { readFile, mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { copySelectedAssets, publicFiles, selectedAssets } from './assets.ts';
 import { readRelease } from './manifest.ts';
-import { productionRegistry, registrations } from './registry-source.ts';
 
 /** Production is explicit; NODE_ENV is intentionally irrelevant. */
 export async function publicationBuild(root: string, env = process.env) {
@@ -10,6 +9,13 @@ export async function publicationBuild(root: string, env = process.env) {
   if (target !== 'staging' && target !== 'production')
     throw new Error('Unknown miniapp build target.');
   if (target === 'staging') return { plugins: [] };
+  const { productionRegistry, registrations } =
+    await import('./registry-source.ts');
+  const appRoutes = await publicFiles(join(root, 'src/pages/[locale]/apps'));
+  if (appRoutes.length !== 1 || appRoutes[0] !== '[slug].astro')
+    throw new Error(
+      'Miniapp routes must use the single registry-driven [slug].astro entry.',
+    );
   const release = readRelease(
     await readFile(
       resolve(
@@ -21,7 +27,8 @@ export async function publicationBuild(root: string, env = process.env) {
   );
   const registryPath = join(root, 'src/miniapps/registry.ts');
   const source = await readFile(registryPath, 'utf8');
-  const registry = productionRegistry(source, release);
+  // Validate selection before projecting assets, then verify selected icon references.
+  productionRegistry(source, release);
   const ownership: unknown = JSON.parse(
     await readFile(
       join(root, 'scripts/publication/public-assets.json'),
@@ -36,6 +43,7 @@ export async function publicationBuild(root: string, env = process.env) {
     registered,
     release.miniapps.map(({ slug }) => slug),
   );
+  const registry = productionRegistry(source, release, files);
   const temporaryRoot = join(root, '.local/publication');
   await mkdir(temporaryRoot, { recursive: true });
   const publicDir = await mkdtemp(join(temporaryRoot, 'public-'));

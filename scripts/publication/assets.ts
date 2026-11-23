@@ -38,6 +38,8 @@ export function validateOwnership(
 }
 
 export async function publicFiles(root: string): Promise<string[]> {
+  if ((await lstat(root)).isSymbolicLink())
+    throw new Error('Asset directory symlinks are forbidden.');
   const result: string[] = [];
   async function visit(relative: string) {
     for (const entry of await readdir(join(root, relative), {
@@ -65,15 +67,13 @@ export function selectedAssets(
 ) {
   validateOwnership(ownership, registered);
   return files.filter((file) => {
-    const owners = [
-      ...(ownership.shared.some((p) => matchesGlob(file, p)) ? ['shared'] : []),
-      ...Object.entries(ownership.miniapps)
-        .filter(([, patterns]) => patterns.some((p) => matchesGlob(file, p)))
-        .map(([slug]) => slug),
-    ];
-    if (owners.length !== 1)
+    const shared = ownership.shared.some((p) => matchesGlob(file, p));
+    const owners = Object.entries(ownership.miniapps)
+      .filter(([, patterns]) => patterns.some((p) => matchesGlob(file, p)))
+      .map(([slug]) => slug);
+    if (owners.length + Number(shared) !== 1)
       throw new Error(`Public asset requires exactly one owner: ${file}`);
-    return owners[0] === 'shared' || selected.includes(owners[0]);
+    return shared || selected.includes(owners[0]);
   });
 }
 

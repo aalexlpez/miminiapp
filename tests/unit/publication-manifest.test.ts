@@ -82,6 +82,21 @@ describe('selective release data contract', () => {
     ).toEqual(first);
     expect(addToRelease(first, { ...request, addMiniapps: [] })).toEqual(first);
   });
+  it('canonicalizes JSON field order without changing release semantics', () => {
+    const first = addToRelease(empty, request);
+    const reordered = {
+      miniapps: first.miniapps.map(({ slug, plannedReleaseDate }) => ({
+        plannedReleaseDate,
+        slug,
+      })),
+      destinationBaseSha: first.destinationBaseSha,
+      sourceSha: first.sourceSha,
+      releaseId: first.releaseId,
+      schemaVersion: first.schemaVersion,
+    };
+    expect(releaseText(reordered)).toBe(releaseText(first));
+    expect(addToRelease(reordered, request)).toEqual(first);
+  });
   it('allows a new snapshot for corrections without removing published applications', () => {
     const first = addToRelease(empty, request);
     const next = addToRelease(first, {
