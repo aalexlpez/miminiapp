@@ -55,6 +55,29 @@ async function unchangedInput(root: string, expected: ProjectFiles) {
       `Build changed its candidate input: ${path}`,
     );
   }
+  async function visit(relative: string) {
+    for (const entry of await readdir(join(root, relative), {
+      withFileTypes: true,
+    })) {
+      if (
+        !relative &&
+        ['node_modules', '.astro', '.local', 'dist'].includes(entry.name)
+      )
+        continue;
+      const path = relative ? `${relative}/${entry.name}` : entry.name;
+      requireValue(
+        !entry.isSymbolicLink(),
+        `Build introduced an input symlink: ${path}`,
+      );
+      if (entry.isDirectory()) await visit(path);
+      else
+        requireValue(
+          Object.hasOwn(expected, path),
+          `Build introduced an unverified input: ${path}`,
+        );
+    }
+  }
+  await visit('');
 }
 async function outputInventory(root: string): Promise<Record<string, string>> {
   const files: Record<string, string> = Object.create(null);

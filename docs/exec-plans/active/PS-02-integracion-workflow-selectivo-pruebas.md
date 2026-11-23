@@ -5,7 +5,7 @@
 * **Estado:** `En curso`.
 * **ID:** PS-02.
 * **Rama estable:** `feature/ps02-release-integration-tests`, única por repositorio para todas las iteraciones.
-* **Iteración actual:** I3 — workflow propuesto y fallos.
+* **Iteración actual:** I4 — regresión y análisis final.
 * **Responsable:** Alexander López, propietario de MiMiniApp.
 * **Creado / actualizado:** 2026-11-23.
 * **Dependencias de inicio:** resueltas por la confirmación del propietario «si lo autorizo» el 2026-11-23: PS-01 aceptado, contrato PS-02 aprobado y ejecución autorizada. El merge de #32 se conserva como evidencia de integración, no como fuente de esa aceptación.
@@ -29,7 +29,7 @@ Dentro: contrato acumulativo, integración en preparador y `check-pr`, materiali
 
 Fuera: merge a main, cambios en Cloudflare, cambio del build remoto, instalación de manifiesto en producción, dispatch del preparador activo, releases o ramas release reales desde un job, alta de Plan B, candidatas archivadas, retiradas de apps y versiones diferentes por miniapp. No pedir tokens ni infraestructura nuevos.
 
-## Contrato propuesto para aprobar
+## Contrato aprobado
 
 1. Mantener `staging_sha` completo y añadir `release_id` y `add_miniapps`. Conservar selección/fechas anteriores; añadir solo altas válidas. Sin manifiesto anterior, exigir inicialización vacía explícita. No incorporar retiradas en este plan.
 2. `.github/miniapp-release.json` es dato generado por el destino, nunca importado de staging. Extender política/procedencia para identificar selección y formato. Manifiesto y procedencia son salidas verificadas; no excepciones que permitan modificar controles arbitrarios.
@@ -74,7 +74,7 @@ Evidencia volátil: `.local/verification/ps02/`. Resumen durable al ejecutar: `d
 
 Recuperar pruebas descartando copias temporales o corrigiendo la rama. No reset/force push de ramas compartidas ni activar publicadores legacy. Un fallo esencial impide declarar `Verificado`.
 
-Esperar aceptación de PS-01 y aprobación/autorización de contrato y plan antes de implementar. Al finalizar, entregar evidencia para aceptación y mantener producción en borrador. El build remoto sigue siendo `npm run build`: coordinar consumidor y manifiesto vacío pertenece a una fase posterior, sin ejecutar esa migración aquí.
+Aceptación de PS-01 y aprobación/autorización de contrato y plan registradas el 2026-11-23. Al finalizar, entregar evidencia para aceptación y mantener producción en borrador. El build remoto sigue siendo `npm run build`: coordinar consumidor y manifiesto vacío pertenece a una fase posterior, sin ejecutar esa migración aquí.
 
 ## Progreso e historial
 
@@ -82,8 +82,8 @@ Esperar aceptación de PS-01 y aprobación/autorización de contrato y plan ante
 | --- | --- | --- |
 | I1 | Completada | Esquema controlado, política con escrituras desactivadas, puertos GitHub e índice/evidencia tipados. 17 pruebas iniciales del motor y 31 del contrato/selector de desarrollo. |
 | I2 | Completada | Compilador real y transporte GitHub estricto en memoria: vacío/A/A+B, rutas servidas y 404 de Plan B, ascendencia propia, reintentos y fechas acumulativas. 23 pruebas del motor/build/CLI; tipos y lint de ambos repositorios pasan. |
-| I3 | En ejecución | Preparar receta desactivada, CI de lectura y ensayos de concurrencia/recuperación. |
-| I4 | No iniciada | Regresión final. |
+| I3 | Completada | Receta manual desactivada y writer sin bypass; `quality` único de lectura, manifiesto generado sin segundo trigger. 149 pruebas de controles/motor/build/CLI pasan, incluidas mutaciones de permisos/recibos, conflictos, avance de origen/base y recuperación acumulativa. Guía de migración vacía preparada, sin ejecutar. |
+| I4 | En ejecución | Regresión completa, comparación con base y CI de PR de pruebas. |
 
 | Fecha | Estado | Actor | Motivo |
 | --- | --- | --- | --- |

@@ -54,6 +54,7 @@ export const configurationPaths = [
   '.gitignore',
   '.gitattributes',
   `!${provenancePath}`,
+  '!.github/miniapp-release.json',
 ] as const;
 
 export function isConfigurationPath(path: string) {
@@ -90,7 +91,10 @@ export function safePath(path: string) {
 /** Every normal versioned project file is imported except destination controls. */
 export function isSnapshotPath(path: string) {
   return (
-    safePath(path) && path !== provenancePath && !isConfigurationPath(path)
+    safePath(path) &&
+    path !== provenancePath &&
+    path !== '.github/miniapp-release.json' &&
+    !isConfigurationPath(path)
   );
 }
 export function managedPaths(base: Snapshot, source: Snapshot) {
