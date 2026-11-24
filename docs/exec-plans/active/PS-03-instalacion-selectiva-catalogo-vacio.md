@@ -46,6 +46,8 @@ No publicar nada antes de I3 ni presentar una simulación como ensayo remoto. Si
 
 ## Dependencias del propietario, una por vez
 
+Observación operativa del 2026-11-24: la captura del propietario confirma `Disable builds` activado para `soycerobytes/miminiapp`, y confirma que Cloudflare oculta `Build configuration` mientras está pausado. La credencial disponible no permite consultar la API de Builds; no se solicitan permisos nuevos. Main remoto continúa en `f3474bab54c97f5d3ee50879874541b45161096e`, con registro vacío. Ajuste de orden de I2: el propietario podrá reabrir temporalmente la configuración desactivando la pausa, sin merges ni pushes a main, guardar primero el comando explícito y después la variable de build, y volver a pausar antes del merge de instalación. Si Cloudflare inicia una reconstrucción durante esa ventana, corresponde al main anterior de catálogo vacío; comprobarla por separado, sin presentarla como publicación de PS-03. No reabrir la configuración si main ha cambiado sin revalidarlo. La instalación y su publicación siguen los gates originales.
+
 - Aprobación del contrato/plan y autorización de ejecución concedidas el 2026-11-23 mediante «confirmado». I1 empieza sin cambios remotos de publicación.
 - Después de I1 verificada: revisión de la candidata y coordinación de pausa/configuración/merge. Cada instrucción indicará repositorio/Worker, ajuste concreto, resultado esperado y evidencia; no pedir todo de una vez ni pedir tokens sin necesidad acreditada.
 - Después de I2: dispatch vacío con SHA publicado, revisión de la PR generada, reactivación de builds y merge humano. Los pasos dependientes esperan confirmación; no interpretar tiempo transcurrido como aprobación.
