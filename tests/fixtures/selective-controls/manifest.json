@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "repository": "soycerobytes/miminiapp",
-  "revision": "93aa7125ebf79bf0a96a6f5a71d25c03b297738a",
+  "revision": "18d5a3477094ddc7a54240a804f05d44dff630dd",
   "dirty": false,
   "files": {
     "scripts/promotion/core.ts": "066598351edc734108f680f204095430a367f9d3d8af354de35f1fabbf76d6ea",
     "scripts/promotion/miniapp-manifest.ts": "d46f71156147c470462a26892dd8221ec0b2fa1e4b8819bd9064aaba7a12ba2c",
-    "scripts/promotion/selective-contract.ts": "765592998d5f7c000f1fe70bd72949af135d46de70fd3421b3bee025fbe4eef7",
-    "scripts/promotion/selective-engine.ts": "2c3e98a24f4ef82d92f08968b4a2043118b0bc2eba74bf106dc2272102c72d74",
-    "scripts/promotion/selective-build.ts": "873d431aba362c0aad0966f35a2e33d9fc8009261a3a16ba2015f02f9f075b09",
-    "tests/helpers/selective-github.ts": "24bf205e17b5f7e1400d4ddebff5e32c7a33bbf27a2235f52aa7a695dec76059",
+    "scripts/promotion/selective-contract.ts": "ea9645006d01ed4986248ad70ce47089de9de459462b4eee90f6feb7fda76d98",
+    "scripts/promotion/selective-engine.ts": "5a362c339c9a8059bb22c45535e802dc09820dab6b5870eba98e07075d53b28a",
+    "scripts/promotion/selective-build.ts": "4a5e0a371545f5c670ef525209d2b9d7b87b6a23c5110598f0f42bc36154ffe6",
+    "tests/helpers/selective-github.ts": "e24420357b93654d9eca66f7aacff29789bdbc56de00cfbda18ad77bc374fe47",
     "tests/fixtures/source-release/workflows/staging.yml": "b60251cef71cefccf0a71643f690b33f01fd4bd5a22b32e5818adebfab0952ab",
     ".github/promotion-policy.json": "f209f5081d4ba6ab65bdf74f8b74b971ff5f2bc1ec013d8475c847e30485de3e",
-    ".github/selective-promotion-policy.json": "439ce99f6cdce8fdad92ea7d330ca28d4a63f0bc804987836c1e14e3a4cddb99",
+    ".github/selective-promotion-policy.json": "d3a02dddd83c54e5ad91583161b1dd35f606d46d6aa5d71469a876026cbca87f",
     ".gitignore": "30363857529aca78065921489b49627fd6ab1a9fcaf216920061d2669ec2a820"
   }
 }

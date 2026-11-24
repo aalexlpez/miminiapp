@@ -187,6 +187,13 @@ export function createSelectiveCandidate(
     destinationBaseSha: base.sha,
     candidates,
   });
+  requireValue(
+    policy.mode !== 'empty-catalog' ||
+      (request.addMiniapps.length === 0 &&
+        previous.miniapps.length === 0 &&
+        manifest.miniapps.length === 0),
+    'Empty-catalog operation cannot add or retain miniapps.',
+  );
   const files = cloneFiles(
     Object.fromEntries(
       Object.entries(base.files).filter(([path]) => !isApplicationPath(path)),
@@ -279,8 +286,8 @@ async function assertCurrent(
   );
 }
 export interface SelectiveProof {
-  schemaVersion: 2;
-  mode: 'selective-test';
+  schemaVersion: 3;
+  mode: 'selective-release';
   candidateId: string;
   source: SourceIdentity;
   destinationBaseSha: string;
@@ -295,8 +302,8 @@ export function selectiveProof(
   receipt: BuildReceipt,
 ): SelectiveProof {
   return {
-    schemaVersion: 2,
-    mode: 'selective-test',
+    schemaVersion: 3,
+    mode: 'selective-release',
     candidateId: candidate.candidateId,
     source: candidate.source,
     destinationBaseSha: candidate.base.sha,
@@ -307,13 +314,14 @@ export function selectiveProof(
     receiptSha256: receiptHash(receipt),
   };
 }
-export function assertLiveWritesDisabled(
+export function assertWritePolicy(
   policy: SelectivePolicy,
   ports: Pick<SelectivePorts, 'kind'>,
 ) {
   validateSelectivePolicy(policy);
   requireValue(
-    ports.kind === 'test-fixture',
+    ports.kind === 'test-fixture' ||
+      (policy.mode === 'empty-catalog' && policy.writesEnabled === true),
     'Selective live writes are disabled; this phase only permits intercepted API fixtures.',
   );
 }
@@ -455,7 +463,7 @@ export async function prepareSelectiveRelease(
   | { outcome: 'existing'; pr: number; headSha: string }
   | { outcome: 'prepared'; pr: number; headSha: string; url: string }
 > {
-  assertLiveWritesDisabled(policy, ports);
+  assertWritePolicy(policy, ports);
   requireValue(
     hash(canonical(policy)) === candidate.policySha256,
     'Preparation policy changed.',
@@ -572,7 +580,7 @@ export async function prepareSelectiveRelease(
       base: 'main',
       draft: true,
       title: `Selective release ${candidate.manifest.releaseId}`,
-      body: `Source ${candidate.source.sourceSha}; production base ${candidate.base.sha}.\n\nSelection: ${candidate.manifest.miniapps.map((e) => e.slug).join(', ') || '(explicitly empty)'}.\nCandidate ${candidate.candidateId}.\n\nReviewed snapshot updates also affect shared platform and already selected applications. This phase is test-only. No automatic merge or publication is authorized.`,
+      body: `Source ${candidate.source.sourceSha}; production base ${candidate.base.sha}.\n\nSelection: ${candidate.manifest.miniapps.map((e) => e.slug).join(', ') || '(explicitly empty)'}.\nCandidate ${candidate.candidateId}.\n\nReviewed snapshot updates also affect the shared platform. The owner must review and merge manually. Cloudflare Workers Builds remains the only publisher.`,
     },
   );
   requireValue(
