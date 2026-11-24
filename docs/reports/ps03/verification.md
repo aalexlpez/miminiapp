@@ -1,6 +1,6 @@
 # PS-03 · evidencia de instalación con catálogo vacío
 
-2026-11-23. Plan aprobado y autorizado por Alexander López mediante «confirmado». [Plan canónico](../../exec-plans/active/PS-03-instalacion-selectiva-catalogo-vacio.md). I1 completada; I2 espera intervención del propietario e I3–I4 siguen pendientes. No hay instalación, merge de producción o publicación realizados por este trabajo.
+2026-11-23. Plan aprobado y autorizado por Alexander López mediante «confirmado». [Plan canónico](../../exec-plans/active/PS-03-instalacion-selectiva-catalogo-vacio.md). I1 completada; I2 espera el merge manual de instalación e I3–I4 siguen pendientes. No hay instalación, merge de producción o publicación realizados por este trabajo.
 
 ## Candidata local
 
@@ -32,4 +32,4 @@ El workflow manual **Verify served empty production** es de lectura, sin instala
 
 ## Pendientes esenciales
 
-Confirmación del propietario de pausa/configuración; instalación en main; preparación real de una release vacía; build real de Workers Builds; verificación del sitio y regresión final I4. La primera dependencia es pausar los builds del Worker `miminiapp`, guardarlo y confirmarlo, sin merge todavía. PS-03 permanece En curso. La aceptación de PS-02 y estas pruebas de I1 no sustituyen esos pasos.
+Instalación en main; preparación real de una release vacía; build real de Workers Builds; verificación del sitio y regresión final I4. El 2026-11-24 el propietario confirmó los comandos guardados, la variable de build `MINIAPP_BUILD_TARGET=production`, la pausa reactivada y previews apagados. Son evidencia de capturas/conversación; la API de Cloudflare no está disponible con la credencial actual. Main/base y staging siguen sin cambios y el CI de #10 permanece satisfactorio. La siguiente dependencia es su merge manual con builds pausados y sin borrar la rama estable; después se comprobará main. PS-03 permanece En curso. La aceptación de PS-02 y estas pruebas de I1 no sustituyen esos pasos.
