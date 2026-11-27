@@ -5,7 +5,7 @@
 **Estado de la definición:** Aprobada.
 **Responsable de aprobación:** Propietario de MiMiniApp (rol identificado).
 **Aprobación canónica:** 2026-11-04, por el propietario, mediante «Bloque A: definición canónica del producto MiMiniApp». No autoriza implementación.
-**Última actualización:** 2026-11-18 (handoff frontend FE-01/I7; sin aceptación global o cambio de alcance).
+**Última actualización:** 2026-11-27 (inicio de I1 de Receta a medida).
 
 ## Procedencia y alcance de esta definición
 
@@ -113,6 +113,10 @@ Se ha contrastado el contenido actual con las decisiones de MiMiniApp trasladada
 **Condición expresa del propietario, 2026-11-23:** Plan B no está en producción y no se autoriza publicarla. PS-01 prepara y prueba únicamente el selector de releases, con catálogo vacío y miniapps sintéticas. Su estado `published` en el registro sigue habilitando staging; no equivale a aprobación de alta en producción.
 
 El propietario selecciona Plan B y solicita comenzar su primera iteración el 2026-11-16, después de repasar la documentación. La [ficha v06](plan-b.md) queda aprobada como contrato funcional y se autoriza el desarrollo y pruebas locales de I1 del [único plan PB-01](../exec-plans/active/PB-01-plan-b.md). Después de fusionar PR #19, el propietario autoriza I2 y aprueba su decisión ADR-MMA-021. Tras integrar I1/I2 en la rama estable del plan, el propietario autoriza I3 y aprueba ADR-MMA-020. Recorrido ES/EN y sesión/reset se prueban en copia aislada; tras integrar PR #22, el propietario autoriza I4 el 2026-11-17. Se implementan y prueban salidas locales; matriz física/HTTPS pendientes. Tras integrar PR #23 el propietario solicita comenzar la siguiente iteración: se prepara localmente I5, manteniendo I4 abierta. El propietario responde «Autorizar el registro en la rama candidata»: se incorpora Plan B con rutas ES/EN y carga perezosa, y se repiten pruebas/mediciones. Tras integrar PR #24, el propietario autoriza I6 mediante «listo la ultima iteración, continua». Se revisa el conjunto y se corrigen dos defectos locales; staging acredita la versión integrada I5, no estas correcciones todavía. Pruebas físicas, revisión humana y aceptación siguen pendientes; merge humano e infraestructura sin cambios. Las referencias anteriores al aplazamiento de la primera herramienta describen la base previa a esta selección. El plan conserva seis iteraciones, con regresión global como última y una sola aceptación final.
+
+## Siguiente miniapp · Receta a medida
+
+El 2026-11-27, el propietario elige Receta a medida como siguiente miniapp. Aprueba la [ficha v03](receta-a-medida.md) y el [ExecPlan RM-01](../exec-plans/active/RM-01-receta-a-medida.md), y autoriza la maqueta y la base de comparación de I1. La dirección de pantalla se valida al revisar la maqueta.
 
 ## Estado de las decisiones
 

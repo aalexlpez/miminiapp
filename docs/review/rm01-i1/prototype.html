@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es" data-theme="light" data-frame="focused">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Receta a medida · MiMiniApp</title>
+    <link rel="stylesheet" href="prototype.css" />
+    <script src="prototype.js" defer></script>
+  </head>
+  <body>
+    <a class="recipe-skip" href="#recipe-main" data-copy="skip">Ir a la receta</a>
+    <header class="review-header">
+      <img class="review-brand review-brand-light" src="../../../public/brand/wordmark-compact.svg" width="160" alt="MiMiniApp" />
+      <img class="review-brand review-brand-dark" src="../../../public/brand/wordmark-compact-dark.svg" width="160" alt="MiMiniApp" />
+      <div class="review-controls">
+        <div class="review-languages" role="group" data-label="language">
+          <button type="button" data-language="es" aria-pressed="true" lang="es" aria-label="ES · Español">ES</button>
+          <button type="button" data-language="en" aria-pressed="false" lang="en" aria-label="EN · English">EN</button>
+        </div>
+        <select id="recipe-theme" data-label="appearance" aria-label="Apariencia">
+          <option value="system" data-copy="system">Sistema</option>
+          <option value="light" data-copy="light">Claro</option>
+          <option value="dark" data-copy="dark">Oscuro</option>
+        </select>
+      </div>
+    </header>
+
+    <main id="recipe-main" class="recipe-main">
+      <header class="recipe-intro">
+        <h1 data-copy="title">Receta a medida</h1>
+        <p data-copy="description">Ajusta una receta a tus raciones o a la cantidad que tienes de un ingrediente.</p>
+      </header>
+
+      <div class="recipe-workspace">
+        <section class="recipe-source" aria-labelledby="recipe-source-title">
+          <div class="recipe-section-top">
+            <h2 id="recipe-source-title" data-copy="source">Ingredientes de la receta</h2>
+            <button id="recipe-example" class="recipe-button recipe-quiet" type="button" data-copy="example">Ver un ejemplo</button>
+            <button id="recipe-expand" class="recipe-button recipe-quiet" type="button" aria-controls="recipe-source-body" aria-expanded="true" data-copy="edit" hidden>Editar ingredientes</button>
+          </div>
+          <div id="recipe-source-body" class="recipe-source-body">
+            <label for="recipe-ingredients" data-copy="paste">Pega los ingredientes</label>
+            <p id="recipe-source-help" class="recipe-note" data-copy="sourceHelp">Una línea por ingrediente, con la cantidad delante.</p>
+            <textarea id="recipe-ingredients" rows="8" aria-describedby="recipe-source-help" spellcheck="false" placeholder="3 huevos&#10;1 vaso de yogur de aceite"></textarea>
+            <div class="recipe-origin">
+              <label for="recipe-origin"><span data-copy="original">Raciones de la receta</span> <small data-copy="optional">(opcional)</small></label>
+              <input id="recipe-origin" type="text" inputmode="numeric" aria-describedby="recipe-origin-error" />
+            </div>
+            <p id="recipe-origin-error" class="recipe-error" data-copy="invalidServings" hidden>Escribe un número entero del 1 al 99.</p>
+            <div class="recipe-source-actions">
+              <button id="recipe-reset" class="recipe-button recipe-quiet" type="button" data-copy="reset" disabled>Empezar otra vez</button>
+              <button id="recipe-jump" class="recipe-button recipe-outline" type="button" data-copy="seeResult" hidden>Ver resultado</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="recipe-result" aria-labelledby="recipe-result-title">
+          <div class="recipe-section-top recipe-result-top">
+            <h2 id="recipe-result-title" tabindex="-1" data-copy="result">Ingredientes ajustados</h2>
+            <span id="recipe-factor" class="recipe-factor" hidden>×1</span>
+          </div>
+          <p id="recipe-empty" class="recipe-empty" data-copy="empty">Aquí verás los ingredientes ajustados.</p>
+          <div id="recipe-results" hidden>
+            <div class="recipe-result-context">
+              <p id="recipe-basis"></p>
+              <button id="recipe-return" class="recipe-button recipe-quiet" type="button" hidden></button>
+            </div>
+            <p id="recipe-adjust-hint" class="recipe-note" data-copy="adjustHint">Toca una cantidad para ajustar toda la receta.</p>
+            <p id="recipe-last-valid" class="recipe-note recipe-error" data-copy="lastValid" hidden>Mostrando el último ajuste válido.</p>
+            <div id="recipe-toolbar" class="recipe-toolbar" hidden>
+              <div id="recipe-servings">
+                <label for="recipe-target" class="recipe-note" data-copy="target">Raciones que quiero</label>
+                <div class="recipe-stepper">
+                  <button id="recipe-less" type="button" data-label="less" aria-label="Quitar una ración">−</button>
+                  <input id="recipe-target" type="text" inputmode="numeric" aria-describedby="recipe-target-error" />
+                  <button id="recipe-more" type="button" data-label="more" aria-label="Añadir una ración">+</button>
+                </div>
+                <p id="recipe-target-error" class="recipe-error" data-copy="invalidServings" hidden>Escribe un número entero del 1 al 99.</p>
+              </div>
+              <p id="recipe-yield" class="recipe-yield" hidden></p>
+              <button id="recipe-copy" class="recipe-button recipe-primary" type="button" aria-controls="recipe-copy-panel" aria-expanded="false" data-copy="copy">Copiar ingredientes</button>
+            </div>
+            <ul id="recipe-list" class="recipe-list"></ul>
+            <div id="recipe-copy-panel" class="recipe-copy-panel" hidden>
+              <label for="recipe-copy-text" data-copy="copyPreview">Vista previa de copia</label>
+              <p id="recipe-copy-help" class="recipe-note" data-copy="copyHelp">Selecciona el texto de la maqueta para copiarlo.</p>
+              <textarea id="recipe-copy-text" rows="7" readonly aria-describedby="recipe-copy-help"></textarea>
+            </div>
+          </div>
+          <p id="recipe-status" class="recipe-screen-reader" role="status"></p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="review-footer">
+      <p data-copy="reviewNote">Maqueta I1. Prueba los ajustes con las líneas de los ejemplos.</p>
+      <label>
+        <span data-copy="frame">Marco de la página</span>
+        <select id="recipe-frame">
+          <option value="focused" data-copy="compact">Compacto</option>
+          <option value="standard" data-copy="standard">Estándar</option>
+        </select>
+      </label>
+    </footer>
+  </body>
+</html>
